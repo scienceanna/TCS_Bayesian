@@ -29,31 +29,34 @@ import_experiment <- function(sheet, d_labels) {
 	return(d)
 }
 
-d_1a <- import_experiment(2,  c(orange = "1", yellow = "2", blue = "3"))
-d_1b <- import_experiment(4,  c(diamond = "1", circle = "2", triangle = "3"))
-d_2a <- import_experiment(6,  c(`orange diamond` = "1", `blue circle` = "2", `yellow triangle` = "3"))
-d_2b <- import_experiment(8,  c(`orange circle` = "1", `yellow diamond` = "2", `blue triangle` = "3"))
-d_2c <- import_experiment(10, c(`blue diamond` = "1", `yellow circle` = "2", `orange triangle` = "3"))
+
+d <- list()
+
+d$e1a <- import_experiment(2,  c(orange = "1", yellow = "2", blue = "3"))
+d$e1b <- import_experiment(4,  c(diamond = "1", circle = "2", triangle = "3"))
+d$e2a <- import_experiment(6,  c(`orange diamond` = "1", `blue circle` = "2", `yellow triangle` = "3"))
+d$e2b <- import_experiment(8,  c(`orange circle` = "1", `yellow diamond` = "2", `blue triangle` = "3"))
+d$e2c <- import_experiment(10, c(`blue diamond` = "1", `yellow circle` = "2", `orange triangle` = "3"))
 
 
 #do some simple counts... does these numbers match those in the paper?
 
-d_1a %>% group_by(p_id, colour) %>%
+d$e1a %>% group_by(p_id, d) %>%
 summarise(trials = n(),
 	mean_rt = mean(rt))
 
 # facet plot of all the correct RTs
 
-d_1a %>% ggplot(aes(x = n, y = log(rt), colour = colour)) + 
+d$e1a %>% ggplot(aes(x = n, y = log(rt), colour = d)) + 
 	geom_jitter(alpha = 0.25) + 
 	geom_smooth(method = "lm", se = F) + 
 	facet_wrap(~ p_id) + 
 	scale_colour_manual(values = c("grey50", "darkorange3", "yellow3", "dodgerblue2"))	
 
 # show individual differences in search slopes 
-d_1a %>% ggplot(aes(x = n, y = log(rt), colour = colour, group = p_id)) + 
+d$e1a %>% ggplot(aes(x = n, y = log(rt), colour = d, group = p_id)) + 
 	geom_smooth(method = "lm", se = T) +
-	facet_wrap(~ colour) + 
+	facet_wrap(~ d) + 
 	scale_colour_manual(values = c("darkorange3", "yellow3", "dodgerblue2"))	
 
 
