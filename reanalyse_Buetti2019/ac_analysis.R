@@ -38,12 +38,15 @@ d$e2a <- import_experiment(6,  c(`orange diamond` = "1", `blue circle` = "2", `y
 d$e2b <- import_experiment(8,  c(`orange circle` = "1", `yellow diamond` = "2", `blue triangle` = "3"))
 d$e2c <- import_experiment(10, c(`blue diamond` = "1", `yellow circle` = "2", `orange triangle` = "3"))
 
+#### e1a ####
 
 #do some simple counts... does these numbers match those in the paper?
+# d = 0 is target only condition?
+# Are the labels correct here?
 
 d$e1a %>% group_by(p_id, d) %>%
 summarise(trials = n(),
-	mean_rt = mean(rt))
+	mean_rt = mean(rt)) 
 
 # facet plot of all the correct RTs
 
@@ -51,7 +54,8 @@ d$e1a %>% ggplot(aes(x = n, y = log(rt), colour = d)) +
 	geom_jitter(alpha = 0.25) + 
 	geom_smooth(method = "lm", se = F) + 
 	facet_wrap(~ p_id) + 
-	scale_colour_manual(values = c("grey50", "darkorange3", "yellow3", "dodgerblue2"))	
+	scale_colour_manual(values = c("grey50", "darkorange3", "yellow3", "dodgerblue2")) + 
+  labs(title = "Experiment 1a", caption = "Not sure if labels are correct here? \nIn spreadsheet, it is 1=orange, 2=yellow, 3=blue but the paper suggests blue should have highest slope?")
 
 # show individual differences in search slopes 
 d$e1a %>% ggplot(aes(x = n, y = log(rt), colour = d, group = p_id)) + 
@@ -60,5 +64,75 @@ d$e1a %>% ggplot(aes(x = n, y = log(rt), colour = d, group = p_id)) +
 	scale_colour_manual(values = c("darkorange3", "yellow3", "dodgerblue2"))	
 
 
+#### e1b ####
+# participant 19 looks a bit weird?
 
+d$e1b %>% group_by(p_id, d) %>%
+  summarise(trials = n(),
+            mean_rt = mean(rt)) 
 
+d$e1b %>% ggplot(aes(x = n, y = log(rt), colour = d)) + 
+  geom_jitter(alpha = 0.25) + 
+  geom_smooth(method = "lm", se = F) + 
+  facet_wrap(~ p_id) + 
+  scale_colour_manual(values = c("grey50", "darkorange3", "yellow3", "dodgerblue2"))	
+
+# show individual differences in search slopes 
+d$e1b %>% ggplot(aes(x = n, y = log(rt), colour = d, group = p_id)) + 
+  geom_smooth(method = "lm", se = T) +
+  facet_wrap(~ d) + 
+  scale_colour_manual(values = c("darkorange3", "yellow3", "dodgerblue2"))	
+
+#### e2a ####
+
+d$e2a %>% group_by(p_id, d) %>%
+  summarise(trials = n(),
+            mean_rt = mean(rt)) 
+
+d$e2a %>% ggplot(aes(x = n, y = log(rt), colour = d)) + 
+  geom_jitter(alpha = 0.25) + 
+  geom_smooth(method = "lm", se = F) + 
+  facet_wrap(~ p_id) + 
+  scale_colour_manual(values = c("grey50", "darkorange3", "dodgerblue2", "yellow3"))	
+
+# show individual differences in search slopes 
+d$e2a %>% ggplot(aes(x = n, y = log(rt), colour = d, group = p_id)) + 
+  geom_smooth(method = "lm", se = T) +
+  facet_wrap(~ d) + 
+  scale_colour_manual(values = c("darkorange3", "dodgerblue2", "yellow3"))	
+
+#### e2b ####
+
+d$e2b %>% group_by(p_id, d) %>%
+  summarise(trials = n(),
+            mean_rt = mean(rt)) 
+
+d$e2b %>% ggplot(aes(x = n, y = log(rt), colour = d)) + 
+  geom_jitter(alpha = 0.25) + 
+  geom_smooth(method = "lm", se = F) + 
+  facet_wrap(~ p_id) + 
+  scale_colour_manual(values = c("grey50", "darkorange3", "yellow3", "dodgerblue2"))	
+
+# show individual differences in search slopes 
+d$e2b %>% ggplot(aes(x = n, y = log(rt), colour = d, group = p_id)) + 
+  geom_smooth(method = "lm", se = T) +
+  facet_wrap(~ d) + 
+  scale_colour_manual(values = c("darkorange3", "yellow3", "dodgerblue2"))	
+
+#### e2c ####
+
+d$e2c %>% group_by(p_id, d) %>%
+  summarise(trials = n(),
+            mean_rt = mean(rt)) 
+
+d$e2c %>% ggplot(aes(x = n, y = log(rt), colour = d)) + 
+  geom_jitter(alpha = 0.25) + 
+  geom_smooth(method = "lm", se = F) + 
+  facet_wrap(~ p_id) + 
+  scale_colour_manual(values = c("grey50", "dodgerblue2", "yellow3", "darkorange3"))	
+
+# show individual differences in search slopes 
+d$e2c %>% ggplot(aes(x = n, y = log(rt), colour = d, group = p_id)) + 
+  geom_smooth(method = "lm", se = T) +
+  facet_wrap(~ d) + 
+  scale_colour_manual(values = c("dodgerblue2", "yellow3", "darkorange3"))	
