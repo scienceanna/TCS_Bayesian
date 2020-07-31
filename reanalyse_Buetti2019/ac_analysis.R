@@ -11,7 +11,7 @@ import_experiment <- function(sheet, d_labels) {
 		p_id = "Subject",
 		trial = "Trial",
 		t_id = "tid",
-		L = "numd",
+		N_T = "numd",
 		d_feature = "dcolors",
 		rt = "RT",
 		response = "resp",
@@ -42,14 +42,14 @@ d$e2c <- import_experiment(10, c(`blue diamond` = "1", `yellow circle` = "2", `o
 calc_D_per_feature <- function(df) {
 
   df %>%
-    group_by(p_id, d_feature, L) %>%
+    group_by(p_id, d_feature, N_T) %>%
     summarise(mean_rt = mean(rt), .groups = "drop") -> df
 
   bind_rows(
-    filter(df, L==0) %>% mutate(d_feature = levels(df$d_feature)[2]),
-    filter(df, L==0) %>% mutate(d_feature = levels(df$d_feature)[3]),
-    filter(df, L==0) %>% mutate(d_feature = levels(df$d_feature)[4]),
-    filter(df, L>0)) %>%
+    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[2]),
+    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[3]),
+    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[4]),
+    filter(df, N_T>0)) %>%
     mutate(d_feature = as_factor(d_feature)) -> df
 
   m <- lm(mean_rt ~  0 + d_feature + log(L+1):d_feature, df)
@@ -64,9 +64,25 @@ calc_D_per_feature <- function(df) {
 }
 
 
-map_dfr(d, calc_D_per_feature)
+exp_D <- map_dfr(d, calc_D_per_feature)
 
 # 2C numbers look odd?
+
+
+# L indicates the number of distractor types present in the display,
+# NT is the total number of distractors,
+# Ni is the number of distractors of type i, 
+# Dj indicates the logarithmic slope parameters associated 
+# with distractor of type j (organized from smallest D1 to largest DL). 
+# Note that the D parameter is the one that increases with
+# increasing target-distractor similarity.
+
+# The constant a represents the reaction time when the target is alone in the display. Inter-item
+# interactions were indexed by the multiplicative factor β. Finally, the index function 1[2, ∞) (j) indicates that the
+# sum over Ni only applies when there are at least two different types of lures in the display (j > 1). When j = 1, the
+second sum is zero.
+
+
 
 
 #### e1a ####
