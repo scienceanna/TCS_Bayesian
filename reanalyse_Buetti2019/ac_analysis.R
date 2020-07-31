@@ -38,6 +38,65 @@ d$e2a <- import_experiment(6,  c(`orange diamond` = "1", `blue circle` = "2", `y
 d$e2b <- import_experiment(8,  c(`orange circle` = "1", `yellow diamond` = "2", `blue triangle` = "3"))
 d$e2c <- import_experiment(10, c(`blue diamond` = "1", `yellow circle` = "2", `orange triangle` = "3"))
 
+
+calc_D_per_feature <- function(df) {
+
+  df %>%
+    group_by(p_id, d_feature, n) %>%
+    summarise(mean_rt = mean(rt), .groups = "drop") -> df
+
+  bind_rows(
+    filter(df, n==0) %>% mutate(d_feature = levels(df$d_feature)[2]),
+    filter(df, n==0) %>% mutate(d_feature = levels(df$d_feature)[3]),
+    filter(df, n==0) %>% mutate(d_feature = levels(df$d_feature)[4]),
+    filter(df, n>0)) %>%
+    mutate(d_feature = as_factor(d_feature)) -> df
+
+  m <- lm(mean_rt ~  0 + d_feature + log(n+1):d_feature, df)
+  coef_tab <- summary(m)$coefficients
+
+  d_out <- tibble(
+    d_feature = levels(df$d_feature),
+    D = c(coef_tab[4:6,1]))
+
+  return(d_out)
+
+}
+
+
+map_dfr(d, calc_D_per_feature)
+
+
+
+
+
+
+
+
+# Trying to re-create Table 1
+
+d$e1a %>%
+  group_by(p_id, d_feature, n) %>%
+  summarise(mean_rt = mean(rt)) -> d2
+
+
+ # Fix the n = 0 issue 
+
+
+
+  ggplot(d3, aes(x = log(n+1), y = mean_rt, colour = d_feature)) + geom_point()
+
+
+ summary(lm(mean_rt ~  0 + d_feature + log(n+1):d_feature, d3))$coefficients 
+
+
+
+
+
+
+
+
+
 #### e1a ####
 
 #do some simple counts... does these numbers match those in the paper?
