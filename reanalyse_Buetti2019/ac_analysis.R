@@ -66,9 +66,11 @@ calc_D_per_feature <- function(df) {
 
 exp_D <- map_dfr(d, calc_D_per_feature)
 
-
-calc_D_overall <- function(f1, f2, D = exp_D)
+calc_D_overall <- function(f, D = exp_D)
 {
+  f1 <- word(f, 1)
+  f2 <- word(f, 2)
+
   # Collinear contrast integration model.
   D1 = filter(D, d_feature == f1)$D
   D2 = filter(D, d_feature == f2)$D
@@ -76,8 +78,13 @@ calc_D_overall <- function(f1, f2, D = exp_D)
   return(as.numeric(D_overall))
 }
 
+D_exp2_p <- tibble(
+  features = levels(d$e2a$d_feature)[2:4], 
+  D = map_dbl(levels(d$e2a$d_feature)[2:4], calc_D_overall))
 
-calc_D_overall("orange", "diamond")
+calc_D_overall("orange diamond")
+
+# Predict Exp2a
 
 
 
