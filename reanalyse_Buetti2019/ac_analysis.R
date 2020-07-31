@@ -32,7 +32,7 @@ import_experiment <- function(sheet, d_labels) {
 
 d <- list()
 
-d$e1a <- import_experiment(2,  c(orange = "1", yellow = "2", blue = "3"))
+d$e1a <- import_experiment(2,  c(orange = "1", blue = "2", yellow = "3"))
 d$e1b <- import_experiment(4,  c(diamond = "1", circle = "2", triangle = "3"))
 d$e2a <- import_experiment(6,  c(`orange diamond` = "1", `blue circle` = "2", `yellow triangle` = "3"))
 d$e2b <- import_experiment(8,  c(`orange circle` = "1", `yellow diamond` = "2", `blue triangle` = "3"))
@@ -56,8 +56,7 @@ d$e1a %>%
 	geom_jitter(alpha = 0.25) + 
 	geom_smooth(method = "lm", se = F) + 
 	facet_wrap(~ p_id) + 
-	scale_colour_manual(values = c("grey50", "darkorange3", "yellow3", "dodgerblue2")) + 
-  labs(title = "Experiment 1a", caption = "Not sure if labels are correct here? \nIn spreadsheet, it is 1=orange, 2=yellow, 3=blue but the paper suggests blue should have highest slope?")
+	scale_colour_manual(values = c("grey50", "darkorange3", "dodgerblue2", "yellow3"))
 
 # show individual differences in search slopes 
 d$e1a %>% 
@@ -65,7 +64,7 @@ d$e1a %>%
 		aes(x = n, y = log(rt), colour = d_feature, group = p_id)) + 
 	geom_smooth(method = "lm", se = T) +
 	facet_wrap(~ d_feature) + 
-	scale_colour_manual(values = c("darkorange3", "yellow3", "dodgerblue2"))	
+	scale_colour_manual(values = c("darkorange3", "dodgerblue2", "yellow3"))	
 
 
 #### e1b ####
