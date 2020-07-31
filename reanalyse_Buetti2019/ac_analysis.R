@@ -11,7 +11,7 @@ import_experiment <- function(sheet, d_labels) {
 		p_id = "Subject",
 		trial = "Trial",
 		t_id = "tid",
-		n = "numd",
+		L = "numd",
 		d_feature = "dcolors",
 		rt = "RT",
 		response = "resp",
@@ -42,17 +42,17 @@ d$e2c <- import_experiment(10, c(`blue diamond` = "1", `yellow circle` = "2", `o
 calc_D_per_feature <- function(df) {
 
   df %>%
-    group_by(p_id, d_feature, n) %>%
+    group_by(p_id, d_feature, L) %>%
     summarise(mean_rt = mean(rt), .groups = "drop") -> df
 
   bind_rows(
-    filter(df, n==0) %>% mutate(d_feature = levels(df$d_feature)[2]),
-    filter(df, n==0) %>% mutate(d_feature = levels(df$d_feature)[3]),
-    filter(df, n==0) %>% mutate(d_feature = levels(df$d_feature)[4]),
-    filter(df, n>0)) %>%
+    filter(df, L==0) %>% mutate(d_feature = levels(df$d_feature)[2]),
+    filter(df, L==0) %>% mutate(d_feature = levels(df$d_feature)[3]),
+    filter(df, L==0) %>% mutate(d_feature = levels(df$d_feature)[4]),
+    filter(df, L>0)) %>%
     mutate(d_feature = as_factor(d_feature)) -> df
 
-  m <- lm(mean_rt ~  0 + d_feature + log(n+1):d_feature, df)
+  m <- lm(mean_rt ~  0 + d_feature + log(L+1):d_feature, df)
   coef_tab <- summary(m)$coefficients
 
   d_out <- tibble(
@@ -66,42 +66,13 @@ calc_D_per_feature <- function(df) {
 
 map_dfr(d, calc_D_per_feature)
 
-
-
-
-
-
-
-
-# Trying to re-create Table 1
-
-d$e1a %>%
-  group_by(p_id, d_feature, n) %>%
-  summarise(mean_rt = mean(rt)) -> d2
-
-
- # Fix the n = 0 issue 
-
-
-
-  ggplot(d3, aes(x = log(n+1), y = mean_rt, colour = d_feature)) + geom_point()
-
-
- summary(lm(mean_rt ~  0 + d_feature + log(n+1):d_feature, d3))$coefficients 
-
-
-
-
-
-
-
+# 2C numbers look odd?
 
 
 #### e1a ####
 
 #do some simple counts... does these numbers match those in the paper?
-# d = 0 is target only condition?
-# Are the labels correct here?
+# d = 0 is target only condition
 
 d$e1a %>% group_by(p_id, d_feature) %>%
 summarise(trials = n(),
@@ -111,7 +82,7 @@ summarise(trials = n(),
 
 d$e1a %>% 
 	ggplot(
-		aes(x = n, y = log(rt), colour = d_feature)) + 
+		aes(x = L, y = log(rt), colour = d_feature)) + 
 	geom_jitter(alpha = 0.25) + 
 	geom_smooth(method = "lm", se = F) + 
 	facet_wrap(~ p_id) + 
@@ -120,7 +91,7 @@ d$e1a %>%
 # show individual differences in search slopes 
 d$e1a %>% 
 	ggplot(
-		aes(x = n, y = log(rt), colour = d_feature, group = p_id)) + 
+		aes(x = L, y = log(rt), colour = d_feature, group = p_id)) + 
 	geom_smooth(method = "lm", se = T) +
 	facet_wrap(~ d_feature) + 
 	scale_colour_manual(values = c("darkorange3", "dodgerblue2", "yellow3"))	
@@ -133,14 +104,14 @@ d$e1b %>% group_by(p_id, d) %>%
   summarise(trials = n(),
             mean_rt = mean(rt)) 
 
-d$e1b %>% ggplot(aes(x = n, y = log(rt), colour = d)) + 
+d$e1b %>% ggplot(aes(x = L, y = log(rt), colour = d)) + 
   geom_jitter(alpha = 0.25) + 
   geom_smooth(method = "lm", se = F) + 
   facet_wrap(~ p_id) + 
   scale_colour_manual(values = c("grey50", "darkorange3", "yellow3", "dodgerblue2"))	
 
 # show individual differences in search slopes 
-d$e1b %>% ggplot(aes(x = n, y = log(rt), colour = d, group = p_id)) + 
+d$e1b %>% ggplot(aes(x = L, y = log(rt), colour = d, group = p_id)) + 
   geom_smooth(method = "lm", se = T) +
   facet_wrap(~ d) + 
   scale_colour_manual(values = c("darkorange3", "yellow3", "dodgerblue2"))	
@@ -151,14 +122,14 @@ d$e2a %>% group_by(p_id, d) %>%
   summarise(trials = n(),
             mean_rt = mean(rt)) 
 
-d$e2a %>% ggplot(aes(x = n, y = log(rt), colour = d)) + 
+d$e2a %>% ggplot(aes(x = L, y = log(rt), colour = d)) + 
   geom_jitter(alpha = 0.25) + 
   geom_smooth(method = "lm", se = F) + 
   facet_wrap(~ p_id) + 
   scale_colour_manual(values = c("grey50", "darkorange3", "dodgerblue2", "yellow3"))	
 
 # show individual differences in search slopes 
-d$e2a %>% ggplot(aes(x = n, y = log(rt), colour = d, group = p_id)) + 
+d$e2a %>% ggplot(aes(x = L, y = log(rt), colour = d, group = p_id)) + 
   geom_smooth(method = "lm", se = T) +
   facet_wrap(~ d) + 
   scale_colour_manual(values = c("darkorange3", "dodgerblue2", "yellow3"))	
@@ -169,14 +140,14 @@ d$e2b %>% group_by(p_id, d) %>%
   summarise(trials = n(),
             mean_rt = mean(rt)) 
 
-d$e2b %>% ggplot(aes(x = n, y = log(rt), colour = d)) + 
+d$e2b %>% ggplot(aes(x = L, y = log(rt), colour = d)) + 
   geom_jitter(alpha = 0.25) + 
   geom_smooth(method = "lm", se = F) + 
   facet_wrap(~ p_id) + 
   scale_colour_manual(values = c("grey50", "darkorange3", "yellow3", "dodgerblue2"))	
 
 # show individual differences in search slopes 
-d$e2b %>% ggplot(aes(x = n, y = log(rt), colour = d, group = p_id)) + 
+d$e2b %>% ggplot(aes(x = L, y = log(rt), colour = d, group = p_id)) + 
   geom_smooth(method = "lm", se = T) +
   facet_wrap(~ d) + 
   scale_colour_manual(values = c("darkorange3", "yellow3", "dodgerblue2"))	
@@ -187,14 +158,14 @@ d$e2c %>% group_by(p_id, d) %>%
   summarise(trials = n(),
             mean_rt = mean(rt)) 
 
-d$e2c %>% ggplot(aes(x = n, y = log(rt), colour = d)) + 
+d$e2c %>% ggplot(aes(x = L, y = log(rt), colour = d)) + 
   geom_jitter(alpha = 0.25) + 
   geom_smooth(method = "lm", se = F) + 
   facet_wrap(~ p_id) + 
   scale_colour_manual(values = c("grey50", "dodgerblue2", "yellow3", "darkorange3"))	
 
 # show individual differences in search slopes 
-d$e2c %>% ggplot(aes(x = n, y = log(rt), colour = d, group = p_id)) + 
+d$e2c %>% ggplot(aes(x = L, y = log(rt), colour = d, group = p_id)) + 
   geom_smooth(method = "lm", se = T) +
   facet_wrap(~ d) + 
   scale_colour_manual(values = c("dodgerblue2", "yellow3", "darkorange3"))	
