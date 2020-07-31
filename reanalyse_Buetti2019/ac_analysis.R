@@ -52,7 +52,7 @@ calc_D_per_feature <- function(df) {
     filter(df, N_T>0)) %>%
     mutate(d_feature = as_factor(d_feature)) -> df
 
-  m <- lm(mean_rt ~  0 + d_feature + log(L+1):d_feature, df)
+  m <- lm(mean_rt ~  0 + d_feature + log(N_T+1):d_feature, df)
   coef_tab <- summary(m)$coefficients
 
   d_out <- tibble(
@@ -66,6 +66,22 @@ calc_D_per_feature <- function(df) {
 
 exp_D <- map_dfr(d, calc_D_per_feature)
 
+
+calc_D_overall <- function(f1, f2, D = exp_D)
+{
+  # Collinear contrast integration model.
+  D1 = filter(D, d_feature == f1)$D
+  D2 = filter(D, d_feature == f2)$D
+  D_overall = 1/((1/D1) + (1/D2))
+  return(as.numeric(D_overall))
+}
+
+
+calc_D_overall("orange", "diamond")
+
+
+
+#predict RT for 
 # 2C numbers look odd?
 
 
