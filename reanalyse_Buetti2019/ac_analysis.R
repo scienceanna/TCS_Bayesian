@@ -63,8 +63,8 @@ calc_D_per_feature <- function(df) {
 
 }
 
-
 exp_D <- map_dfr(d, calc_D_per_feature)
+# 2C numbers look odd?
 
 calc_D_overall <- function(f, D = exp_D)
 {
@@ -78,18 +78,18 @@ calc_D_overall <- function(f, D = exp_D)
   return(as.numeric(D_overall))
 }
 
+# Predict Exp2a
+
 D_exp2_p <- tibble(
   features = levels(d$e2a$d_feature)[2:4], 
   D = map_dbl(levels(d$e2a$d_feature)[2:4], calc_D_overall))
 
-calc_D_overall("orange diamond")
-
-# Predict Exp2a
-
+# does this look correct? 
+a <- mean(filter(d$e2a, N_T == 0)$rt)
 
 
 #predict RT for 
-# 2C numbers look odd?
+
 
 
 # L indicates the number of distractor types present in the display,
