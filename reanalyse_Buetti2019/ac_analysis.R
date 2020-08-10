@@ -29,7 +29,6 @@ import_experiment <- function(sheet, d_labels) {
 	return(d)
 }
 
-
 d <- list()
 
 d$e1a <- import_experiment(2,  c(orange = "1", blue = "2", yellow = "3"))
@@ -37,6 +36,11 @@ d$e1b <- import_experiment(4,  c(diamond = "1", circle = "2", triangle = "3"))
 d$e2a <- import_experiment(6,  c(`orange diamond` = "1", `blue circle` = "2", `yellow triangle` = "3"))
 d$e2b <- import_experiment(8,  c(`orange circle` = "1", `yellow diamond` = "2", `blue triangle` = "3"))
 d$e2c <- import_experiment(10, c(`blue diamond` = "1", `yellow circle` = "2", `orange triangle` = "3"))
+d$e3a <- import_experiment(12, c(orange = "1", blue = "2", yellow = "3"))
+d$e3b <- import_experiment(14, c(diamond = "1", circle = "2", semicircle = "3"))
+d$e4a <- import_experiment(16, c(`orange diamond` = "1", `blue circle` = "2", `yellow semicircle` = "3"))
+d$e4b <- import_experiment(18, c(`orange circle` = "1", `yellow diamond` = "2", `blue semicircle` = "3"))
+d$e4c <- import_experiment(20, c(`blue diamond` = "1", `yellow circle` = "2", `orange semicircle` = "3"))
 
 
 calc_D_per_feature <- function(df) {
@@ -60,7 +64,6 @@ calc_D_per_feature <- function(df) {
     D = c(coef_tab[4:6,1]))
 
   return(d_out)
-
 }
 
 exp_D <- map_dfr(d, calc_D_per_feature)
@@ -78,14 +81,28 @@ calc_D_overall <- function(f, D = exp_D)
   return(as.numeric(D_overall))
 }
 
+gen_exp_predictions <- function(df) {
+
+  d_out <- tibble(
+  d_feature = levels(df$d_feature)[2:4], 
+  model = "collinear contrast integration model",
+  D_p = map_dbl(levels(df$d_feature)[2:4], calc_D_overall))
+
+  return(d_out)
+}
+
 # Predict Exp2a
 
-D_exp2_p <- tibble(
-  features = levels(d$e2a$d_feature)[2:4], 
-  D = map_dbl(levels(d$e2a$d_feature)[2:4], calc_D_overall))
+
+pred_D <- map_df(d[3], gen_exp_predictions)
+
+left_join(pred_D, exp_D, by = "d_feature") %>%
+  ggplot(aes(x = D_p, y = D)) + geom_point()
 
 # does this look correct? 
 a <- mean(filter(d$e2a, N_T == 0)$rt)
+
+
 
 
 #predict RT for 
