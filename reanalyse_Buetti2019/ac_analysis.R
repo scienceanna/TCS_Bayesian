@@ -1,7 +1,7 @@
 library(tidyverse)
 library(readxl)
 
-import_experiment <- function(sheet, d_labels) {
+import_experiment <- function(sheet, d_labels, exp_number) {
 
 	read_excel(
 	"../previous_work/Buetti2019_data_code/OSF_originaldata.xlsx", 
@@ -18,6 +18,7 @@ import_experiment <- function(sheet, d_labels) {
 		error = "Error") %>%
 	# code up p_id, t_id and distracter colour as a factor
 	mutate(
+    exp_number = exp_number,
 		p_id = as_factor(p_id),
 		d_feature = as_factor(d_feature),
 		d_feature = fct_recode(d_feature, !!!d_labels),
@@ -31,22 +32,22 @@ import_experiment <- function(sheet, d_labels) {
 
 d <- list()
 
-d$e1a <- import_experiment(2,  c(orange = "1", blue = "2", yellow = "3"))
-d$e1b <- import_experiment(4,  c(diamond = "1", circle = "2", triangle = "3"))
-d$e2a <- import_experiment(6,  c(`orange diamond` = "1", `blue circle` = "2", `yellow triangle` = "3"))
-d$e2b <- import_experiment(8,  c(`orange circle` = "1", `yellow diamond` = "2", `blue triangle` = "3"))
-d$e2c <- import_experiment(10, c(`blue diamond` = "1", `yellow circle` = "2", `orange triangle` = "3"))
-d$e3a <- import_experiment(12, c(orange = "1", blue = "2", yellow = "3"))
-d$e3b <- import_experiment(14, c(diamond = "1", circle = "2", semicircle = "3"))
-d$e4a <- import_experiment(16, c(`orange diamond` = "1", `blue circle` = "2", `yellow semicircle` = "3"))
-d$e4b <- import_experiment(18, c(`orange circle` = "1", `yellow diamond` = "2", `blue semicircle` = "3"))
-d$e4c <- import_experiment(20, c(`blue diamond` = "1", `yellow circle` = "2", `orange semicircle` = "3"))
+d$e1a <- import_experiment(2,  c(orange = "1", blue = "2", yellow = "3"), 1)
+d$e1b <- import_experiment(4,  c(diamond = "1", circle = "2", triangle = "3"), 1)
+d$e2a <- import_experiment(6,  c(`orange diamond` = "1", `blue circle` = "2", `yellow triangle` = "3"), 2)
+d$e2b <- import_experiment(8,  c(`orange circle` = "1", `yellow diamond` = "2", `blue triangle` = "3"), 2)
+d$e2c <- import_experiment(10, c(`blue diamond` = "1", `yellow circle` = "2", `orange triangle` = "3"), 2)
+d$e3a <- import_experiment(12, c(orange = "1", blue = "2", yellow = "3"), 3)
+d$e3b <- import_experiment(14, c(diamond = "1", circle = "2", semicircle = "3"), 3)
+d$e4a <- import_experiment(16, c(`orange diamond` = "1", `blue circle` = "2", `yellow semicircle` = "3"), 4)
+d$e4b <- import_experiment(18, c(`orange circle` = "1", `yellow diamond` = "2", `blue semicircle` = "3"), 4)
+d$e4c <- import_experiment(20, c(`blue diamond` = "1", `yellow circle` = "2", `orange semicircle` = "3"), 4)
 
 
 calc_D_per_feature <- function(df) {
 
   df %>%
-    group_by(p_id, d_feature, N_T) %>%
+    group_by(exp_number, p_id, d_feature, N_T) %>%
     summarise(mean_rt = mean(rt), .groups = "drop") -> df
 
   bind_rows(
@@ -60,6 +61,7 @@ calc_D_per_feature <- function(df) {
   coef_tab <- summary(m)$coefficients
 
   d_out <- tibble(
+    exp_number = unique(df$exp_number),
     d_feature = levels(df$d_feature),
     D = c(coef_tab[4:6,1]))
 
@@ -69,7 +71,7 @@ calc_D_per_feature <- function(df) {
 exp_D <- map_dfr(d, calc_D_per_feature)
 # 2C numbers look odd?
 
-calc_D_overall <- function(f, D = exp_D)
+calc_D_overall <- function(f, D )
 {
   f1 <- word(f, 1)
   f2 <- word(f, 2)
@@ -83,10 +85,14 @@ calc_D_overall <- function(f, D = exp_D)
 
 gen_exp_predictions <- function(df) {
 
+  exp_n <- unique(df$exp_number)
+  D <- filter(exp_D, exp_number == exp_n - 1)
+
   d_out <- tibble(
+    exp_number = exp_n,
   d_feature = levels(df$d_feature)[2:4], 
   model = "collinear contrast integration model",
-  D_p = map_dbl(levels(df$d_feature)[2:4], calc_D_overall))
+  D_p = map_dbl(levels(df$d_feature)[2:4], calc_D_overall, D))
 
   return(d_out)
 }
@@ -94,13 +100,15 @@ gen_exp_predictions <- function(df) {
 # Predict Exp2a
 
 
-pred_D <- map_df(d[3], gen_exp_predictions)
+pred_D <- map_df(d[c(3,4,5, 8,9,10)], gen_exp_predictions)
 
-left_join(pred_D, exp_D, by = "d_feature") %>%
-  ggplot(aes(x = D_p, y = D)) + geom_point()
+# recreate fig 4 (top right)
+left_join(pred_D, exp_D, by = c("exp_number", "d_feature")) %>%
+  ggplot(aes(x = D_p, y = D)) + geom_point() + geom_abline() +
+  coord_cartesian(xlim = c(0, 90), ylim = c(0, 90))
 
-# does this look correct? 
-a <- mean(filter(d$e2a, N_T == 0)$rt)
+# # does this look correct? 
+# a <- mean(filter(d$e2a, N_T == 0)$rt)
 
 
 
