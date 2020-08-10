@@ -69,7 +69,7 @@ calc_D_per_feature <- function(df) {
 }
 
 exp_D <- map_dfr(d, calc_D_per_feature)
-# 2C numbers look odd?
+# 2C, 3A, 4A numbers look slightly off 
 
 calc_D_overall <- function(f, D )
 {
@@ -99,9 +99,8 @@ gen_exp_predictions <- function(df) {
 
 # Predict Exp2a
 
-
 pred_D <- map_df(d[c(3,4,5, 8,9,10)], gen_exp_predictions)
-
+ 
 # recreate fig 4 (top right)
 left_join(pred_D, exp_D, by = c("exp_number", "d_feature")) %>%
   ggplot(aes(x = D_p, y = D)) + geom_point() + geom_abline() +
@@ -115,8 +114,6 @@ left_join(pred_D, exp_D, by = c("exp_number", "d_feature")) %>%
 
 #predict RT for 
 
-
-
 # L indicates the number of distractor types present in the display,
 # NT is the total number of distractors,
 # Ni is the number of distractors of type i, 
@@ -128,10 +125,10 @@ left_join(pred_D, exp_D, by = c("exp_number", "d_feature")) %>%
 # The constant a represents the reaction time when the target is alone in the display. Inter-item
 # interactions were indexed by the multiplicative factor β. Finally, the index function 1[2, ∞) (j) indicates that the
 # sum over Ni only applies when there are at least two different types of lures in the display (j > 1). When j = 1, the
-second sum is zero.
+# second sum is zero.
 
 
-
+#### Some raw data graphs (should be tidied up into a function at some point - or just removed...)
 
 #### e1a ####
 
@@ -146,7 +143,7 @@ summarise(trials = n(),
 
 d$e1a %>% 
 	ggplot(
-		aes(x = L, y = log(rt), colour = d_feature)) + 
+		aes(x = N_T, y = log(rt), colour = d_feature)) + 
 	geom_jitter(alpha = 0.25) + 
 	geom_smooth(method = "lm", se = F) + 
 	facet_wrap(~ p_id) + 
@@ -155,7 +152,7 @@ d$e1a %>%
 # show individual differences in search slopes 
 d$e1a %>% 
 	ggplot(
-		aes(x = L, y = log(rt), colour = d_feature, group = p_id)) + 
+		aes(x = N_T, y = log(rt), colour = d_feature, group = p_id)) + 
 	geom_smooth(method = "lm", se = T) +
 	facet_wrap(~ d_feature) + 
 	scale_colour_manual(values = c("darkorange3", "dodgerblue2", "yellow3"))	
@@ -168,14 +165,14 @@ d$e1b %>% group_by(p_id, d) %>%
   summarise(trials = n(),
             mean_rt = mean(rt)) 
 
-d$e1b %>% ggplot(aes(x = L, y = log(rt), colour = d)) + 
+d$e1b %>% ggplot(aes(x = N_T, y = log(rt), colour = d)) + 
   geom_jitter(alpha = 0.25) + 
   geom_smooth(method = "lm", se = F) + 
   facet_wrap(~ p_id) + 
   scale_colour_manual(values = c("grey50", "darkorange3", "yellow3", "dodgerblue2"))	
 
 # show individual differences in search slopes 
-d$e1b %>% ggplot(aes(x = L, y = log(rt), colour = d, group = p_id)) + 
+d$e1b %>% ggplot(aes(x = N_T, y = log(rt), colour = d, group = p_id)) + 
   geom_smooth(method = "lm", se = T) +
   facet_wrap(~ d) + 
   scale_colour_manual(values = c("darkorange3", "yellow3", "dodgerblue2"))	
@@ -186,14 +183,14 @@ d$e2a %>% group_by(p_id, d) %>%
   summarise(trials = n(),
             mean_rt = mean(rt)) 
 
-d$e2a %>% ggplot(aes(x = L, y = log(rt), colour = d)) + 
+d$e2a %>% ggplot(aes(x = N_T, y = log(rt), colour = d)) + 
   geom_jitter(alpha = 0.25) + 
   geom_smooth(method = "lm", se = F) + 
   facet_wrap(~ p_id) + 
   scale_colour_manual(values = c("grey50", "darkorange3", "dodgerblue2", "yellow3"))	
 
 # show individual differences in search slopes 
-d$e2a %>% ggplot(aes(x = L, y = log(rt), colour = d, group = p_id)) + 
+d$e2a %>% ggplot(aes(x = N_T, y = log(rt), colour = d, group = p_id)) + 
   geom_smooth(method = "lm", se = T) +
   facet_wrap(~ d) + 
   scale_colour_manual(values = c("darkorange3", "dodgerblue2", "yellow3"))	
@@ -204,14 +201,14 @@ d$e2b %>% group_by(p_id, d) %>%
   summarise(trials = n(),
             mean_rt = mean(rt)) 
 
-d$e2b %>% ggplot(aes(x = L, y = log(rt), colour = d)) + 
+d$e2b %>% ggplot(aes(x = N_T, y = log(rt), colour = d)) + 
   geom_jitter(alpha = 0.25) + 
   geom_smooth(method = "lm", se = F) + 
   facet_wrap(~ p_id) + 
   scale_colour_manual(values = c("grey50", "darkorange3", "yellow3", "dodgerblue2"))	
 
 # show individual differences in search slopes 
-d$e2b %>% ggplot(aes(x = L, y = log(rt), colour = d, group = p_id)) + 
+d$e2b %>% ggplot(aes(x = N_T, y = log(rt), colour = d, group = p_id)) + 
   geom_smooth(method = "lm", se = T) +
   facet_wrap(~ d) + 
   scale_colour_manual(values = c("darkorange3", "yellow3", "dodgerblue2"))	
@@ -222,14 +219,14 @@ d$e2c %>% group_by(p_id, d) %>%
   summarise(trials = n(),
             mean_rt = mean(rt)) 
 
-d$e2c %>% ggplot(aes(x = L, y = log(rt), colour = d)) + 
+d$e2c %>% ggplot(aes(x = N_T, y = log(rt), colour = d)) + 
   geom_jitter(alpha = 0.25) + 
   geom_smooth(method = "lm", se = F) + 
   facet_wrap(~ p_id) + 
   scale_colour_manual(values = c("grey50", "dodgerblue2", "yellow3", "darkorange3"))	
 
 # show individual differences in search slopes 
-d$e2c %>% ggplot(aes(x = L, y = log(rt), colour = d, group = p_id)) + 
+d$e2c %>% ggplot(aes(x = N_T, y = log(rt), colour = d, group = p_id)) + 
   geom_smooth(method = "lm", se = T) +
   facet_wrap(~ d) + 
   scale_colour_manual(values = c("dodgerblue2", "yellow3", "darkorange3"))	
