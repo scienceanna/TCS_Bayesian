@@ -106,6 +106,44 @@ left_join(pred_D, exp_D, by = c("exp_number", "d_feature")) %>%
   ggplot(aes(x = D_p, y = D)) + geom_point() + geom_abline() +
   coord_cartesian(xlim = c(0, 90), ylim = c(0, 90))
 
+
+# Look at indiv differences
+
+calc_D_per_person_feature <- function(p, df) {
+
+  df <- filter(df, p_id == p) 
+
+  bind_rows(
+    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[2]),
+    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[3]),
+    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[4]),
+    filter(df, N_T>0)) %>%
+    mutate(d_feature = as_factor(d_feature)) -> df
+
+  m <- lm(rt ~  0 + d_feature + log(N_T+1):d_feature, df)
+  coef_tab <- summary(m)$coefficients
+
+  d_out <- tibble(
+    experiment = unique(df$exp_number),
+    p_id = p,
+    d_feature = levels(df$d_feature),
+    D = c(coef_tab[4:6,1]))
+
+  return(d_out)
+}
+
+calc_D_indiv_diff <- function(df) {
+
+  return(map_dfr(
+    unique(df$p_id), 
+    calc_D_per_person_feature, 
+    df))
+}
+
+D_indiv <- map_dfr(d, calc_D_indiv_diff)
+
+D_indiv %>% ggplot(aes(x = D, y = d_feature)) + geom_boxplot(alpha = 0.5) + facet_wrap(~experiment) 
+
 # # does this look correct? 
 # a <- mean(filter(d$e2a, N_T == 0)$rt)
 
