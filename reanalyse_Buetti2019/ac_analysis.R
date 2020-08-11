@@ -1,7 +1,7 @@
 library(tidyverse)
 library(readxl)
 
-import_experiment <- function(sheet, d_labels, exp_number) {
+import_experiment <- function(sheet, d_labels, exp_number, exp_part) {
 
 	read_excel(
 	"../previous_work/Buetti2019_data_code/OSF_originaldata.xlsx", 
@@ -18,7 +18,7 @@ import_experiment <- function(sheet, d_labels, exp_number) {
 		error = "Error") %>%
 	# code up p_id, t_id and distracter colour as a factor
 	mutate(
-    exp_number = exp_number,
+    	exp_id = paste(exp_number, exp_part, sep = ""),
 		p_id = as_factor(p_id),
 		d_feature = as_factor(d_feature),
 		d_feature = fct_recode(d_feature, !!!d_labels),
@@ -32,23 +32,26 @@ import_experiment <- function(sheet, d_labels, exp_number) {
 
 d <- list()
 
-d$e1a <- import_experiment(2,  c(orange = "1", blue = "2", yellow = "3"), 1)
-d$e1b <- import_experiment(4,  c(diamond = "1", circle = "2", triangle = "3"), 1)
-d$e2a <- import_experiment(6,  c(`orange diamond` = "1", `blue circle` = "2", `yellow triangle` = "3"), 2)
-d$e2b <- import_experiment(8,  c(`orange circle` = "1", `yellow diamond` = "2", `blue triangle` = "3"), 2)
-d$e2c <- import_experiment(10, c(`blue diamond` = "1", `yellow circle` = "2", `orange triangle` = "3"), 2)
-d$e3a <- import_experiment(12, c(orange = "1", blue = "2", yellow = "3"), 3)
-d$e3b <- import_experiment(14, c(diamond = "1", circle = "2", semicircle = "3"), 3)
-d$e4a <- import_experiment(16, c(`orange diamond` = "1", `blue circle` = "2", `yellow semicircle` = "3"), 4)
-d$e4b <- import_experiment(18, c(`orange circle` = "1", `yellow diamond` = "2", `blue semicircle` = "3"), 4)
-d$e4c <- import_experiment(20, c(`blue diamond` = "1", `yellow circle` = "2", `orange semicircle` = "3"), 4)
+d$e1a <- import_experiment(2,  c(orange = "1", blue = "2", yellow = "3"), 1, "a")
+d$e1b <- import_experiment(4,  c(diamond = "1", circle = "2", triangle = "3"), 1, "b")
+d$e2a <- import_experiment(6,  c(`orange diamond` = "1", `blue circle` = "2", `yellow triangle` = "3"), 2, "a")
+d$e2b <- import_experiment(8,  c(`orange circle` = "1", `yellow diamond` = "2", `blue triangle` = "3"), 2, "b")
+d$e2c <- import_experiment(10, c(`blue diamond` = "1", `yellow circle` = "2", `orange triangle` = "3"), 2, "c")
+d$e3a <- import_experiment(12, c(orange = "1", blue = "2", yellow = "3"), 3, "a")
+d$e3b <- import_experiment(14, c(diamond = "1", circle = "2", semicircle = "3"), 3, "b")
+d$e4a <- import_experiment(16, c(`orange diamond` = "1", `blue circle` = "2", `yellow semicircle` = "3"), 4, "a")
+d$e4b <- import_experiment(18, c(`orange circle` = "1", `yellow diamond` = "2", `blue semicircle` = "3"), 4, "b")
+d$e4c <- import_experiment(20, c(`blue diamond` = "1", `yellow circle` = "2", `orange semicircle` = "3"), 4, "c")
 
+d <- bind_rows(d)
 
-calc_D_per_feature <- function(df) {
+calc_D_per_feature <- function(experiment, df) {
 
   df %>%
-    group_by(exp_number, p_id, d_feature, N_T) %>%
-    summarise(mean_rt = mean(rt), .groups = "drop") -> df
+  	filter(exp_id == experiment) %>%
+    group_by(exp_id, p_id, d_feature, N_T) %>%
+    summarise(mean_rt = mean(rt), .groups = "drop") %>%
+    mutate(d_feature = fct_drop(d_feature)) -> df
 
   bind_rows(
     filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[2]),
@@ -61,14 +64,14 @@ calc_D_per_feature <- function(df) {
   coef_tab <- summary(m)$coefficients
 
   d_out <- tibble(
-    exp_number = unique(df$exp_number),
+    exp_id = experiment,
     d_feature = levels(df$d_feature),
     D = c(coef_tab[4:6,1]))
 
   return(d_out)
 }
 
-exp_D <- map_dfr(d, calc_D_per_feature)
+exp_D <- map_dfr(unique(d$exp_id), calc_D_per_feature, d)
 # 2C, 3A, 4A numbers look slightly off 
 
 calc_D_overall <- function(f, D, D_model)
@@ -81,7 +84,7 @@ calc_D_overall <- function(f, D, D_model)
   
   D_collinear = 1/((1/D1) + (1/D2))
   D_best_feature = min(D1, D2)
-  D_orth_contrast = 1 / sqrt(1 / (D1^2 + D2^2))
+  D_orth_contrast =  sqrt(1/((1/D1^2) + (1/D2^2)))
     
   return(list(
     "best feature" = D_best_feature, 
@@ -89,13 +92,16 @@ calc_D_overall <- function(f, D, D_model)
     "collinear" = D_collinear))
 }
 
-gen_exp_predictions <- function(df) {
+gen_exp_predictions <- function(e_id) {
   
-  exp_n <- unique(df$exp_number)
-  D <- filter(exp_D, exp_number == exp_n - 1)
+  df <- filter(d, exp_id == e_id) %>%
+  mutate(d_feature = fct_drop(d_feature))
+
+  e_n = parse_number(e_id)
+  D <- filter(exp_D, parse_number(exp_id) == e_n - 1)
 
   d_out <- tibble(
-    exp_number = exp_n,
+    exp_id = e_id,
     d_feature = levels(df$d_feature)[2:4], 
     map_dfr(levels(df$d_feature)[2:4], calc_D_overall, D))
 
@@ -104,10 +110,10 @@ gen_exp_predictions <- function(df) {
 
 # Predict Exp2a
 
-pred_D <- map_df(d[c(3,4,5, 8,9,10)], gen_exp_predictions)
+pred_D <- map_df(c("2a", "2b", "2c", "4a", "4b", "4c"), gen_exp_predictions)
  
 # recreate fig 4 (top right)
-left_join(pred_D, exp_D, by = c("exp_number", "d_feature")) %>%
+left_join(pred_D, exp_D, by = c("exp_id", "d_feature")) %>%
   pivot_longer(
     cols = c(`best feature`, `orthog. contrast`, collinear),
     values_to = "D_pred",
@@ -175,6 +181,20 @@ D_indiv %>% ggplot(aes(x = D, y = d_feature)) + geom_boxplot(alpha = 0.5) + face
 # interactions were indexed by the multiplicative factor β. Finally, the index function 1[2, ∞) (j) indicates that the
 # sum over Ni only applies when there are at least two different types of lures in the display (j > 1). When j = 1, the
 # second sum is zero.
+
+
+extract_a_value <- function(d_list) {
+  
+  a <- bind_rows(d[[1]], d[[2]]) %>%
+  	filter(N_T == 0) %>% group_by(exp_number, p_id) %>%
+  	summarise(mean_rt = mean(rt), .groups = "drop") %>%
+  	summarise(a = mean(mean_rt))
+
+  return(a$a)
+}
+
+
+extract_a_value(d[c(1,2)])
 
 
 #### Some raw data graphs (should be tidied up into a function at some point - or just removed...)
