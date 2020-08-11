@@ -92,7 +92,7 @@ SbjID = input('Enter Subject Number:   ');
    RightKey=KbName('RightArrow');
 %     
      %response keys- Windows
-%      escKey=KbName('ESC');
+%      escKey=KbName('ESCAPE');
 %      startKey=KbName('=+');
 %      LeftKey=KbName('Left');
 %      RightKey=KbName('Right');

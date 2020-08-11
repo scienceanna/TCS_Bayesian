@@ -108,7 +108,7 @@ gen_exp_predictions <- function(e_id) {
   return(d_out)
 }
 
-# Predict Exp2a
+# Predict experiments
 
 pred_D <- map_df(c("2a", "2b", "2c", "4a", "4b", "4c"), gen_exp_predictions)
  
@@ -167,7 +167,7 @@ D_indiv %>% ggplot(aes(x = D, y = d_feature)) + geom_boxplot(alpha = 0.5) + face
 
 
 
-#predict RT for 
+#predict RT 
 
 # L indicates the number of distractor types present in the display,
 # NT is the total number of distractors,
