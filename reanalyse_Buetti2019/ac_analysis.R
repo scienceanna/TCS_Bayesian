@@ -71,28 +71,33 @@ calc_D_per_feature <- function(df) {
 exp_D <- map_dfr(d, calc_D_per_feature)
 # 2C, 3A, 4A numbers look slightly off 
 
-calc_D_overall <- function(f, D )
+calc_D_overall <- function(f, D, D_model)
 {
   f1 <- word(f, 1)
   f2 <- word(f, 2)
 
-  # Collinear contrast integration model.
-  D1 = filter(D, d_feature == f1)$D
-  D2 = filter(D, d_feature == f2)$D
-  D_overall = 1/((1/D1) + (1/D2))
-  return(as.numeric(D_overall))
+  D1 = as.numeric(filter(D, d_feature == f1)$D)
+  D2 = as.numeric(filter(D, d_feature == f2)$D)
+  
+  D_collinear = 1/((1/D1) + (1/D2))
+  D_best_feature = min(D1, D2)
+  D_orth_contrast = 1 / sqrt(1 / (D1^2 + D2^2))
+    
+  return(list(
+    "best feature" = D_best_feature, 
+    "orthog. contrast" = D_orth_contrast, 
+    "collinear" = D_collinear))
 }
 
 gen_exp_predictions <- function(df) {
-
+  
   exp_n <- unique(df$exp_number)
   D <- filter(exp_D, exp_number == exp_n - 1)
 
   d_out <- tibble(
     exp_number = exp_n,
-  d_feature = levels(df$d_feature)[2:4], 
-  model = "collinear contrast integration model",
-  D_p = map_dbl(levels(df$d_feature)[2:4], calc_D_overall, D))
+    d_feature = levels(df$d_feature)[2:4], 
+    map_dfr(levels(df$d_feature)[2:4], calc_D_overall, D))
 
   return(d_out)
 }
