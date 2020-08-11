@@ -108,8 +108,14 @@ pred_D <- map_df(d[c(3,4,5, 8,9,10)], gen_exp_predictions)
  
 # recreate fig 4 (top right)
 left_join(pred_D, exp_D, by = c("exp_number", "d_feature")) %>%
-  ggplot(aes(x = D_p, y = D)) + geom_point() + geom_abline() +
-  coord_cartesian(xlim = c(0, 90), ylim = c(0, 90))
+  pivot_longer(
+    cols = c(`best feature`, `orthog. contrast`, collinear),
+    values_to = "D_pred",
+    names_to = "method") %>%
+  ggplot(aes(x = D_pred, y = D)) + geom_point() + geom_abline(linetype = 2) +
+  geom_smooth(method = "lm") + 
+  coord_cartesian(xlim = c(0, 90), ylim = c(0, 90)) + facet_wrap(~ method)
+ggsave("recreate_fig_4.pdf")
 
 
 # Look at indiv differences
