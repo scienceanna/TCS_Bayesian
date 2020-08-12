@@ -4,3 +4,6 @@
 *.gz
 *.log
 *.fls
+*.aux
+*.log
+*.gz
