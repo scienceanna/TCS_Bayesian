@@ -183,18 +183,18 @@ D_indiv %>% ggplot(aes(x = D, y = d_feature)) + geom_boxplot(alpha = 0.5) + face
 # second sum is zero.
 
 
-extract_a_value <- function(d_list) {
+extract_a_value <- function(e_n) {
   
-  a <- bind_rows(d[[1]], d[[2]]) %>%
-  	filter(N_T == 0) %>% group_by(exp_number, p_id) %>%
+d %>% filter(parse_number(exp_id) == e_n - 1, N_T == 0) %>% 
+	group_by(exp_id, p_id) %>%
   	summarise(mean_rt = mean(rt), .groups = "drop") %>%
-  	summarise(a = mean(mean_rt))
+  	summarise(a = mean(mean_rt)) -> a
 
   return(a$a)
 }
 
 
-extract_a_value(d[c(1,2)])
+a <- extract_a_value(2)
 
 
 #### Some raw data graphs (should be tidied up into a function at some point - or just removed...)
