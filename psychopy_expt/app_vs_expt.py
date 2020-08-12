@@ -148,14 +148,28 @@ def grid_nc(sp):
     
     return C, whichring, cx, cy
 
+# Setting up trial types
+tsetsize = 1
+dsetsize = [1,4,9,19,31,1,4,9,19,31,1,4,9,19,31,
+            1,4,9,19,31,1,4,9,19,31,1,4,9,19,31,
+            0,0]
+dcolours = [1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,
+            1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,
+            0,0]
+tid = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+       1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+       0,1]
+
+# randomly shuffling order
+trials = np.vstack((dsetsize, dcolours, tid))
+np.random.shuffle(np.transpose(trials))
+
 # Starting actual experiment
 
 # organising visual window
 win = visual.Window(size = (1920,1080), color = [0,0,0], colorSpace = 'rgb255', fullscr = True, units = 'pix')
 
-
 # Trying to draw a grid?
-
 T_trials = 10
 locations = np.zeros([T_trials, 37])
 for i in range(T_trials):
@@ -181,7 +195,10 @@ for itrial in range(T_trials):
            print(cy)
            
            # drawing a target
-           target = visual.ImageStim(win, image='stimuli/llbcircle.jpg', pos = [cx,cy])
+           if trials[2,itrial]  == 0:
+               target = visual.ImageStim(win, image='stimuli/rlbcircle.jpg', pos = [cx,cy])
+           elif trials[2, itrial] == 1:
+               target = visual.ImageStim(win, image='stimuli/llbcircle.jpg', pos = [cx,cy])              
            target.draw()
            win.flip()
            
