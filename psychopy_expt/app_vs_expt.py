@@ -149,7 +149,7 @@ def grid_nc(sp):
     return C, whichring, cx, cy
 
 # Setting up trial types
-tsetsize = 1
+
 dsetsize = [1,4,9,19,31,1,4,9,19,31,1,4,9,19,31,
             1,4,9,19,31,1,4,9,19,31,1,4,9,19,31,
             0,0]
@@ -164,47 +164,235 @@ tid = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 trials = np.vstack((dsetsize, dcolours, tid))
 np.random.shuffle(np.transpose(trials))
 
+
 # Starting actual experiment
 
 # organising visual window
 win = visual.Window(size = (1920,1080), color = [0,0,0], colorSpace = 'rgb255', fullscr = True, units = 'pix')
 
-# Trying to draw a grid?
-T_trials = 10
-locations = np.zeros([T_trials, 37])
-for i in range(T_trials):
-    locations[i,0]=i
-
-loc = np.zeros([1,36])
-loct = np.zeros([1,36])
-locd = np.zeros([1,36])
-locd[0,0] = 1
-
+# Number of trials
+T_trials = 32
 
 for itrial in range(T_trials):
-    iloc = np.random.permutation(np.size(locd))
-    for i in range(35):
-        loc[0,i] = locd[0,iloc[i]]
-        locations[itrial,(i+1)] = loc[0,i]
     
-    for i in range(35):
-        if loc[0,i] == 1:
-           C, whichring, cx, cy = grid_nc(i)
-           
-           print(cx)
-           print(cy)
-           
-           # drawing a target
-           if trials[2,itrial]  == 0:
-               target = visual.ImageStim(win, image='stimuli/rlbcircle.jpg', pos = [cx,cy])
-           elif trials[2, itrial] == 1:
-               target = visual.ImageStim(win, image='stimuli/llbcircle.jpg', pos = [cx,cy])              
-           target.draw()
-           win.flip()
-           
-           # wait
-           core.wait(1)
+    ssmt = 1  # number of targets
+    ssmd = trials[0,itrial] # number of distractors
+    ssmT = ssmt + ssmd # total number of items in display
+    ssmc = trials[1,itrial] # colour of distractors
+    
+    print(ssmd)
+    print(ssmc)
+    
+    # target only
+    if trials[0,itrial] == 0:
+        loc = np.zeros([1,36])
+        locd = np.zeros([1,36])
+        locd[0,0] = 1
+        
+        iloc = np.random.permutation(np.size(locd))
+        
+        for i in range(35):
+            loc[0,i] = locd[0,iloc[i]]
+        
+        for i in range(35):
 
+            if loc[0,i] == 1:
+                
+                C, whichring, cx, cy = grid_nc(i)
+                
+                # drawing a target
+                if trials[2,itrial]  == 0:
+                     target = visual.ImageStim(win, image='stimuli/rlbcircle.jpg', pos = [cx,cy])
+                     target.draw()
+                elif trials[2, itrial] == 1:  
+                     target = visual.ImageStim(win, image='stimuli/llbcircle.jpg', pos = [cx,cy])  
+                     target.draw()
+
+        win.flip()
+                
+        # wait
+        core.wait(2)
+        win.flip
+        core.wait(1)
+    
+    # for distractors
+    else:
+        if ssmc == 1: # i.e. if distractor colour is 1
+            loc = np.zeros([1,36])
+            locd = np.zeros([1,36])
+            locd[0,0] = 1
+            
+            i = 1
+            while i <= ssmd:
+                locd[0,i] =2
+                i = i+1
+            iloc = np.random.permutation(np.size(locd))
+            
+            for i in range(35):
+                loc[0,i] = locd[0,iloc[i]]
+            
+            quadone = loc[0,0:8]
+            quadtwo = loc[0,9:17]
+            quadthree = loc[0,18:26]
+            quadfour = loc[0,27:35]
+            
+            if ssmd == 1:
+                quadlimit = 0
+            elif ssmd == 4:
+                quadlimit = 1
+            elif ssmd == 9:
+                quadlimit = 4
+            elif ssmd == 19:
+                quadlimit = 8
+            else:
+                quadlimit = 14
+            
+            while sum(quadone) < quadlimit or sum(quadtwo) < quadlimit or sum(quadthree) < quadlimit or sum(quadfour) < quadlimit:
+                iloc = np.random.permutation(np.size(locd))
+                
+                for i in range(35):
+                    loc[0,i] = locd[0,iloc[i]]
+                    
+                quadone = loc[0,0:8]
+                quadtwo = loc[0,9:17]
+                quadthree = loc[0,18:26]
+                quadfour = loc[0,27:35]
+            
+            
+        elif ssmc == 2: # i.e. if distractor colour is 2
+            loc = np.zeros([1,36])
+            locd = np.zeros([1,36])
+            locd[0,0] = 1
+            i = 1
+            while i <= ssmd:
+                locd[0,i] = 3
+                i = i+1
+            iloc = np.random.permutation(np.size(locd))
+            
+            for i in range(35):
+                loc[0,i] = locd[0,iloc[i]]
+            
+            quadone = loc[0,0:8]
+            quadtwo = loc[0,9:17]
+            quadthree = loc[0,18:26]
+            quadfour = loc[0,27:35]
+            
+            if ssmd == 1:
+                quadlimit = 0
+            elif ssmd == 4:
+                quadlimit = 2
+            elif ssmd == 9:
+                quadlimit = 5
+            elif ssmd == 19:
+                quadlimit = 11
+            else:
+                quadlimit = 20
+            
+            while sum(quadone) < quadlimit or sum(quadtwo) < quadlimit or sum(quadthree) < quadlimit or sum(quadfour) < quadlimit:
+                iloc = np.random.permutation(np.size(locd))
+                
+                for i in range(35):
+                    loc[0,i] = locd[0,iloc[i]]
+
+                quadone = loc[0,0:8]
+                quadtwo = loc[0,9:17]
+                quadthree = loc[0,18:26]
+                quadfour = loc[0,27:35]
+            
+                
+        elif ssmc == 3: # i.e. if distractor colour is 3
+            loc = np.zeros([1,36])
+            locd = np.zeros([1,36])
+            locd[0,0] = 1
+            
+            i = 1
+            while i <= ssmd:
+                locd[0,i] = 4
+                i = i+1
+            iloc = np.random.permutation(np.size(locd))
+            
+            for i in range(35):
+                loc[0,i] = locd[0,iloc[i]]
+            
+            quadone = loc[0,0:8]
+            quadtwo = loc[0,9:17]
+            quadthree = loc[0,18:26]
+            quadfour = loc[0,27:35]
+            
+            if ssmd == 1:
+                quadlimit = 0
+            elif ssmd == 4:
+                quadlimit = 3
+            elif ssmd == 9:
+                quadlimit = 7
+            elif ssmd == 19:
+                quadlimit = 15
+            else:
+                quadlimit = 27
+            
+            while sum(quadone) < quadlimit or sum(quadtwo) < quadlimit or sum(quadthree) < quadlimit or sum(quadfour) < quadlimit:
+                iloc = np.random.permutation(np.size(locd))
+                
+                for i in range(35):
+                    loc[0,i] = locd[0,iloc[i]]
+
+                quadone = loc[0,0:8]
+                quadtwo = loc[0,9:17]
+                quadthree = loc[0,18:26]
+                quadfour = loc[0,27:35]
+
+        for i in range(35):
+            if loc[0,i] == 1:
+                C, whichring, cx, cy = grid_nc(i)
+            
+                # drawing a target
+                if trials[2,itrial]  == 0:
+                    target = visual.ImageStim(win, image='stimuli/rlbcircle.jpg', pos = [cx,cy])
+                    target.draw()
+                elif trials[2, itrial] == 1:
+                    target = visual.ImageStim(win, image='stimuli/llbcircle.jpg', pos = [cx,cy])
+                    target.draw()
+                
+            
+            elif loc[0,i] == 2:
+                C, whichring, cx, cy = grid_nc(i)
+                randnum = random.random()
+                if randnum < 0.5:
+                        target = visual.ImageStim(win, image='stimuli/locircle.jpg', pos = [cx,cy])
+                        target.draw()
+                else:
+                        target = visual.ImageStim(win, image='stimuli/rocircle.jpg', pos = [cx,cy])
+                        target.draw()
+                
+        
+            elif loc[0,i] == 3:
+                C, whichring, cx, cy = grid_nc(i)
+                randnum = random.random()
+                if randnum < 0.5:
+                        target = visual.ImageStim(win, image='stimuli/lbcircle.jpg', pos = [cx,cy])
+                        target.draw()
+                else:
+                        target = visual.ImageStim(win, image='stimuli/rbcircle.jpg', pos = [cx,cy])
+                        target.draw()
+                
+        
+            elif loc[0,i] == 4:
+                C, whichring, cx, cy = grid_nc(i)
+                randnum = random.random()
+                if randnum < 0.5:
+                        target = visual.ImageStim(win, image='stimuli/lycircle.jpg', pos = [cx,cy])
+                        target.draw()
+                else:
+                        target = visual.ImageStim(win, image='stimuli/rycircle.jpg', pos = [cx,cy])
+                        target.draw()
+            
+        print(loc)
+        win.flip()
+         # wait
+        core.wait(2)
+        win.flip()
+        core.wait(1)
+        
 # closing everything
 win.close()
 core.quit()
