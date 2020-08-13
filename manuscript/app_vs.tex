@@ -106,16 +106,58 @@ Target Contrast Signal Theory: "precise mathematical model that allows one to ma
 
 Model predicts search performance in heterogeneous scenes based on parameters estimated in homogeneous scenes. 
 
+
 \paragraph{}
 
 ``Wang, Buetti and Lleras (2017) developed an equation to predict search performance in heterogeneous visual search scenes (i.e., multiple types of non-target objects simultaneously present) based on parameters observed when participants perform search in homogeneous scenes (i.e., when all non-target objects are identical to one another). The equation was based on a computational model where every item in the display is processed with unlimited capacity and independently of one another, with the goal of determining whether the item is likely to be a target or not. The model was tested in two experiments using real-world objects.''
 
-Buetti (2019): Parallel search efficiency (logarithmic search slope) to find target amongst homogeneous distractors estimated: different colours (red target in orange, blue, yellow distractors) or shapes (semicircle target in circle, diamond, triangle distractors) tested. 
-New group of participants searched for same target in heterogeneous displays that contained multiple types of distractors (e.g. blue circles, orange diamonds, yellow triangles). Observed RTs in latter experiment compared to predicted reaction times from model.
+\paragraph{}
+
+\textbf{Lleras (2019):}
+
+Expt 1: heterogeneous search using Buetti et al's (2016) stimuli.
+Target - red triangle.
+Distractors - orange diamonds, yellow triangles, blue circles.
+Search items randomly assigned positions on invisible 6x6 rectangular grid with jitter. 2 types of experimental conditions - 2 mixed or 3 mixed. For each group, arbitrarily held constant number of items of one lure type, and then manipulated number of items of other 2 lure types.
+Search performance in heterogeneous search displays is very well predicted by performance observed in homogeneous search displays (from Expt 1A, Buetti et al 2016).
+
+Expt2A/2B: are heterogeneous spatially segregated displays processed with the same efficiency as entirely homogeneous displays? 2A - abstract shapes. 2B - real world stimuli. Also able to predict variability in performance quite well. Spatially segregated scenes producing search performance as efficient as completely homogeneous scenes.
+Conclude that processing required to complete parallel search task in lure heterogeneous scenes is fundamentally same as in lure homogeneous scenes. Lure to lure stimuli interactions facilitate processing in parallel scenes and strength of those interactions maximal when identical lures near each other.
 
 
+\textbf{Buetti (2019):} 
 
-Lleras (2019): 
+Parallel search efficiency (logarithmic search slope) to find target amongst homogeneous distractors estimated: different colours (red target in orange, blue, yellow distractors) or shapes (semicircle target in circle, diamond, triangle distractors) tested. 
+
+New group of participants searched for same target in display where the distractors were compounds i.e. differed from target in both colour and shape (e.g. blue circles, orange diamonds, yellow triangles). Observed RTs in latter experiment compared to predicted reaction times from model. 
+
+\textbf{Lleras (2020):}
+
+Logarithmic dependency of RT on set size - indicative of processing architecture with parallel processing, unlimited capacity and exhaustive termination rule. Can account for modulation of steepness of logarithmic functions by assuming processing time of individual item is inversely proportional to its dissimilarity to target.
+
+Lures are distractors that are sufficiently different from the target (items that have reached threshold). [Ed note - what is sufficiently in this context?] Candidates are distractors that are similar to the target (items that have yet to reach threshold) - processed in second, capacity limited stage. 
+
+What TCS can do:
+
+\begin{enumerate}
+\item TCS provides account for variation of RT as function of set size as observed in efficient search tasks. Logarithmic search slope coefficient measured in typical efficient search task (one target, all identical lures) indexes dissimilarity between target and lure stimuli \\
+\item Logarithmic slope coefficients can be used to predict performance in future experiments where same target and lure stimuli are paired \\
+\item Provides framework for understanding occurrence of eye movements to non target elements \\
+\item Framework for evaluating and quantifying lure-lure similarity effects in efficient search \\
+\item Framework for understanding processing costs associated with varying levels of target-distractor similarity \\
+\item Intuitive account for search asymmetries: target-contrast signal computed as function of visual properties present in target template \\
+\item Framework for understanding impact of crowding, stimulus size - integral to determining quality of peripheral representations \\
+\end{enumerate}
+
+Evidence accumulation process consists of an evaluation of an evaluation of the extent to which properties at each location differ from the set of properties that define the target. Properties of the distractor that are not present in the target are ignored.
+
+\textbf{Ng et al, submitted):}
+
+Lack of prioritisation: displays contained two different types of candidates - some extremely similar, some less so. Failed to find any evidence that more similar candidates were prioritised over less similar candidates.
+
+\textbf{Buetti (2016):}
+Expt 2 shows that inefficient search is linear and self terminating using target T in Ls. 
+Expt 3 claims to show support for distinction between candidates and lures.
 
 \subsection{Hypothesis}
 
@@ -123,9 +165,10 @@ We plan a number of experiments to test the extent to which the original results
 
 \begin{enumerate}
 \item \textbf{Replication of Buetti et al (2019) with online data collection.} Specifically, that the \textit{collinear contrast ingratiation model} outperforms the \textit{best feature guidance}, and \textit{orthogonal contrast combination models}.  Furthermore, the $R^2 = $ ($99\%$ HPDI = $[, ]$) between predicted and observer reaction times.\\
-\item non-independent features \\
-\item Larger number of distractors \\ 
-\item Larger number of distractor types \\ 
+\item Non-independent features \\
+\item Larger number of distractors (or targets further in periphery?) \\ 
+\item Larger number of distractor types (change size?) \\ 
+\item What determines whether a distractor is a lure or a candidate? \\
 \end{enumerate}
 
 \section{Reanalysis of Buetti et al (2019)}
