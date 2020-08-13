@@ -179,7 +179,7 @@ D_indiv %>% ggplot(aes(x = D, y = d_feature)) + geom_boxplot(alpha = 0.5) + face
 
 extract_a_value <- function(e_id) {
   
-d %>% filter(parse_number(exp_id) == parse_number(e_id) - 1, N_T == 0) %>% 
+d %>% filter(parse_number(exp_id) == parse_number(e_id), N_T == 0) %>% 
 	group_by(exp_id, p_id) %>%
   	summarise(mean_rt = mean(rt), .groups = "drop") %>%
   	summarise(a = mean(mean_rt)) -> a
@@ -208,49 +208,31 @@ extract_D <- function(e_id) {
 predict_rt <- function(e_id) {
 
 	a <- extract_a_value(e_id)
-	L <- 1
-	D <- extract_D(e_id)
+	D <- extract_D(e_id)	
+	N_T <- c(1,4,9,19,31)
+	rt <- a +  log(N_T + 1) %*% t(D$collinear)
+	colnames(rt) <- unique(D$d_feature)
+	d_out <- as_tibble(rt )
 	
-	
+	d_out <- d_out %>% 
+		mutate(exp_id = e_id, N_T = N_T) %>% 
+		pivot_longer(-c(N_T, exp_id), names_to = "d_feature", values_to = "p_rt") 
 
-	rt <- a
-	rt <- rt + D$collinear[1] * log(N_T + 1)
+	return(d_out)
 
-	for (j in 2:L) {
-
-		rt <- rt + (D$collinear[j] - D$collinear[j-1]) * log(N_T - sum(D$N_i[1:(j-1)])+ 1)
-		
-	}
-
-	return(rt)
 }
 
+exps2predict = c("2a", "2b", "2c", "4a", "4b", "4c")
 
+rt_pred <- map_dfr(exps2predict, predict_rt)
 
-predict_rt_2 <- function(e_id, p, t) {
-
-	a <- extract_a_value(e_id)
-	L <- extract_L_value(e_id)
-	D <- extract_D_and_N_i(e_id, t, p)
-	N_T <- sum(D$N_i)
-
-
-	rt <- a
-	rt <- rt + D$collinear[1] * log(N_T + 1)
-
-	for (j in 2:L) {
-
-		rt <- rt + (D$collinear[j] - D$collinear[j-1]) * log(N_T - sum(D$N_i[1:(j-1)])+ 1)
-		
-	}
-
-	return(rt)
-}
-
-
-predict_rt("2a", 1, 1)
-
-
+d %>% filter(exp_id %in% exps2predict) %>%
+	group_by(exp_id, p_id, d_feature) %>%
+	summarise(mean_rt = mean(rt), .groups = "drop") %>%
+	group_by(exp_id,  d_feature) %>%
+	summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
+	left_join(rt_pred) %>% 
+	ggplot(aes(x = p_rt, y = mean_rt)) + geom_point(alpha = 0.5)
 
 #### Some raw data graphs (should be tidied up into a function at some point - or just removed...)
 
