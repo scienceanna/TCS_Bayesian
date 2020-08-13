@@ -161,12 +161,6 @@ D_indiv <- map_dfr(d, calc_D_indiv_diff)
 
 D_indiv %>% ggplot(aes(x = D, y = d_feature)) + geom_boxplot(alpha = 0.5) + facet_wrap(~experiment) 
 
-# # does this look correct? 
-# a <- mean(filter(d$e2a, N_T == 0)$rt)
-
-
-
-
 #predict RT 
 
 # L indicates the number of distractor types present in the display,
@@ -183,9 +177,9 @@ D_indiv %>% ggplot(aes(x = D, y = d_feature)) + geom_boxplot(alpha = 0.5) + face
 # second sum is zero.
 
 
-extract_a_value <- function(e_n) {
+extract_a_value <- function(e_id) {
   
-d %>% filter(parse_number(exp_id) == e_n - 1, N_T == 0) %>% 
+d %>% filter(parse_number(exp_id) == parse_number(e_id) - 1, N_T == 0) %>% 
 	group_by(exp_id, p_id) %>%
   	summarise(mean_rt = mean(rt), .groups = "drop") %>%
   	summarise(a = mean(mean_rt)) -> a
@@ -193,8 +187,69 @@ d %>% filter(parse_number(exp_id) == e_n - 1, N_T == 0) %>%
   return(a$a)
 }
 
+extract_L_value <- function(e_id) {
+	L <- length(unique(filter(d, exp_id == e_id, N_T != 0)$d_feature))
+	return(L)
+}
 
-a <- extract_a_value(2)
+extract_D <- function(e_id) {
+
+	D <- filter(pred_D, exp_id == e_id) %>% arrange(collinear)
+	
+	# D <- filter(d, exp_id == e_id, N_T > 0, trial == t, p_id == p) %>% 
+	# 	group_by(d_feature) %>% 
+	# 	summarise(N_i = n(), .groups = "drop") %>% 
+	# 	right_join(D, by = "d_feature")
+
+	return(D)
+}
+
+
+predict_rt <- function(e_id) {
+
+	a <- extract_a_value(e_id)
+	L <- 1
+	D <- extract_D(e_id)
+	
+	
+
+	rt <- a
+	rt <- rt + D$collinear[1] * log(N_T + 1)
+
+	for (j in 2:L) {
+
+		rt <- rt + (D$collinear[j] - D$collinear[j-1]) * log(N_T - sum(D$N_i[1:(j-1)])+ 1)
+		
+	}
+
+	return(rt)
+}
+
+
+
+predict_rt_2 <- function(e_id, p, t) {
+
+	a <- extract_a_value(e_id)
+	L <- extract_L_value(e_id)
+	D <- extract_D_and_N_i(e_id, t, p)
+	N_T <- sum(D$N_i)
+
+
+	rt <- a
+	rt <- rt + D$collinear[1] * log(N_T + 1)
+
+	for (j in 2:L) {
+
+		rt <- rt + (D$collinear[j] - D$collinear[j-1]) * log(N_T - sum(D$N_i[1:(j-1)])+ 1)
+		
+	}
+
+	return(rt)
+}
+
+
+predict_rt("2a", 1, 1)
+
 
 
 #### Some raw data graphs (should be tidied up into a function at some point - or just removed...)
