@@ -70,10 +70,15 @@ While results to date for TCS appear promising, they remain relatively prelimina
 
 In the current manuscript, we focus on replicating and extending findings from \cite{buetti2019predicting}. Here, participants searched for a target in a scene of homogeneous distractors. First, parallel search efficiency (measured by the logarithmic search slope) was estimated for cases where the distractors varied from the target in one dimension: either colour (e.g. a cyan target being searched for in either yellow, blue or orange distractors) or shape (e.g. a semicircle target in either circle, diamond or triangle distractors). New participants then searched for the same targets in displays where the distractors were compounds, differing from the target in both colour and shape (e.g. searching for a cyan semicircle in either blue circles, orange diamonds or yellow triangles). The logarithmic search slopes in the initial experiments were then used to predict the logarithmic slopes and reaction times using a number of models. The authors found that the best model was a 'collinear contrast integration model' where the distinctiveness scores were summed along each attribute in the unidimensional experiments, creating an overall contrast score that was used for compound stimuli predictions.
 
+\begin{equation}
+RT = a + \beta\sum_{j=1}^L\left((D_j - D_{j-1})\log\left(\left(N_T - \sum_{i=1}^{j-1}N_i\right)1_{[2,\infty](j)}+1 \right)\right)
+\label{eq:buetti2019}
+\end{equation}
+
+WHen $L=1$ (all lures are identical) this simplfies to:
 
 \begin{equation}
-RY = a + \beta\sum_{j=1}^L\left((D_j - D_{j-1})\log\left(\left(N_T - \sum_{i=1}^{j-1}N_i\right)1_{[2,\infty](j)}+1 \right)\right)
-\label{eq:buetti2019}
+RT = a + D_1\log(N_T+1)
 \end{equation}
 
 \subsection{Hypotheses}
