@@ -52,6 +52,7 @@ grestore
 % insert here the call for the packages your document requires
 %\usepackage{latexsym}
 % etc.
+
 %
 % please place your own definitions here and don't use \def but
 % \newcommand{}{}
@@ -102,66 +103,17 @@ subject classification numbers as needed.
 \section{Introduction}
 \label{intro}
 
-Target Contrast Signal Theory: "precise mathematical model that allows one to make specific point predictions about how components of visual complexity combine to impact human performance".
+Visual search, where participants are asked to find a target within a cluttered scene, has been extensively studied within psychology. A number of models have been developed that can generate testable predictions about how different types of distractors and targets affect search efficiency, including Feature Integration Theory \cite{treisman1980feature} and Guided Search \cite{wolfe1989guided,wolfe2014approaches}. These models aim to produce a representation of the visual properties of the distractors at each location in the visual field. However, a recent model, Target Contrast Signal (TCS) Theory, proposes that this is in fact not the goal of the visual system: the authors instead suggest that the most appropriate measure is how different each item is from the target \cite{lleras2020target}.
 
-Model predicts search performance in heterogeneous scenes based on parameters estimated in homogeneous scenes. 
+TCS proposes that behaviour is determined by comparing the target template (held in memory) with every element present in the scene in parallel. This allows the visual system to reject peripheral non-targets quickly; the speed at which items are evaluated is determined by how different the item is from the template through an evidence accumulation process. The model thus focuses on an initial, efficient processing stage of search; if sufficient evidence is not accumulated during this process, the model posits that a second stage is entered, where attention is deployed serially. TCS has been successful in predicting a number of empirical results, including search performance in heterogeneous scenes based on parameters estimated in homogeneous scenes, both with artificial stimuli \cite{buetti2016towards,lleras2019predicting} and with real-world objects visualised on a computer display \cite{wang2017predicting}. 
 
+While results to date for TCS appear promising, they remain relatively preliminary, being tested by only one research group so far. In addition, predictions of search efficiency (e.g. in heterogeneous scenes) are made on the average of a group of participants, using data from a different group performing a different task (e.g. searching in homogeneous scenes). Thus, we know that TCS can replicate group-level averages in search well, but we do not know whether it is also able to make predictions at the individual level. There is also scope for extending beyond the parameters tested to date (such as the number of distractors) in order to test the robustness and generalisability of the model. Finally, there are some predictions, including its ability to explain search asymmetries, that have yet to be empirically confirmed \cite{lleras2020target}.
 
-\paragraph{}
+In the current manuscript, we focus on replicating and extending findings from \cite{buetti2019predicting}. Here, participants searched for a target in a scene of homogeneous distractors. First, parallel search efficiency (measured by the logarithmic search slope) was estimated for cases where the distractors varied from the target in one dimension: either colour (e.g. a cyan target being searched for in either yellow, blue or orange distractors) or shape (e.g. a semicircle target in either circle, diamond or triangle distractors). New participants then searched for the same targets in displays where the distractors were compounds, differing from the target in both colour and shape (e.g. searching for a cyan semicircle in either blue circles, orange diamonds or yellow triangles). The logarithmic search slopes in the initial experiments were then used to predict the logarithmic slopes and reaction times using a number of models. The authors found that the best model was a 'collinear contrast integration model' where the distinctiveness scores were summed along each attribute in the unidimensional experiments, creating an overall contrast score that was used for compound stimuli predictions.
 
-``Wang, Buetti and Lleras (2017) developed an equation to predict search performance in heterogeneous visual search scenes (i.e., multiple types of non-target objects simultaneously present) based on parameters observed when participants perform search in homogeneous scenes (i.e., when all non-target objects are identical to one another). The equation was based on a computational model where every item in the display is processed with unlimited capacity and independently of one another, with the goal of determining whether the item is likely to be a target or not. The model was tested in two experiments using real-world objects.''
+\subsection{Hypotheses}
 
-\paragraph{}
-
-\textbf{Lleras (2019):}
-
-Expt 1: heterogeneous search using Buetti et al's (2016) stimuli.
-Target - red triangle.
-Distractors - orange diamonds, yellow triangles, blue circles.
-Search items randomly assigned positions on invisible 6x6 rectangular grid with jitter. 2 types of experimental conditions - 2 mixed or 3 mixed. For each group, arbitrarily held constant number of items of one lure type, and then manipulated number of items of other 2 lure types.
-Search performance in heterogeneous search displays is very well predicted by performance observed in homogeneous search displays (from Expt 1A, Buetti et al 2016).
-
-Expt2A/2B: are heterogeneous spatially segregated displays processed with the same efficiency as entirely homogeneous displays? 2A - abstract shapes. 2B - real world stimuli. Also able to predict variability in performance quite well. Spatially segregated scenes producing search performance as efficient as completely homogeneous scenes.
-Conclude that processing required to complete parallel search task in lure heterogeneous scenes is fundamentally same as in lure homogeneous scenes. Lure to lure stimuli interactions facilitate processing in parallel scenes and strength of those interactions maximal when identical lures near each other.
-
-
-\textbf{Buetti (2019):} 
-
-Parallel search efficiency (logarithmic search slope) to find target amongst homogeneous distractors estimated: different colours (red target in orange, blue, yellow distractors) or shapes (semicircle target in circle, diamond, triangle distractors) tested. 
-
-New group of participants searched for same target in display where the distractors were compounds i.e. differed from target in both colour and shape (e.g. blue circles, orange diamonds, yellow triangles). Observed RTs in latter experiment compared to predicted reaction times from model. 
-
-\textbf{Lleras (2020):}
-
-Logarithmic dependency of RT on set size - indicative of processing architecture with parallel processing, unlimited capacity and exhaustive termination rule. Can account for modulation of steepness of logarithmic functions by assuming processing time of individual item is inversely proportional to its dissimilarity to target.
-
-Lures are distractors that are sufficiently different from the target (items that have reached threshold). [Ed note - what is sufficiently in this context?] Candidates are distractors that are similar to the target (items that have yet to reach threshold) - processed in second, capacity limited stage. 
-
-What TCS can do:
-
-\begin{enumerate}
-\item TCS provides account for variation of RT as function of set size as observed in efficient search tasks. Logarithmic search slope coefficient measured in typical efficient search task (one target, all identical lures) indexes dissimilarity between target and lure stimuli \\
-\item Logarithmic slope coefficients can be used to predict performance in future experiments where same target and lure stimuli are paired \\
-\item Provides framework for understanding occurrence of eye movements to non target elements \\
-\item Framework for evaluating and quantifying lure-lure similarity effects in efficient search \\
-\item Framework for understanding processing costs associated with varying levels of target-distractor similarity \\
-\item Intuitive account for search asymmetries: target-contrast signal computed as function of visual properties present in target template \\
-\item Framework for understanding impact of crowding, stimulus size - integral to determining quality of peripheral representations \\
-\end{enumerate}
-
-Evidence accumulation process consists of an evaluation of an evaluation of the extent to which properties at each location differ from the set of properties that define the target. Properties of the distractor that are not present in the target are ignored.
-
-\textbf{Ng et al, submitted):}
-
-Lack of prioritisation: displays contained two different types of candidates - some extremely similar, some less so. Failed to find any evidence that more similar candidates were prioritised over less similar candidates.
-
-\textbf{Buetti (2016):}
-Expt 2 shows that inefficient search is linear and self terminating using target T in Ls. 
-Expt 3 claims to show support for distinction between candidates and lures.
-
-\subsection{Hypothesis}
-
-We plan a number of experiments to test the extent to which the original results replicate and generalise. As well as following the original, between-subjects, experiment design, in which data from one group of observers in one task is used to predict behaviour of a second group of participants in a different task, we will allow for within-subject comparisons. Specifically, to what extent do the individual differences in the homogeneous task explain the differences in the heterogeneous task? 
+We plan a number of experiments to test the extent to which the original results in \cite{buetti2019predicting} replicate and generalise. As well as following the original, between-subjects, experiment design, in which data from one group of observers in one task is used to predict behaviour of a second group of participants in a different task, we will allow for within-subject comparisons. Specifically, we will ask: to what extent do the individual differences in the homogeneous task explain the differences in the heterogeneous task? 
 
 \begin{enumerate}
 \item \textbf{Replication of Buetti et al (2019) with online data collection.} Specifically, that the \textit{collinear contrast ingratiation model} outperforms the \textit{best feature guidance}, and \textit{orthogonal contrast combination models}.  Furthermore, the $R^2 = $ ($99\%$ HPDI = $[, ]$) between predicted and observer reaction times.\\
@@ -173,8 +125,8 @@ We plan a number of experiments to test the extent to which the original results
 
 In our proposed experiments, we would like to:
 \begin{itemize} 
-\item make use of multi-level models, \\
-\item, and work within a Bayesian framework, \\
+\item make use of multi-level models \\
+\item, and work within a Bayesian framework \\
 \item use a log-normal distribution to take skew in rt distribution into account \\
 \end{itemize}
 
@@ -255,25 +207,25 @@ Thank you to AL for help and encouragement!
 
 
 % BibTeX users please use one of
-%\bibliographystyle{spbasic}      % basic style, author-year citations
+\bibliographystyle{plain}      % basic style, author-year citations
 %\bibliographystyle{spmpsci}      % mathematics and physical sciences
 %\bibliographystyle{spphys}       % APS-like style for physics
-%\bibliography{}   % name your BibTeX data base
+\bibliography{sources}   % name your BibTeX data base
 
 % Non-BibTeX users please use
-\begin{thebibliography}{}
+%\begin{thebibliography}{}
 %
 % and use \bibitem to create references. Consult the Instructions
 % for authors for reference list style.
 %
-\bibitem{RefJ}
+%\bibitem{RefJ}
 % Format for Journal Reference
-Author, Article title, Journal, Volume, page numbers (year)
+%Author, Article title, Journal, Volume, page numbers (year)
 % Format for books
-\bibitem{RefB}
-Author, Book title, page numbers. Publisher, place (year)
+%\bibitem{RefB}
+%Author, Book title, page numbers. Publisher, place (year)
 % etc
-\end{thebibliography}
+%\end{thebibliography}
 
 \end{document}
 % end of file template.tex
