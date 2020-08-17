@@ -173,9 +173,9 @@ We plan a number of experiments to test the extent to which the original results
 
 In our proposed experiments, we would like to:
 \begin{itemize} 
-\item make use of multi-level models \\
-\item, and work within a Bayesian framework \\
-\item use a log-normal distribution to take skew in rt distirbution into account \\
+\item make use of multi-level models, \\
+\item, and work within a Bayesian framework, \\
+\item use a log-normal distribution to take skew in rt distribution into account \\
 \end{itemize}
 
 To start, we will re-analysis previous data to verify that this does not invalidate the original conclusions. And, how to phrase, something about these new results (on the old data) being the ones we want to replicate. 
@@ -188,15 +188,40 @@ Data taken from OSF... using the exclusion criteria originally used. What about 
 
 Do we want to re-do any of the other papers while we're at it?
 
+There is an rt = 0, which I will remove. 
+
 \subsubsection{Modelling Approach}
 
 R, brms, details.
+
+We will compute the $D$ values using a multi-level Bayesian model using a log-normal distribution. In order to keep our model in line with the Target Contrast Signal Theory, we will use the identity link rather than the default log link. We will also model reaction times on the seconds scale, rather than milliseconds. While this is a fairly trivial change, it makes numerical model fitting slightly easier. 
+
+\begin{equation}
+\hat{y} = a + Dlog(N_T + 1)
+\label{eq:computeDlm}
+\end{equation}
+
+For now, I'm just using random intercept. Hope to implement full random slopes soon!
+
+
 
 Funky equation from Buetti. 
 
 \subsubsection{Prior Predictions}
 
 \subsection{Results}
+
+\subsubsection{Fixed Effects}
+
+As we are using a Bayesian framework, rather than $D$ representing the best fit in equation \ref{eq:computeDlm}, it is now represented as a probability distribution over possible values (see Figure \ref{fig:reanalysisBuetti2019}.)
+
+
+\begin{figure}
+\caption{Posterior predictions of $D$ for different distracter features. The vertical lines indicate the (transformed) values given in Buetti (2019).}
+\label{fig:reanalysisBuetti2019}
+\end{figure} 
+
+\subsubsection{Individual Differences}
 
 \subsection{Discussion}
 

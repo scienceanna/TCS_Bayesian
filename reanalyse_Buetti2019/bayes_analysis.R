@@ -70,17 +70,17 @@ calc_D_per_feature <- function(experiment, df) {
     prior(normal(0, 1), class = "b"))
 
   m <- brm(
-    rt ~  0 + d_feature + log(N_T+1):d_feature + (1|p_id),
+    rt ~  0 + d_feature + log(N_T+1):d_feature + (d_feature + log(N_T+1)|p_id),
     data = df,
     family = lognormal(link = "identity"),
     prior = my_priors)
-  
-  coef_tab <- summary(m)$coefficients
 
-  d_out <- tibble(
-    exp_id = experiment,
-    d_feature = levels(df$d_feature),
-    D = c(coef_tab[4:6,1]))
+  vars <- paste("d_feature", levels(df$d_feature), ":logN_TP1", sep = "")
+
+  fx <- fixef(m)
+  d_out <- as_tibble(fx[rownames(fixef(m)) %in% vars,]) %>%
+  mutate(d_feature = levels(df$d_feature),
+    exp_id = experiment)
 
   return(d_out)
 }
@@ -105,7 +105,7 @@ plot_exp <- function(experiment, df, m) {
     mutate(d_feature = as_factor(d_feature)) -> df
 
   df %>% modelr::data_grid(d_feature , N_T, p_id) %>%
-    add_predicted_draws(m) %>%
+    add_predicted_draws(m, n=101) %>%
     ggplot(aes(x = log(N_T+1), y = .prediction, colour = d_feature, fill = d_feature)) + 
     geom_jitter(data = df, aes(x = log(N_T+1), y  = rt, colour = d_feature), alpha = 0.1) + 
     stat_lineribbon(alpha = 0.25) +
