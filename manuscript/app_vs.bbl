@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{buetti2016towards}
 Simona Buetti, Deborah~A Cronin, Anna~M Madison, Zhiyuan Wang, and Alejandro
@@ -13,6 +13,25 @@ Simona Buetti, Jing Xu, and Alejandro Lleras.
   direct attention.
 \newblock {\em Scientific reports}, 9(1):1--11, 2019.
 
+\bibitem{hulleman2017brink}
+Johan Hulleman and Christian~NL Olivers.
+\newblock On the brink: The demise of the item in visual search moves closer.
+\newblock {\em Behavioral and Brain Sciences}, 40, 2017.
+
+\bibitem{irons2016choosing}
+Jessica~L Irons and Andrew~B Leber.
+\newblock Choosing attentional control settings in a dynamically changing
+  environment.
+\newblock {\em Attention, Perception, \& Psychophysics}, 78(7):2031--2048,
+  2016.
+
+\bibitem{irons2018characterizing}
+Jessica~L Irons and Andrew~B Leber.
+\newblock Characterizing individual variation in the strategic use of
+  attentional control.
+\newblock {\em Journal of Experimental Psychology: Human Perception and
+  Performance}, 44(10):1637, 2018.
+
 \bibitem{lleras2019predicting}
 Alejandro Lleras, Zhiyuan Wang, Anna Madison, and Simona Buetti.
 \newblock Predicting search performance in heterogeneous scenes: Quantifying
@@ -25,6 +44,12 @@ Alejandro Lleras, Zhiyuan Wang, Gavin Jun~Peng Ng, Kirk Ballew, Jing Xu, and
 \newblock A target contrast signal theory of parallel processing in
   goal-directed search.
 \newblock {\em Attention, Perception, \& Psychophysics}, pages 1--32, 2020.
+
+\bibitem{nowakowska2017human}
+Anna Nowakowska, Alasdair~DF Clarke, and Amelia~R Hunt.
+\newblock Human visual search behaviour is far from ideal.
+\newblock {\em Proceedings of the Royal Society B: Biological Sciences},
+  284(1849):20162767, 2017.
 
 \bibitem{treisman1980feature}
 Anne~M Treisman and Garry Gelade.
