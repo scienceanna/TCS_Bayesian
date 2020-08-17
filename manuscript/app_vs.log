@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2019.10.9)  17 AUG 2020 12:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2019.10.9)  17 AUG 2020 12:49
 entering extended mode
 **./app_vs.tex
 (app_vs.tex
@@ -306,6 +306,21 @@ Underfull \hbox (badness 10000) in paragraph at lines 121--122
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 128--129
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 129--130
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 130--131
+
+ []
+
 [3] (app_vs.bbl) [4] (app_vs.aux) ) 
 Here is how much of TeX's memory you used:
  2199 strings out of 492973
@@ -314,7 +329,7 @@ Here is how much of TeX's memory you used:
  6060 multiletter control sequences out of 15000+200000
  10440 words of font info for 36 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,7n,25p,1246b,316s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,8n,25p,1246b,316s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/Anna/AppData/Local/Programs/MiKTeX
  2.9/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><C:/Users/Anna/AppData/Local/Pr
 ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Anna/AppD
@@ -329,7 +344,7 @@ grams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Anna/AppDa
 ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/User
 s/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti8.p
 fb>
-Output written on app_vs.pdf (4 pages, 153987 bytes).
+Output written on app_vs.pdf (4 pages, 154194 bytes).
 PDF statistics:
  59 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
