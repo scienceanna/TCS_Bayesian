@@ -48,12 +48,12 @@ d$e4a <- import_experiment(16, c(`orange diamond` = "1", `blue circle` = "2", `y
 d$e4b <- import_experiment(18, c(`orange circle` = "1", `yellow diamond` = "2", `blue semicircle` = "3"), 4, "b")
 d$e4c <- import_experiment(20, c(`blue diamond` = "1", `yellow circle` = "2", `orange semicircle` = "3"), 4, "c")
 
-d <- bind_rows(d)
+d <- bind_rows(d) %>% filter(rt > 0)
 
 calc_D_per_feature <- function(experiment, df) {
 
   df %>%
-  	filter(exp_id == experiment) %>%
+    filter(exp_id == experiment) %>%
     group_by(exp_id, p_id, d_feature, N_T) %>%
     mutate(
       d_feature = fct_drop(d_feature),
@@ -66,36 +66,70 @@ calc_D_per_feature <- function(experiment, df) {
     filter(df, N_T>0)) %>%
     mutate(d_feature = as_factor(d_feature)) -> df
 
-  my_priors <-  c(
-    prior(normal(0, 1), class = "b"))
+  intercepts <- paste("d_feature", levels(df$d_feature), sep = "")
+  intercepts <- gsub("[[:space:]]", "", intercepts)
+  
+  slopes <- paste("d_feature", levels(df$d_feature), ":logN_TP1", sep = "")
+  slopes <- gsub("[[:space:]]", "", slopes)
+
+  my_priors <- c(
+    prior_string("normal(-0.5, 0.1)", class = "b", coef = intercepts),
+    prior_string("normal(0, 0.05)", class = "b", coef = slopes),
+    prior(student_t(3, 0, 2), class = "sd"))
 
   m <- brm(
-    rt ~  0 + d_feature + log(N_T+1):d_feature + (d_feature + log(N_T+1)|p_id),
+    rt ~  0 + d_feature + log(N_T+1):d_feature + (log(N_T+1):d_feature|p_id),
     data = df,
     family = lognormal(link = "identity"),
-    prior = my_priors)
+    prior = my_priors,
+    iter = 5000)
+   
+  return(m)
+}
 
-  vars <- paste("d_feature", levels(df$d_feature), ":logN_TP1", sep = "")
+plot_model_fits_ex <- function(df, experiment, m) {
 
-  fx <- fixef(m)
-  d_out <- as_tibble(fx[rownames(fixef(m)) %in% vars,]) %>%
-  mutate(d_feature = levels(df$d_feature),
-    exp_id = experiment)
+ df %>%
+    filter(
+      exp_id == experiment, N_T >0,
+      p_id %in% c("1a-1", "1a-2", "1a-3", "1a-4", "1a-5")) %>%
+    mutate(
+      d_feature = fct_drop(d_feature),
+      p_id = fct_drop(p_id)) -> d_plt
+  
+  d_plt %>%
+    modelr::data_grid(p_id, N_T= seq(1,33,4), d_feature) %>%
+    add_predicted_draws(m) %>% 
+    ggplot(aes(x = log(N_T+1), y = .prediction, colour = d_feature)) + 
+    stat_lineribbon(.width = c(0.5, 0.9)) + 
+    geom_jitter(
+      data = d_plt, 
+      aes(y = rt), 
+      alpha = 0.1) + 
+    facet_grid(d_feature ~ p_id) + 
+    theme_bw() + 
+    scale_fill_brewer(palette = "Greys") + 
+    scale_colour_manual(values = c("orange1", "cornflowerblue", "yellow3")) +
+    scale_y_log10("reaction time") -> plt
 
-  return(d_out)
+  ggsave("exp1_fits.png", plt, width = 8, height = 4)
+
+  # exp_D %>% group_by(d_feature) %>%
+  #  mean_hdi()  %>%
+  #  ggplot(aes(x = d_feature, y = D, ymin = .lower, ymax = .upper)) + geom_pointinterval() + 
+  #  coord_flip()
+
 }
 
 
-m <- readRDS("prior.model")
-
-plot_exp <- function(experiment, df, m) {
+extract_fixed_slopes_from_model <- function(m, df,experiment) {
 
    df %>%
     filter(exp_id == experiment) %>%
     group_by(exp_id, p_id, d_feature, N_T) %>%
     mutate(
       d_feature = fct_drop(d_feature),
-      rt = rt/1000) -> df
+      p_id = fct_drop(p_id)) -> df
 
   bind_rows(
     filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[2]),
@@ -104,19 +138,30 @@ plot_exp <- function(experiment, df, m) {
     filter(df, N_T>0)) %>%
     mutate(d_feature = as_factor(d_feature)) -> df
 
-  df %>% modelr::data_grid(d_feature , N_T, p_id) %>%
-    add_predicted_draws(m, n=101) %>%
-    ggplot(aes(x = log(N_T+1), y = .prediction, colour = d_feature, fill = d_feature)) + 
-    geom_jitter(data = df, aes(x = log(N_T+1), y  = rt, colour = d_feature), alpha = 0.1) + 
-    stat_lineribbon(alpha = 0.25) +
-    facet_grid(d_feature~ p_id)  +
-    scale_fill_brewer(palette = "Set2") +
-    scale_color_brewer(palette = "Dark2") +
-    scale_y_log10() -> plt
+  intercepts <- paste("b_d_feature", levels(df$d_feature), sep = "")
+  intercepts <- gsub("[[:space:]]", "", intercepts)
+  
+  slopes <- paste("b_d_feature", levels(df$d_feature), ":logN_TP1", sep = "")
+  slopes <- gsub("[[:space:]]", "", slopes)
 
-    ggsave(plt, "brms_log.png", width = 16, height= 5)
+  samples <- posterior_samples(m, slopes, 
+    subset=runif(1000, 0, 10000)) %>%
+   pivot_longer(starts_with("b_d"), names_to = "d_feature", values_to = "D") %>%
+   mutate(
+    exp_id = experiment,
+    d_feature = as_factor(d_feature))
+
+levels(samples$d_feature) <- levels(df$d_feature)
+   return(samples)
 
 }
+
+s <- extract_fixed_slopes_from_model(m, d, "1a")
+
+ggplot(s, aes(x = D, fill = d_feature)) + 
+geom_density(alpha = 0.333) + 
+ scale_fill_manual(values = c("cornflowerblue", "orange1", "yellow3"))
+   
 
 
 exp_D <- map_dfr(unique(d$exp_id), calc_D_per_feature, d)

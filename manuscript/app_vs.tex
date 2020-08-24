@@ -123,15 +123,31 @@ We will compute the $D$ values using a multi-level Bayesian model using a log-no
 \label{eq:computeDlm}
 \end{equation}
 
-For now, I'm just using random intercept. Hope to implement full random slopes soon!
+\begin{verbatim}
+m <- brm(
+    rt ~  0 + d_feature + log(N_T+1):d_feature + 
+    	(log(N_T+1):d_feature|p_id),
+    data = df,
+    family = lognormal(link = "identity"),
+    prior = my_priors,
+    iter = 5000)
+\end{verbatim}
+
+Allows us to fit each individual's performance.
 
 
-
-Funky equation from Buetti. 
 
 \subsubsection{Prior Predictions}
 
 \subsection{Results}
+
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{../reanalyse_Buetti2019/exp1_fits.png}
+\caption{Example results from the first five participants of Experiment 1a \cite{buetti2019predicting}. We can see considerable between-subjects variation. The shaded regions show the model's predicited reaction times.}
+\label{fig:buetti2019_a1}
+\end{figure}
 
 \subsubsection{Fixed Effects}
 
