@@ -203,7 +203,8 @@ d %>% filter(exp_id %in% exps2predict) %>%
   group_by(exp_id, p_id, d_feature, N_T) %>%
   summarise(mean_rt = mean(rt), .groups = "drop") %>%
   group_by(exp_id,  d_feature, N_T) %>%
-  summarise(mean_rt = mean(mean_rt), .groups = "drop")  -> d_out
+  summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
+  left_join(rt_pred) -> d_out
 
 write_csv(d_out, "mean_rt.csv")
 

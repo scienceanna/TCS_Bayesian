@@ -125,73 +125,62 @@ plot_model_fits_ex <- function(df, experiment, m) {
 }
 
 
-extract_fixed_slopes_from_model <- function(m, df,experiment) {
+extract_fixed_slopes_from_model <- function(exp_n, ms, df) {
 
-   df %>%
-    filter(exp_id == experiment) %>%
-    group_by(exp_id, p_id, d_feature, N_T) %>%
-    mutate(
-      d_feature = fct_drop(d_feature),
-      p_id = fct_drop(p_id)) -> df
+  experiment <- unique(d$exp_id)[exp_n]
+  m <- ms[[exp_n]]
 
-  bind_rows(
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[2]),
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[3]),
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[4]),
-    filter(df, N_T>0)) %>%
-    mutate(d_feature = as_factor(d_feature)) -> df
-
-  intercepts <- paste("b_d_feature", levels(df$d_feature), sep = "")
-  intercepts <- gsub("[[:space:]]", "", intercepts)
-  
-  slopes <- paste("b_d_feature", levels(df$d_feature), ":logN_TP1", sep = "")
-  slopes <- gsub("[[:space:]]", "", slopes)
+  vars <- get_variables(m)
+  slopes <- str_subset(vars, "b_d_[a-z]*:")
 
   samples <- posterior_samples(m, slopes, 
     subset=runif(1000, 0, 10000)) %>%
    pivot_longer(starts_with("b_d"), names_to = "d_feature", values_to = "D") %>%
    mutate(
     exp_id = experiment,
-    d_feature = as_factor(d_feature))
+    d_feature = as_factor(d_feature)) %>%
+   select(exp_id, d_feature, D)
 
-levels(samples$d_feature) <- levels(df$d_feature)
+    levels(samples$d_feature) <- str_extract(
+      levels(samples$d_feature), 
+      "(?<=feature)[a-z]+(?=:logN_TP1)")
+
    return(samples)
 
 }
 
-s <- extract_fixed_slopes_from_model(m, d, "1a")
+# s <- extract_fixed_slopes_from_model(1, my_models, d)
 
-  ggplot(s, aes(x = D, fill = d_feature)) + 
-  geom_density(alpha = 0.333) + 
-   scale_fill_manual(values = c("cornflowerblue", "orange1", "yellow3"))
+exp_D <- map_df(1:3, extract_fixed_slopes_from_model, my_models, df = d)
+
+  ggplot(exp_D, aes(x = D, fill = d_feature)) + 
+  geom_density(alpha = 0.333) +
+   facet_wrap(~ exp_id)
      
   extract_fixed_random_from_model <- function(m, df,experiment) {
 
-  # Needs written
-}
-
-
-calc_D_overall <- function(f, D, D_model)
+calc_D_overall <- function(f, D)
 {
   f1 <- word(f, 1)
   f2 <- word(f, 2)
 
   D1 = as.numeric(filter(D, d_feature == f1)$D)
   D2 = as.numeric(filter(D, d_feature == f2)$D)
-  
+
   D_collinear = 1/((1/D1) + (1/D2))
-  D_best_feature = min(D1, D2)
+  D_best_feature = pmin(D1, D2)
   D_orth_contrast =  sqrt(1/((1/D1^2) + (1/D2^2)))
     
   return(list(
-    "best feature" = D_best_feature, 
-    "orthog. contrast" = D_orth_contrast, 
+    d_feature = gsub("[[:space:]]", "", f),
+    "best_feature" = D_best_feature, 
+    "orthog_contrast" = D_orth_contrast, 
     "collinear" = D_collinear))
 }
 
 gen_exp_predictions <- function(e_id) {
   
-  df <- filter(d, exp_id == e_id) %>%
+  df <- filter(d, exp_id == e_id, N_T > 0) %>%
   mutate(d_feature = fct_drop(d_feature))
 
   e_n = parse_number(e_id)
@@ -199,25 +188,45 @@ gen_exp_predictions <- function(e_id) {
 
   d_out <- tibble(
     exp_id = e_id,
-    d_feature = levels(df$d_feature)[2:4], 
-    map_dfr(levels(df$d_feature)[2:4], calc_D_overall, D))
+    map_dfr(levels(df$d_feature), calc_D_overall, D)) %>%
+  pivot_longer(
+    cols = c(best_feature, orthog_contrast, collinear),
+    values_to = "D_pred",
+    names_to = "method") %>%
+  group_by(d_feature, method)%>%
+  mean_hdi(D_pred) 
 
   return(d_out)
 }
 
 # Predict experiments
+pred_D <-  gen_exp_predictions("2a")
+
 
 pred_D <- map_df(c("2a", "2b", "2c", "4a", "4b", "4c"), gen_exp_predictions)
  
 # recreate fig 4 (top right)
-left_join(pred_D, exp_D, by = c("exp_id", "d_feature")) %>%
+exp_D %>% group_by(d_feature) %>% 
+mean_hdi(D) %>%
+rename(D_lower = ".lower", D_upper = ".upper") %>% 
+right_join(pred_D) %>%
+select(-.width, -.point, -.interval) -> d_D 
+
+ggplot(d_D, aes(x = D_pred,, y = D, )) + 
+geom_abline(linetype = 2) + 
+  geom_linerange(aes(ymin = D_lower, ymax = D_upper)) + 
+  geom_linerange(aes( xmin = .lower, xmax = .upper)) + 
+  facet_wrap(~method) + theme_bw() +
+  coord_fixed()
+  ggsave("Bayesian_fig4.png", width = 8, height = 3)
+
+pred_D %>%
   pivot_longer(
     cols = c(`best feature`, `orthog. contrast`, collinear),
     values_to = "D_pred",
     names_to = "method") %>%
-  ggplot(aes(x = D_pred, y = D)) + geom_point() + geom_abline(linetype = 2) +
-  geom_smooth(method = "lm") + 
-  coord_cartesian(xlim = c(0, 90), ylim = c(0, 90)) + facet_wrap(~ method)
+  ggplot(aes(x = D_pred, y = D, colour = d_feature)) + geom_point() + geom_abline(linetype = 2) +
+  geom_smooth(method = "lm") + facet_wrap(~ method)
 ggsave("recreate_fig_4.pdf")
 
 
