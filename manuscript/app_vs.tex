@@ -7,8 +7,8 @@
 %
 \usepackage{graphicx}
 \usepackage{cite}
-%
-% \usepackage{mathptmx}      % use Times fonts if available on your TeX system
+\usepackage{amsmath}
+\usepackage{mathptmx}      % use Times fonts if available on your TeX system
 %
 % insert here the call for the packages your document requires
 %\usepackage{latexsym}
@@ -22,16 +22,13 @@
 %
 \begin{document}
 
-\title{Insert your title here%\thanks{Grants or other notes
-%about the article that should go on the front page should be
-%placed here. General acknowledgments should be placed at the end of the article.}
+\title{Testing the Target Contast Signal Theory\thanks{ESRC grant?}
 }
-\subtitle{Do you have a subtitle?\\ If so, write it here}
+\subtitle{Replication and Generalisation}
 
-%\titlerunning{Short form of title}        % if too long for running head
+\titlerunning{Testing the TCS Theory}        % if too long for running head
 
-\author{Anna Hughes         \and
-        Alasdair D. F. Clarke
+\author{Anna Hughes \and Alasdair D. F. Clarke
 }
 
 %\authorrunning{Short form of author list} % if too long for running head
@@ -78,10 +75,17 @@ RY = a + \beta\sum_{j=1}^L\left((D_j - D_{j-1})\log\left(\left(N_T - \sum_{i=1}^
 \label{eq:buetti2019}
 \end{equation}
 
-WHen $L=1$ (all lures are identical) this simplfies to:
+When $L=1$ (all lures are identical) this simplifies to:
 
 \begin{equation}
 RT = a + D_1\log(N_T+1)
+\end{equation}
+
+Collinear contrast integration model:
+
+\begin{equation}
+\frac{1}{D_\text{overall}} = \frac{1}{D_\text{colour}} + \frac{1}{D_\text{shape}}
+\label{eq:collinearcontrast}
 \end{equation}
 
 \subsection{Hypotheses}

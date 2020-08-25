@@ -124,42 +124,7 @@ left_join(pred_D, exp_D, by = c("exp_id", "d_feature")) %>%
 ggsave("recreate_fig_4.pdf")
 
 
-# Look at indiv differences
 
-calc_D_per_person_feature <- function(p, df) {
-
-  df <- filter(df, p_id == p) 
-
-  bind_rows(
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[2]),
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[3]),
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[4]),
-    filter(df, N_T>0)) %>%
-    mutate(d_feature = as_factor(d_feature)) -> df
-
-  m <- lm(rt ~  0 + d_feature + log(N_T+1):d_feature, df)
-  coef_tab <- summary(m)$coefficients
-
-  d_out <- tibble(
-    experiment = unique(df$exp_number),
-    p_id = p,
-    d_feature = levels(df$d_feature),
-    D = c(coef_tab[4:6,1]))
-
-  return(d_out)
-}
-
-calc_D_indiv_diff <- function(df) {
-
-  return(map_dfr(
-    unique(df$p_id), 
-    calc_D_per_person_feature, 
-    df))
-}
-
-D_indiv <- map_dfr(d, calc_D_indiv_diff)
-
-D_indiv %>% ggplot(aes(x = D, y = d_feature)) + geom_boxplot(alpha = 0.5) + facet_wrap(~experiment) 
 
 #predict RT 
 
@@ -227,12 +192,21 @@ exps2predict = c("2a", "2b", "2c", "4a", "4b", "4c")
 rt_pred <- map_dfr(exps2predict, predict_rt)
 
 d %>% filter(exp_id %in% exps2predict) %>%
-	group_by(exp_id, p_id, d_feature) %>%
+	group_by(exp_id, p_id, d_feature, N_T) %>%
 	summarise(mean_rt = mean(rt), .groups = "drop") %>%
-	group_by(exp_id,  d_feature) %>%
+	group_by(exp_id,  d_feature, N_T) %>%
 	summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
 	left_join(rt_pred) %>% 
-	ggplot(aes(x = p_rt, y = mean_rt)) + geom_point(alpha = 0.5)
+	ggplot(aes(x = p_rt, y = mean_rt)) + geom_point(alpha = 0.5) + geom_abline()
+
+d %>% filter(exp_id %in% exps2predict) %>%
+  group_by(exp_id, p_id, d_feature, N_T) %>%
+  summarise(mean_rt = mean(rt), .groups = "drop") %>%
+  group_by(exp_id,  d_feature, N_T) %>%
+  summarise(mean_rt = mean(mean_rt), .groups = "drop")  -> d_out
+
+write_csv(d_out, "mean_rt.csv")
+
 
 #### Some raw data graphs (should be tidied up into a function at some point - or just removed...)
 

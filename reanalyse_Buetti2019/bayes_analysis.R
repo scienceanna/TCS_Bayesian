@@ -50,7 +50,7 @@ d$e4c <- import_experiment(20, c(`blue diamond` = "1", `yellow circle` = "2", `o
 
 d <- bind_rows(d) %>% filter(rt > 0)
 
-calc_D_per_feature <- function(experiment, df) {
+fit_glmm_to_an_exp <- function(experiment, df) {
 
   df %>%
     filter(exp_id == experiment) %>%
@@ -86,6 +86,9 @@ calc_D_per_feature <- function(experiment, df) {
    
   return(m)
 }
+
+my_models <- map(c("1a", "1b", "2a"), fit_glmm_to_an_exp, d)
+
 
 plot_model_fits_ex <- function(df, experiment, m) {
 
@@ -158,14 +161,15 @@ levels(samples$d_feature) <- levels(df$d_feature)
 
 s <- extract_fixed_slopes_from_model(m, d, "1a")
 
-ggplot(s, aes(x = D, fill = d_feature)) + 
-geom_density(alpha = 0.333) + 
- scale_fill_manual(values = c("cornflowerblue", "orange1", "yellow3"))
-   
+  ggplot(s, aes(x = D, fill = d_feature)) + 
+  geom_density(alpha = 0.333) + 
+   scale_fill_manual(values = c("cornflowerblue", "orange1", "yellow3"))
+     
+  extract_fixed_random_from_model <- function(m, df,experiment) {
 
+  # Needs written
+}
 
-exp_D <- map_dfr(unique(d$exp_id), calc_D_per_feature, d)
-# 2C, 3A, 4A numbers look slightly off 
 
 calc_D_overall <- function(f, D, D_model)
 {
