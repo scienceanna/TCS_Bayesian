@@ -87,6 +87,25 @@ Collinear contrast integration model
 \label{eq:collinearcontrast}
 \end{equation}
 
+Best feature guidance: 
+
+\begin{equation}
+D_\text{overall} = \text{min}\left(D_\text{colour}, D_\text{shape}\right)
+\end{equation}
+
+Orthogonal contrast combination model:
+
+\begin{equation}
+D_\text{overall} = \frac{1}{\sqrt{\frac{1}{(D_\text{colour})^2 + (D_\text{shape})^2}}}
+\end{equation}
+
+Isn't this just the same as 
+
+\begin{equation}
+D_\text{overall} = (D_\text{colour})^2 + (D_\text{shape})^2
+\end{equation}
+
+
 We probably want the other two methods for calculating $D$, as testing that the CCImodel is hte best is an easy hypothesis to replication. 
 
 \paragraph{Details on results, $R^2$, etc, on what exact stimuli? } Include an example stimuli? Also mention the photograph experiments? 
@@ -156,11 +175,9 @@ m <- brm(
 Allows us to fit each individual's performance.
 
 
-
 \subsubsection{Prior Predictions}
 
 \subsection{Results}
-
 
 \begin{figure}
 \centering
@@ -172,20 +189,21 @@ Allows us to fit each individual's performance.
 
 \subsubsection{Fixed Effects}
 
-As we are using a Bayesian framework, rather than $D$ representing the best fit in equation \ref{eq:computeDlm}, it is now represented as a probability distribution over possible values (see Figure \ref{fig:buetti2019_a1}.)
+As we are using a Bayesian framework, rather than $D$ representing the best fit in equation \ref{eq:computeDlm}, it is now represented as a probability distribution over possible values (see Figure \ref{fig:buetti2019_a1}.) We can can then estimate $D$ using the three methods and compare the predicted values to the empirical - see Figure \ref{fig:buetti2019_D}.
 
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{../reanalyse_Buetti2019/Bayesian_fig4.png}
 \caption{Correlation between empirical $D$ and the predicted $D$.}
-\label{fig:buetti2019_a1}
+\label{fig:buetti2019_D}
 \end{figure}
-
-
 
 \subsubsection{Individual Differences}
 
+
 \subsection{Discussion}
+
+It looks like, while we replicate the good predicitons using the colllinear method, we do not find this that this is the best method, and instead, we find the orthogonal contrast method is slightly better. 
 
 
 \section{Experiment 1}

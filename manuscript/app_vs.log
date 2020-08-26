@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.12.5)  25 AUG 2020 16:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.12.5)  26 AUG 2020 10:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -227,11 +227,7 @@ Package: subfigure 2002/03/15 v2.1.5 subfigure package
 \subfig@top=\skip50
 \subfig@bottom=\skip51
 )
-(./app_vs.aux
-
-LaTeX Warning: Label `fig:buetti2019_a1' multiply defined.
-
-)
+(./app_vs.aux)
 \openout1 = `app_vs.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
@@ -394,7 +390,7 @@ File: ../reanalyse_Buetti2019/exp1_fits.png Graphic file (type png)
 
 <use ../reanalyse_Buetti2019/exp1_fits.png>
 Package pdftex.def Info: ../reanalyse_Buetti2019/exp1_fits.png used on input li
-ne 167.
+ne 165.
 (pdftex.def)             Requested size: 338.0pt x 135.19714pt.
 
 <../reanalyse_Buetti2019/empirical_D_examples.png, id=27, 754.82pt x 751.80875p
@@ -402,54 +398,43 @@ t>
 File: ../reanalyse_Buetti2019/empirical_D_examples.png Graphic file (type png)
  <use ../reanalyse_Buetti2019/empirical_D_examples.png>
 Package pdftex.def Info: ../reanalyse_Buetti2019/empirical_D_examples.png used 
-on input line 168.
+on input line 166.
 (pdftex.def)             Requested size: 338.0pt x 336.64742pt.
 
-Overfull \hbox (24.44785pt too wide) in paragraph at lines 167--169
+Overfull \hbox (24.44785pt too wide) in paragraph at lines 165--167
  [] 
  []
-
-
-LaTeX Warning: Reference `fig:reanalysisBuetti2019' on page 5 undefined on inpu
-t line 175.
 
 <../reanalyse_Buetti2019/Bayesian_fig4.png, id=28, 2409.0pt x 903.375pt>
 File: ../reanalyse_Buetti2019/Bayesian_fig4.png Graphic file (type png)
 
 <use ../reanalyse_Buetti2019/Bayesian_fig4.png>
 Package pdftex.def Info: ../reanalyse_Buetti2019/Bayesian_fig4.png used on inpu
-t line 179.
+t line 177.
 (pdftex.def)             Requested size: 338.0pt x 126.74731pt.
  (./app_vs.bbl [5] [6 <../reanalyse_Buetti2019/exp1_fits.png> <../reanalyse_Bue
 tti2019/empirical_D_examples.png>]) [7 <../reanalyse_Buetti2019/Bayesian_fig4.p
-ng>] (./app_vs.aux)
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
- ) 
+ng>] (./app_vs.aux) ) 
 Here is how much of TeX's memory you used:
  2815 strings out of 493014
- 37952 string characters out of 6133351
- 104364 words of memory out of 5000000
+ 37944 string characters out of 6133351
+ 104333 words of memory out of 5000000
  6296 multiletter control sequences out of 15000+600000
  36434 words of font info for 76 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,7n,24p,1244b,314s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
-exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
-xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
-live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texli
-ve/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texliv
-e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive
-/2016/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2016/texmf
--dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2016/texmf-dist/fonts
-/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw
-/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times/utm
-ri8a.pfb>
-Output written on app_vs.pdf (7 pages, 1229087 bytes).
+ 38i,7n,24p,1244b,316s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8
+r.enc}</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10
+.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.
+pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pf
+b></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
+></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+</usr/local/texlive/2016/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local
+/texlive/2016/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/20
+16/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-d
+ist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/
+type1/urw/times/utmri8a.pfb>
+Output written on app_vs.pdf (7 pages, 1242922 bytes).
 PDF statistics:
  76 PDF objects out of 1000 (max. 8388607)
  50 compressed objects within 1 object stream

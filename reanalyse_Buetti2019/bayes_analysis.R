@@ -50,7 +50,7 @@ d$e4c <- import_experiment(20, c(`blue diamond` = "1", `yellow circle` = "2", `o
 
 d <- bind_rows(d) %>% filter(rt > 0)
 
-fit_glmm_to_an_exp <- function(experiment, df) {
+fit_glmm_to_an_exp <- function(experiment, df, fam) {
 
   df %>%
     filter(exp_id == experiment) %>%
@@ -77,17 +77,25 @@ fit_glmm_to_an_exp <- function(experiment, df) {
     prior_string("normal(0, 0.05)", class = "b", coef = slopes),
     prior(student_t(3, 0, 2), class = "sd"))
 
-  m <- brm(
-    rt ~  0 + d_feature + log(N_T+1):d_feature + (log(N_T+1):d_feature|p_id),
-    data = df,
-    family = lognormal(link = "identity"),
-    prior = my_priors,
-    iter = 5000)
+  if (fam == "ln") {
+
+    m <- brm(
+      rt ~  0 + d_feature + log(N_T+1):d_feature + (log(N_T+1):d_feature|p_id),
+      data = df,
+      family = lognormal(link = "identity"),
+      prior = my_priors,
+      iter = 5000)
+  } else {
+     m <- brm(
+        rt ~  0 + d_feature + log(N_T+1):d_feature + (log(N_T+1):d_feature|p_id),
+        data = df,
+        iter = 5000)
+}
    
   return(m)
 }
 
-my_models <- map(unique(d$exp_id), fit_gxlmm_to_an_exp, d)
+my_models <- map(unique(d$exp_id), fit_glmm_to_an_exp, d, "n")
 
 plot_model_fits_ex <- function(df, experiment, m) {
 
@@ -150,9 +158,8 @@ exp_D <- map_df(1:length(my_models), extract_fixed_slopes_from_model, my_models,
   ggplot(exp_D, aes(x = D, fill = d_feature)) + 
   geom_density(alpha = 0.333) +
    facet_wrap(~ exp_id)
-     
-  
-
+ 
+ 
 calc_D_overall <- function(f, D)
 {
   f1 <- word(f, 1)

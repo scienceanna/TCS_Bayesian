@@ -74,7 +74,7 @@ calc_D_per_feature <- function(experiment, df) {
 exp_D <- map_dfr(unique(d$exp_id), calc_D_per_feature, d)
 # 2C, 3A, 4A numbers look slightly off 
 
-calc_D_overall <- function(f, D, D_model)
+predict_D_overall <- function(f, D, D_model)
 {
   f1 <- word(f, 1)
   f2 <- word(f, 2)
@@ -103,7 +103,7 @@ gen_exp_predictions <- function(e_id) {
   d_out <- tibble(
     exp_id = e_id,
     d_feature = levels(df$d_feature)[2:4], 
-    map_dfr(levels(df$d_feature)[2:4], calc_D_overall, D))
+    map_dfr(levels(df$d_feature)[2:4], predict_D_overall, D))
 
   return(d_out)
 }
