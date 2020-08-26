@@ -19,11 +19,12 @@ import_experiment <- function(sheet, d_labels, exp_number, exp_part) {
 	# code up p_id, t_id and distracter colour as a factor
 	mutate(
     	exp_id = paste(exp_number, exp_part, sep = ""),
-		p_id = as_factor(p_id),
-		d_feature = as_factor(d_feature),
-		d_feature = fct_recode(d_feature, !!!d_labels),
-		t_id = as_factor(t_id),
-		t_id = fct_recode(t_id, left = "0", right = "1")) %>%
+    	p_id = paste(exp_id, p_id, sep="-"),
+  		p_id = as_factor(p_id),
+  		d_feature = as_factor(d_feature),
+  		d_feature = fct_recode(d_feature, !!!d_labels),
+  		t_id = as_factor(t_id),
+  		t_id = fct_recode(t_id, left = "0", right = "1")) %>%
 	# remove error trials
 	filter(error == 0) -> d
 
