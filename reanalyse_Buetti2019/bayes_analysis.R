@@ -87,8 +87,7 @@ fit_glmm_to_an_exp <- function(experiment, df) {
   return(m)
 }
 
-my_models <- map(c("1a", "1b", "2a"), fit_glmm_to_an_exp, d)
-
+my_models <- map(unique(d$exp_id), fit_gxlmm_to_an_exp, d)
 
 plot_model_fits_ex <- function(df, experiment, m) {
 
@@ -116,11 +115,6 @@ plot_model_fits_ex <- function(df, experiment, m) {
     scale_y_log10("reaction time") -> plt
 
   ggsave("exp1_fits.png", plt, width = 8, height = 4)
-
-  # exp_D %>% group_by(d_feature) %>%
-  #  mean_hdi()  %>%
-  #  ggplot(aes(x = d_feature, y = D, ymin = .lower, ymax = .upper)) + geom_pointinterval() + 
-  #  coord_flip()
 
 }
 
@@ -151,13 +145,13 @@ extract_fixed_slopes_from_model <- function(exp_n, ms, df) {
 
 # s <- extract_fixed_slopes_from_model(1, my_models, d)
 
-exp_D <- map_df(1:3, extract_fixed_slopes_from_model, my_models, df = d)
+exp_D <- map_df(1:length(my_models), extract_fixed_slopes_from_model, my_models, df = d)
 
   ggplot(exp_D, aes(x = D, fill = d_feature)) + 
   geom_density(alpha = 0.333) +
    facet_wrap(~ exp_id)
      
-  extract_fixed_random_from_model <- function(m, df,experiment) {
+  
 
 calc_D_overall <- function(f, D)
 {
@@ -194,28 +188,27 @@ gen_exp_predictions <- function(e_id) {
     values_to = "D_pred",
     names_to = "method") %>%
   group_by(d_feature, method)%>%
-  mean_hdi(D_pred) 
+  mean_hdi(D_pred) %>%
+  mutate(exp_id = e_id) %>%
+  select(exp_id, d_feature, method, D_pred, .lower, .upper)
 
   return(d_out)
 }
 
 # Predict experiments
-pred_D <-  gen_exp_predictions("2a")
-
-
 pred_D <- map_df(c("2a", "2b", "2c", "4a", "4b", "4c"), gen_exp_predictions)
  
 # recreate fig 4 (top right)
-exp_D %>% group_by(d_feature) %>% 
+exp_D %>% group_by(exp_id, d_feature) %>% 
 mean_hdi(D) %>%
 rename(D_lower = ".lower", D_upper = ".upper") %>% 
-right_join(pred_D) %>%
+right_join(pred_D, by = c("exp_id", "d_feature")) %>%
 select(-.width, -.point, -.interval) -> d_D 
 
-ggplot(d_D, aes(x = D_pred,, y = D, )) + 
+ggplot(d_D, aes(x = D_pred,, y = D)) + 
 geom_abline(linetype = 2) + 
-  geom_linerange(aes(ymin = D_lower, ymax = D_upper)) + 
-  geom_linerange(aes( xmin = .lower, xmax = .upper)) + 
+  geom_linerange(aes(ymin = D_lower, ymax = D_upper), alpha = 0.5) + 
+  geom_linerange(aes( xmin = .lower, xmax = .upper), alpha = 0.5) + 
   facet_wrap(~method) + theme_bw() +
   coord_fixed()
   ggsave("Bayesian_fig4.png", width = 8, height = 3)
