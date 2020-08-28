@@ -4,7 +4,7 @@ library(readxl)
 import_experiment <- function(sheet, d_labels, exp_number, exp_part) {
 
 	read_excel(
-	"../previous_work/Buetti2019_data_code/OSF_originaldata.xlsx", 
+	"../previous_work/Buetti2019_data_code/OSF_originaldata_corrected.xlsx", 
 	sheet = sheet) %>%
 	# use tidier variable names
 	select(
@@ -73,7 +73,6 @@ calc_D_per_feature <- function(experiment, df) {
 }
 
 exp_D <- map_dfr(unique(d$exp_id), calc_D_per_feature, d)
-# 2C, 3A, 4A numbers look slightly off 
 
 predict_D_overall <- function(f, D, D_model)
 {
