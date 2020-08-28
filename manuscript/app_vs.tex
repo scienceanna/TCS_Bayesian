@@ -61,13 +61,13 @@ subject classification numbers as needed.
 \section{Introduction}
 \label{intro}
 
-\paragraph{intro}
-Visual search, where participants are asked to find a target within a cluttered scene, has been extensively studied within psychology. A number of models have been developed that can generate testable predictions about how different types of distractors and targets affect search efficiency, including Feature Integration Theory \cite{treisman1980feature} and Guided Search \cite{wolfe1989guided,wolfe2014approaches}. These models aim to produce a representation of the visual properties of the distractors at each location in the visual field. However, more recent work has suggested that representing the difference between targets and distractors may in fact be the goal of the visual system. For example, in work focusing on understanding eye movement patterns, it has been proposed that performance in inefficient (serial) visual search is mostly determined by the size of the 'functional viewing field', whose size varies as a function of target-distractor similarity \cite{hulleman2017brink}. One recent model, the Target Contrast Signal (TCS) Theory \cite{lleras2020target} aims to provide a unifying, quantitative framework that can make behavioural predictions based on this general assumption.
+\paragraph{Background:}
+Visual search, where participants are asked to find a target within a cluttered scene, has been extensively studied within psychology. A number of models have been developed that can generate testable predictions about how different types of distractors and targets affect search efficiency, including Feature Integration Theory \cite{treisman1980feature} and Guided Search \cite{wolfe1989guided,wolfe2014approaches}. These models aim to produce a representation of the visual properties of the distractors at each location in the visual field. However, more recent work has taken a different approach, focusing on representing the difference between targets and distractors. For example, in work on eye movement patterns, it has been proposed that performance in inefficient (serial) visual search is mostly determined by the size of the 'functional viewing field', whose size varies as a function of target-distractor similarity \cite{hulleman2017brink}. One recent model, the Target Contrast Signal (TCS) Theory \cite{lleras2020target} aims to provide a unifying, quantitative framework that can make behavioural predictions based on this general assumption.
 
-\paragraph{theoretical intro to TCS}
+\paragraph{Theoretical intro to TCS:}
 TCS proposes that behaviour is determined by comparing the target template (held in memory) with every element present in the scene in parallel. This allows the visual system to reject peripheral non-targets quickly; the speed at which items are evaluated is determined by how different the item is from the template through an evidence accumulation process (formally, the slope of the logarithmic function is assumed to be inversely proportional to the overall magnitude of the contrast signal between the target and distractor). The model thus focuses on an initial, efficient processing stage of search; if sufficient evidence is not accumulated during this process, the model posits that a second stage is entered, where attention is deployed serially. TCS has been successful in predicting a number of empirical results, including search performance in heterogeneous scenes based on parameters estimated in homogeneous scenes, both with artificial stimuli \cite{buetti2016towards,lleras2019predicting} and with real-world objects visualised on a computer display \cite{wang2017predicting}. 
 
-\paragraph{Modelling overview} I'm not quite sure how we divide between this paragraph, and the paras above and below, but about here is where we should have the equations! That means we can reused the notation later!
+\paragraph{Modelling overview:} I'm not quite sure how we divide between this paragraph, and the paras above and below, but about here is where we should have the equations! That means we can reuse the notation later!
 
 \begin{equation}
 RT = a + \beta\sum_{j=1}^L\left((D_j - D_{j-1})\log\left(\left(N_T - \sum_{i=1}^{j-1}N_i\right)1_{[2,\infty](j)}+1 \right)\right)
@@ -106,7 +106,7 @@ D_\text{overall} = (D_\text{colour})^2 + (D_\text{shape})^2
 \end{equation}
 
 
-We probably want the other two methods for calculating $D$, as testing that the CCImodel is hte best is an easy hypothesis to replication. 
+We probably want the other two methods for calculating $D$, as testing that the CCImodel is the best is an easy hypothesis to replication. 
 
 \paragraph{Details on results, $R^2$, etc, on what exact stimuli? } Include an example stimuli? Also mention the photograph experiments? 
 
@@ -129,17 +129,6 @@ We plan a number of experiments to test the extent to which the original results
 \item Larger number of distractors (or targets further in periphery?) Add an extra ring \\ 
 \item Search asymmetries: test O in Qs and Q in Os \\
 \end{enumerate}
-
-\section{Reanalysis of Buetti et al (2019)}
-
-In our proposed experiments, we would like to:
-\begin{itemize} 
-\item make use of multi-level models \\
-\item, and work within a Bayesian framework \\
-\item use a log-normal distribution to take skew in rt distribution into account \\
-\end{itemize}
-
-To start, we will re-analysis previous data to verify that this does not invalidate the original conclusions. And, how to phrase, something about these new results (on the old data) being the ones we want to replicate. 
 
 \subsection{Methods}
 
