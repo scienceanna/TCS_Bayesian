@@ -95,7 +95,7 @@ fit_glmm_to_an_exp <- function(experiment, df, fam) {
   return(m)
 }
 
-my_models <- map(unique(d$exp_id), fit_glmm_to_an_exp, d, "n")
+my_models <- map(unique(d$exp_id), fit_glmm_to_an_exp, d, "ln")
 
 plot_model_fits_ex <- function(df, experiment, m) {
 
@@ -217,17 +217,29 @@ geom_abline(linetype = 2) +
   geom_linerange(aes(ymin = D_lower, ymax = D_upper), alpha = 0.5) + 
   geom_linerange(aes( xmin = .lower, xmax = .upper), alpha = 0.5) + 
   facet_wrap(~method) + theme_bw() +
-  coord_fixed()
-  ggsave("Bayesian_fig4.png", width = 8, height = 3)
+  geom_smooth(method = lm, colour = "pink")
+ 
+ggsave("recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
 
-pred_D %>%
-  pivot_longer(
-    cols = c(`best feature`, `orthog. contrast`, collinear),
-    values_to = "D_pred",
-    names_to = "method") %>%
-  ggplot(aes(x = D_pred, y = D, colour = d_feature)) + geom_point() + geom_abline(linetype = 2) +
-  geom_smooth(method = "lm") + facet_wrap(~ method)
-ggsave("recreate_fig_4.pdf")
+my_models <- readRDS("Dnormal.model")
+# Predict experiments
+exp_D <- map_df(1:length(my_models), extract_fixed_slopes_from_model, my_models, df = d)
+pred_D <- map_df(c("2a", "2b", "2c", "4a", "4b", "4c"), gen_exp_predictions)
+ 
+# recreate fig 4 (top right)
+exp_D %>% group_by(exp_id, d_feature) %>% 
+mean_hdi(D) %>%
+rename(D_lower = ".lower", D_upper = ".upper") %>% 
+right_join(pred_D, by = c("exp_id", "d_feature")) %>%
+select(-.width, -.point, -.interval) -> d_D 
+
+ggplot(d_D, aes(x = D_pred,, y = D)) + 
+geom_abline(linetype = 2) + 
+  geom_linerange(aes(ymin = D_lower, ymax = D_upper), alpha = 0.5) + 
+  geom_linerange(aes( xmin = .lower, xmax = .upper), alpha = 0.5) + 
+  facet_wrap(~method) + theme_bw() +
+  geom_smooth(method = lm, colour = "pink")
+ ggsave("recreate_normal_fig_4.pdf", width = 8, height = 2.5)
 
 
 # Look at indiv differences
