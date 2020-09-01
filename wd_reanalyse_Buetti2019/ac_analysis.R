@@ -144,7 +144,7 @@ ggsave("recreate_fig_4.pdf")
 
 extract_a_value <- function(e_id) {
   
-d %>% filter(parse_number(exp_id) == parse_number(e_id), N_T == 0) %>% 
+d %>% filter(exp_id == e_id, N_T == 0) %>% 
 	group_by(exp_id, p_id) %>%
   	summarise(mean_rt = mean(rt), .groups = "drop") %>%
   	summarise(a = mean(mean_rt)) -> a
