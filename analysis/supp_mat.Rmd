@@ -377,8 +377,6 @@ plot_model_fits_ex <- function(df, experiment, m) {
     scale_fill_brewer(palette = "Greys") + 
     scale_colour_manual(values = c("orange1", "cornflowerblue", "yellow3")) +
     scale_y_log10("reaction time") 
-
-
 }
 
 ```
