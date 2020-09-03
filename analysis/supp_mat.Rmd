@@ -47,8 +47,10 @@ import_experiment <- function(sheet, d_labels, exp_number, exp_part) {
   		d_feature = fct_recode(d_feature, !!!d_labels),
   		t_id = as_factor(t_id),
   		t_id = fct_recode(t_id, left = "0", right = "1")) %>%
-	# remove error trials
-	filter(error == 0) -> d
+	# remove error trials and very very short responses
+	filter(error == 0, rt > 0.01) -> d
+  
+
 
 	return(d)
 }
@@ -399,7 +401,8 @@ plot_model_fits_ex(d, "1a", prior_model)
 ## Fit Model and Posterior Predictions
 
 ```{r, cache=TRUE}
- # my_models <- map(unique(d$exp_id), fit_glmm_to_an_exp, d)
+my_models <- map(unique(d$exp_id), fit_glmm_to_an_exp, d)
+plot_model_fits_ex(d, "1a", my_models)
 ```
 
   

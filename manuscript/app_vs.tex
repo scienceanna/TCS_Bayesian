@@ -29,8 +29,7 @@
 
 \titlerunning{Testing the TCS Theory}        % if too long for running head
 
-\author{Anna Hughes \and Alasdair D. F. Clarke
-}
+\author{Anna Hughes \and Alasdair D. F. Clarke}
 
 %\authorrunning{Short form of author list} % if too long for running head
 
@@ -105,7 +104,6 @@ Isn't this just the same as
 D_\text{overall} = (D_\text{colour})^2 + (D_\text{shape})^2
 \end{equation}
 
-
 We probably want the other two methods for calculating $D$, as testing that the CCImodel is the best is an easy hypothesis to replication. 
 
 \paragraph{Details on results, $R^2$, etc, on what exact stimuli? } Include an example stimuli? Also mention the photograph experiments? 
@@ -115,46 +113,52 @@ We probably want the other two methods for calculating $D$, as testing that the 
 \paragraph{Within subjects}
 Finally, in all implementations of TCS so far, predictions of search efficiency (e.g. in heterogeneous scenes) have been made on the average of a group of participants, using data from a different group performing a different task (e.g. searching in homogeneous scenes). Thus, we know that TCS can replicate group-level averages between subjects in search well, but we do not know whether it is also able to make predictions at the individual level. This is particularly important given that conclusions based on aggregate data can be different from those that take individual differences into account; in one study where participants searched for a target in an array of randomly oriented line segments, aggregating the data suggested that participants were using a stochastic search model. However, when considering each participant individually, it became clear that there was a high level of heterogeneity in responses, with some participants performing close to optimally, and others actually performing worse than chance \cite{nowakowska2017human}. Similarly striking variability has also been reported in other search studies \cite{irons2016choosing, irons2018characterizing}. 
 
+
+\begin{figure}
+\centering
+\caption{Inset a figure showing the individual differences in \cite{buetti2019predicting}'s data. I guess in experiment 2 and 4. Mean RT for each person? Histogram?}
+\label{fig:buetti2019_a1}
+\end{figure}
+
 \paragraph{Improving modelling} Bayes, generalized linear models to avoid predicting negative reaction times. Multi-level to predict within subjects, etc. 
 
 \paragraph{Conclusion to introduction} 
 In the current manuscript, we focus on replicating and extending findings from \cite{buetti2019predicting}. Here, participants searched for a target in a scene of homogeneous distractors. First, parallel search efficiency (measured by the logarithmic search slope) was estimated for cases where the distractors varied from the target in one dimension: either colour (e.g. a cyan target being searched for in either yellow, blue or orange distractors) or shape (e.g. a semicircle target in either circle, diamond or triangle distractors). New participants then searched for the same targets in displays where the distractors were compounds, differing from the target in both colour and shape (e.g. searching for a cyan semicircle in either blue circles, orange diamonds or yellow triangles). The logarithmic search slopes in the initial experiments were then used to predict the logarithmic slopes and reaction times using a number of models. The authors found that the best model was a 'collinear contrast integration model' where the distinctiveness scores were summed along each attribute in the unidimensional experiments, creating an overall contrast score that was used for compound stimuli predictions.
 
-\subsection{Hypotheses}
+\section{A multi-level Bayesian reanalysis}
+\label{sec:reanalysis}
 
-We plan a number of experiments to test the extent to which the original results in \cite{buetti2019predicting} replicate and generalise. As well as following the original, between-subjects, experiment design, in which data from one group of observers in one task is used to predict behaviour of a second group of participants in a different task, we will allow for within-subject comparisons. Specifically, we will ask: to what extent do the individual differences in the homogeneous task explain the differences in the heterogeneous task? 
+Some of the weaknesses of the Target Contrast Signal Theory are i) it doesn't account for individual differences, only the changes to the sample average;  ii) it does not account for the distribution of reaction times over multiple trials. Switching from a simple linear regression model to a multi-level model will allow us to compute $D$ for each participant, and estiamte the trial-to-trial variance. By also switching from a frequentist to Bayesian framework, we can also account for the uncertainty in the model's predictions. 
 
-\begin{enumerate}
-\item \textbf{Replication of Buetti et al (2019) with online data collection.} Specifically, that the \textit{collinear contrast ingratiation model} outperforms the \textit{best feature guidance}, and \textit{orthogonal contrast combination models}.  Furthermore, the $R^2 = $ ($99\%$ HPDI = $[, ]$) between predicted and observer reaction times.\\
-\item Larger number of distractors (or targets further in periphery?) Add an extra ring \\ 
-\item Search asymmetries: test O in Qs and Q in Os \\
-\end{enumerate}
+A direct computational replication in which we recreate the original analysis, please see \textit{Supplementary Materials} (Section 2?). I.e., sanity check that we are correctly importing their data and can implement the original version of TCS.
 
 \subsection{Methods}
 
 \subsubsection{Data}
 
-Data taken from OSF... using the exclusion criteria originally used. What about incorrect trials etc? 
+Data taken from OSF\footnote{downloaded in date... version number?}... using the exclusion criteria originally used. What about incorrect trials etc? 
 
 Do we want to re-do any of the other papers while we're at it?
 
-There is an rt = 0, which I will remove. 
+There is an rt = 0, which I will remove. Just now I am removing all times <10ms. 
+
+ We will also model reaction times on the seconds scale, rather than milliseconds. While this is a fairly trivial change, it makes numerical model fitting slightly easier. 
 
 \subsubsection{Modelling Approach}
 
 R, brms, details.
 
-We will compute the $D$ values using a multi-level Bayesian model using a log-normal distribution. In order to keep our model in line with the Target Contrast Signal Theory, we will use the identity link rather than the default log link. We will also model reaction times on the seconds scale, rather than milliseconds. While this is a fairly trivial change, it makes numerical model fitting slightly easier. 
+We will compute the $D$ values using a multi-level Bayesian model using a log-normal distribution. In order to keep our model in line with the Target Contrast Signal Theory, we will fit the model twice, once using a log link\footnote{our preference}, and once using the identity link\footnote{makes this new version of the model more comparable to the original}.
 
 \begin{equation}
-\hat{y} = a + Dlog(N_T + 1)
+\hat{y} = a + D\log(N_T + 1)
 \label{eq:computeDlm}
 \end{equation}
 
 \begin{verbatim}
 m <- brm(
     rt ~  0 + d_feature + log(N_T+1):d_feature + 
-    	(log(N_T+1):d_feature|p_id),
+      (log(N_T+1):d_feature|p_id),
     data = df,
     family = lognormal(link = "identity"),
     prior = my_priors,
@@ -169,9 +173,8 @@ Allows us to fit each individual's performance.
 
 \begin{figure}
 \centering
-\subfigure{\includegraphics[width=\textwidth]{../reanalyse_Buetti2019/exp1_fits.png}}
-\subfigure{\includegraphics[width=\textwidth/0.4]{../reanalyse_Buetti2019/empirical_D_examples.png}}
-\caption{Example results from the first five participants of Experiment 1a \cite{buetti2019predicting}. We can see considerable between-subjects variation. The shaded regions show the model's predicited reaction times.}
+\subfigure{\includegraphics[width=\textwidth/0.4]{../wd_reanalyse_Buetti2019/empirical_D_examples.png}}
+\caption{The shaded regions show the model's predicited reaction times.}
 \label{fig:buetti2019_a1}
 \end{figure}
 
@@ -181,21 +184,41 @@ As we are using a Bayesian framework, rather than $D$ representing the best fit 
 
 \begin{figure}
 \centering
-\subfigure{\includegraphics[width=\textwidth]{../reanalyse_Buetti2019/recreate_normal_fig_4.pdf}}
-\subfigure{\includegraphics[width=\textwidth]{../reanalyse_Buetti2019/recreate_log_normal_fig_4.pdf}}
+\subfigure{\includegraphics[width=\textwidth]{../wd_reanalyse_Buetti2019/recreate_normal_fig_4.pdf}}
+\subfigure{\includegraphics[width=\textwidth]{../wd_reanalyse_Buetti2019/recreate_log_normal_fig_4.pdf}}
 \caption{Correlation between empirical $D$ and the predicted $D$ using \textit{(top)} normal and (\textit{bottom}) log-normal distributions.}
 \label{fig:buetti2019_D}
 \end{figure}
 
-
-
 \subsubsection{Individual Differences}
 
+While we can't generate within-participant reaction time predictions from the original data, we can present data on the uncertainty around the individual differences in $D$ for each condition. 
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{../wd_reanalyse_Buetti2019/exp1_fits.png}
+\caption{Example results from the first five participants of Experiment 1a \cite{buetti2019predicting}. We can see considerable between-subjects variation. }
+\label{fig:buetti2019_a1}
+\end{figure}
+
+\subsubsection{Power Analysis}
+\label{sec:power}
+
+To estimate the required sample size for future experiments, we repeatedly reran the above analysis on smaller subsets of the data from \cite{buetti2019predicting}. (Full details are given in the \textit{Supplementary Materials}.) Based on this, we found that $n = $ per observer and condition was enough to reliably estimate $D$. 
 
 \subsection{Discussion}
 
 It looks like, while we replicate the good predicitons using the colllinear method, we do not find this that this is the best method, and instead, we find the orthogonal contrast method is slightly better. 
 
+\section{Hypotheses}
+
+We plan a number of experiments to test the extent to which the original results in \cite{buetti2019predicting} replicate and generalise. As well as following the original, between-subjects, experiment design, in which data from one group of observers in one task is used to predict behaviour of a second group of participants in a different task, we will allow for within-subject comparisons. Specifically, we will ask: to what extent do the individual differences in the homogeneous task explain the differences in the heterogeneous task? 
+
+\begin{enumerate}
+\item \textbf{Replication of Buetti et al (2019) with online data collection.} Specifically, that the \textit{collinear contrast ingratiation model} outperforms the \textit{best feature guidance}, and \textit{orthogonal contrast combination models}.  Furthermore, the $R^2 = $ ($99\%$ HPDI = $[, ]$) between predicted and observer reaction times.\\
+\item Larger number of distractors (or targets further in periphery?) Add an extra ring \\ 
+\item Search asymmetries: test O in Qs and Q in Os \\
+\end{enumerate}
 
 \section{Experiment 1}
 
@@ -205,25 +228,63 @@ H0: confirm collinear method is best (compared to orthogonal contrast combinatio
 
 \subsection{Methods}
 
+\subsubsection{Participants}
+
+Based on the power analysis \ref{sec:power}, we will recruit \ldots
+
+\subsubsection{Stimuli}
+
+\subsubsection{Procedure}
+
+\subsubsection{Data Pre-processing}
+
+incorrect trials? Poorly behaved participants? RTs that are far too short? Or far too long?
+
+\subsubsection{Analysis Plan}
+
+We will follow the analysis given in Section \ref{sec:reanalysis}.
+
 \subsection{Results}
+\begin{center}
+\textit{-- blank --}
+\end{center}
 
 \subsection{Discussion}
+\begin{center}
+\textit{-- blank --}
+\end{center}
 
+\section{Experiment 2}
 
+\subsection{Methods}
+
+Same as Experiment 1? Perhaps we should have a \textit{General Methods} section for both experiments?
+
+\subsection{Results}
+\begin{center}
+\textit{-- blank --}
+\end{center}
+
+\subsection{Discussion}
+\begin{center}
+\textit{-- blank --}
+\end{center}
+
+\section{General Discussion}
+\begin{center}
+\textit{-- blank --}
+\end{center}
 
 \begin{acknowledgements}
 Thank you to AL for help and encouragement! 
 \end{acknowledgements}
 
-
 % Authors must disclose all relationships or interests that 
 % could have direct or potential influence or impart bias on 
 % the work: 
 %
-% \section*{Conflict of interest}
-%
-% The authors declare that they have no conflict of interest.
-
+\section*{Conflict of interest}
+The authors declare that they have no conflict of interest.
 
 % BibTeX users please use one of
 \bibliographystyle{plain}      % basic style, author-year citations

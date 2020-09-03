@@ -1,13 +1,10 @@
-
 *.log
 *.fdb_latexmk
 *.gz
-*.log
 *.fls
 *.aux
-*.log
-*.gz
 *.model
-*.gz
 *.rda
 analysis/.Rhistory
+analysis/supp_mat_cache
+analysis/supp_mat_files

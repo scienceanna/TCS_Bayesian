@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.12.5)  28 AUG 2020 09:29
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.12.5)  3 SEP 2020 11:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -227,7 +227,14 @@ Package: subfigure 2002/03/15 v2.1.5 subfigure package
 \subfig@top=\skip50
 \subfig@bottom=\skip51
 )
-(./app_vs.aux)
+(./app_vs.aux
+
+LaTeX Warning: Label `fig:buetti2019_a1' multiply defined.
+
+
+LaTeX Warning: Label `fig:buetti2019_a1' multiply defined.
+
+)
 \openout1 = `app_vs.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
@@ -310,146 +317,142 @@ e
 ))
 SVJour3 warning: Missing \journalname
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 51.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <13> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 51.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 51.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
 
-Package mathptmx Warning: There are no bold math fonts on input line 51.
+Package mathptmx Warning: There are no bold math fonts on input line 50.
 
-LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 51
+LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 50
 .
 (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/ot1ztmcm.fd
 File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 51
+LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 50
 .
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/omlztmcm.fd
 File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 51
+LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 50
 .
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/omsztmcm.fd
 File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 51
+LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 50
 .
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/omxztmcm.fd
 File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 51.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 51.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 51.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 51.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
  [1{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \hbox (0.73567pt too wide) in paragraph at lines 113--114
+Overfull \hbox (0.73567pt too wide) in paragraph at lines 111--112
  \OT1/ptm/m/it/10 Lim-i-ta-tions, and ex-tend-ing ba-sic stim-uli [] \OT1/ptm/m
 /n/10 While re-sults to date for TCS ap-pear promis-
  []
 
 [2] [3]
-Underfull \hbox (badness 10000) in paragraph at lines 128--129
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 129--130
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 130--131
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 137--138
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 138--139
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 139--140
-
- []
-
-[4] <../reanalyse_Buetti2019/exp1_fits.png, id=24, 3011.25pt x 1204.5pt>
-File: ../reanalyse_Buetti2019/exp1_fits.png Graphic file (type png)
-
-<use ../reanalyse_Buetti2019/exp1_fits.png>
-Package pdftex.def Info: ../reanalyse_Buetti2019/exp1_fits.png used on input li
-ne 183.
-(pdftex.def)             Requested size: 338.0pt x 135.19714pt.
-
-<../reanalyse_Buetti2019/empirical_D_examples.png, id=26, 754.82pt x 751.80875p
-t>
-File: ../reanalyse_Buetti2019/empirical_D_examples.png Graphic file (type png)
- <use ../reanalyse_Buetti2019/empirical_D_examples.png>
-Package pdftex.def Info: ../reanalyse_Buetti2019/empirical_D_examples.png used 
-on input line 184.
+<../wd_reanalyse_Buetti2019/empirical_D_examples.png, id=21, 754.82pt x 751.808
+75pt>
+File: ../wd_reanalyse_Buetti2019/empirical_D_examples.png Graphic file (type pn
+g)
+ <use ../wd_reanalyse_Buetti2019/empirical_D_examples.png>
+Package pdftex.def Info: ../wd_reanalyse_Buetti2019/empirical_D_examples.png us
+ed on input line 176.
 (pdftex.def)             Requested size: 338.0pt x 336.64742pt.
 
-Overfull \hbox (24.44785pt too wide) in paragraph at lines 183--185
- [] 
+Overfull \hbox (24.44785pt too wide) in paragraph at lines 176--177
+ [][] 
+ []
+
+[4]
+<../wd_reanalyse_Buetti2019/recreate_normal_fig_4.pdf, id=27, 578.16pt x 180.67
+5pt>
+File: ../wd_reanalyse_Buetti2019/recreate_normal_fig_4.pdf Graphic file (type p
+df)
+ <use ../wd_reanalyse_Buetti2019/recreate_normal_fig_4.pdf>
+Package pdftex.def Info: ../wd_reanalyse_Buetti2019/recreate_normal_fig_4.pdf u
+sed on input line 187.
+(pdftex.def)             Requested size: 338.0pt x 105.62413pt.
+
+<../wd_reanalyse_Buetti2019/recreate_log_normal_fig_4.pdf, id=28, 578.16pt x 18
+0.675pt>
+File: ../wd_reanalyse_Buetti2019/recreate_log_normal_fig_4.pdf Graphic file (ty
+pe pdf)
+ <use ../wd_reanalyse_Buetti2019/recreate_log_normal_fig_4.pdf>
+Package pdftex.def Info: ../wd_reanalyse_Buetti2019/recreate_log_normal_fig_4.p
+df used on input line 188.
+(pdftex.def)             Requested size: 338.0pt x 105.62413pt.
+
+<../wd_reanalyse_Buetti2019/exp1_fits.png, id=29, 3011.25pt x 1204.5pt>
+File: ../wd_reanalyse_Buetti2019/exp1_fits.png Graphic file (type png)
+
+<use ../wd_reanalyse_Buetti2019/exp1_fits.png>
+Package pdftex.def Info: ../wd_reanalyse_Buetti2019/exp1_fits.png used on input
+ line 199.
+(pdftex.def)             Requested size: 338.0pt x 135.19714pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [5 <../wd_reanalyse_Buetti2019/empirical_D_examples.png>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [6 <../wd_reanalyse_Buetti2019/recreate_normal_fig_4.pdf> <../wd_reanalyse_Bue
+tti2019/recreate_log_normal_fig_4.pdf> <../wd_reanalyse_Buetti2019/exp1_fits.pn
+g>]
+Underfull \hbox (badness 10000) in paragraph at lines 218--219
+
  []
 
 
-<../reanalyse_Buetti2019/recreate_normal_fig_4.pdf, id=27, 578.16pt x 180.675pt
->
-File: ../reanalyse_Buetti2019/recreate_normal_fig_4.pdf Graphic file (type pdf)
+Underfull \hbox (badness 10000) in paragraph at lines 219--220
 
- <use ../reanalyse_Buetti2019/recreate_normal_fig_4.pdf>
-Package pdftex.def Info: ../reanalyse_Buetti2019/recreate_normal_fig_4.pdf used
- on input line 195.
-(pdftex.def)             Requested size: 338.0pt x 105.62413pt.
+ []
 
-<../reanalyse_Buetti2019/recreate_log_normal_fig_4.pdf, id=28, 578.16pt x 180.6
-75pt>
-File: ../reanalyse_Buetti2019/recreate_log_normal_fig_4.pdf Graphic file (type 
-pdf)
- <use ../reanalyse_Buetti2019/recreate_log_normal_fig_4.pdf>
-Package pdftex.def Info: ../reanalyse_Buetti2019/recreate_log_normal_fig_4.pdf 
-used on input line 196.
-(pdftex.def)             Requested size: 338.0pt x 105.62413pt.
- [5] [6 <../reanalyse_Buetti2019/exp1_fits.png> <../reanalyse_Buetti2019/empiri
-cal_D_examples.png>] (./app_vs.bbl [7 <../reanalyse_Buetti2019/recreate_normal_
-fig_4.pdf> <../reanalyse_Buetti2019/recreate_log_normal_fig_4.pdf>]) [8] (./app
-_vs.aux) ) 
+
+Underfull \hbox (badness 10000) in paragraph at lines 220--221
+
+ []
+
+[7] (./app_vs.bbl [8]) [9] (./app_vs.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 2823 strings out of 493014
- 38259 string characters out of 6133351
- 104333 words of memory out of 5000000
- 6300 multiletter control sequences out of 15000+600000
+ 2826 strings out of 493014
+ 38353 string characters out of 6133351
+ 104394 words of memory out of 5000000
+ 6303 multiletter control sequences out of 15000+600000
  38142 words of font info for 79 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,8n,24p,1244b,310s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr
-/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/
-local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/l
-ocal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/loc
-al/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loca
-l/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local
-/texlive/2016/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/20
-16/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2016/texmf-di
-st/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/t
-ype1/urw/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/t
-imes/utmri8a.pfb>
-Output written on app_vs.pdf (8 pages, 1177106 bytes).
+ 38i,8n,24p,1244b,266s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
+exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
+xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
+live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texli
+ve/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texliv
+e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive
+/2016/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2016/texmf
+-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2016/texmf-dist/fonts
+/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw
+/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times/utm
+ri8a.pfb>
+Output written on app_vs.pdf (9 pages, 1180471 bytes).
 PDF statistics:
- 97 PDF objects out of 1000 (max. 8388607)
- 68 compressed objects within 1 object stream
+ 100 PDF objects out of 1000 (max. 8388607)
+ 70 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 
