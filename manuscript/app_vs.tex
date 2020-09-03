@@ -60,20 +60,41 @@ subject classification numbers as needed.
 \section{Introduction}
 \label{intro}
 
-\paragraph{Background:}
+\paragraph{Background}
 Visual search, where participants are asked to find a target within a cluttered scene, has been extensively studied within psychology. A number of models have been developed that can generate testable predictions about how different types of distractors and targets affect search efficiency, including Feature Integration Theory \cite{treisman1980feature} and Guided Search \cite{wolfe1989guided,wolfe2014approaches}. These models aim to produce a representation of the visual properties of the distractors at each location in the visual field. However, more recent work has taken a different approach, focusing on representing the difference between targets and distractors. For example, in work on eye movement patterns, it has been proposed that performance in inefficient (serial) visual search is mostly determined by the size of the 'functional viewing field', whose size varies as a function of target-distractor similarity \cite{hulleman2017brink}. One recent model, the Target Contrast Signal (TCS) Theory \cite{lleras2020target} aims to provide a unifying, quantitative framework that can make behavioural predictions based on this general assumption.
 
-\paragraph{Theoretical intro to TCS:}
+\paragraph{Theoretical intro to TCS}
 TCS proposes that behaviour is determined by comparing the target template (held in memory) with every element present in the scene in parallel. This allows the visual system to reject peripheral non-targets quickly; the speed at which items are evaluated is determined by how different the item is from the template through an evidence accumulation process (formally, the slope of the logarithmic function is assumed to be inversely proportional to the overall magnitude of the contrast signal between the target and distractor). The model thus focuses on an initial, efficient processing stage of search; if sufficient evidence is not accumulated during this process, the model posits that a second stage is entered, where attention is deployed serially. TCS has been successful in predicting a number of empirical results, including search performance in heterogeneous scenes based on parameters estimated in homogeneous scenes, both with artificial stimuli \cite{buetti2016towards,lleras2019predicting} and with real-world objects visualised on a computer display \cite{wang2017predicting}. 
+ 
+\paragraph{Limitations, and extending basic stimuli} While results to date for TCS appear promising, they remain relatively preliminary, being tested by only one research group so far. There remains a great deal of scope for extending beyond the parameters tested to date (such as the number of distractors) in order to test the robustness and generalisability of the model. In addition, there are some predictions of the model, including its ability to explain search asymmetries, that have yet to be empirically confirmed \cite{lleras2020target}.
 
-\paragraph{Modelling overview:} I'm not quite sure how we divide between this paragraph, and the paras above and below, but about here is where we should have the equations! That means we can reuse the notation later!
+\paragraph{Within subjects}
+Finally, in all implementations of TCS so far, predictions of search efficiency (e.g. in heterogeneous scenes) have been made on the average of a group of participants, using data from a different group performing a different task (e.g. searching in homogeneous scenes). Thus, we know that TCS can replicate group-level averages between subjects in search well, but we do not know whether it is also able to make predictions at the individual level. This is particularly important given that conclusions based on aggregate data can be different from those that take individual differences into account; in one study where participants searched for a target in an array of randomly oriented line segments, aggregating the data suggested that participants were using a stochastic search model. However, when considering each participant individually, it became clear that there was a high level of heterogeneity in responses, with some participants performing close to optimally, and others actually performing worse than chance \cite{nowakowska2017human}. Similarly striking variability has also been reported in other search studies \cite{irons2016choosing, irons2018characterizing}. 
+
+\paragraph{Conclusion to introduction} 
+In the current manuscript, we focus on replicating and extending findings from \cite{buetti2019predicting}. Here, participants searched for a target in a scene of homogeneous distractors. First, parallel search efficiency (measured by the logarithmic search slope) was estimated for cases where the distractors varied from the target in one dimension: either colour (e.g. a cyan target being searched for in either yellow, blue or orange distractors) or shape (e.g. a semicircle target in either circle, diamond or triangle distractors). New participants then searched for the same targets in displays where the distractors were compounds, differing from the target in both colour and shape (e.g. searching for a cyan semicircle in either blue circles, orange diamonds or yellow triangles). The logarithmic search slopes in the initial experiments were then used to predict the logarithmic slopes and reaction times using a number of models. The authors found that the best model was a 'collinear contrast integration model' where the distinctiveness scores were summed along each attribute in the unidimensional experiments, creating an overall contrast score that was used for compound stimuli predictions.
+
+\paragraph{Overview of the current study}
+We first run a replication of \cite{buetti2019predicting}, in an online, within-subjects study. This design allows us to extend the modelling, both incorporating a multi-level design to predict within-subjects effects and by utilising a Bayesian generalised linear model framework to better represent the distribution of responses (e.g. avoiding predicting negative reaction times, accounting for uncertainty in model predictions). We will also carry out a direct analytical replication using the same methods as in \cite{buetti2019predicting} allowing us to ask whether the choice of analysis affects the results.
+
+
+\section{A multi-level Bayesian reanalysis}
+\label{sec:reanalysis}
+
+Some of the weaknesses of the Target Contrast Signal Theory are i) it doesn't account for individual differences, only the changes to the sample average;  ii) it does not account for the distribution of reaction times over multiple trials. Switching from a simple linear regression model to a multi-level model will allow us to compute $D$ for each participant, and estimate the trial-to-trial variance. By also switching from a frequentist to Bayesian framework, we can also account for the uncertainty in the model's predictions. 
+
+For a direct computational replication in which we recreate the original analysis, please see \textit{Supplementary Materials} (Section 2?) I.e. sanity check that we are correctly importing their data and can implement the original version of TCS.
+
+\subsection{Methods}
+
+\paragraph{Modelling overview:} According to TCS, \ref{eq:buetti2019} allows us to predict mean reaction times:
 
 \begin{equation}
 RT = a + \beta\sum_{j=1}^L\left((D_j - D_{j-1})\log\left(\left(N_T - \sum_{i=1}^{j-1}N_i\right)1_{[2,\infty](j)}+1 \right)\right)
 \label{eq:buetti2019}
 \end{equation}
 
-When $L=1$ (all lures are identical) this simplifies to:
+Where $L$ is the number of distractor types present in the display, $N_T$ is the total number of distractors, $N_i$ is the number of distractors of type $i$ and $D_j$ is the logarithmic slope parameters associated with distractors of type $j$ (from smallest $D_1$ to largest $D_L$. The constant $a$ represents the reaction time when no distractors are present and $\beta$ represents inter-item interactions. When $L=1$ (all lures are identical), as in the current experiment, the equation simplifies to:
 
 \begin{equation}
 RT = a + D_1\log(N_T+1)
@@ -105,34 +126,6 @@ D_\text{overall} = (D_\text{colour})^2 + (D_\text{shape})^2
 \end{equation}
 
 We probably want the other two methods for calculating $D$, as testing that the CCImodel is the best is an easy hypothesis to replication. 
-
-\paragraph{Details on results, $R^2$, etc, on what exact stimuli? } Include an example stimuli? Also mention the photograph experiments? 
-
-\paragraph{Limitations, and extending basic stimuli} While results to date for TCS appear promising, they remain relatively preliminary, being tested by only one research group so far. There remains a great deal of scope for extending beyond the parameters tested to date (such as the number of distractors) in order to test the robustness and generalisability of the model. In addition, there are some predictions of the model, including its ability to explain search asymmetries, that have yet to be empirically confirmed \cite{lleras2020target}.
-
-\paragraph{Within subjects}
-Finally, in all implementations of TCS so far, predictions of search efficiency (e.g. in heterogeneous scenes) have been made on the average of a group of participants, using data from a different group performing a different task (e.g. searching in homogeneous scenes). Thus, we know that TCS can replicate group-level averages between subjects in search well, but we do not know whether it is also able to make predictions at the individual level. This is particularly important given that conclusions based on aggregate data can be different from those that take individual differences into account; in one study where participants searched for a target in an array of randomly oriented line segments, aggregating the data suggested that participants were using a stochastic search model. However, when considering each participant individually, it became clear that there was a high level of heterogeneity in responses, with some participants performing close to optimally, and others actually performing worse than chance \cite{nowakowska2017human}. Similarly striking variability has also been reported in other search studies \cite{irons2016choosing, irons2018characterizing}. 
-
-
-\begin{figure}
-\centering
-\caption{Inset a figure showing the individual differences in \cite{buetti2019predicting}'s data. I guess in experiment 2 and 4. Mean RT for each person? Histogram?}
-\label{fig:buetti2019_a1}
-\end{figure}
-
-\paragraph{Improving modelling} Bayes, generalized linear models to avoid predicting negative reaction times. Multi-level to predict within subjects, etc. 
-
-\paragraph{Conclusion to introduction} 
-In the current manuscript, we focus on replicating and extending findings from \cite{buetti2019predicting}. Here, participants searched for a target in a scene of homogeneous distractors. First, parallel search efficiency (measured by the logarithmic search slope) was estimated for cases where the distractors varied from the target in one dimension: either colour (e.g. a cyan target being searched for in either yellow, blue or orange distractors) or shape (e.g. a semicircle target in either circle, diamond or triangle distractors). New participants then searched for the same targets in displays where the distractors were compounds, differing from the target in both colour and shape (e.g. searching for a cyan semicircle in either blue circles, orange diamonds or yellow triangles). The logarithmic search slopes in the initial experiments were then used to predict the logarithmic slopes and reaction times using a number of models. The authors found that the best model was a 'collinear contrast integration model' where the distinctiveness scores were summed along each attribute in the unidimensional experiments, creating an overall contrast score that was used for compound stimuli predictions.
-
-\section{A multi-level Bayesian reanalysis}
-\label{sec:reanalysis}
-
-Some of the weaknesses of the Target Contrast Signal Theory are i) it doesn't account for individual differences, only the changes to the sample average;  ii) it does not account for the distribution of reaction times over multiple trials. Switching from a simple linear regression model to a multi-level model will allow us to compute $D$ for each participant, and estiamte the trial-to-trial variance. By also switching from a frequentist to Bayesian framework, we can also account for the uncertainty in the model's predictions. 
-
-A direct computational replication in which we recreate the original analysis, please see \textit{Supplementary Materials} (Section 2?). I.e., sanity check that we are correctly importing their data and can implement the original version of TCS.
-
-\subsection{Methods}
 
 \subsubsection{Data}
 
