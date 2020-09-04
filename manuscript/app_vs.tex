@@ -63,6 +63,8 @@ subject classification numbers as needed.
 \paragraph{Background}
 Visual search, where participants are asked to find a target within a cluttered scene, has been extensively studied within psychology. A number of models have been developed that can generate testable predictions about how different types of distractors and targets affect search efficiency, including Feature Integration Theory \cite{treisman1980feature} and Guided Search \cite{wolfe1989guided,wolfe2014approaches}. These models aim to produce a representation of the visual properties of the distractors at each location in the visual field. However, more recent work has taken a different approach, focusing on representing the difference between targets and distractors. For example, in work on eye movement patterns, it has been proposed that performance in inefficient (serial) visual search is mostly determined by the size of the 'functional viewing field', whose size varies as a function of target-distractor similarity \cite{hulleman2017brink}. One recent model, the Target Contrast Signal (TCS) Theory \cite{lleras2020target} aims to provide a unifying, quantitative framework that can make behavioural predictions based on this general assumption.
 
+\paragraph{Models of Visual Search} Not GSM, FIT etc, but thing which make quantitative predictions.
+
 \paragraph{Theoretical intro to TCS}
 TCS proposes that behaviour is determined by comparing the target template (held in memory) with every element present in the scene in parallel. This allows the visual system to reject peripheral non-targets quickly; the speed at which items are evaluated is determined by how different the item is from the template through an evidence accumulation process (formally, the slope of the logarithmic function is assumed to be inversely proportional to the overall magnitude of the contrast signal between the target and distractor). The model thus focuses on an initial, efficient processing stage of search; if sufficient evidence is not accumulated during this process, the model posits that a second stage is entered, where attention is deployed serially. TCS has been successful in predicting a number of empirical results, including search performance in heterogeneous scenes based on parameters estimated in homogeneous scenes, both with artificial stimuli \cite{buetti2016towards,lleras2019predicting} and with real-world objects visualised on a computer display \cite{wang2017predicting}. 
  
@@ -89,9 +91,7 @@ We first run a replication of \cite{buetti2019predicting}, in an online, within-
 
 Some of the weaknesses of the Target Contrast Signal Theory are i) it doesn't account for individual differences, only the changes to the sample average;  ii) it does not account for the distribution of reaction times over multiple trials. Switching from a simple linear regression model to a multi-level model will allow us to compute $D$ for each participant, and estimate the trial-to-trial variance. By also switching from a frequentist to Bayesian framework, we can also account for the uncertainty in the model's predictions. We first describe the original analysis methods, and then our modifications. 
 
-\subsection{Methods}
-
-\subsubsection{TCS modelling overview:} 
+\subsection{TCS modelling overview} 
 
 According to TCS, Equation \ref{eq:buetti2019} allows us to predict mean reaction times:
 
@@ -105,6 +105,8 @@ Where $L$ is the number of distractor types present in the display, $N_T$ is the
 \begin{equation}
 RT = a + D_1\log(N_T+1)
 \end{equation}
+
+\subsubsection{Estimating $D$}
 
 \cite{buetti2019predicting} tested three different models for predicting $D$ for compound colour-shape stimuli. The best feature guidance model (Equation \ref{eq:bestfeature}) suggests that when the target and lures differ in two dimensions, participants will choose to attend to whichever feature dimension is the most discriminable (i.e. has the smallest $D$ value):
 
@@ -138,9 +140,16 @@ Finally, the collinear contrast integration model also assumes independence of f
 
 We verified we were able to replicate the results of \cite{buetti2019predicting} using the dataset available on OSF (https://osf.io/f3m24/)\footnote{downloaded on 28th August 2020} and using the exclusion criteria originally applied; see \textit{Supplementary Materials} for details.
 
-\subsubsection{Our re-analysis approach}
+\subsubsection{Discussion}
 
-What about incorrect trials etc? 
+We did it! 
+
+But \ldots 
+
+insert  a figure showing trial data points plotted around the model's point prediction to justfify switch to multi-levels and log normal. 
+
+
+\subsection{Our Re-analysis}
 
 First, we computed the $D$ values using a multi-level Bayesian model using a log-normal distribution (using R, brms etc. - see Equation \ref{eq:computeDlm}). Using this method allows us to fit each individual's performance. This is important because it is clear there are between-subjects differences that are not captured in the original model (see Figure \ref{fig:buetti2019_hist}). 
 
@@ -150,7 +159,6 @@ First, we computed the $D$ values using a multi-level Bayesian model using a log
 \caption{Histograms of median RTs from Expt 3A in \cite{buetti2019predicting}). There are clearly between-subjects differences, as well as differences in distributions for the different conditions.}
 \label{fig:buetti2019_hist}
 \end{figure}
-
 
 We fit the model twice, once using a log link\footnote{our preference, as this avoids predicting negative reaction times and helps to account for skew in the distribution}, and once using the identity link\footnote{makes this new version of the model more comparable to the original}. Other minor changes include modelling reaction times on the seconds scale, rather than milliseconds (making numerical model fitting easier) and removing all RTs less than 10ms.
 
@@ -179,7 +187,7 @@ m <- brm(
 \label{fig:buetti2019_a1}
 \end{figure}
 
-\subsubsection{Fixed Effects}
+\subsubsection{Measuring $D$}
 
 As we are using a Bayesian framework, rather than $D$ representing the best fit in equation \ref{eq:computeDlm}, it is now represented as a probability distribution over possible values (see Figure \ref{fig:buetti2019_a1}). We can can then estimate $D$ in the compound feature distractor cases using the three methods detailed above and compare the predicted values to the empirical values - see Figure \ref{fig:buetti2019_D}. Interestingly, the choice of distribution seems to have an effect on which model gives the best prediction; for the normal distribution (as used in \cite{buetti2019predicting}) the collinear contrast integration model gives the best fit to the data (as with the original analysis), but for the log-normal distribution, the orthogonal contrast model is better.
 
@@ -191,7 +199,11 @@ As we are using a Bayesian framework, rather than $D$ representing the best fit 
 \label{fig:buetti2019_D}
 \end{figure}
 
-\subsubsection{Individual Differences}
+\subsubsection{Estimating $D$ for compound distractors}
+
+\subsubsection{Reaction Time Model}
+
+\subsection{Extension: Individual Differences}
 
 While we can't generate within-participant reaction time predictions from the original data, we can present data on the uncertainty around the individual differences in $D$ for each condition (see Figure \ref{fig:buetti2019_people}).
 
@@ -202,7 +214,7 @@ While we can't generate within-participant reaction time predictions from the or
 \label{fig:buetti2019_people}
 \end{figure}
 
-\subsubsection{Power Analysis}
+\subsection{Power Analysis}
 \label{sec:power}
 
 To estimate the required sample size for future experiments, we repeatedly reran the above analysis on smaller subsets of the data from \cite{buetti2019predicting}. (Full details are given in the \textit{Supplementary Materials}.) Based on this, we found that $n = $ per observer and condition was enough to reliably estimate $D$. 
@@ -221,29 +233,28 @@ We plan a number of experiments to test the extent to which the original results
 \item \textbf{Search asymmetries} test O in Qs and Q in Os \\
 \end{enumerate}
 
-\section{Experiment 1}
+\section{General Methods}
 
-H0: confirm collinear method is best (compared to orthogonal contrast combination and best feature guidance models)
-
-[If this is indeed the case, we will use only the collinear contrast integration model in the following experiments].
-
-\subsection{Methods}
-
-\subsubsection{Participants}
+\subsection{Participants}
 
 Based on the power analysis \ref{sec:power}, we will recruit \ldots
 
-\subsubsection{Stimuli}
+\subsection{Stimuli}
 
-\subsubsection{Procedure}
+\subsection{Procedure}
 
-\subsubsection{Data Pre-processing}
+\subsection{Data Pre-processing}
 
 incorrect trials? Poorly behaved participants? RTs that are far too short? Or far too long?
 
-\subsubsection{Analysis Plan}
+\subsection{Analysis Plan}
 
 We will follow the analysis given in Section \ref{sec:reanalysis}.
+
+
+\section{Experiment 1}
+
+
 
 \subsection{Results}
 \begin{center}
@@ -293,21 +304,4 @@ The authors declare that they have no conflict of interest.
 %\bibliographystyle{spphys}       % APS-like style for physics
 \bibliography{sources}   % name your BibTeX data base
 
-% Non-BibTeX users please use
-%\begin{thebibliography}{}
-%
-% and use \bibitem to create references. Consult the Instructions
-% for authors for reference list style.
-%
-%\bibitem{RefJ}
-% Format for Journal Reference
-%Author, Article title, Journal, Volume, page numbers (year)
-% Format for books
-%\bibitem{RefB}
-%Author, Book title, page numbers. Publisher, place (year)
-% etc
-%\end{thebibliography}
-
 \end{document}
-% end of file template.tex
-
