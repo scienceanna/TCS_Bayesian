@@ -26,7 +26,7 @@ We start by writing a function to import a study from the excel file, and remove
 import_experiment <- function(sheet, d_labels, exp_number, exp_part) {
 
 	read_excel(
-	  "../previous_work/Buetti2019_data_code/OSF_originaldata.xlsx", 
+	  "../previous_work/Buetti2019_data_code/OSF_originaldata_corrected.xlsx", 
 	  sheet = sheet) %>%
 	# use tidier variable names
 	select(
@@ -218,7 +218,7 @@ second sum is zero.
 ```{r}
 extract_a_value <- function(e_id) {
   
-d %>% filter(parse_number(exp_id) == parse_number(e_id), N_T == 0) %>% 
+d %>% filter(exp_id == e_id, N_T == 0) %>% 
 	group_by(exp_id, p_id) %>%
   	summarise(mean_rt = mean(rt), .groups = "drop") %>%
   	summarise(a = mean(mean_rt)) -> a
@@ -232,11 +232,6 @@ extract_D <- function(e_id) {
 
 	D <- filter(pred_D, exp_id == e_id) %>% arrange(collinear)
 	
-	# D <- filter(d, exp_id == e_id, N_T > 0, trial == t, p_id == p) %>% 
-	# 	group_by(d_feature) %>% 
-	# 	summarise(N_i = n(), .groups = "drop") %>% 
-	# 	right_join(D, by = "d_feature")
-
 	return(D)
 }
 ```
