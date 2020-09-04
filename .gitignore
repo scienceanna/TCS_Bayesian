@@ -6,5 +6,5 @@
 *.model
 *.rda
 analysis/.Rhistory
-analysis/supp_mat_cache
-analysis/supp_mat_files
+analysis/supp_mat_cache/
+analysis/supp_mat_files/

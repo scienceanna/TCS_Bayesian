@@ -50,8 +50,6 @@ import_experiment <- function(sheet, d_labels, exp_number, exp_part) {
 	# remove error trials and very very short responses
 	filter(error == 0, rt > 0.01) -> d
   
-
-
 	return(d)
 }
 ```
@@ -357,12 +355,12 @@ fit_glmm_to_an_exp <- function(experiment, df, ppc = FALSE) {
 ```
 
 ```{r}
-plot_model_fits_ex <- function(df, experiment, m) {
+plot_model_fits_ex <- function(df, experiment, m, people2plot) {
 
  df %>%
     filter(
       exp_id == experiment, N_T > 0,
-      p_id %in% paste(experiment, c("1"), sep = "-")) %>%
+      p_id %in% paste(experiment, people2plot, sep = "-")) %>%
     mutate(
       d_feature = fct_drop(d_feature),
       p_id = fct_drop(p_id)) -> d_plt
@@ -388,12 +386,12 @@ plot_model_fits_ex <- function(df, experiment, m) {
 
 We can take the prior model, and then use it to compute our prior predictions!
 
-```{r}
+```{r, cache=TRUE}
 prior_model <- fit_glmm_to_an_exp("1a", d, ppc = TRUE)
 ```
 
 ```{r}
-plot_model_fits_ex(d, "1a", prior_model)
+plot_model_fits_ex(d, "1a", prior_model, 1)
 ```
 
 
@@ -401,8 +399,8 @@ plot_model_fits_ex(d, "1a", prior_model)
 ## Fit Model and Posterior Predictions
 
 ```{r, cache=TRUE}
-my_models <- map(unique(d$exp_id), fit_glmm_to_an_exp, d)
-plot_model_fits_ex(d, "1a", my_models)
+my_models <- map(unique(d$exp_id)[1:2], fit_glmm_to_an_exp, d)
+plot_model_fits_ex(d, "1a", my_models[[1]], 1:5)
 ```
 
   

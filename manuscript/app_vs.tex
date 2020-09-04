@@ -23,7 +23,7 @@
 %
 \begin{document}
 
-\title{Testing the Target Contast Signal Theory\thanks{ESRC grant?}
+\title{The Alejandro Project: Testing the Target Contrast Signal Theory\thanks{ESRC grant?}
 }
 \subtitle{Replication and Generalisation}
 
@@ -113,7 +113,6 @@ We probably want the other two methods for calculating $D$, as testing that the 
 \paragraph{Within subjects}
 Finally, in all implementations of TCS so far, predictions of search efficiency (e.g. in heterogeneous scenes) have been made on the average of a group of participants, using data from a different group performing a different task (e.g. searching in homogeneous scenes). Thus, we know that TCS can replicate group-level averages between subjects in search well, but we do not know whether it is also able to make predictions at the individual level. This is particularly important given that conclusions based on aggregate data can be different from those that take individual differences into account; in one study where participants searched for a target in an array of randomly oriented line segments, aggregating the data suggested that participants were using a stochastic search model. However, when considering each participant individually, it became clear that there was a high level of heterogeneity in responses, with some participants performing close to optimally, and others actually performing worse than chance \cite{nowakowska2017human}. Similarly striking variability has also been reported in other search studies \cite{irons2016choosing, irons2018characterizing}. 
 
-
 \begin{figure}
 \centering
 \caption{Inset a figure showing the individual differences in \cite{buetti2019predicting}'s data. I guess in experiment 2 and 4. Mean RT for each person? Histogram?}
@@ -128,7 +127,7 @@ In the current manuscript, we focus on replicating and extending findings from \
 \section{A multi-level Bayesian reanalysis}
 \label{sec:reanalysis}
 
-Some of the weaknesses of the Target Contrast Signal Theory are i) it doesn't account for individual differences, only the changes to the sample average;  ii) it does not account for the distribution of reaction times over multiple trials. Switching from a simple linear regression model to a multi-level model will allow us to compute $D$ for each participant, and estiamte the trial-to-trial variance. By also switching from a frequentist to Bayesian framework, we can also account for the uncertainty in the model's predictions. 
+Some of the weaknesses of the Target Contrast Signal Theory are i) it doesn't account for individual differences, only the changes to the sample average;  ii) it does not account for the distribution of reaction times over multiple trials. Switching from a simple linear regression model to a multi-level model will allow us to compute $D$ for each participant, and estimate the trial-to-trial variance. By also switching from a frequentist to Bayesian framework, we can also account for the uncertainty in the model's predictions. 
 
 A direct computational replication in which we recreate the original analysis, please see \textit{Supplementary Materials} (Section 2?). I.e., sanity check that we are correctly importing their data and can implement the original version of TCS.
 
@@ -174,7 +173,7 @@ Allows us to fit each individual's performance.
 \begin{figure}
 \centering
 \subfigure{\includegraphics[width=\textwidth/0.4]{../wd_reanalyse_Buetti2019/empirical_D_examples.png}}
-\caption{The shaded regions show the model's predicited reaction times.}
+\caption{The shaded regions show the model's predicted reaction times.}
 \label{fig:buetti2019_a1}
 \end{figure}
 
@@ -208,7 +207,7 @@ To estimate the required sample size for future experiments, we repeatedly reran
 
 \subsection{Discussion}
 
-It looks like, while we replicate the good predicitons using the colllinear method, we do not find this that this is the best method, and instead, we find the orthogonal contrast method is slightly better. 
+It looks like, while we replicate the good predictions using the collinear method, we do not find this that this is the best method, and instead, we find the orthogonal contrast method is slightly better. 
 
 \section{Hypotheses}
 
