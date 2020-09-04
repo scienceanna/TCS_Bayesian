@@ -12,84 +12,39 @@ knitr::opts_chunk$set(
   fig.align = "center")
 
 library(tidyverse)
-library(readxl)
 library(brms)
 library(tidybayes)
+
+source("our_functions.R")
 ```
 # Data Import and Overview
 
 ## Importing
 
-We start by writing a function to import a study from the excel file, and remove error trials.
+We will import all experiments. While we're at it, we will remove error trials and very very short responses.
 
-```{r import-data-function}
-import_experiment <- function(sheet, d_labels, exp_number, exp_part) {
-
-	read_excel(
-	  "../previous_work/Buetti2019_data_code/OSF_originaldata_corrected.xlsx", 
-	  sheet = sheet) %>%
-	# use tidier variable names
-	select(
-		p_id = "Subject",
-		trial = "Trial",
-		t_id = "tid",
-		N_T = "numd",
-		d_feature = "dcolors",
-		rt = "RT",
-		response = "resp",
-		error = "Error") %>%
-	# code up p_id, t_id and distracter colour as a factor
-	mutate(
-    	exp_id = paste(exp_number, exp_part, sep = ""),
-    	p_id = paste(exp_id, p_id, sep="-"),
-  		p_id = as_factor(p_id),
-  		d_feature = as_factor(d_feature),
-  		d_feature = fct_recode(d_feature, !!!d_labels),
-  		t_id = as_factor(t_id),
-  		t_id = fct_recode(t_id, left = "0", right = "1")) %>%
-	# remove error trials and very very short responses
-	filter(error == 0, rt > 0.01) -> d
-  
-	return(d)
-}
-```
-
-We can now import all experiments:
-
-<TODO> Anna, want to tidy this up so we can map it all?
+*What about very very long RTs? I'm not sure if there is a good reason to, or obvious cut off? Unlike for short Rts, in which values == 0 are mathematically impossible, and values <10ms are implausible. 
   
 ```{r import-data}
-
-d <- list()
-
-d$e1a <- import_experiment(2,  c(orange = "1", blue = "2", yellow = "3"), 1, "a")
-d$e1b <- import_experiment(4,  c(diamond = "1", circle = "2", triangle = "3"), 1, "b")
-d$e2a <- import_experiment(6,  c(`orange diamond` = "1", `blue circle` = "2", `yellow triangle` = "3"), 2, "a")
-d$e2b <- import_experiment(8,  c(`orange circle` = "1", `yellow diamond` = "2", `blue triangle` = "3"), 2, "b")
-d$e2c <- import_experiment(10, c(`blue diamond` = "1", `yellow circle` = "2", `orange triangle` = "3"), 2, "c")
-d$e3a <- import_experiment(12, c(orange = "1", blue = "2", yellow = "3"), 3, "a")
-d$e3b <- import_experiment(14, c(diamond = "1", circle = "2", semicircle = "3"), 3, "b")
-d$e4a <- import_experiment(16, c(`orange diamond` = "1", `blue circle` = "2", `yellow semicircle` = "3"), 4, "a")
-d$e4b <- import_experiment(18, c(`orange circle` = "1", `yellow diamond` = "2", `blue semicircle` = "3"), 4, "b")
-d$e4c <- import_experiment(20, c(`blue diamond` = "1", `yellow circle` = "2", `orange semicircle` = "3"), 4, "c")
-
-d <- bind_rows(d)
+source("import_and_tidy.R")
+ # remove error trials and very very short responses
+d <- filter(d, error == 0, rt > 0.01)
 ```
+
 ## Overview: some summary statisitcs
 
-```{r}
+```{r rt_exp_1b_hist, fig.cap="Histogram showing indivdidual differences in median RT in Experiment 1b."}
 d %>% group_by(exp_id, p_id, d_feature) %>%
   summarise(median_rt = median(rt)) %>%
   filter(exp_id == "1b") %>%
   ggplot(aes(x = median_rt, fill = d_feature)) + 
   geom_histogram(bins = 10, colour = "black") + 
   facet_wrap(~d_feature) + 
+  scale_x_continuous("median reaction time") +
   theme_bw()
 
 ggsave("../plots/histograms_of_rt.pdf", width = 6, height = 3)
 ```
-
-<TODO>
 
 # Computational Replication of Buetti et al (2019)
 
@@ -97,94 +52,13 @@ Before doing anything else (i.e., new), we want to confirm that we can replicate
 
 ## Calculating $D$
 
-This function calculates the search slopes ($D$), for rt against log($N_T+1$) for a sub-experiment. 
-
-```{r}
-
-account_for_zero_distracters <- function(df)
-{
-  # Little helper function to sort out the quirk with N_T = 0
-  # i.e, in this case, d_feature is undefined
-  # So, well, copy this row three times - once for each value of d_feature
-  bind_rows(
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[2]),
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[3]),
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[4]),
-    filter(df, N_T>0)) %>%
-    mutate(d_feature = as_factor(d_feature)) -> df
-  
-  return(df)
-}
-
-calc_D_per_feature <- function(experiment, df) {
-
-  df %>%
-  	filter(exp_id == experiment) %>%
-    group_by(exp_id, p_id, d_feature, N_T) %>%
-    summarise(mean_rt = mean(rt), .groups = "drop") %>%
-    mutate(d_feature = fct_drop(d_feature)) -> df
-
-  df <- account_for_zero_distracters(df)
-
-  m <- lm(mean_rt ~  0 + d_feature + log(N_T+1):d_feature, df)
-  coef_tab <- summary(m)$coefficients
-
-  d_out <- tibble(
-    exp_id = experiment,
-    d_feature = levels(df$d_feature),
-    D = c(coef_tab[4:6,1]))
-
-  return(d_out)
-}
-```
-
-We can now run this over all the experiments:
+Calculate $D$ for each condition in each experiment. 
 
 ```{r}
 exp_D <- map_dfr(unique(d$exp_id), calc_D_per_feature, d)
 ```
 
 ## Predicing $D$
-
-```{r}
-predict_D_overall <- function(f, D)
-{
-  # f is a feature condition, such as "blue circle"
-  # D is the dataframe that is output by calc_D_per_feature
-  f1 <- word(f, 1)
-  f2 <- word(f, 2)
-
-  D1 = as.numeric(filter(D, d_feature == f1)$D)
-  D2 = as.numeric(filter(D, d_feature == f2)$D)
-  
-  D_collinear = 1/((1/D1) + (1/D2))
-  D_best_feature = min(D1, D2)
-  D_orth_contrast =  sqrt(1/((1/D1^2) + (1/D2^2)))
-    
-  return(list(
-    "best feature" = D_best_feature, 
-    "orthog. contrast" = D_orth_contrast, 
-    "collinear" = D_collinear))
-}
-
-gen_exp_predictions <- function(e_id) 
-{
-  # Predict values of D for composite features
-  
-  df <- filter(d, exp_id == e_id) %>%
-  mutate(d_feature = fct_drop(d_feature))
-
-  e_n = parse_number(e_id)
-  D <- filter(exp_D, parse_number(exp_id) == e_n - 1)
-
-  d_out <- tibble(
-    exp_id = e_id,
-    d_feature = levels(df$d_feature)[2:4], 
-    map_dfr(levels(df$d_feature)[2:4], predict_D_overall, D))
-
-  return(d_out)
-}
-```
 
 We can now predict values of $D$ for all experiments 2x and 4x. 
 
@@ -218,43 +92,7 @@ $L$ indicates the number of distractor types present in the display, $N_T$ is th
 
 The constant a represents the reaction time when the target is alone in the display. Inter-item interactions were indexed by the multiplicative factor $\beta$. Finally, the index function $1_{[2, \infty)} (j)$ indicates that the sum over Ni only applies when there are at least two different types of lures in the display $(j > 1)$. When $j = 1$, the second sum is zero.
 
-```{r}
-extract_a_value <- function(e_id) {
-  
-d %>% filter(exp_id == e_id, N_T == 0) %>% 
-	group_by(exp_id, p_id) %>%
-  	summarise(mean_rt = mean(rt), .groups = "drop") %>%
-  	summarise(a = mean(mean_rt)) -> a
 
-  return(a$a)
-}
-```
-
-```{r}
-extract_D <- function(e_id) {
-
-	D <- filter(pred_D, exp_id == e_id) %>% arrange(collinear)
-	return(D)
-}
-```
-
-```{r}
-predict_rt <- function(e_id) {
-
-	a <- extract_a_value(e_id)
-	D <- extract_D(e_id)	
-	N_T <- c(1,4,9,19,31)
-	rt <- a +  log(N_T + 1) %*% t(D$collinear)
-	colnames(rt) <- unique(D$d_feature)
-	d_out <- as_tibble(rt )
-	
-	d_out <- d_out %>% 
-		mutate(exp_id = e_id, N_T = N_T) %>% 
-		pivot_longer(-c(N_T, exp_id), names_to = "d_feature", values_to = "p_rt") 
-
-	return(d_out)
-}
-```
 
 ```{r pred_rt_replication, fig.width = 4, fig.cap="Computational Replication of RT predictions."}
 exps2predict = c("2a", "2b", "2c", "4a", "4b", "4c")
@@ -281,7 +119,7 @@ d %>% filter(exp_id %in% exps2predict) %>%
   summarise(mean_rt = mean(rt), .groups = "drop") %>%
   group_by(exp_id,  d_feature, N_T) %>%
   summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
-  left_join(rt_pred) -> d_out
+  left_join(rt_pred, by = c("exp_id", "d_feature", "N_T")) -> d_out
 ```
 
 <TODO> show RT predictions for the other two methods?
@@ -296,88 +134,10 @@ Now that we have verified that we can re-create the original results, we switch 
   
 ## Measuring $D$ from Empirical Data
 
-
 ```{r}
 d %>% mutate(rt = rt/1000) -> d
 ```
 
-```{r}
-fit_glmm_to_an_exp <- function(experiment, df, ppc = FALSE) {
-
-  df %>%
-    filter(exp_id == experiment) %>%
-    group_by(exp_id, p_id, d_feature, N_T) %>%
-    mutate(
-      d_feature = fct_drop(d_feature),
-      p_id = fct_drop(p_id)) -> df
-
-  df <- account_for_zero_distracters(df)
-
-  intercepts <- paste("d_feature", levels(df$d_feature), sep = "")
-  intercepts <- gsub("[[:space:]]", "", intercepts)
-  
-  slopes <- paste("d_feature", levels(df$d_feature), ":logN_TP1", sep = "")
-  slopes <- gsub("[[:space:]]", "", slopes)
-
-  my_priors <- c(
-    prior_string("normal(-0.5, 0.01)", class = "b", coef = intercepts),
-    prior_string("normal(0, 0.01)", class = "b", coef = slopes),
-    prior_string("cauchy(0, 0.01)", class = "sd")
-    )
-
-  if (ppc == TRUE)
-  {
-    # Raather than fit model, compute prior predictions
-    m <- brm(
-      rt ~  0 + d_feature + log(N_T+1):d_feature + (log(N_T+1):d_feature|p_id),
-      data = df,
-      family = lognormal(link = "identity"),
-      prior = my_priors,
-      chains = 1,
-      sample_prior = "only",
-      iter = 5000)
-    
-  } else {
-    m <- brm(
-      rt ~  0 + d_feature + log(N_T+1):d_feature + (log(N_T+1):d_feature|p_id),
-      data = df,
-      family = lognormal(link = "identity"),
-      prior = my_priors,
-      chains = 1,
-      iter = 5000)
-  }
-  
-  return(m)
-}
-```
-
-```{r}
-plot_model_fits_ex <- function(df, experiment, m, people2plot) {
-
- df %>%
-    filter(
-      exp_id == experiment, N_T > 0,
-      p_id %in% paste(experiment, people2plot, sep = "-")) %>%
-    mutate(
-      d_feature = fct_drop(d_feature),
-      p_id = fct_drop(p_id)) -> d_plt
-  
-  d_plt %>%
-    modelr::data_grid(p_id, N_T= seq(0,36,4), d_feature) %>%
-    add_predicted_draws(m) %>% 
-    ggplot(aes(x = log(N_T+1), y = .prediction, colour = d_feature)) + 
-    stat_lineribbon(.width = c(0.5, 0.9)) + 
-    geom_jitter(
-      data = d_plt, 
-      aes(y = rt), 
-      alpha = 0.1) + 
-    facet_grid(d_feature ~ p_id) + 
-    theme_bw() + 
-    scale_fill_brewer(palette = "Greys") + 
-    scale_colour_manual(values = c("orange1", "cornflowerblue", "yellow3")) +
-    scale_y_log10("reaction time") 
-}
-```
 ## Prior Predictions
 
 We can take the prior model, and then use it to compute our prior predictions!
