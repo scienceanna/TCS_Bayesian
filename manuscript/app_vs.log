@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.12.5)  4 SEP 2020 10:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.12.5)  4 SEP 2020 10:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -229,6 +229,9 @@ Package: subfigure 2002/03/15 v2.1.5 subfigure package
 )
 (./app_vs.aux
 
+LaTeX Warning: Label `sec:reanalysis' multiply defined.
+
+
 LaTeX Warning: Label `fig:buetti2019_a1' multiply defined.
 
 
@@ -357,75 +360,75 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
  [1{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \hbox (0.73567pt too wide) in paragraph at lines 111--112
+Overfull \hbox (0.73567pt too wide) in paragraph at lines 69--70
  \OT1/ptm/m/it/10 Lim-i-ta-tions, and ex-tend-ing ba-sic stim-uli [] \OT1/ptm/m
 /n/10 While re-sults to date for TCS ap-pear promis-
  []
 
 [2] [3]
-<../wd_reanalyse_Buetti2019/empirical_D_examples.png, id=21, 754.82pt x 751.808
+Overfull \hbox (0.73567pt too wide) in paragraph at lines 131--132
+ \OT1/ptm/m/it/10 Lim-i-ta-tions, and ex-tend-ing ba-sic stim-uli [] \OT1/ptm/m
+/n/10 While re-sults to date for TCS ap-pear promis-
+ []
+
+[4] [5]
+<../wd_reanalyse_Buetti2019/empirical_D_examples.png, id=27, 754.82pt x 751.808
 75pt>
 File: ../wd_reanalyse_Buetti2019/empirical_D_examples.png Graphic file (type pn
 g)
  <use ../wd_reanalyse_Buetti2019/empirical_D_examples.png>
 Package pdftex.def Info: ../wd_reanalyse_Buetti2019/empirical_D_examples.png us
-ed on input line 175.
+ed on input line 195.
 (pdftex.def)             Requested size: 338.0pt x 336.64742pt.
 
-Overfull \hbox (24.44785pt too wide) in paragraph at lines 175--176
+Overfull \hbox (24.44785pt too wide) in paragraph at lines 195--196
  [][] 
  []
 
-[4]
-<../wd_reanalyse_Buetti2019/recreate_normal_fig_4.pdf, id=27, 578.16pt x 180.67
+
+<../wd_reanalyse_Buetti2019/recreate_normal_fig_4.pdf, id=29, 578.16pt x 180.67
 5pt>
 File: ../wd_reanalyse_Buetti2019/recreate_normal_fig_4.pdf Graphic file (type p
 df)
  <use ../wd_reanalyse_Buetti2019/recreate_normal_fig_4.pdf>
 Package pdftex.def Info: ../wd_reanalyse_Buetti2019/recreate_normal_fig_4.pdf u
-sed on input line 186.
+sed on input line 206.
 (pdftex.def)             Requested size: 338.0pt x 105.62413pt.
 
-<../wd_reanalyse_Buetti2019/recreate_log_normal_fig_4.pdf, id=28, 578.16pt x 18
+<../wd_reanalyse_Buetti2019/recreate_log_normal_fig_4.pdf, id=30, 578.16pt x 18
 0.675pt>
 File: ../wd_reanalyse_Buetti2019/recreate_log_normal_fig_4.pdf Graphic file (ty
 pe pdf)
  <use ../wd_reanalyse_Buetti2019/recreate_log_normal_fig_4.pdf>
 Package pdftex.def Info: ../wd_reanalyse_Buetti2019/recreate_log_normal_fig_4.p
-df used on input line 187.
+df used on input line 207.
 (pdftex.def)             Requested size: 338.0pt x 105.62413pt.
 
-<../wd_reanalyse_Buetti2019/exp1_fits.png, id=29, 3011.25pt x 1204.5pt>
+<../wd_reanalyse_Buetti2019/exp1_fits.png, id=31, 3011.25pt x 1204.5pt>
 File: ../wd_reanalyse_Buetti2019/exp1_fits.png Graphic file (type png)
 
 <use ../wd_reanalyse_Buetti2019/exp1_fits.png>
 Package pdftex.def Info: ../wd_reanalyse_Buetti2019/exp1_fits.png used on input
- line 198.
+ line 218.
 (pdftex.def)             Requested size: 338.0pt x 135.19714pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [5 <../wd_reanalyse_Buetti2019/empirical_D_examples.png>]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [6 <../wd_reanalyse_Buetti2019/recreate_normal_fig_4.pdf> <../wd_reanalyse_Bue
-tti2019/recreate_log_normal_fig_4.pdf> <../wd_reanalyse_Buetti2019/exp1_fits.pn
-g>]
-Underfull \hbox (badness 10000) in paragraph at lines 217--218
+ [6] [7 <../wd_reanalyse_Buetti2019/empirical_D_examples.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 237--238
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 218--219
+Underfull \hbox (badness 10000) in paragraph at lines 238--239
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 219--220
+Underfull \hbox (badness 10000) in paragraph at lines 239--240
 
  []
 
-[7] (./app_vs.bbl [8]) [9] (./app_vs.aux)
+[8 <../wd_reanalyse_Buetti2019/recreate_normal_fig_4.pdf> <../wd_reanalyse_Buet
+ti2019/recreate_log_normal_fig_4.pdf> <../wd_reanalyse_Buetti2019/exp1_fits.png
+>] [9] (./app_vs.bbl) [10] (./app_vs.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
@@ -449,10 +452,10 @@ e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive
 /type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw
 /times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times/utm
 ri8a.pfb>
-Output written on app_vs.pdf (9 pages, 1180928 bytes).
+Output written on app_vs.pdf (10 pages, 1185150 bytes).
 PDF statistics:
- 100 PDF objects out of 1000 (max. 8388607)
- 70 compressed objects within 1 object stream
+ 103 PDF objects out of 1000 (max. 8388607)
+ 72 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 
