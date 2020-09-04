@@ -72,7 +72,14 @@ TCS proposes that behaviour is determined by comparing the target template (held
 Finally, in all implementations of TCS so far, predictions of search efficiency (e.g. in heterogeneous scenes) have been made on the average of a group of participants, using data from a different group performing a different task (e.g. searching in homogeneous scenes). Thus, we know that TCS can replicate group-level averages between subjects in search well, but we do not know whether it is also able to make predictions at the individual level. This is particularly important given that conclusions based on aggregate data can be different from those that take individual differences into account; in one study where participants searched for a target in an array of randomly oriented line segments, aggregating the data suggested that participants were using a stochastic search model. However, when considering each participant individually, it became clear that there was a high level of heterogeneity in responses, with some participants performing close to optimally, and others actually performing worse than chance \cite{nowakowska2017human}. Similarly striking variability has also been reported in other search studies \cite{irons2016choosing, irons2018characterizing}. 
 
 \paragraph{Conclusion to introduction} 
-In the current manuscript, we focus on replicating and extending findings from \cite{buetti2019predicting}. Here, participants searched for a target in a scene of homogeneous distractors. First, parallel search efficiency (measured by the logarithmic search slope) was estimated for cases where the distractors varied from the target in one dimension: either colour (e.g. a cyan target being searched for in either yellow, blue or orange distractors) or shape (e.g. a semicircle target in either circle, diamond or triangle distractors). New participants then searched for the same targets in displays where the distractors were compounds, differing from the target in both colour and shape (e.g. searching for a cyan semicircle in either blue circles, orange diamonds or yellow triangles). The logarithmic search slopes in the initial experiments were then used to predict the logarithmic slopes and reaction times using a number of models. The authors found that the best model was a 'collinear contrast integration model' where the distinctiveness scores were summed along each attribute in the unidimensional experiments, creating an overall contrast score that was used for compound stimuli predictions.
+In the current manuscript, we focus on replicating and extending findings from \cite{buetti2019predicting}. Here, participants searched for a target in a scene of homogeneous distractors. First, parallel search efficiency (measured by the logarithmic search slope) was estimated for cases where the distractors varied from the target in one dimension: either colour (e.g. a cyan target being searched for in either yellow, blue or orange distractors) or shape (e.g. a semicircle target in either circle, diamond or triangle distractors). New participants then searched for the same targets in displays where the distractors were compounds, differing from the target in both colour and shape (e.g. searching for a cyan semicircle in either blue circles, orange diamonds or yellow triangles). Figure \ref{fig:buetti2019_stimulus} shows an example stimulus for the case where the distractors varied from the target in one dimension (from Experiment 1A in their paper). The logarithmic search slopes in the initial experiments were then used to predict the logarithmic slopes and reaction times using a number of models. The authors found that the best model was a 'collinear contrast integration model' where the distinctiveness scores were summed along each attribute in the unidimensional experiments, creating an overall contrast score that was used for compound stimuli predictions.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{../plots/screenshot26.png}
+\caption{Example stimulus from \cite{buetti2019predicting} Expt 1A. Here, the target is a blue semicircle within a set of homogeneous (yellow semicircle) distractors.}
+\label{fig:buetti2019_stimulus}
+\end{figure}
 
 \paragraph{Overview of the current study}
 We first run a replication of \cite{buetti2019predicting}, in an online, within-subjects study. This design allows us to extend the modelling, both incorporating a multi-level design to predict within-subjects effects and by utilising a Bayesian generalised linear model framework to better represent the distribution of responses (e.g. avoiding predicting negative reaction times, accounting for uncertainty in model predictions). We will also carry out a direct analytical replication using the same methods as in \cite{buetti2019predicting} allowing us to ask whether the choice of analysis affects the results.
@@ -135,7 +142,17 @@ We verified we were able to replicate the results of \cite{buetti2019predicting}
 
 What about incorrect trials etc? 
 
-First, we computed the $D$ values using a multi-level Bayesian model using a log-normal distribution (using R, brms etc. - see Equation \ref{eq:computeDlm}). Using this method allows us to fit each individual's performance. We fit the model twice, once using a log link\footnote{our preference, as this avoids predicting negative reaction times and helps to account for skew in the distribution}, and once using the identity link\footnote{makes this new version of the model more comparable to the original}. Other minor changes include modelling reaction times on the seconds scale, rather than milliseconds (making numerical model fitting easier) and removing all RTs less than 10ms.
+First, we computed the $D$ values using a multi-level Bayesian model using a log-normal distribution (using R, brms etc. - see Equation \ref{eq:computeDlm}). Using this method allows us to fit each individual's performance. This is important because it is clear there are between-subjects differences that are not captured in the original model (see Figure \ref{fig:buetti2019_hist}). 
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{../plots/histograms_of_rt.pdf}
+\caption{Histograms of median RTs from Expt 3A in \cite{buetti2019predicting}). There are clearly between-subjects differences, as well as differences in distributions for the different conditions.}
+\label{fig:buetti2019_hist}
+\end{figure}
+
+
+We fit the model twice, once using a log link\footnote{our preference, as this avoids predicting negative reaction times and helps to account for skew in the distribution}, and once using the identity link\footnote{makes this new version of the model more comparable to the original}. Other minor changes include modelling reaction times on the seconds scale, rather than milliseconds (making numerical model fitting easier) and removing all RTs less than 10ms.
 
 \begin{equation}
 \hat{y} = a + D\log(N_T + 1)
@@ -200,8 +217,8 @@ We plan a number of experiments to test the extent to which the original results
 
 \begin{enumerate}
 \item \textbf{Replication of Buetti et al (2019) with online data collection.} Specifically, that the \textit{collinear contrast ingratiation model} outperforms the \textit{best feature guidance}, and \textit{orthogonal contrast combination models}.  Furthermore, the $R^2 = $ ($99\%$ HPDI = $[, ]$) between predicted and observer reaction times.\\
-\item Larger number of distractors (or targets further in periphery?) Add an extra ring \\ 
-\item Search asymmetries: test O in Qs and Q in Os \\
+\item \textbf{Larger number of distractors (or targets further in periphery?)} Add an extra ring \\ 
+\item \textbf{Search asymmetries} test O in Qs and Q in Os \\
 \end{enumerate}
 
 \section{Experiment 1}
