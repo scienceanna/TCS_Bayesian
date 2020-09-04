@@ -77,6 +77,18 @@ d <- bind_rows(d)
 ```
 ## Overview: some summary statisitcs
 
+```{r}
+d %>% group_by(exp_id, p_id, d_feature) %>%
+  summarise(median_rt = median(rt)) %>%
+  filter(exp_id == "1b") %>%
+  ggplot(aes(x = median_rt, fill = d_feature)) + 
+  geom_histogram(bins = 10, colour = "black") + 
+  facet_wrap(~d_feature) + 
+  theme_bw()
+
+ggsave("../plots/histograms_of_rt.pdf", width = 6, height = 3)
+```
+
 <TODO>
 
 # Computational Replication of Buetti et al (2019)
@@ -231,7 +243,6 @@ d %>% filter(exp_id == e_id, N_T == 0) %>%
 extract_D <- function(e_id) {
 
 	D <- filter(pred_D, exp_id == e_id) %>% arrange(collinear)
-	
 	return(D)
 }
 ```
@@ -375,28 +386,25 @@ plot_model_fits_ex <- function(df, experiment, m, people2plot) {
     scale_colour_manual(values = c("orange1", "cornflowerblue", "yellow3")) +
     scale_y_log10("reaction time") 
 }
-
 ```
 ## Prior Predictions
 
 We can take the prior model, and then use it to compute our prior predictions!
 
-```{r, cache=TRUE}
+```{r glmm-prior, cache=TRUE, fig.cap="Prior predictions for reaction time and log(N+1)."}
 prior_model <- fit_glmm_to_an_exp("1a", d, ppc = TRUE)
-```
-
-```{r}
 plot_model_fits_ex(d, "1a", prior_model, 1)
 ```
 
 
-
 ## Fit Model and Posterior Predictions
 
-```{r, cache=TRUE}
+```{r fit-glm-to-buetti2019-data, cache=TRUE}
 my_models <- map(unique(d$exp_id)[1:2], fit_glmm_to_an_exp, d)
-plot_model_fits_ex(d, "1a", my_models[[1]], 1:5)
 ```
 
+```{r plot-glm-to-buetti2019-data, cache=TRUE, fig.cap="The multi-level fits for Experiment 1a (Buetti, 2019)."}
+plot_model_fits_ex(d, "1a", my_models[[1]], 1:5)
+```
   
 # Power Analyis for Planned Studies
