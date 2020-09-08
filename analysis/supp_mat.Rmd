@@ -15,6 +15,7 @@ library(tidyverse)
 library(brms)
 library(tidybayes)
 
+source("reimplementation.R")
 source("our_functions.R")
 ```
 # Data Import and Overview
@@ -55,6 +56,7 @@ Before doing anything else (i.e., new), we want to confirm that we can replicate
 Calculate $D$ for each condition in each experiment. 
 
 ```{r}
+# (unique(d$exp_id)
 exp_D <- map_dfr(unique(d$exp_id), calc_D_per_feature, d)
 ```
 
@@ -91,8 +93,6 @@ left_join(pred_D, exp_D, by = c("exp_id", "d_feature")) %>%
 $L$ indicates the number of distractor types present in the display, $N_T$ is the total number of distractors, $N_i$ is the number of distractors of type $i$, $D_j$ indicates the logarithmic slope parameters associated with distractor of type $j$ (organized from smallest $D_1$ to largest $D_L$). Note that the $D$ parameter is the one that increases with increasing target-distractor similarity.
 
 The constant a represents the reaction time when the target is alone in the display. Inter-item interactions were indexed by the multiplicative factor $\beta$. Finally, the index function $1_{[2, \infty)} (j)$ indicates that the sum over Ni only applies when there are at least two different types of lures in the display $(j > 1)$. When $j = 1$, the second sum is zero.
-
-
 
 ```{r pred_rt_replication, fig.width = 4, fig.cap="Computational Replication of RT predictions."}
 exps2predict = c("2a", "2b", "2c", "4a", "4b", "4c")
@@ -138,7 +138,7 @@ Now that we have verified that we can re-create the original results, we switch 
 d %>% mutate(rt = rt/1000) -> d
 ```
 
-## Prior Predictions
+### Prior Predictions
 
 We can take the prior model, and then use it to compute our prior predictions!
 
@@ -147,22 +147,50 @@ prior_model <- fit_glmm_to_an_exp("1a", d, ppc = TRUE)
 plot_model_fits_ex(d, "1a", prior_model, 1)
 ```
 
-## Fit Model and Posterior Predictions
+### Fit Model and Posterior Predictions
 
 ```{r fit-glm-to-buetti2019-data, cache=TRUE}
-my_models <- map(unique(d$exp_id)[1:2], fit_glmm_to_an_exp, d)
+my_models <- map(unique(d$exp_id), fit_glmm_to_an_exp, d)
 ```
 
 ```{r plot-glm-to-buetti2019-data, cache=TRUE, fig.cap="The multi-level fits for Experiment 1a (Buetti, 2019)."}
 plot_model_fits_ex(d, "1a", my_models[[1]], 1:5)
 ```
 
+```{r}
+exp_D <- map_df(1:length(my_models), extract_fixed_slopes_from_model, my_models, df = d)
+
+ggplot(exp_D, aes(x = D, fill = d_feature)) + 
+  geom_density(alpha = 0.333) +
+  facet_wrap(~ exp_id, ncol = 5) + 
+  theme_bw()
+```
+
 ## Estimating $D$ for compound feature distractors
+
+```{r}
+# Predict experiments
+pred_D <- map_df(c("2a", "2b", "2c", "4a", "4b", "4c"), gen_exp_predictions_b)
+ 
+# recreate fig 4 (top right)
+exp_D %>% group_by(exp_id, d_feature) %>% 
+mean_hdi(D) %>%
+rename(D_lower = ".lower", D_upper = ".upper") %>% 
+right_join(pred_D, by = c("exp_id", "d_feature")) %>%
+select(-.width, -.point, -.interval) -> d_D 
+
+ggplot(d_D, aes(x = D_pred, y = D)) + 
+geom_abline(linetype = 2) + 
+  geom_linerange(aes(ymin = D_lower, ymax = D_upper), alpha = 0.5) + 
+  geom_linerange(aes( xmin = .lower, xmax = .upper), alpha = 0.5) + 
+  facet_wrap(~method) + theme_bw() +
+  geom_smooth(method = lm, colour = "pink")
+ 
+ggsave("recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
+
+```
 
 ## Predicting Reaction Times
 
 
-
-
-  
 # Power Analyis for Planned Studies
