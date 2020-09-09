@@ -19,10 +19,9 @@ fit_glmm_to_an_exp <- function(experiment, df, ppc = FALSE) {
   slopes <- gsub("[[:space:]]", "", slopes)
   
   my_priors <- c(
-    prior_string("normal(-0.5, 0.01)", class = "b", coef = intercepts),
-    prior_string("normal(0, 0.01)", class = "b", coef = slopes),
-    prior_string("cauchy(0, 0.01)", class = "sd")
-  )
+    prior_string("normal(-0.5, 0.1)", class = "b", coef = intercepts),
+    prior_string("normal(0, 0.05)", class = "b", coef = slopes),
+    prior(student_t(3, 0, 2), class = "sd"))
   
   if (ppc == TRUE)
   {
@@ -34,7 +33,7 @@ fit_glmm_to_an_exp <- function(experiment, df, ppc = FALSE) {
       prior = my_priors,
       chains = 1,
       sample_prior = "only",
-      iter = 2000)
+      iter = 5000)
     
   } else {
     m <- brm(
@@ -43,7 +42,7 @@ fit_glmm_to_an_exp <- function(experiment, df, ppc = FALSE) {
       family = lognormal(link = "identity"),
       prior = my_priors,
       chains = 1,
-      iter = 2000)
+      iter = 5000)
   }
   return(m)
 }
