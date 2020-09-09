@@ -1,7 +1,7 @@
 fit_glmm_to_an_exp <- function(experiment, df, ppc = FALSE) {
   
   # ppc = TRUE to carry out a prior predictive check
-  # log-link = TRUE/FALSE to spec the link used for the log normal distribution
+  # link = "indentity" 
   
   df %>%
     filter(exp_id == experiment) %>%
@@ -83,7 +83,7 @@ extract_fixed_slopes_from_model <- function(exp_n, ms, df) {
   slopes <- str_subset(vars, "b_d_[a-z]*:")
   
   samples <- posterior_samples(m, slopes, 
-                               subset=runif(1000, 0, 1000)) %>%
+                               subset = runif(1000, 1, 1000)) %>%
     pivot_longer(starts_with("b_d"), names_to = "d_feature", values_to = "D") %>%
     mutate(
       exp_id = experiment,
@@ -91,8 +91,7 @@ extract_fixed_slopes_from_model <- function(exp_n, ms, df) {
     select(exp_id, d_feature, D)
   
   levels(samples$d_feature) <- str_extract(
-    levels(samples$d_feature), 
-    "(?<=feature)[a-z]+(?=:logN_TP1)")
+    levels(samples$d_feature), "(?<=feature)[a-z]+(?=:logN_TP1)")
   
   return(samples)
   
@@ -118,7 +117,7 @@ calc_D_overall_b <- function(f, D)
 }
 
 
-gen_exp_predictions_b <- function(e_id) {
+gen_exp_predictions_b <- function(e_id, d) {
   
   df <- filter(d, exp_id == e_id, N_T > 0) %>%
     mutate(d_feature = fct_drop(d_feature))
@@ -134,7 +133,7 @@ gen_exp_predictions_b <- function(e_id) {
       values_to = "D_pred",
       names_to = "method") %>%
     group_by(d_feature, method) %>%
-    mean_hdi(D_pred) %>%
+    mean_hdci(D_pred) %>%
     mutate(exp_id = e_id) %>%
     select(exp_id, d_feature, method, D_pred, .lower, .upper)
   

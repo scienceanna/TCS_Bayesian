@@ -150,7 +150,8 @@ plot_model_fits_ex(d, "1a", prior_model, 1)
 ### Fit Model and Posterior Predictions
 
 ```{r fit-glm-to-buetti2019-data, cache=TRUE}
-my_models <- map(unique(d$exp_id), fit_glmm_to_an_exp, d)
+# my_models <- map(unique(d$exp_id), fit_glmm_to_an_exp, d)
+my_models <- readRDS("my.models")
 ```
 
 ```{r plot-glm-to-buetti2019-data, cache=TRUE, fig.cap="The multi-level fits for Experiment 1a (Buetti, 2019)."}
@@ -164,20 +165,22 @@ ggplot(exp_D, aes(x = D, fill = d_feature)) +
   geom_density(alpha = 0.333) +
   facet_wrap(~ exp_id, ncol = 5) + 
   theme_bw()
+
+ggsave("../plots/buetti2019_bayesian_fits.pdf", width = 8, height = 3)
 ```
 
 ## Estimating $D$ for compound feature distractors
 
 ```{r}
 # Predict experiments
-pred_D <- map_df(c("2a", "2b", "2c", "4a", "4b", "4c"), gen_exp_predictions_b)
+pred_D <- map_df(c("2a", "2b", "2c", "4a", "4b", "4c"), gen_exp_predictions_b, d)
  
 # recreate fig 4 (top right)
 exp_D %>% group_by(exp_id, d_feature) %>% 
-mean_hdi(D) %>%
-rename(D_lower = ".lower", D_upper = ".upper") %>% 
-right_join(pred_D, by = c("exp_id", "d_feature")) %>%
-select(-.width, -.point, -.interval) -> d_D 
+  mean_hdi(D) %>%
+  rename(D_lower = ".lower", D_upper = ".upper") %>% 
+  right_join(pred_D, by = c("exp_id", "d_feature")) %>%
+  select(-.width, -.point, -.interval) -> d_D 
 
 ggplot(d_D, aes(x = D_pred, y = D)) + 
 geom_abline(linetype = 2) + 
