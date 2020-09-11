@@ -56,7 +56,6 @@ Before doing anything else (i.e., new), we want to confirm that we can replicate
 Calculate $D$ for each condition in each experiment. 
 
 ```{r}
-# (unique(d$exp_id)
 exp_D <- map_dfr(unique(d$exp_id), calc_D_per_feature, d)
 ```
 
@@ -150,9 +149,9 @@ We can take the prior model, and then use it to compute our prior predictions!
 ### Fit Model and Posterior Predictions
 
 ```{r fit-glm-to-buetti2019-data, cache=TRUE}
-my_models <- map(unique(d$exp_id), fit_glmm_to_an_exp, d)
-
-saveRDS(my_models, "my.models")
+# my_models <- map(unique(d$exp_id), fit_glmm_to_an_exp, d)
+# 
+# saveRDS(my_models, "my.models")
 my_models <- readRDS("my.models")
 ```
 
@@ -197,5 +196,15 @@ ggsave("recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
 
 ## Predicting Reaction Times
 
+```{r}
+exps2predict = c("2a", "2b", "2c", "4a", "4b", "4c")
 
+rt_pred <- map_dfr(exps2predict, predict_rt_b)
+
+ggplot(rt_pred, aes(x = N_T, y = median_rt, ymin = lower, ymax = upper, fill = d_feature, colour = d_feature)) + 
+  geom_path() + 
+  geom_ribbon(alpha = 0.5, colour = "black") + 
+  facet_grid(method ~ exp_id) + 
+  see::theme_abyss()
+```
 # Power Analyis for Planned Studies

@@ -138,3 +138,46 @@ gen_exp_predictions_b <- function(e_id, d) {
   
   return(d_out)
 }
+
+extract_D_b <- function(e_id, meth) {
+  D <- filter(pred_D, exp_id == e_id, method == meth) 
+  return(D)
+}
+
+predict_rt_b <- function(e_id) {
+  
+  a <- extract_a_value(e_id)
+  N <- c(1,4,9,19,31)
+  
+  d_out <- tibble()
+  
+  rt_emp <- filter(d, exp_id == e_id, N_T > 0) %>% 
+    group_by(N_T, d_feature) %>%
+    summarise(median_rt = median(rt), .groups = "drop") 
+  
+  for (method in unique(pred_D$method)) {
+    D <- extract_D_b(e_id, method)	
+    
+    rt_lower <- a + log(N_T + 1) %*% t(D$.lower)
+    rt_upper <- a + log(N_T + 1) %*% t(D$.upper)
+    
+    colnames(rt_lower) <- unique(D$d_feature) 
+    colnames(rt_upper) <- unique(D$d_feature) 
+    
+    rt_range <- bind_rows(as_tibble(rt_lower), as_tibble(rt_upper)) %>%
+      mutate(
+        N_T = rep(N_T, 2),
+        boundary = rep(c("lower", "upper"), each = length(N))) %>% 
+      pivot_longer(-c(N_T, boundary), names_to = "d_feature", values_to = "rt") %>%
+      pivot_wider(names_from = "boundary", values_from = rt) %>%
+      mutate(
+        method = method, 
+        exp_id = e_id,
+        median_rt = rt_emp$median_rt)
+    
+    d_out <- bind_rows(d_out, rt_range)
+    
+  }
+  
+  return(d_out)
+}
