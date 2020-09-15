@@ -72,10 +72,10 @@ fit_glmm_to_an_exp <- function(experiment, df, fam) {
   slopes <- paste("d_feature", levels(df$d_feature), ":logN_TP1", sep = "")
   slopes <- gsub("[[:space:]]", "", slopes)
 
-  my_priors <- c(
-    prior_string("normal(-0.5, 0.1)", class = "b", coef = intercepts),
-    prior_string("normal(0, 0.05)", class = "b", coef = slopes),
-    prior(student_t(3, 0, 2), class = "sd"))
+ # my_priors <- c(
+ #   prior_string("normal(-0.5, 0.1)", class = "b", coef = intercepts),
+ #   prior_string("normal(0, 0.05)", class = "b", coef = slopes),
+ #   prior(student_t(3, 0, 2), class = "sd"))
 
   if (fam == "ln") {
 
@@ -83,7 +83,7 @@ fit_glmm_to_an_exp <- function(experiment, df, fam) {
       rt ~  0 + d_feature + log(N_T+1):d_feature + (log(N_T+1):d_feature|p_id),
       data = df,
       family = lognormal(link = "identity"),
-      prior = my_priors,
+      #prior = my_priors,
       iter = 5000)
   } else {
      m <- brm(
@@ -96,6 +96,10 @@ fit_glmm_to_an_exp <- function(experiment, df, fam) {
 }
 
 my_models <- map(unique(d$exp_id), fit_glmm_to_an_exp, d, "ln")
+
+# Trying just to fit e1a
+my_models <- map("1a", fit_glmm_to_an_exp, d, "ln")
+
 
 plot_model_fits_ex <- function(df, experiment, m) {
 
