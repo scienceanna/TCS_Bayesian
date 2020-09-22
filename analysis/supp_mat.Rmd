@@ -196,15 +196,16 @@ ggsave("recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
 
 ## Predicting Reaction Times
 
-```{r}
+```{r, fig.width = 10, fig.height = 10}
 exps2predict = c("2a", "2b", "2c", "4a", "4b", "4c")
 
 rt_pred <- map_dfr(exps2predict, predict_rt_b)
 
-ggplot(rt_pred, aes(x = N_T, y = median_rt, ymin = lower, ymax = upper, fill = d_feature, colour = d_feature)) + 
+ggplot(rt_pred, aes(x = N_T, y = mean_rt, ymin = lower, ymax = upper, fill = d_feature, colour = d_feature)) + 
   geom_path() + 
   geom_ribbon(alpha = 0.5, colour = "black") + 
   facet_grid(method ~ exp_id) + 
   see::theme_abyss()
+
 ```
 # Power Analyis for Planned Studies

@@ -4,7 +4,8 @@ library(readxl)
 import_experiment <- function(sheet, d_labels, exp_number, exp_part) {
   
   read_excel(
-    "../previous_work/Buetti2019_data_code/OSF_originaldata_corrected.xlsx", 
+    "C:/Users/Anna/Documents/APP_VS_git/previous_work/Buetti2019_data_code/OSF_originaldata_corrected.xlsx",
+    #"../previous_work/Buetti2019_data_code/OSF_originaldata_corrected.xlsx", 
     sheet = sheet) %>%
     # use tidier variable names
     select(
