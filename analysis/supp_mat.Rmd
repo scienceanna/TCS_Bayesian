@@ -155,8 +155,8 @@ We can take the prior model, and then use it to compute our prior predictions!
 my_models <- readRDS("my.models")
 ```
 
-```{r plot-glm-to-buetti2019-data, cache=TRUE, fig.cap="The multi-level fits for Experiment 1a (Buetti, 2019)."}
-plot_model_fits_ex(d, "1a", my_models[[1]], 1:5)
+```{r plot-glm-to-buetti2019-data, cache=TRUE, fig.cap="The multi-level fits for Experiment 2a (Buetti, 2019)."}
+plot_model_fits_ex(d, "2a", my_models[[3]], 1:5)
 ```
 
 ```{r}
