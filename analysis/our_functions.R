@@ -154,7 +154,7 @@ predict_rt_b <- function(e_id) {
   rt_emp <- filter(d, exp_id == e_id, N_T > 0) %>% 
     mutate(d_feature = gsub("[[:space:]]", "", d_feature)) %>%
     group_by(N_T, d_feature) %>%
-    summarise(mean_rt = mean(rt), .groups = "drop") %>%
+    summarise(median_rt = median(rt), .groups = "drop") %>%
     arrange(N_T, d_feature)
   
   for (method in unique(pred_D$method)) {
@@ -175,7 +175,7 @@ predict_rt_b <- function(e_id) {
       mutate(
         method = method, 
         exp_id = e_id,
-        mean_rt = rt_emp$mean_rt)
+        median_rt = rt_emp$median_rt)
     
     d_out <- bind_rows(d_out, rt_range)
     
