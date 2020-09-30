@@ -18,7 +18,7 @@ df %>%
 df <- df %>% filter(d_feature != "no distractors") %>%
   mutate(d_feature = fct_drop(d_feature))
 
-
+df$d_feature <- as.factor(as.character(df$d_feature))
 
 e_n <- which(unique(d$exp_id) == e_id)
 
@@ -40,7 +40,6 @@ model_params <-  c(
   prior_string(paste("normal(", summary(m)$fixed[6,1], ",",  summary(m)$fixed[6,2], ")", sep = ""), class = "b", coef = slopes[3]),
   prior(normal(0.25, 0.01), class = "sigma"))
 
-
 # sample from these distributions
 
 m2 <- brm(
@@ -52,8 +51,25 @@ m2 <- brm(
   sample_prior = "only",
   iter = 5000)
 
-df %>% modelr::data_grid(d_feature = levels(df$d_feature), N_T = 1:30) %>%
-  add_predicted_draws(m2) %>%
-  mean_hdci() %>%
-  ggplot(aes(x = N_T , y = .prediction, ymin = .lower, ymax = .upper, fill = d_feature, colour = d_feature)) + 
-  geom_ribbon(alpha = 0.3) + geom_path()
+# Getting mean RTs
+
+df_test <- df %>%
+  group_by(d_feature, N_T) %>%
+  summarise(mean_rt = mean(rt/1000),
+            sd_rt = sd(rt/1000))
+
+#df_mod <- df %>%
+#  modelr::data_grid(d_feature = levels(df$d_feature), N_T = 1:30) %>%
+#  add_predicted_draws(m2) %>%
+#  mean_hdci()
+
+df_mod_2 <- df %>%
+  modelr::data_grid(d_feature = levels(df$d_feature), N_T = 1:30) %>%
+  add_fitted_draws(m2, scale = "response") %>%
+  mean_hdci()
+
+ggplot(data = df_mod_2, aes(x = N_T, y = .value, colour = d_feature)) + 
+geom_ribbon(aes(ymin = .lower, ymax = .upper, fill = d_feature), alpha = 0.3) + 
+  geom_path() +
+  geom_jitter(data = df_test, aes(x = N_T, y = mean_rt))
+  
