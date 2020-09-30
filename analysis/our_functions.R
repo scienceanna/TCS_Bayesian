@@ -25,7 +25,7 @@ fit_glmm_to_an_exp <- function(experiment, df, ppc = FALSE) {
   
   if (ppc == TRUE)
   {
-    # Raather than fit model, compute prior predictions
+    # Rather than fit model, compute prior predictions
     m <- brm(
       rt ~  0 + d_feature + log(N_T+1):d_feature + (log(N_T+1):d_feature|p_id),
       data = df,
@@ -108,7 +108,7 @@ calc_D_overall_b <- function(f, D)
   D_best_feature = pmin(D1, D2)
   D_orth_contrast =  sqrt(1/((1/D1^2) + (1/D2^2)))
   
-  return(list(
+  return(tibble(
     d_feature = gsub("[[:space:]]", "", f),
     "best_feature" = D_best_feature, 
     "orthog_contrast" = D_orth_contrast, 
@@ -158,6 +158,7 @@ predict_rt_b <- function(e_id) {
     arrange(N_T, d_feature)
   
   for (method in unique(pred_D$method)) {
+    
     D <- extract_D_b(e_id, method)	
     
     rt_lower <- a + log(N_T + 1) %*% t(D$.lower)
