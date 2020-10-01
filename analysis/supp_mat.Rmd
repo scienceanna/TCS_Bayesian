@@ -182,14 +182,14 @@ Dp <- map_df(c("2a", "2b", "2c", "4a", "4b", "4c"), gen_exp_predictions_b, d)
 # recreate fig 4 (top right)
 De %>% group_by(exp_id, d_feature) %>% 
   mean_hdi(D) %>%
-  rename(D_lower = ".lower", D_upper = ".upper", Dp = "mu") %>% 
+  rename(De_lower = ".lower", De_upper = ".upper", De = D) %>% 
   right_join(Dp, by = c("exp_id", "d_feature")) %>%
   select(-.width, -.point, -.interval) -> d_D 
 
-ggplot(d_D, aes(x = Dp, y = D)) + 
-geom_abline(linetype = 2) + 
-  geom_linerange(aes(ymin = D_lower, ymax = D_upper), alpha = 0.5) + 
-  geom_linerange(aes( xmin = .lower, xmax = .upper), alpha = 0.5) + 
+ggplot(d_D, aes(x = Dp, y = De)) + 
+  geom_abline(linetype = 2) + 
+  geom_linerange(aes(ymin = De_lower, ymax = De_upper), alpha = 0.5) + 
+  geom_linerange(aes( xmin = Dp_lower, xmax = Dp_lower), alpha = 0.5) + 
   facet_wrap(~method) + theme_bw() +
   geom_smooth(method = lm, colour = "pink")
  

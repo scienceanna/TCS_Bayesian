@@ -124,32 +124,21 @@ gen_exp_predictions_b <- function(e_id, d) {
   e_n = parse_number(e_id)
   D <- filter(De, parse_number(exp_id) == e_n - 1)
   
-  # d_out <- tibble(
-  #   exp_id = e_id,
-  #   map_dfr(levels(df$d_feature), calc_D_overall_b, D)) %>%
-  #   pivot_longer(
-  #     cols = c(best_feature, orthog_contrast, collinear),
-  #     values_to = "D_pred",
-  #     names_to = "method") %>%
-  #   group_by(d_feature, method) %>%
-  #   mean_hdci(D_pred) %>%
-  #   mutate(exp_id = e_id) %>%
-  #   select(exp_id, d_feature, method, D_pred, .lower, .upper)
-  
-  d_out <- tibble(
+  Dp <- tibble(
     exp_id = e_id,
     map_dfr(levels(df$d_feature), calc_D_overall_b, D)) %>%
     pivot_longer(
       cols = c(best_feature, orthog_contrast, collinear),
-      values_to = "Dp",
+      values_to = "D_pred",
       names_to = "method") %>%
-    group_by(d_feature, method) %>%
-    summarise(
-      mu = mean(Dp), 
-      sigma = sd(Dp),
-      .groups = "drop") %>%
+    group_by(d_feature, method)
+  
+  d_out <- full_join(
+    Dp %>% mean_hdci(D_pred), 
+    Dp %>% summarise(Dp = mean(D_pred), Dp_sigma = sd(D_pred), .groups = "drop"),
+    by = c("d_feature", "method")) %>%
     mutate(exp_id = e_id) %>%
-    select(exp_id, d_feature, method, mu, sigma)
+    select(exp_id, d_feature, method, Dp, Dp_sigma, Dp_lower = ".lower", Dp_upper = ".upper")
   
   return(d_out)
 }
