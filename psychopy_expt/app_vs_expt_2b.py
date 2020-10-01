@@ -365,22 +365,22 @@ for itrial in range(T_trials):
             
             elif loc[0,i] == 2:
                 C, whichring, cx, cy = grid_nc(i)
-                target = visual.ImageStim(win, image='stimuli/ocircle.jpg', pos = [cx,cy])
+                target = visual.ImageStim(win, image='stimuli/ocircle.png', pos = [cx,cy])
                 target.draw()
         
             elif loc[0,i] == 3:
                 C, whichring, cx, cy = grid_nc(i)
-                target = visual.ImageStim(win, image='stimuli/ydiamond.jpg', pos = [cx,cy], interpolate = True)
+                target = visual.ImageStim(win, image='stimuli/ydiamond.png', pos = [cx,cy], interpolate = True)
                 target.draw()
                         
             elif loc[0,i] == 4:
                 C, whichring, cx, cy = grid_nc(i)
                 randnum = random.random()
                 if randnum < 0.5:
-                        target = visual.ImageStim(win, image='stimuli/bLtri.jpg', pos = [cx,cy], interpolate = True)
+                        target = visual.ImageStim(win, image='stimuli/bLtri.png', pos = [cx,cy], interpolate = True)
                         target.draw()
                 else:
-                        target = visual.ImageStim(win, image='stimuli/bRtri.jpg', pos = [cx,cy], interpolate = True)
+                        target = visual.ImageStim(win, image='stimuli/bRtri.png', pos = [cx,cy], interpolate = True)
                         target.draw()
             
         print(loc)
