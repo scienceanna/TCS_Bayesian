@@ -197,6 +197,31 @@ ggsave("recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
 ## Which slope is closer to 1?
 
 ```{r}
+slopes_err <- function(ii, df)  {
+  
+  d_itr = filter(df, iter == ii)
+  
+  beta = summary(lm(data = d_itr, De ~ (Dp):(0 + method)))$coefficients[, 1]
+  beta_err = abs(1 - beta)
+  
+  return(beta_err)
+}
+
+
+beta_err <- map_df(unique(Dp_samples$iter), slopes_err, Dp_samples) 
+names(beta_err) <- str_remove(names(beta_err), 'Dp:method')
+
+ beta_err %>% pivot_longer(1:3, names_to = "method", values_to = "abs_res") %>%
+   ggplot(aes(x = abs_res, fill = method)) + geom_density(alpha = 0.33)
+
+ beta_err %>% select(-best_feature) %>%
+   mutate(difference = orthog_contrast - collinear) %>%
+   ggplot(aes(x = difference)) + geom_density()
+ 
+  beta_err %>% select(-best_feature) %>%
+   mutate(difference = orthog_contrast - collinear) -> x
+  
+  mean(x$difference > 0)
 
 ```
 
