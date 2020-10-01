@@ -81,13 +81,12 @@ extract_fixed_slopes_from_model <- function(exp_n, ms, df) {
   vars <- get_variables(m)
   slopes <- str_subset(vars, "b_d_[a-z]*:")
   
-  samples <- posterior_samples(m, slopes, 
-                               subset = runif(1000, 1, 1000)) %>%
+  samples <- posterior_samples(m, slopes, add_chain = TRUE) %>%
     pivot_longer(starts_with("b_d"), names_to = "d_feature", values_to = "D") %>%
     mutate(
       exp_id = experiment,
       d_feature = as_factor(d_feature)) %>%
-    select(exp_id, d_feature, D)
+    select(exp_id, d_feature, D, iter)
   
   levels(samples$d_feature) <- str_extract(
     levels(samples$d_feature), "(?<=feature)[a-z]+(?=:logN_TP1)")
@@ -96,13 +95,16 @@ extract_fixed_slopes_from_model <- function(exp_n, ms, df) {
   
 }
 
-calc_D_overall_b <- function(f, D)
+calc_D_overall_b <- function(f, De, e_id)
 {
   f1 <- word(f, 1)
   f2 <- word(f, 2)
   
-  D1 = as.numeric(filter(D, d_feature == f1)$D)
-  D2 = as.numeric(filter(D, d_feature == f2)$D)
+  e_n = parse_number(e_id)
+  Dx <- filter(De, parse_number(exp_id) == e_n - 1)
+  
+  D1 = as.numeric(filter(Dx, d_feature == f1)$D)
+  D2 = as.numeric(filter(Dx, d_feature == f2)$D)
   
   D_collinear = 1/((1/D1) + (1/D2))
   D_best_feature = pmin(D1, D2)
@@ -110,81 +112,74 @@ calc_D_overall_b <- function(f, D)
   
   return(tibble(
     d_feature = gsub("[[:space:]]", "", f),
+    D = filter(De, exp_id == e_id, d_feature == paste(f1, f2, sep = ""))$D,
+    iter = filter(De, exp_id == e_id, d_feature == paste(f1, f2, sep = ""))$iter,
     "best_feature" = D_best_feature, 
     "orthog_contrast" = D_orth_contrast, 
-    "collinear" = D_collinear))
+    "collinear" = D_collinear) %>%
+    rename(De = "D"))
 }
 
 
-gen_exp_predictions_b <- function(e_id, d) {
+get_Dp_samples <- function(e_id, d) {
   
   df <- filter(d, exp_id == e_id, N_T > 0) %>%
     mutate(d_feature = fct_drop(d_feature))
   
-  e_n = parse_number(e_id)
-  D <- filter(De, parse_number(exp_id) == e_n - 1)
-  
   Dp <- tibble(
     exp_id = e_id,
-    map_dfr(levels(df$d_feature), calc_D_overall_b, D)) %>%
+    map_dfr(levels(df$d_feature), calc_D_overall_b, De, e_id)) %>%
     pivot_longer(
       cols = c(best_feature, orthog_contrast, collinear),
-      values_to = "D_pred",
-      names_to = "method") %>%
-    group_by(d_feature, method)
+      values_to = "Dp",
+      names_to = "method")
   
-  d_out <- full_join(
-    Dp %>% mean_hdci(D_pred), 
-    Dp %>% summarise(Dp = mean(D_pred), Dp_sigma = sd(D_pred), .groups = "drop"),
-    by = c("d_feature", "method")) %>%
-    mutate(exp_id = e_id) %>%
-    select(exp_id, d_feature, method, Dp, Dp_sigma, Dp_lower = ".lower", Dp_upper = ".upper")
-  
-  return(d_out)
+  return(Dp) 
 }
 
-extract_D_b <- function(e_id, meth) {
-  D <- filter(pred_D, exp_id == e_id, method == meth) 
-  return(D)
-}
 
-predict_rt_b <- function(e_id) {
-  
-  a <- extract_a_value(e_id)
-  N_T <- c(1,4,9,19,31)
-  
-  d_out <- tibble()
-  
-  rt_emp <- filter(d, exp_id == e_id, N_T > 0) %>% 
-    mutate(d_feature = gsub("[[:space:]]", "", d_feature)) %>%
-    group_by(N_T, d_feature) %>%
-    summarise(median_rt = median(rt), .groups = "drop") %>%
-    arrange(N_T, d_feature)
-  
-  for (method in unique(pred_D$method)) {
-    
-    D <- extract_D_b(e_id, method)	
-    
-    rt_lower <- a + log(N_T + 1) %*% t(D$.lower)
-    rt_upper <- a + log(N_T + 1) %*% t(D$.upper)
-    
-    colnames(rt_lower) <- unique(D$d_feature) 
-    colnames(rt_upper) <- unique(D$d_feature) 
-    
-    rt_range <- bind_rows(as_tibble(rt_lower), as_tibble(rt_upper)) %>%
-      mutate(
-        N_T = rep(N_T, 2),
-        boundary = rep(c("lower", "upper"), each = 5)) %>% 
-      pivot_longer(-c(N_T, boundary), names_to = "d_feature", values_to = "rt") %>%
-      pivot_wider(names_from = "boundary", values_from = rt) %>%
-      mutate(
-        method = method, 
-        exp_id = e_id,
-        median_rt = rt_emp$median_rt)
-    
-    d_out <- bind_rows(d_out, rt_range)
-    
-  }
-  
-  return(d_out)
-}
+# extract_D_b <- function(e_id, meth) {
+#   D <- filter(pred_D, exp_id == e_id, method == meth) 
+#   return(D)
+# }
+# 
+# predict_rt_b <- function(e_id) {
+#   
+#   a <- extract_a_value(e_id)
+#   N_T <- c(1,4,9,19,31)
+#   
+#   d_out <- tibble()
+#   
+#   rt_emp <- filter(d, exp_id == e_id, N_T > 0) %>% 
+#     mutate(d_feature = gsub("[[:space:]]", "", d_feature)) %>%
+#     group_by(N_T, d_feature) %>%
+#     summarise(median_rt = median(rt), .groups = "drop") %>%
+#     arrange(N_T, d_feature)
+#   
+#   for (method in unique(pred_D$method)) {
+#     
+#     D <- extract_D_b(e_id, method)	
+#     
+#     rt_lower <- a + log(N_T + 1) %*% t(D$.lower)
+#     rt_upper <- a + log(N_T + 1) %*% t(D$.upper)
+#     
+#     colnames(rt_lower) <- unique(D$d_feature) 
+#     colnames(rt_upper) <- unique(D$d_feature) 
+#     
+#     rt_range <- bind_rows(as_tibble(rt_lower), as_tibble(rt_upper)) %>%
+#       mutate(
+#         N_T = rep(N_T, 2),
+#         boundary = rep(c("lower", "upper"), each = 5)) %>% 
+#       pivot_longer(-c(N_T, boundary), names_to = "d_feature", values_to = "rt") %>%
+#       pivot_wider(names_from = "boundary", values_from = rt) %>%
+#       mutate(
+#         method = method, 
+#         exp_id = e_id,
+#         median_rt = rt_emp$median_rt)
+#     
+#     d_out <- bind_rows(d_out, rt_range)
+#     
+#   }
+#   
+#   return(d_out)
+# }

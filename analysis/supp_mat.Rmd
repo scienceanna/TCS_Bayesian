@@ -176,39 +176,42 @@ ggsave("../plots/buetti2019_bayesian_fits.pdf", width = 8, height = 3)
 ## Estimating $D$ for compound feature distractors
 
 ```{r}
-# Predict experiments
-Dp <- map_df(c("2a", "2b", "2c", "4a", "4b", "4c"), gen_exp_predictions_b, d)
- 
-# recreate fig 4 (top right)
-De %>% group_by(exp_id, d_feature) %>% 
-  mean_hdi(D) %>%
-  rename(De_lower = ".lower", De_upper = ".upper", De = D) %>% 
-  right_join(Dp, by = c("exp_id", "d_feature")) %>%
-  select(-.width, -.point, -.interval) -> d_D 
 
-ggplot(d_D, aes(x = Dp, y = De)) + 
+Dp_samples <- map_df(c("2a", "2b", "2c", "4a", "4b", "4c"), get_Dp_samples, d)
+
+ Dp_samples %>% 
+   group_by(exp_id, d_feature, method) %>%
+   mean_hdci(Dp, De) %>%
+  ggplot(aes(x = Dp, y = De)) + 
   geom_abline(linetype = 2) + 
-  geom_linerange(aes(ymin = De_lower, ymax = De_upper), alpha = 0.5) + 
-  geom_linerange(aes( xmin = Dp_lower, xmax = Dp_lower), alpha = 0.5) + 
+  geom_point() +
   facet_wrap(~method) + theme_bw() +
+  geom_linerange(aes(ymin = De.lower, ymax = De.upper), alpha = 0.5) + 
+  geom_linerange(aes(xmin = Dp.lower, xmax = Dp.lower), alpha = 0.5) + 
   geom_smooth(method = lm, colour = "pink")
  
 ggsave("recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
 
 ```
 
+## Which slope is closer to 1?
+
+```{r}
+
+```
+
 ## Predicting Reaction Times
 
 ```{r, fig.width = 10, fig.height = 10}
-exps2predict = c("2a", "2b", "2c", "4a", "4b", "4c")
-
-rt_pred <- map_dfr(exps2predict, predict_rt_b)
-
-ggplot(rt_pred, aes(x = N_T, y = median_rt, ymin = lower, ymax = upper, fill = d_feature, colour = d_feature)) + 
-  geom_path() + 
-  geom_ribbon(alpha = 0.5, colour = "black") + 
-  facet_grid(method ~ exp_id) + 
-  see::theme_abyss()
+# exps2predict = c("2a", "2b", "2c", "4a", "4b", "4c")
+# 
+# rt_pred <- map_dfr(exps2predict, predict_rt_b)
+# 
+# ggplot(rt_pred, aes(x = N_T, y = median_rt, ymin = lower, ymax = upper, fill = d_feature, colour = d_feature)) + 
+#   geom_path() + 
+#   geom_ribbon(alpha = 0.5, colour = "black") + 
+#   facet_grid(method ~ exp_id) + 
+#   see::theme_abyss()
 
 ```
 # Power Analyis for Planned Studies
