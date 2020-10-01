@@ -118,12 +118,12 @@ df_test <- df %>%
 #  add_predicted_draws(m2) %>%
 #  mean_hdci()
 
-df_mod_2 <- df %>%
-  modelr::data_grid(d_feature = levels(df$d_feature), N_T = 1:30) %>%
-  add_fitted_draws(m2, scale = "response") %>%
+df_mod_3 <- df %>%
+  modelr::data_grid(d_feature = levels(df$d_feature), N_T = 1:32) %>%
+  add_fitted_draws(m3, scale = "response") %>%
   mean_hdci()
 
-ggplot(data = df_mod_2, aes(x = N_T, y = .value, colour = d_feature)) + 
+ggplot(data = df_mod_3, aes(x = N_T, y = .value, colour = d_feature)) + 
   geom_ribbon(aes(ymin = .lower, ymax = .upper, fill = d_feature), alpha = 0.3) + 
   geom_path() +
   geom_jitter(data = df_test, aes(x = N_T, y = mean_rt))
