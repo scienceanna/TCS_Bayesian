@@ -160,7 +160,10 @@ plot_model_fits_ex(d, "2a", my_models[[3]], 1:5)
 ```
 
 ```{r}
-De <- map_df(1:length(my_models), extract_fixed_slopes_from_modelslopes_from_model, my_models, df = d)
+De <- map_df(
+  1:length(my_models), 
+  extract_fixed_slopes_from_model, 
+  my_models, df = d)
 
 ggplot(De, aes(x = D, fill = d_feature)) + 
   geom_density(alpha = 0.333) +
@@ -174,13 +177,13 @@ ggsave("../plots/buetti2019_bayesian_fits.pdf", width = 8, height = 3)
 
 ```{r}
 # Predict experiments
-pred_D <- map_df(c("2a", "2b", "2c", "4a", "4b", "4c"), gen_exp_predictions_b, d)
+Dp <- map_df(c("2a", "2b", "2c", "4a", "4b", "4c"), gen_exp_predictions_b, d)
  
 # recreate fig 4 (top right)
 De %>% group_by(exp_id, d_feature) %>% 
   mean_hdi(D) %>%
-  rename(D_lower = ".lower", D_upper = ".upper") %>% 
-  right_join(pred_D, by = c("exp_id", "d_feature")) %>%
+  rename(D_lower = ".lower", D_upper = ".upper", Dp = "mu") %>% 
+  right_join(Dp, by = c("exp_id", "d_feature")) %>%
   select(-.width, -.point, -.interval) -> d_D 
 
 ggplot(d_D, aes(x = Dp, y = D)) + 
