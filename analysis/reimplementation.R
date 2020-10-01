@@ -56,7 +56,7 @@ predict_D_overall <- function(f, D)
     "collinear" = D_collinear))
 }
 
-gen_exp_predictions <- function(e_id) 
+gen_exp_predictions <- function(e_id, De) 
 {
   # Predict values of D for composite features
   
@@ -64,7 +64,7 @@ gen_exp_predictions <- function(e_id)
     mutate(d_feature = fct_drop(d_feature))
   
   e_n = parse_number(e_id)
-  D <- filter(exp_D, parse_number(exp_id) == e_n - 1)
+  D <- filter(De, parse_number(exp_id) == e_n - 1)
   
   d_out <- tibble(
     exp_id = e_id,
@@ -86,7 +86,7 @@ extract_a_value <- function(e_id) {
 
 extract_D <- function(e_id) {
   
-  D <- filter(pred_D, exp_id == e_id) %>% arrange(collinear)
+  D <- filter(Dp, exp_id == e_id) %>% arrange(collinear)
   return(D)
 }
 

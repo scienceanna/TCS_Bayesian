@@ -53,10 +53,10 @@ Before doing anything else (i.e., new), we want to confirm that we can replicate
 
 ## Calculating $D$
 
-Calculate $D$ for each condition in each experiment. 
+Calculate $D_e$ for each condition in each experiment. 
 
 ```{r}
-exp_D <- map_dfr(unique(d$exp_id), calc_D_per_feature, d)
+De <- map_dfr(unique(d$exp_id), calc_D_per_feature, d)
 ```
 
 ## Predicing $D$
@@ -64,19 +64,19 @@ exp_D <- map_dfr(unique(d$exp_id), calc_D_per_feature, d)
 We can now predict values of $D$ for all experiments 2x and 4x. 
 
 ```{r}
-pred_D <- map_df(c("2a", "2b", "2c", "4a", "4b", "4c"), gen_exp_predictions)
+Dp <- map_df(c("2a", "2b", "2c", "4a", "4b", "4c"), gen_exp_predictions, De)
 ```
  
 Now, recreate the scatter plots from Buetti et al (2019), Figure 4.
 
 ```{r replicating_D_plot, fig.cap="Computational replication of Figure 4 (top row) from Buetti et al (2019)."}
-left_join(pred_D, exp_D, by = c("exp_id", "d_feature")) %>%
+left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
   pivot_longer(
     cols = c(`best feature`, `orthog. contrast`, collinear),
-    values_to = "D_pred",
+    values_to = "Dp",
     names_to = "method") %>%
   mutate(method = fct_relevel(method, "best feature", "orthog. contrast")) %>%
-  ggplot(aes(x = D_pred, y = D)) +
+  ggplot(aes(x = Dp, y = D)) +
   geom_point() + 
   geom_abline(linetype = 2) +
   geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
@@ -160,9 +160,9 @@ plot_model_fits_ex(d, "2a", my_models[[3]], 1:5)
 ```
 
 ```{r}
-exp_D <- map_df(1:length(my_models), extract_fixed_slopes_from_model, my_models, df = d)
+De <- map_df(1:length(my_models), extract_fixed_slopes_from_modelslopes_from_model, my_models, df = d)
 
-ggplot(exp_D, aes(x = D, fill = d_feature)) + 
+ggplot(De, aes(x = D, fill = d_feature)) + 
   geom_density(alpha = 0.333) +
   facet_wrap(~ exp_id, ncol = 5) + 
   theme_bw()
@@ -177,13 +177,13 @@ ggsave("../plots/buetti2019_bayesian_fits.pdf", width = 8, height = 3)
 pred_D <- map_df(c("2a", "2b", "2c", "4a", "4b", "4c"), gen_exp_predictions_b, d)
  
 # recreate fig 4 (top right)
-exp_D %>% group_by(exp_id, d_feature) %>% 
+De %>% group_by(exp_id, d_feature) %>% 
   mean_hdi(D) %>%
   rename(D_lower = ".lower", D_upper = ".upper") %>% 
   right_join(pred_D, by = c("exp_id", "d_feature")) %>%
   select(-.width, -.point, -.interval) -> d_D 
 
-ggplot(d_D, aes(x = D_pred, y = D)) + 
+ggplot(d_D, aes(x = Dp, y = D)) + 
 geom_abline(linetype = 2) + 
   geom_linerange(aes(ymin = D_lower, ymax = D_upper), alpha = 0.5) + 
   geom_linerange(aes( xmin = .lower, xmax = .upper), alpha = 0.5) + 
