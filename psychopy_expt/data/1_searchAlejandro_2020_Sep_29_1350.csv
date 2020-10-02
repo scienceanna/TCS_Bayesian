@@ -1,0 +1,4 @@
+﻿image_file,trials.thisRepN,trials.thisTrialN,trials.thisN,trials.thisIndex,textWelcome.started,textWelcome.stopped,keyWelcome.keys,keyWelcome.rt,keyWelcome.started,keyWelcome.stopped,stimuli.started,stimuli.stopped,key_resp.keys,key_resp.rt,key_resp.started,key_resp.stopped,textBlank500.started,textBlank500.stopped,participant,session,date,expName,psychopyVersion,frameRate,
+,,,,,10.059862260241061,None,space,0.9399031815119088,11.56146064796485,None,,,,,,,,,1,001,2020_Sep_29_1350,searchAlejandro,2020.2.2,59.8693421878632,
+images/screenshot0.png,0,0,0,0,,,,,,,12.645677601220086,None,space,2.3854239201173186,14.547740113455802,None,16.950086783384904,None,1,001,2020_Sep_29_1350,searchAlejandro,2020.2.2,59.8693421878632,
+images/screenshot2.png,0,1,1,1,,,,,,,17.533787260530517,None,space,0.4160892842337489,19.46906199748628,None,19.90300042484887,None,1,001,2020_Sep_29_1350,searchAlejandro,2020.2.2,59.8693421878632,
