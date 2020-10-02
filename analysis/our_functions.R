@@ -193,7 +193,7 @@ predict_rt_b <- function(e_id, meth, Dp_summary, df) {
   
 
   d_out <- df %>%
-    modelr::data_grid(d_feature = levels(df$d_feature), N_T = 1:32) %>%
+    modelr::data_grid(d_feature = levels(df$d_feature), N_T = unique(df$N_T)) %>%
     add_fitted_draws(m, scale = "response") %>%
     mean_hdci() %>%
     mutate(exp_id = e_id)

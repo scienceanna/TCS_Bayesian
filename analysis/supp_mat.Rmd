@@ -248,15 +248,17 @@ meth <- "mean_method"
 
 d_prt <- map_df(exps_to_predict, predict_rt_b, meth, Dp_summary, d)
 
-d_rt <- d %>% filter(N_T > 0) %>%
+  d_rt <- d %>% filter(N_T > 0) %>%
   group_by(p_id, exp_id, d_feature, N_T) %>% summarise(mean_rt = mean(rt)) %>%
    group_by(exp_id, d_feature, N_T) %>% summarise(mean_rt = mean(mean_rt)) %>%
-  right_join(d_prt)
+ left_join(d_prt, by = c("exp_id", "d_feature", "N_T"))
 
 ggplot(data = d_rt, aes(x = mean_rt, y = .value)) + 
   geom_abline(linetype = 2) +
   geom_point() + geom_errorbar(aes(ymin = .lower, ymax = .upper))+ 
   theme_bw()
+
+ggplot(d_rt, aes(x = as.factor(N_T), y  = mean_rt - .value)) + geom_boxplot()
   
 
 ```
