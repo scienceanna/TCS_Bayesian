@@ -1,7 +1,7 @@
 fit_glmm_to_an_exp <- function(experiment, df, ppc = FALSE) {
   
   # ppc = TRUE to carry out a prior predictive check
-  # link = "indentity" 
+  # link = "identity" 
   
   df %>%
     filter(exp_id == experiment) %>%
@@ -138,48 +138,65 @@ get_Dp_samples <- function(e_id, d) {
 }
 
 
-# extract_D_b <- function(e_id, meth) {
-#   D <- filter(pred_D, exp_id == e_id, method == meth) 
-#   return(D)
-# }
-# 
-# predict_rt_b <- function(e_id) {
-#   
-#   a <- extract_a_value(e_id)
-#   N_T <- c(1,4,9,19,31)
-#   
-#   d_out <- tibble()
-#   
-#   rt_emp <- filter(d, exp_id == e_id, N_T > 0) %>% 
-#     mutate(d_feature = gsub("[[:space:]]", "", d_feature)) %>%
-#     group_by(N_T, d_feature) %>%
-#     summarise(median_rt = median(rt), .groups = "drop") %>%
-#     arrange(N_T, d_feature)
-#   
-#   for (method in unique(pred_D$method)) {
-#     
-#     D <- extract_D_b(e_id, method)	
-#     
-#     rt_lower <- a + log(N_T + 1) %*% t(D$.lower)
-#     rt_upper <- a + log(N_T + 1) %*% t(D$.upper)
-#     
-#     colnames(rt_lower) <- unique(D$d_feature) 
-#     colnames(rt_upper) <- unique(D$d_feature) 
-#     
-#     rt_range <- bind_rows(as_tibble(rt_lower), as_tibble(rt_upper)) %>%
-#       mutate(
-#         N_T = rep(N_T, 2),
-#         boundary = rep(c("lower", "upper"), each = 5)) %>% 
-#       pivot_longer(-c(N_T, boundary), names_to = "d_feature", values_to = "rt") %>%
-#       pivot_wider(names_from = "boundary", values_from = rt) %>%
-#       mutate(
-#         method = method, 
-#         exp_id = e_id,
-#         median_rt = rt_emp$median_rt)
-#     
-#     d_out <- bind_rows(d_out, rt_range)
-#     
-#   }
-#   
-#   return(d_out)
-# }
+predict_rt_b <- function(e_id, meth, Dp_summary, df) {
+  
+  Dp_summary <- filter(Dp_summary, 
+                       method == meth, exp_id == e_id)
+  
+  print(e_id)
+  e_n <- which(unique(df$exp_id) == e_id)
+  
+  df %>%
+    filter(exp_id == e_id) %>%
+    mutate(
+      d_feature = fct_drop(d_feature),
+      p_id = fct_drop(p_id)) %>%
+    filter(d_feature != "no distractors") %>%
+    mutate(
+      d_feature = fct_drop(d_feature),
+      d_feature = as.factor(as.character(d_feature))) -> df
+  
+
+  m <- my_models[[e_n]]
+  
+  intercepts <- paste("d_feature", unique(df$d_feature), sep = "")
+  intercepts <- gsub("[[:space:]]", "", intercepts)
+  
+  Dp_summary$d_feature <- paste("d_feature", unique(Dp_summary$d_feature), ":logN_TP1", sep = "")
+  
+  
+  model_params <-  c(
+    prior_string(paste("normal(", summary(m)$fixed[1,1], ",",  summary(m)$fixed[1,2], ")", sep = ""), class = "b", coef = intercepts[1]),
+    prior_string(paste("normal(", summary(m)$fixed[2,1], ",",  summary(m)$fixed[2,2], ")", sep = ""), class = "b", coef = intercepts[2]),
+    prior_string(paste("normal(", summary(m)$fixed[3,1], ",",  summary(m)$fixed[3,2], ")", sep = ""), class = "b", coef = intercepts[3]),
+    prior_string(paste("normal(", Dp_summary$mu[1], ",",  Dp_summary$sigma[1], ")", sep = ""), class = "b", coef = Dp_summary$d_feature[1]),
+    prior_string(paste("normal(", Dp_summary$mu[2], ",",  Dp_summary$sigma[2], ")", sep = ""), class = "b", coef = Dp_summary$d_feature[2]),
+    prior_string(paste("normal(", Dp_summary$mu[3], ",",  Dp_summary$sigma[3], ")", sep = ""), class = "b", coef = Dp_summary$d_feature[3]),
+    prior(normal(0.25, 0.01), class = "sigma"))
+  
+  
+  m <- brm(
+    rt ~  0 + d_feature + log(N_T+1):d_feature ,
+    data = df,
+    family = lognormal(link = "identity"),
+    prior = model_params,
+    chains = 1,
+    sample_prior = "only",
+    iter = 5000)
+  
+  #Getting mean RTs
+  
+  df_test <- df %>%
+    group_by(d_feature, N_T) %>%
+    summarise(mean_rt = mean(rt/1000),
+              sd_rt = sd(rt/1000))
+  
+
+  d_out <- df %>%
+    modelr::data_grid(d_feature = levels(df$d_feature), N_T = 1:32) %>%
+    add_fitted_draws(m, scale = "response") %>%
+    mean_hdci() %>%
+    mutate(exp_id = e_id)
+  
+  return(d_out)
+}
