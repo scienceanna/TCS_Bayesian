@@ -258,16 +258,17 @@ d_rt <- d %>% filter(N_T > 0) %>%
   group_by(p_id, exp_id, d_feature, N_T) %>% summarise(
     mean_log = MASS::fitdistr(rt, densfun = "log-normal")$estimate["meanlog"],
     mean_rt = mean(rt)) %>%
-   group_by(exp_id, d_feature, N_T) %>% summarise(mean_rt = exp(mean(mean_log))) %>%
+   group_by(exp_id, d_feature, N_T) %>% summarise(rt = exp(median(mean_log))) %>%
  right_join(d_prt, by = c("exp_id", "d_feature", "N_T"))
 
-ggplot(data = d_rt, aes(x = mean_rt, y = .value)) + 
+ggplot(data = d_rt, aes(x = median_rt, y = .value)) + 
   geom_abline(linetype = 2) +
   geom_point() + geom_errorbar(aes(ymin = .lower, ymax = .upper))+ 
   theme_bw()
 
 ggplot(d_rt, aes(x = as.factor(N_T), y  = mean_rt - .value)) + geom_boxplot()
   
+print(mean(abs(d_rt$rt - d_rt$.value)))
 
 ```
 # Power Analyis for Planned Studies
