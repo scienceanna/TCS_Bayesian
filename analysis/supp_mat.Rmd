@@ -16,8 +16,8 @@ library(brms)
 library(tidybayes)
 
 
-source("reimplementation.R")
-source("our_functions.R")
+source("scripts/reimplementation.R")
+source("scripts/our_functions.R")
 
 exps_to_predict = c("2a", "2b", "2c", "4a", "4b", "4c")
 ```
@@ -30,7 +30,7 @@ We will import all experiments. While we're at it, we will remove error trials a
 *What about very very long RTs? I'm not sure if there is a good reason to, or obvious cut off? Unlike for short Rts, in which values == 0 are mathematically impossible, and values <10ms are implausible. 
   
 ```{r import-data}
-source("import_and_tidy.R")
+source("scripts/import_and_tidy.R")
  # remove error trials and very very short responses
 d <- filter(d, error == 0, rt > 0.01)
 ```
@@ -144,21 +144,66 @@ d %>% mutate(rt = rt/1000) -> d
 
 We can take the prior model, and then use it to compute our prior predictions!
 
-```{r glmm-prior, cache=TRUE, fig.cap="Prior predictions for reaction time and log(N+1)."}
-# prior_model <- fit_glmm_to_an_exp("1a", d, ppc = TRUE)
-# plot_model_fits_ex(d, "1a", prior_model, 1)
+```{r glmm-prior-sample, cache=TRUE, fig.cap="Sample Prior predictions for reaction time and log(N+1)."}
+prior_model_nrl <- fit_glmm_to_an_exp("1a", d, ppc = TRUE, "normal")
+prior_model_idt <- fit_glmm_to_an_exp("1a", d, ppc = TRUE, "lognormal")
+prior_model_gam <- fit_glmm_to_an_exp("1a", d, ppc = TRUE, "Gamma")
 ```
+
+```{r}
+plt_nrl <- plot_model_fits_ex(d, "1a", prior_model_nrl, 1)
+plt_idt <- plot_model_fits_ex(d, "1a", prior_model_idt, 1)
+plt_gam <- plot_model_fits_ex(d, "1a", prior_model_gam, 1)
+
+plt_nrl
+plt_idt
+plt_gam
+```
+
+
 
 ### Fit Model and Posterior Predictions
 
-```{r fit-glm-to-buetti2019-data, cache=TRUE}
-# my_models <- map(unique(d$exp_id), fit_glmm_to_an_exp, d)
+```{r loo-fit-glm-to-buetti2019-data, cache=TRUE}
+# my_models_nrl <- map("2a", fit_glmm_to_an_exp, d, "identity", "normal")
+# saveRDS(my_models_nrl, "my_nrl.models")
+# rm(my_models_nrl)
 # 
-# saveRDS(my_models, "my.models")
+# my_models_idt <- map("2a", fit_glmm_to_an_exp, d, "identity")
+# saveRDS(my_models_idt, "my_idt.models")
+# rm(my_models_idt)
+# 
+# my_models_inv <- map("2a", fit_glmm_to_an_exp, d, "inverse")
+# saveRDS(my_models_inv, "my_inv.models")
+# rm(my_models_inv)
+
+my_models_nrl <- readRDS("my_nrl.models")[[1]]
+my_models_idt <- readRDS("my_idt.models")[[1]]
+
+my_models_inv <- map("2a", fit_glmm_to_an_exp, d, FALSE, "Gamma")
+
+my_models_nrl <- add_criterion(my_models_nrl, c("loo", "waic"))
+my_models_idt <- add_criterion(my_models_idt, c("loo", "waic"))
+model_weights(my_models_idt, my_models_nrl)
+```
+
+
+
+```{r fit-glm-to-buetti2019-data, cache=TRUE}
+
+my_models_idt <- map(unique(d$exp_id), fit_glmm_to_an_exp, d, "identity")
+my_models_inv <- map(unique(d$exp_id), fit_glmm_to_an_exp, d, "inverse")
+
+
+saveRDS(my_models_idt, "my.models_idt")
+saveRDS(my_models_inv, "my.models_inv")
+```
+
+```{r}
 my_models <- readRDS("my.models")
 ```
 
-```{r plot-glm-to-buetti2019-data, cache=TRUE, fig.cap="The multi-level fits for Experiment 2a (Buetti, 2019)."}
+```{r plot-glm-to-buetti2019-data, fig.cap="The multi-level fits for Experiment 2a (Buetti, 2019)."}
 plot_model_fits_ex(d, "2a", my_models[[3]], 1:5)
 ```
 
@@ -244,7 +289,6 @@ names(beta_err) <- str_remove(names(beta_err), 'Dp:method')
    group_by(exp_id, d_feature, method) %>%
   summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop")-> Dp_summary
 
-e_id <- "2a"
 meth <- "mean_method"
 
 d_prt <- map_df(exps_to_predict, predict_rt_b, meth, Dp_summary, d)
@@ -253,7 +297,6 @@ d_prt <- map_df(exps_to_predict, predict_rt_b, meth, Dp_summary, d)
 
 ```{r}
 
-
 d_rt <- d %>% filter(N_T > 0) %>%
   group_by(p_id, exp_id, d_feature, N_T) %>% summarise(
     mean_log = MASS::fitdistr(rt, densfun = "log-normal")$estimate["meanlog"],
@@ -261,12 +304,12 @@ d_rt <- d %>% filter(N_T > 0) %>%
    group_by(exp_id, d_feature, N_T) %>% summarise(rt = exp(median(mean_log))) %>%
  right_join(d_prt, by = c("exp_id", "d_feature", "N_T"))
 
-ggplot(data = d_rt, aes(x = median_rt, y = .value)) + 
+ggplot(data = d_rt, aes(x = rt, y = .value)) + 
   geom_abline(linetype = 2) +
   geom_point() + geom_errorbar(aes(ymin = .lower, ymax = .upper))+ 
   theme_bw()
 
-ggplot(d_rt, aes(x = as.factor(N_T), y  = mean_rt - .value)) + geom_boxplot()
+
   
 print(mean(abs(d_rt$rt - d_rt$.value)))
 
