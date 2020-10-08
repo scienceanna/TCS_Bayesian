@@ -4,35 +4,64 @@ library(tidybayes)
 
 my_models_nrl <- readRDS("my_nrl.models")[[1]]
 my_models_idt <- readRDS("my_idt.models")[[1]]
-
-my_models_nrl <- add_criterion(my_models_nrl, c("loo", "waic"))
-my_models_idt <- add_criterion(my_models_idt, c("loo", "waic"))
-model_weights(my_models_idt, my_models_nrl)
+# 
+# my_models_nrl <- add_criterion(my_models_nrl, c("loo", "waic"))
+# my_models_idt <- add_criterion(my_models_idt, c("loo", "waic"))
+# model_weights(my_models_idt, my_models_nrl)
 
 # import data (exp 2a only)
 source("scripts/import_and_tidy.R")
 d <- filter(d, error == 0, rt > 0.01, exp_id == "2a", d_feature != "no distractors") 
 d <- mutate(d, d_feature = fct_drop(d_feature))
-d %>% mutate(rt = rt/1000) -> d
+d %>% mutate(rt = rt/1000,
+             d_feature = as_factor(str_replace_all(d_feature, " ", ""))) -> d
 
-# This is playing around with tidybayes
-d %>%
-  group_by(d_feature, p_id) %>%
-  data_grid(N_T = seq_range(N_T, n = 101)) %>%
-  add_fitted_draws(my_models_nrl) %>%
-  ggplot(aes(x = N_T, y = rt, color = d_feature)) +
-  stat_lineribbon(aes(y = .value)) +
-  geom_jitter(data = d, alpha = 0.1) +
-  scale_fill_brewer(palette = "Greys") +
-  scale_color_brewer(palette = "Dark2") + 
-  facet_grid(~d_feature)
+
 
 # Just trying to plot the RT distributions
 
 source("scripts/our_functions.R")
 
-samples1 <- posterior_samples(my_models_nrl, "^b")
-samples2 <- posterior_samples(my_models_nrl, "^sd_")
+samples_nrl <- posterior_samples(my_models_nrl, c("^b","sigma"), subset = 1:10)
+samples_idt <- posterior_samples(my_models_idt, c("^b","sigma"), subset = 1:10)
 
-ggplot(d, aes(rt, fill = d_feature)) + geom_histogram(alpha = 0.4, position = "identity") + facet_grid(N_T~d_feature)
+compute_dist <- function(feat, ss, N_T) {
+  
+  
+  a <- ss[paste("b_d_feature", feat, sep = "")][[1]]
+  D <- ss[paste("b_d_feature", feat, ":logN_TP1", sep = "")][[1]]
+  sigma <-ss["sigma"][[1]]
+                            
+   mu <- a + log(N_T+1)*D
+  
+  d_out <- tibble(d_feature = as.character(), N_T = as.numeric(), iter = as.numeric(), rt = as.numeric(), p = as.numeric())
+  
+  for (ii in 1:10) {
+    d_out %>% add_row(
+      d_feature = feat,
+      N_T = N_T,
+      iter = ii,
+      rt = seq(0, 4, 0.01),
+      p = dnorm(rt, mu[ii], sigma[ii]))-> d_out
+  }
+  
+  return(d_out)
+  
+}
+
+dm <- tibble()
+for (n in unique(d$N_T)) {
+  
+  dm <- bind_rows(dm, 
+                  map(levels(d$d_feature), compute_dist, samples_nrl, N_T = n))
+  
+}
+
+dm %>% mutate(d_feature = as_factor(d_feature)) -> dm
+
+ggplot() + 
+  geom_density(data = d, aes(rt, fill = d_feature), alpha = 0.4, position = "identity") + 
+  geom_path(data = dm, aes(rt, p, colour = d_feature, group = iter), alpha = 0.3) +
+  facet_grid(N_T~d_feature) + coord_cartesian(xlim = c(0, 2))
+
 
