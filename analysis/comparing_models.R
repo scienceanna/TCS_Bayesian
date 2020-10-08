@@ -6,9 +6,11 @@ library(patchwork)
 my_models_nrl <- readRDS("my_nrl.models")[[1]]
 my_models_idt <- readRDS("my_idt.models")[[1]]
 # 
-# my_models_nrl <- add_criterion(my_models_nrl, c("loo", "waic"))
-# my_models_idt <- add_criterion(my_models_idt, c("loo", "waic"))
-# model_weights(my_models_idt, my_models_nrl)
+
+my_models_nrl <- add_criterion(my_models_nrl, c("loo", "waic"))
+my_models_idt <- add_criterion(my_models_idt, c("loo", "waic"))
+model_weights(my_models_idt, my_models_nrl)
+
 
 # import data (exp 2a only)
 source("scripts/import_and_tidy.R")
