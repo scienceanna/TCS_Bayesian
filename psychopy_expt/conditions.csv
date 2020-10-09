@@ -1,4 +1,7 @@
-image_file
-images/screenshot0.png
-images/screenshot2.png
-images/screenshot3.png
+image_file,targ_orient
+images/exp1a_trial_0_colour1_distractors1_r.png,r
+images/exp1a_trial_1_colour1_distractors4_r.png,r
+images/exp1a_trial_2_colour1_distractors9_r.png,r
+images/exp1a_trial_15_colour1_distractors1_l.png,l
+images/exp1a_trial_16_colour1_distractors4_l.png,l
+images/exp1a_trial_17_colour1_distractors9_l.png,l
