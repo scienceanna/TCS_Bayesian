@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This experiment was created using PsychoPy3 Experiment Builder (v2020.2.2),
-    on October 09, 2020, at 11:02
+This experiment was created using PsychoPy3 Experiment Builder (v2020.2.4),
+    on October 09, 2020, at 11:58
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -35,7 +35,7 @@ _thisDir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(_thisDir)
 
 # Store info about the experiment session
-psychopyVersion = '2020.2.2'
+psychopyVersion = '2020.2.4'
 expName = 'searchDisc'  # from the Builder filename that created this script
 expInfo = {'participant': '', 'session': '001'}
 dlg = gui.DlgFromDict(dictionary=expInfo, sort_keys=False, title=expName)
@@ -51,7 +51,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='C:\\Users\\Marcin\\Desktop\\searchDisc2\\searchDisc_lastrun.py',
+    originPath='C:\\Users\\Anna\\Documents\\APP_VS_git\\psychopy_expt\\searchDisc2\\searchDisc_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -357,7 +357,7 @@ for thisTrial in trials:
     # ------Prepare to start Routine "break_2"-------
     continueRoutine = True
     # update component parameters for each repeat
-    if trials.thisTrialN > 0 and trials.thisTrialN % 19 != 0 and trialCounter!=1:
+    if trials.thisTrialN == 0 or trials.thisTrialN % 19 != 0 :
         continueRoutine = False
         
     nCorr = trials.data['key_resp_2.corr'].sum() #.std(), .mean() also available

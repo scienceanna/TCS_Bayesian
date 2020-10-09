@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" ?>
-<PsychoPy2experiment encoding="utf-8" version="2020.2.2">
+<PsychoPy2experiment encoding="utf-8" version="2020.2.4">
   <Settings>
     <Param name="Audio latency priority" updates="None" val="use prefs" valType="str"/>
     <Param name="Audio lib" updates="None" val="use prefs" valType="str"/>
@@ -102,7 +102,7 @@
         <Param name="Begin Experiment" updates="constant" val="#msg variable just needs some value at start&amp;#10;msg='doh'&amp;#10;" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="msg = &quot;&quot;;&amp;#10;" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="if trials.thisTrialN &gt; 0 and trials.thisTrialN % 19 != 0 and trialCounter!=1:&amp;#10;    continueRoutine = False&amp;#10;    &amp;#10;nCorr = trials.data['key_resp_2.corr'].sum() #.std(), .mean() also available&amp;#10;meanRt = trials.data['key_resp_2.rt'].mean()&amp;#10;msg = &quot;You have completed %i out of 96 trials. You got %i trials correct (rt=%.2f). Press space bar to continue.trial counter %i&quot; %(trials.thisN,nCorr,meanRt,trialCounter)" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="if trials.thisTrialN == 0 or trials.thisTrialN % 19 != 0 :&amp;#10;    continueRoutine = False&amp;#10;    &amp;#10;nCorr = trials.data['key_resp_2.corr'].sum() #.std(), .mean() also available&amp;#10;meanRt = trials.data['key_resp_2.rt'].mean()&amp;#10;msg = &quot;You have completed %i out of 96 trials. You got %i trials correct (rt=%.2f). Press space bar to continue.trial counter %i&quot; %(trials.thisN,nCorr,meanRt,trialCounter)" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Both" valType="str"/>
         <Param name="Each Frame" updates="constant" val="if trials.thisTrialN &gt; 0 and trials.thisTrialN % 19 != 0 and trialCounter!=1:&amp;#10;    continueRoutine = False&amp;#10;    &amp;#10;nCorr = trials.data['key_resp_2.corr'].sum() #.std(), .mean() also available&amp;#10;meanRt = trials.data['key_resp_2.rt'].mean()&amp;#10;msg = &quot;You have completed %i out of 96 trials. You got %i trials correct (rt=%.2f). Press space bar to continue.trial counter %i&quot; %(trials.thisN,nCorr,meanRt,trialCounter)" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
