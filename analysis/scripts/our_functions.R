@@ -129,7 +129,8 @@ plot_model_fits_ex <- function(df, experiment, m, people2plot, inc_re = NA) {
     theme_bw() + 
     scale_fill_brewer(palette = "Greys") + 
     scale_colour_manual(values = c("orange1", "cornflowerblue", "yellow3")) +
-    scale_y_log10("reaction time") -> plt
+    coord_cartesian(ylim = c(-10, 10))  -> plt #+
+    #scale_y_log10("reaction time") -> plt
   
   return(plt)
 }
@@ -260,4 +261,44 @@ predict_rt_b <- function(e_id, meth, Dp_summary, df) {
     mutate(exp_id = e_id)
   
   return(d_out)
+}
+
+compute_dist <- function(feat, m_family, N_T) {
+  
+  
+  if (m_family == "normal") {
+    ss <- samples_nrl
+  } else {
+    ss <- samples_idt
+  }
+  
+  a <- ss[paste("b_d_feature", feat, sep = "")][[1]]
+  D <- ss[paste("b_d_feature", feat, ":logN_TP1", sep = "")][[1]]
+  sigma <-ss["sigma"][[1]]
+  
+  mu <- a + log(N_T+1)*D
+  
+  d_out <- tibble(distribution = as.character(), d_feature = as.character(), N_T = as.numeric(), iter = as.numeric(), rt = as.numeric(), p = as.numeric())
+  
+  rt = seq(0.01, 3, 0.01)
+  
+  for (ii in 1:10) {
+    if (m_family == "normal") 
+    {
+      pred = dnorm(rt, mu[ii], sigma[ii])
+    } else {
+      pred =    dlnorm(rt, mu[ii], sigma[ii])
+    }
+    
+    d_out %>% add_row(
+      distribution = m_family,
+      d_feature = feat,
+      N_T = N_T,
+      iter = ii,
+      rt = rt,
+      p = pred)-> d_out
+  }
+  
+  return(d_out)
+  
 }
