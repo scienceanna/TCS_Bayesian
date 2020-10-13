@@ -76,6 +76,34 @@ fit_glmm_to_an_exp <- function(experiment, df, ppc = FALSE, fam = "lognormal") {
         iter = 5000)
     }
     
+    } else if(fam == "shifted")
+    {
+      my_priors <- c(
+        prior_string("normal(-0.5, 0.1)", class = "b", coef = intercepts),
+        prior_string("normal(0, 0.05)", class = "b", coef = slopes))
+      
+    if(ppc == TRUE)
+    {
+      # Rather than fit model, compute prior predictions
+      m <- brm(
+        rt ~  0 + d_feature + log(N_T+1):d_feature + (log(N_T+1):d_feature|p_id),
+        data = df,
+        family = shifted_lognormal(),
+        prior = my_priors,
+        chains = 1,
+        sample_prior = "only",
+        iter = 5000)
+      
+    } else {
+      m <- brm(
+        rt ~  0 + d_feature + log(N_T+1):d_feature + (log(N_T+1):d_feature|p_id),
+        data = df,
+        family = shifted_lognormal(),
+        prior = my_priors,
+        chains = 1,
+        iter = 5000)
+    }
+    
   } else  { # use a normal distribution
     
     my_priors <- c(
