@@ -9,6 +9,9 @@ account_for_zero_distracters <- function(df)
     filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[2]),
     filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[3]),
     filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[4]),
+    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[5]),
+    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[6]),
+    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[7]),
     filter(df, N_T>0)) %>%
     mutate(d_feature = as_factor(d_feature)) -> df
   
