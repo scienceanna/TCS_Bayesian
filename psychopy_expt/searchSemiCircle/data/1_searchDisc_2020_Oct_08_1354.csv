@@ -1,0 +1,3 @@
+﻿ImageFile,targ_side,correctAnswer,trials.thisRepN,trials.thisTrialN,trials.thisN,trials.thisIndex,dispStimuli.started,dispStimuli.stopped,key_resp_2.keys,key_resp_2.rt,key_resp_2.started,key_resp_2.stopped,breakMessage.started,breakMessage.stopped,key_resp.keys,key_resp.rt,key_resp.started,key_resp.stopped,participant,session,date,expName,psychopyVersion,frameRate,
+images/exp1a_trial_51_colour1_distractors31_l.png,l,1,0,0,0,51,8.495248200022615,None,1,2.4859733999473974,8.495248200022615,None,11.002073600073345,None,space,5.339099699980579,11.002073600073345,None,1,001,2020_Oct_08_1354,searchDisc,2020.2.4,60.011222128098744,
+,,,,,,,16.409185600001365,None,2,1.2600060000550002,16.409185600001365,None,,,,,,,,,,,,,
