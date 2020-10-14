@@ -136,36 +136,47 @@ Now that we have verified that we can re-create the original results, we switch 
   
 ## Measuring $D$ from Empirical Data
 
+We'll make a few minor changes to the data:
+  - Switch from ms to seconds
+  - Recode Experiment 1a and 1b to Experiment 1, Experiment 2a, 2b and 2c to Experiment 2, etc.
 ```{r}
-d %>% mutate(rt = rt/1000) -> d
+d %>% mutate(
+  rt = rt/1000,
+  exp_id = parse_number(exp_id)) -> d
 ```
 
 ### Prior Predictions
 
 We can take the prior model, and then use it to compute our prior predictions!
 
-```{r glmm-prior-sample, cache=TRUE, fig.cap="Sample Prior predictions for reaction time and log(N+1)."}
-prior_model_nrl <- fit_glmm_to_an_exp("1a", d, ppc = TRUE, "normal")
-prior_model_idt <- fit_glmm_to_an_exp("1a", d, ppc = TRUE, "lognormal")
-#prior_model_gam <- fit_glmm_to_an_exp("1a", d, ppc = TRUE, "Gamma")
+```{r glmm-prior-sample, cache=TRUE}
+prior_model_nrl <- fit_glmm_to_an_exp("1", d, ppc = "only", "normal")
+prior_model_log <- fit_glmm_to_an_exp("1", d, ppc = "only", "lognormal")
+prior_model_sft <- fit_glmm_to_an_exp("1", d, ppc = "only", "shifted")
+
 ```
 
-```{r}
-plt_nrl <- plot_model_fits_ex(d, "1a", prior_model_nrl, 1)
-plt_idt <- plot_model_fits_ex(d, "1a", prior_model_idt, 1)
-#plt_gam <- plot_model_fits_ex(d, "1a", prior_model_gam, 1)
+```{r plt_prior, fig.height=8, fig.cap="Sample Prior predictions for reaction time and log(N+1)."}
+plt_nrl <- plot_model_fits_ex(d, 1, prior_model_nrl, 1)
+plt_log <- plot_model_fits_ex(d, 1, prior_model_log, 1)
+plt_sft <- plot_model_fits_ex(d, 1, prior_model_sft, 1)
 
-plt_nrl
-plt_idt
-#plt_gam
+plt_nrl / plt_log / plt_sft
+
 ```
 
-### Fit Model and Posterior Predictions
+### Fit Model and Posterior Predictions For Experiment 1
 
 ```{r loo-fit-glm-to-buetti2019-data, cache=TRUE}
-# my_models_nrl <- map("2a", fit_glmm_to_an_exp, d, "identity", "normal")
-# saveRDS(my_models_nrl, "my_nrl.models")
-# rm(my_models_nrl)
+m_exp1_nrl <- fit_glmm_to_an_exp(1, d, ppc = "no", fam = "normal")
+saveRDS(m_exp1_nrl, "exp_1_nrl.models")
+rm(m_exp1_nrll)
+
+
+m_exp1_log <- fit_glmm_to_an_exp(1, d, ppc = "no", fam = "lognormal")
+m_exp1_sft <- fit_glmm_to_an_exp(1, d, ppc = "no", fam = "shifted")
+
+
 # 
 # my_models_idt <- map("2a", fit_glmm_to_an_exp, d, "identity")
 # saveRDS(my_models_idt, "my_idt.models")
@@ -175,186 +186,230 @@ plt_idt
 # saveRDS(my_models_inv, "my_inv.models")
 # rm(my_models_inv)
 
-my_models_nrl <- readRDS("my_nrl.models")[[1]]
-my_models_idt <- readRDS("my_idt.models")[[1]]
+my_models_sft <- map("2a", fit_glmm_to_an_exp, d, "shifted")
+saveRDS(my_models_sft, "my_sft.models")
+rm(my_models_sft)
 
 #my_models_inv <- map("2a", fit_glmm_to_an_exp, d, FALSE, "Gamma")
 
+my_models_nrl <- readRDS("my_nrl.models")[[1]]
+my_models_idt <- readRDS("my_idt.models")[[1]]
+my_models_sft <- readRDS("my_sft.models")[[1]]
+
 my_models_nrl <- add_criterion(my_models_nrl, c("loo", "waic"))
 my_models_idt <- add_criterion(my_models_idt, c("loo", "waic"))
-model_weights(my_models_idt, my_models_nrl)
-```
+my_models_sft <- add_criterion(my_models_sft, c("loo", "waic"))
 
-```{r}
-
-d2 <- filter(d, exp_id == "2a", d_feature != "no distractors") 
-d2 <- mutate(d2, d_feature = fct_drop(d_feature))
-d2 %>% mutate(d_feature = as_factor(str_replace_all(d_feature, " ", ""))) -> d2
-
-
-samples_nrl <- posterior_samples(my_models_nrl, c("^b","sigma"), subset = 1:10)
-samples_idt <- posterior_samples(my_models_idt, c("^b","sigma"), subset = 1:10)
-
-d_nrl <- tibble()
-for (n in unique(d$N_T)) {
-  
-  d_nrl <- bind_rows(d_nrl, 
-                  map(levels(d2$d_feature), compute_dist, "normal", N_T = n))
-  
-  
-}
-
-d_nrl %>% mutate(d_feature = as_factor(d_feature)) %>% filter(N_T != 0) -> d_nrl
-
-ggplot() + 
-  geom_density(data = d2, aes(rt, fill = d_feature), alpha = 0.4, position = "identity") + 
-  geom_path(data = d_nrl, aes(rt, p, group = iter), colour = "purple", alpha = 0.3) +
-  facet_grid(N_T~d_feature) + coord_cartesian(xlim = c(0, 2)) + ggtitle("normal") -> p1
-
-d_lnrl <- tibble()
-for (n in unique(d$N_T)) {
-  
-  d_lnrl <- bind_rows(d_lnrl, 
-                     map(levels(d2$d_feature), compute_dist, "log-normal", N_T = n))
-  
-  
-}
-
-d_lnrl %>% mutate(d_feature = as_factor(d_feature)) %>% filter(N_T != 0) -> d_lnrl
-
-ggplot() + 
-  geom_density(data = d2, aes(rt, fill = d_feature), alpha = 0.4, position = "identity") + 
-  geom_path(data = d_lnrl, aes(rt, p, group = iter), colour = "cyan", alpha = 0.3) +
-  facet_grid(N_T~d_feature) + coord_cartesian(xlim = c(0, 2)) + ggtitle("log normal") -> p2
-
-p1+p2
-
+model_weights(my_models_idt, my_models_nrl, my_models_sft)
 ```
 
 
-```{r fit-glm-to-buetti2019-data, cache=TRUE}
-
-#my_models_idt <- map(unique(d$exp_id), fit_glmm_to_an_exp, d, "identity")
-#my_models_inv <- map(unique(d$exp_id), fit_glmm_to_an_exp, d, "inverse")
 
 
-#saveRDS(my_models_idt, "my.models_idt")
-#saveRDS(my_models_inv, "my.models_inv")
-```
-
-```{r}
-#my_models <- readRDS("my.models")
-```
-
-```{r plot-glm-to-buetti2019-data, fig.cap="The multi-level fits for Experiment 2a (Buetti, 2019)."}
-#plot_model_fits_ex(d, "2a", my_models[[3]], 1:5)
-```
-
-```{r}
-#De <- map_df(
-#  1:length(my_models_idt), 
-#  extract_fixed_slopes_from_model, 
-#  my_models_idt, df = d)
-
-#ggplot(De, aes(x = D, fill = d_feature)) + 
-#  geom_density(alpha = 0.333) +
-#  facet_wrap(~ exp_id, ncol = 5) + 
-#  theme_bw()
-
-#ggsave("../plots/buetti2019_bayesian_fits.pdf", width = 8, height = 3)
-```
-
-## Estimating $D$ for compound feature distractors
-
-```{r}
-
-#Dp_samples <- map_df(exps_to_predict, get_Dp_samples, d)
-
-# add in average D (of collinear and orthogonal)
-
-#Dp_samples %>% pivot_wider(names_from = method, values_from = Dp) %>%
-#  group_by(iter, exp_id, d_feature) %>%
-#  mutate(mean_method = mean(c(orthog_contrast, collinear))) %>% 
-#  pivot_longer(c(best_feature, orthog_contrast, collinear, mean_method), names_to = "method", values_to = "Dp") -> Dp_samples
 
 
-# Dp_samples %>% 
-#   group_by(exp_id, d_feature, method) %>%
-#   mean_hdci(Dp, De) %>%
-#  ggplot(aes(x = Dp, y = De)) + 
-#  geom_abline(linetype = 2) + 
-#  geom_point() +
-#  facet_wrap(~method, nrow = 1) + theme_bw() +
-#  geom_linerange(aes(ymin = De.lower, ymax = De.upper), alpha = 0.5) + 
-#  geom_linerange(aes(xmin = Dp.lower, xmax = Dp.lower), alpha = 0.5) + 
-#  geom_smooth(method = lm, colour = "pink")
- 
-#ggsave("recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
+<!-- ### Fit Model and Posterior Predictions -->
 
-```
+<!-- ```{r loo-fit-glm-to-buetti2019-data, cache=TRUE} -->
+<!-- # my_models_nrl <- map("2a", fit_glmm_to_an_exp, d, "identity", "normal") -->
+<!-- # saveRDS(my_models_nrl, "my_nrl.models") -->
+<!-- # rm(my_models_nrl) -->
+<!-- #  -->
+<!-- # my_models_idt <- map("2a", fit_glmm_to_an_exp, d, "identity") -->
+<!-- # saveRDS(my_models_idt, "my_idt.models") -->
+<!-- # rm(my_models_idt) -->
+<!-- #  -->
+<!-- # my_models_inv <- map("2a", fit_glmm_to_an_exp, d, "inverse") -->
+<!-- # saveRDS(my_models_inv, "my_inv.models") -->
+<!-- # rm(my_models_inv) -->
 
-## Which slope is closer to 1?
+<!-- my_models_sft <- map("2a", fit_glmm_to_an_exp, d, "shifted") -->
+<!-- saveRDS(my_models_sft, "my_sft.models") -->
+<!-- rm(my_models_sft) -->
 
-```{r}
-#slopes_err <- function(ii, df)  {
-  
-#  d_itr = filter(df, iter == ii)
-  
-#  beta = summary(lm(data = d_itr, De ~ (Dp):(0 + method)))$coefficients[, 1]
-#  beta_err = abs(1 - beta)
-  
-#  return(beta_err)
-#}
+<!-- #my_models_inv <- map("2a", fit_glmm_to_an_exp, d, FALSE, "Gamma") -->
 
+<!-- my_models_nrl <- readRDS("my_nrl.models")[[1]] -->
+<!-- my_models_idt <- readRDS("my_idt.models")[[1]] -->
+<!-- my_models_sft <- readRDS("my_sft.models")[[1]] -->
 
-#beta_err <- map_df(unique(Dp_samples$iter), slopes_err, Dp_samples) 
-#names(beta_err) <- str_remove(names(beta_err), 'Dp:method')
+<!-- my_models_nrl <- add_criterion(my_models_nrl, c("loo", "waic")) -->
+<!-- my_models_idt <- add_criterion(my_models_idt, c("loo", "waic")) -->
+<!-- my_models_sft <- add_criterion(my_models_sft, c("loo", "waic")) -->
 
-# beta_err %>% pivot_longer(1:4, names_to = "method", values_to = "abs_res") %>%
-#   ggplot(aes(x = abs_res, fill = method)) + geom_density(alpha = 0.33)
+<!-- model_weights(my_models_idt, my_models_nrl, my_models_sft) -->
+<!-- ``` -->
 
-# beta_err %>% select(-best_feature) %>%
-#   mutate(difference = orthog_contrast - collinear) %>%
-#   ggplot(aes(x = difference)) + geom_density()
- 
-#  beta_err %>% select(-best_feature) %>%
-#   mutate(difference = mean_method - collinear) -> x
-  
-#  mean(x$difference > 0)
+<!-- ```{r} -->
 
-```
-
-## Predicting Reaction Times
-
-```{r, fig.width = 10, fig.height = 10, cache=TRUE}
-
-# Dp_samples %>% 
-#   group_by(exp_id, d_feature, method) %>%
-#  summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop")-> Dp_summary
-
-#meth <- "mean_method"
-
-#d_prt <- map_df(exps_to_predict, predict_rt_b, meth, Dp_summary, d)
-```
+<!-- d2 <- filter(d, exp_id == "2a", d_feature != "no distractors")  -->
+<!-- d2 <- mutate(d2, d_feature = fct_drop(d_feature)) -->
+<!-- d2 %>% mutate(d_feature = as_factor(str_replace_all(d_feature, " ", ""))) -> d2 -->
 
 
-```{r}
+<!-- samples_nrl <- posterior_samples(my_models_nrl, c("^b","sigma"), subset = 1:10) -->
+<!-- samples_idt <- posterior_samples(my_models_idt, c("^b","sigma"), subset = 1:10) -->
 
-#d_rt <- d %>% filter(N_T > 0) %>%
-#  group_by(p_id, exp_id, d_feature, N_T) %>% summarise(
-#    mean_log = MASS::fitdistr(rt, densfun = "log-normal")$estimate["meanlog"],
-#    mean_rt = mean(rt)) %>%
-#   group_by(exp_id, d_feature, N_T) %>% summarise(rt = exp(median(mean_log))) %>%
-# right_join(d_prt, by = c("exp_id", "d_feature", "N_T"))
+<!-- d_nrl <- tibble() -->
+<!-- for (n in unique(d$N_T)) { -->
 
-#ggplot(data = d_rt, aes(x = rt, y = .value)) + 
-#  geom_abline(linetype = 2) +
-#  geom_point() + geom_errorbar(aes(ymin = .lower, ymax = .upper))+ 
-#  theme_bw()
+<!--   d_nrl <- bind_rows(d_nrl,  -->
+<!--                   map(levels(d2$d_feature), compute_dist, "normal", N_T = n)) -->
 
 
-  
-#print(mean(abs(d_rt$rt - d_rt$.value)))
+<!-- } -->
 
-```
-# Power Analyis for Planned Studies
+<!-- d_nrl %>% mutate(d_feature = as_factor(d_feature)) %>% filter(N_T != 0) -> d_nrl -->
+
+<!-- ggplot() +  -->
+<!--   geom_density(data = d2, aes(rt, fill = d_feature), alpha = 0.4, position = "identity") +  -->
+<!--   geom_path(data = d_nrl, aes(rt, p, group = iter), colour = "purple", alpha = 0.3) + -->
+<!--   facet_grid(N_T~d_feature) + coord_cartesian(xlim = c(0, 2)) + ggtitle("normal") -> p1 -->
+
+<!-- d_lnrl <- tibble() -->
+<!-- for (n in unique(d$N_T)) { -->
+
+<!--   d_lnrl <- bind_rows(d_lnrl,  -->
+<!--                      map(levels(d2$d_feature), compute_dist, "log-normal", N_T = n)) -->
+
+
+<!-- } -->
+
+<!-- d_lnrl %>% mutate(d_feature = as_factor(d_feature)) %>% filter(N_T != 0) -> d_lnrl -->
+
+<!-- ggplot() +  -->
+<!--   geom_density(data = d2, aes(rt, fill = d_feature), alpha = 0.4, position = "identity") +  -->
+<!--   geom_path(data = d_lnrl, aes(rt, p, group = iter), colour = "cyan", alpha = 0.3) + -->
+<!--   facet_grid(N_T~d_feature) + coord_cartesian(xlim = c(0, 2)) + ggtitle("log normal") -> p2 -->
+
+<!-- p1+p2 -->
+
+<!-- ``` -->
+
+
+<!-- ```{r fit-glm-to-buetti2019-data, cache=TRUE} -->
+
+<!-- #my_models_idt <- map(unique(d$exp_id), fit_glmm_to_an_exp, d, "identity") -->
+<!-- #my_models_inv <- map(unique(d$exp_id), fit_glmm_to_an_exp, d, "inverse") -->
+
+
+<!-- #saveRDS(my_models_idt, "my.models_idt") -->
+<!-- #saveRDS(my_models_inv, "my.models_inv") -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- #my_models <- readRDS("my.models") -->
+<!-- ``` -->
+
+<!-- ```{r plot-glm-to-buetti2019-data, fig.cap="The multi-level fits for Experiment 2a (Buetti, 2019)."} -->
+<!-- #plot_model_fits_ex(d, "2a", my_models[[3]], 1:5) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- #De <- map_df( -->
+<!-- #  1:length(my_models_idt),  -->
+<!-- #  extract_fixed_slopes_from_model,  -->
+<!-- #  my_models_idt, df = d) -->
+
+<!-- #ggplot(De, aes(x = D, fill = d_feature)) +  -->
+<!-- #  geom_density(alpha = 0.333) + -->
+<!-- #  facet_wrap(~ exp_id, ncol = 5) +  -->
+<!-- #  theme_bw() -->
+
+<!-- #ggsave("../plots/buetti2019_bayesian_fits.pdf", width = 8, height = 3) -->
+<!-- ``` -->
+
+<!-- ## Estimating $D$ for compound feature distractors -->
+
+<!-- ```{r} -->
+
+<!-- #Dp_samples <- map_df(exps_to_predict, get_Dp_samples, d) -->
+
+<!-- # add in average D (of collinear and orthogonal) -->
+
+<!-- #Dp_samples %>% pivot_wider(names_from = method, values_from = Dp) %>% -->
+<!-- #  group_by(iter, exp_id, d_feature) %>% -->
+<!-- #  mutate(mean_method = mean(c(orthog_contrast, collinear))) %>%  -->
+<!-- #  pivot_longer(c(best_feature, orthog_contrast, collinear, mean_method), names_to = "method", values_to = "Dp") -> Dp_samples -->
+
+
+<!-- # Dp_samples %>%  -->
+<!-- #   group_by(exp_id, d_feature, method) %>% -->
+<!-- #   mean_hdci(Dp, De) %>% -->
+<!-- #  ggplot(aes(x = Dp, y = De)) +  -->
+<!-- #  geom_abline(linetype = 2) +  -->
+<!-- #  geom_point() + -->
+<!-- #  facet_wrap(~method, nrow = 1) + theme_bw() + -->
+<!-- #  geom_linerange(aes(ymin = De.lower, ymax = De.upper), alpha = 0.5) +  -->
+<!-- #  geom_linerange(aes(xmin = Dp.lower, xmax = Dp.lower), alpha = 0.5) +  -->
+<!-- #  geom_smooth(method = lm, colour = "pink") -->
+
+<!-- #ggsave("recreate_log_normal_fig_4.pdf", width = 8, height = 2.5) -->
+
+<!-- ``` -->
+
+<!-- ## Which slope is closer to 1? -->
+
+<!-- ```{r} -->
+<!-- #slopes_err <- function(ii, df)  { -->
+
+<!-- #  d_itr = filter(df, iter == ii) -->
+
+<!-- #  beta = summary(lm(data = d_itr, De ~ (Dp):(0 + method)))$coefficients[, 1] -->
+<!-- #  beta_err = abs(1 - beta) -->
+
+<!-- #  return(beta_err) -->
+<!-- #} -->
+
+
+<!-- #beta_err <- map_df(unique(Dp_samples$iter), slopes_err, Dp_samples)  -->
+<!-- #names(beta_err) <- str_remove(names(beta_err), 'Dp:method') -->
+
+<!-- # beta_err %>% pivot_longer(1:4, names_to = "method", values_to = "abs_res") %>% -->
+<!-- #   ggplot(aes(x = abs_res, fill = method)) + geom_density(alpha = 0.33) -->
+
+<!-- # beta_err %>% select(-best_feature) %>% -->
+<!-- #   mutate(difference = orthog_contrast - collinear) %>% -->
+<!-- #   ggplot(aes(x = difference)) + geom_density() -->
+
+<!-- #  beta_err %>% select(-best_feature) %>% -->
+<!-- #   mutate(difference = mean_method - collinear) -> x -->
+
+<!-- #  mean(x$difference > 0) -->
+
+<!-- ``` -->
+
+<!-- ## Predicting Reaction Times -->
+
+<!-- ```{r, fig.width = 10, fig.height = 10, cache=TRUE} -->
+
+<!-- # Dp_samples %>%  -->
+<!-- #   group_by(exp_id, d_feature, method) %>% -->
+<!-- #  summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop")-> Dp_summary -->
+
+<!-- #meth <- "mean_method" -->
+
+<!-- #d_prt <- map_df(exps_to_predict, predict_rt_b, meth, Dp_summary, d) -->
+<!-- ``` -->
+
+
+<!-- ```{r} -->
+
+<!-- #d_rt <- d %>% filter(N_T > 0) %>% -->
+<!-- #  group_by(p_id, exp_id, d_feature, N_T) %>% summarise( -->
+<!-- #    mean_log = MASS::fitdistr(rt, densfun = "log-normal")$estimate["meanlog"], -->
+<!-- #    mean_rt = mean(rt)) %>% -->
+<!-- #   group_by(exp_id, d_feature, N_T) %>% summarise(rt = exp(median(mean_log))) %>% -->
+<!-- # right_join(d_prt, by = c("exp_id", "d_feature", "N_T")) -->
+
+<!-- #ggplot(data = d_rt, aes(x = rt, y = .value)) +  -->
+<!-- #  geom_abline(linetype = 2) + -->
+<!-- #  geom_point() + geom_errorbar(aes(ymin = .lower, ymax = .upper))+  -->
+<!-- #  theme_bw() -->
+
+
+
+<!-- #print(mean(abs(d_rt$rt - d_rt$.value))) -->
+
+<!-- ``` -->
+<!-- # Power Analyis for Planned Studies -->

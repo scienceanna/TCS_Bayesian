@@ -1,7 +1,8 @@
-fit_glmm_to_an_exp <- function(experiment, df, ppc = FALSE, fam = "lognormal") {
+fit_glmm_to_an_exp <- function(experiment, df, ppc = "no", fam = "lognormal") {
   
   # ppc = TRUE to carry out a prior predictive check
-  # link = "identity" 
+  #
+  n_itr = 2000
   
   df %>%
     filter(exp_id == experiment) %>%
@@ -12,96 +13,64 @@ fit_glmm_to_an_exp <- function(experiment, df, ppc = FALSE, fam = "lognormal") {
   
   df <- account_for_zero_distracters(df)
   
+  # if we are only sampling from the prior, we will use a small subset of the data
+  if (ppc == 'only') {
+    df %>% group_by(p_id, d_feature, N_T) %>%
+      summarise(rt = sample(rt, 1), .groups = "drop") -> df
+  }
+  
   intercepts <- paste("d_feature", levels(df$d_feature), sep = "")
   intercepts <- gsub("[[:space:]]", "", intercepts)
   
   slopes <- paste("d_feature", levels(df$d_feature), ":logN_TP1", sep = "")
   slopes <- gsub("[[:space:]]", "", slopes)
   
-
-  
   if ( fam == "lognormal") 
   {
-    
     my_priors <- c(
       prior_string("normal(-0.5, 0.1)", class = "b", coef = intercepts),
-      prior_string("normal(0, 0.05)", class = "b", coef = slopes))
+      prior_string("normal(0, 1)", class = "b", coef = slopes))
     
-    if (ppc == TRUE)
-    {
-      # Rather than fit model, compute prior predictions
+    
       m <- brm(
         rt ~  0 + d_feature + log(N_T+1):d_feature + (log(N_T+1):d_feature|p_id),
         data = df,
         family = lognormal(),
         prior = my_priors,
         chains = 1,
-        sample_prior = "only",
-        iter = 5000)
-      
-    } else {
-      m <- brm(
-        rt ~  0 + d_feature + log(N_T+1):d_feature + (log(N_T+1):d_feature|p_id),
-        data = df,
-        family = lognormal(),
-        prior = my_priors,
-        chains = 1,
-        iter = 5000)
-    }
-  } else if(fam == "Gamma")
+        sample_prior = ppc,
+        iter = n_itr)
+  }  
+  else if(fam == "shifted")
   {
     my_priors <- c(
-      prior_string("normal(0.6, 1)", class = "b", coef = intercepts),
-      prior_string("normal(0, 5)", class = "b", coef = slopes))
+      prior_string("normal(-0.5, 0.1)", class = "b", coef = intercepts),
+      prior_string("normal(0, 1)", class = "b", coef = slopes))
     
-    if (ppc == TRUE)
-    {
-      # Rather than fit model, compute prior predictions
       m <- brm(
         rt ~  0 + d_feature + log(N_T+1):d_feature + (log(N_T+1):d_feature|p_id),
         data = df,
-        family = Gamma(),
+        family = shifted_lognormal(),
         prior = my_priors,
         chains = 1,
-        sample_prior = "only",
-        iter = 5000)
-      
-    } else {
-      m <- brm(
-        rt ~  0 + d_feature + log(N_T+1):d_feature + (log(N_T+1):d_feature|p_id),
-        data = df,
-        family = Gamma(),
-        prior = my_priors,
-        chains = 1,
-        iter = 5000)
-    }
-    
-  } else  { # use a normal distribution
-    
+        sample_prior = ppc,
+        iter = n_itr)
+  } 
+  else 
+  { 
+    # use a normal distribution
     my_priors <- c(
       prior_string("normal(0.6, 0.1)", class = "b", coef = intercepts),
-      prior_string("normal(0, 0.05)", class = "b", coef = slopes))
+      prior_string("normal(0, 1)", class = "b", coef = slopes))
     
-    if (ppc == TRUE)
-    {
-      # Rather than fit model, compute prior predictions
       m <- brm(
         rt ~  0 + d_feature + log(N_T+1):d_feature + (log(N_T+1):d_feature|p_id),
         data = df,
         prior = my_priors,
         chains = 1,
-        sample_prior = "only",
-        iter = 5000)
-      
-    } else {
-      m <- brm(
-        rt ~  0 + d_feature + log(N_T+1):d_feature + (log(N_T+1):d_feature|p_id),
-        data = df,
-        prior = my_priors,
-        chains = 1,
-        iter = 5000)
-    }
-  }
+        sample_prior = ppc,
+        iter = n_itr)
+      }
 
   return(m)
 }
@@ -110,27 +79,27 @@ plot_model_fits_ex <- function(df, experiment, m, people2plot, inc_re = NA) {
   
   df %>%
     filter(
-      exp_id == experiment, N_T > 0,
-      p_id %in% paste(experiment, people2plot, sep = "-")) %>%
+      exp_id == experiment, N_T > 0) %>%
     mutate(
       d_feature = fct_drop(d_feature),
       p_id = fct_drop(p_id)) -> d_plt
   
+  d_plt <- sample_n(d_plt, 100)
+  
   d_plt %>%
     modelr::data_grid(p_id, N_T= seq(0,36,4), d_feature) %>%
     add_predicted_draws(m, re_formula = inc_re) %>% 
-    ggplot(aes(x = log(N_T+1), y = .prediction, colour = d_feature)) + 
-    stat_lineribbon(.width = c(0.5, 0.9)) + 
-    geom_jitter(
+    ggplot(aes(x = log(N_T+1), y = .prediction)) + 
+    stat_lineribbon(.width = c(0.59, 0.73, 0.89)) + 
+    geom_point(
       data = d_plt, 
       aes(y = rt), 
-      alpha = 0.1) + 
-    facet_grid(p_id ~ d_feature) + 
+      alpha = 0.25, colour = "darkred") + 
+    facet_grid(. ~ d_feature) + 
     theme_bw() + 
     scale_fill_brewer(palette = "Greys") + 
-    scale_colour_manual(values = c("orange1", "cornflowerblue", "yellow3")) +
-    coord_cartesian(ylim = c(-10, 10))  -> plt #+
-    #scale_y_log10("reaction time") -> plt
+    scale_colour_manual(values = c("orange1", "cornflowerblue", "yellow3")) -> plt #+
+    #scale_y_log10("reaction time") -> pltcoord_cartesian(ylim = c(-10, 10)) 
   
   return(plt)
 }
