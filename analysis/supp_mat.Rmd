@@ -164,3 +164,38 @@ plt_sft <- plot_model_fits_ex(d, 1, prior_model_sft, 1)
 plt_nrl / plt_log / plt_sft
 
 ```
+
+### Fit Model and Posterior Predictions For Experiment 1
+
+```{r loo-fit-glm-to-buetti2019-data, cache=TRUE}
+m_exp1_nrl <- fit_glmm_to_an_exp(1, d, ppc = "no", fam = "normal")
+m_exp1_log <- fit_glmm_to_an_exp(1, d, ppc = "no", fam = "lognormal")
+m_exp1_sft <- fit_glmm_to_an_exp(1, d, ppc = "no", fam = "shifted")
+
+# saveRDS(my_models_nrl, "my_nrl.models")
+# rm(my_models_nrl)
+# 
+# my_models_idt <- map("2a", fit_glmm_to_an_exp, d, "identity")
+# saveRDS(my_models_idt, "my_idt.models")
+# rm(my_models_idt)
+# 
+# my_models_inv <- map("2a", fit_glmm_to_an_exp, d, "inverse")
+# saveRDS(my_models_inv, "my_inv.models")
+# rm(my_models_inv)
+
+my_models_sft <- map("2a", fit_glmm_to_an_exp, d, "shifted")
+saveRDS(my_models_sft, "my_sft.models")
+rm(my_models_sft)
+
+#my_models_inv <- map("2a", fit_glmm_to_an_exp, d, FALSE, "Gamma")
+
+my_models_nrl <- readRDS("my_nrl.models")[[1]]
+my_models_idt <- readRDS("my_idt.models")[[1]]
+my_models_sft <- readRDS("my_sft.models")[[1]]
+
+my_models_nrl <- add_criterion(my_models_nrl, c("loo", "waic"))
+my_models_idt <- add_criterion(my_models_idt, c("loo", "waic"))
+my_models_sft <- add_criterion(my_models_sft, c("loo", "waic"))
+
+model_weights(my_models_idt, my_models_nrl, my_models_sft)
+```
