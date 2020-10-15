@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2020.2.2),
-    on October 13, 2020, at 14:48
+    on October 15, 2020, at 08:39
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -36,7 +36,7 @@ os.chdir(_thisDir)
 
 # Store info about the experiment session
 psychopyVersion = '2020.2.2'
-expName = 'searchDisc'  # from the Builder filename that created this script
+expName = 'searchDisc3'  # from the Builder filename that created this script
 expInfo = {'participant': '', 'session': '001'}
 dlg = gui.DlgFromDict(dictionary=expInfo, sort_keys=False, title=expName)
 if dlg.OK == False:
@@ -51,7 +51,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='C:\\Users\\Marcin\\Desktop\\searchDiscWorking2\\searchDisc_lastrun.py',
+    originPath='C:\\Users\\Marcin\\Documents\\GitHub\\APP_VS\\psychopy_expt\\searchDisc\\searchDisc3_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -83,7 +83,7 @@ defaultKeyboard = keyboard.Keyboard()
 # Initialize components for Routine "WelcomePractice"
 WelcomePracticeClock = core.Clock()
 text_2 = visual.TextStim(win=win, name='text_2',
-    text="Welcome to our experiment.\nYour task is to look for a blue disc and indicate if it faces to the left or to the right.\nPress '1' to indicate that the disc is facing left.\nPress '2' to indicate that the disc is facing right.\nYou will first complete 20 practice trials.\nPress SPACE bar when you are ready to start.\n",
+    text="Welcome to our experiment.\nYour task is to look for a semicircle and indicate if it faces to the left or to the right.\nPress '1' to indicate that the semicircle is facing left.\nPress '2' to indicate that the semicircle is facing right.\nYou will first complete 20 practice trials.\nPress SPACE bar when you are ready to start.\n",
     font='Arial',
     pos=(0, 0), height=0.07, wrapWidth=None, ori=0, 
     color='white', colorSpace='rgb', opacity=1, 
@@ -103,7 +103,7 @@ image_2 = visual.ImageStim(
     texRes=128, interpolate=True, depth=0.0)
 key_resp_6 = keyboard.Keyboard()
 text_3 = visual.TextStim(win=win, name='text_3',
-    text='Press 1 if you see left disc\n\n\n\nPress 2 if you see right disc\n\n\nPress SPACE to start',
+    text='Press 1 if you see left seicircle\n\n\n\nPress 2 if you see right semicircle\n\n\nPress SPACE to start',
     font='Arial',
     pos=(0, 0), height=0.08, wrapWidth=None, ori=0, 
     color='white', colorSpace='rgb', opacity=1, 
@@ -130,10 +130,22 @@ image = visual.ImageStim(
     texRes=128, interpolate=True, depth=0.0)
 key_resp_4 = keyboard.Keyboard()
 
+# Initialize components for Routine "practiceFeedback"
+practiceFeedbackClock = core.Clock()
+text_4 = visual.TextStim(win=win, name='text_4',
+    text='default text',
+    font='Arial',
+    pos=(0, 0), height=0.1, wrapWidth=None, ori=0, 
+    color='white', colorSpace='rgb', opacity=1, 
+    languageStyle='LTR',
+    depth=0.0);
+key_resp_7 = keyboard.Keyboard()
+msg='doh'
+
 # Initialize components for Routine "WelcomeScreen"
 WelcomeScreenClock = core.Clock()
 text = visual.TextStim(win=win, name='text',
-    text='Welcome to the experimental trials.\nBe reminded that your task is to look for a blue disc.\nThe disc is facing either left or right.\nAs soon as you found the disc, indicate if it is facing left by pressing 1 and pressing 2 if facing right.\nPress SPACE bar to continue\n',
+    text='Welcome to the experimental trials.\nBe reminded that your task is to look for a semicircle.\nIf semicircle is facing left press 1.\nIf semicircle is facing right press 2.\nPress SPACE bar to continue\n',
     font='Arial',
     pos=(0, 0), height=0.07, wrapWidth=None, ori=0, 
     color='white', colorSpace='rgb', opacity=1, 
@@ -157,6 +169,7 @@ key_resp_2 = keyboard.Keyboard()
 break_2Clock = core.Clock()
 #msg variable just needs some value at start
 msg='doh'
+trialCounter=0;
 breakMessage = visual.TextStim(win=win, name='breakMessage',
     text='default text',
     font='Arial',
@@ -525,6 +538,109 @@ for thisTrial_2 in trials_2:
         trials_2.addData('key_resp_4.rt', key_resp_4.rt)
     trials_2.addData('key_resp_4.started', key_resp_4.tStartRefresh)
     trials_2.addData('key_resp_4.stopped', key_resp_4.tStopRefresh)
+    
+    # ------Prepare to start Routine "practiceFeedback"-------
+    continueRoutine = True
+    # update component parameters for each repeat
+    text_4.setText(msg)
+    key_resp_7.keys = []
+    key_resp_7.rt = []
+    _key_resp_7_allKeys = []
+    if trials_2.thisTrialN == 0 or trials_2.thisTrialN % 19 != 0:
+        continueRoutine = False
+        
+    
+    nCorr = trials_2.data['key_resp_4.corr'].sum() #.std(), .mean() also available
+    meanRt = trials_2.data['key_resp_4.rt'].mean()
+    msg = "You have completed 20 practice trials. You got %i trials correct (rt=%.2f). Press space bar to continue to main experiment." %(nCorr+1,meanRt)
+    # keep track of which components have finished
+    practiceFeedbackComponents = [text_4, key_resp_7]
+    for thisComponent in practiceFeedbackComponents:
+        thisComponent.tStart = None
+        thisComponent.tStop = None
+        thisComponent.tStartRefresh = None
+        thisComponent.tStopRefresh = None
+        if hasattr(thisComponent, 'status'):
+            thisComponent.status = NOT_STARTED
+    # reset timers
+    t = 0
+    _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+    practiceFeedbackClock.reset(-_timeToFirstFrame)  # t0 is time of first possible flip
+    frameN = -1
+    
+    # -------Run Routine "practiceFeedback"-------
+    while continueRoutine:
+        # get current time
+        t = practiceFeedbackClock.getTime()
+        tThisFlip = win.getFutureFlipTime(clock=practiceFeedbackClock)
+        tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+        frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+        # update/draw components on each frame
+        
+        # *text_4* updates
+        if text_4.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            text_4.frameNStart = frameN  # exact frame index
+            text_4.tStart = t  # local t and not account for scr refresh
+            text_4.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(text_4, 'tStartRefresh')  # time at next scr refresh
+            text_4.setAutoDraw(True)
+        
+        # *key_resp_7* updates
+        waitOnFlip = False
+        if key_resp_7.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            key_resp_7.frameNStart = frameN  # exact frame index
+            key_resp_7.tStart = t  # local t and not account for scr refresh
+            key_resp_7.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(key_resp_7, 'tStartRefresh')  # time at next scr refresh
+            key_resp_7.status = STARTED
+            # keyboard checking is just starting
+            waitOnFlip = True
+            win.callOnFlip(key_resp_7.clock.reset)  # t=0 on next screen flip
+            win.callOnFlip(key_resp_7.clearEvents, eventType='keyboard')  # clear events on next screen flip
+        if key_resp_7.status == STARTED and not waitOnFlip:
+            theseKeys = key_resp_7.getKeys(keyList=['space'], waitRelease=False)
+            _key_resp_7_allKeys.extend(theseKeys)
+            if len(_key_resp_7_allKeys):
+                key_resp_7.keys = _key_resp_7_allKeys[-1].name  # just the last key pressed
+                key_resp_7.rt = _key_resp_7_allKeys[-1].rt
+                # a response ends the routine
+                continueRoutine = False
+        
+        # check for quit (typically the Esc key)
+        if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
+            core.quit()
+        
+        # check if all components have finished
+        if not continueRoutine:  # a component has requested a forced-end of Routine
+            break
+        continueRoutine = False  # will revert to True if at least one component still running
+        for thisComponent in practiceFeedbackComponents:
+            if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                continueRoutine = True
+                break  # at least one component has not yet finished
+        
+        # refresh the screen
+        if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+            win.flip()
+    
+    # -------Ending Routine "practiceFeedback"-------
+    for thisComponent in practiceFeedbackComponents:
+        if hasattr(thisComponent, "setAutoDraw"):
+            thisComponent.setAutoDraw(False)
+    trials_2.addData('text_4.started', text_4.tStartRefresh)
+    trials_2.addData('text_4.stopped', text_4.tStopRefresh)
+    # check responses
+    if key_resp_7.keys in ['', [], None]:  # No response was made
+        key_resp_7.keys = None
+    trials_2.addData('key_resp_7.keys',key_resp_7.keys)
+    if key_resp_7.keys != None:  # we had a response
+        trials_2.addData('key_resp_7.rt', key_resp_7.rt)
+    trials_2.addData('key_resp_7.started', key_resp_7.tStartRefresh)
+    trials_2.addData('key_resp_7.stopped', key_resp_7.tStopRefresh)
+    # the Routine "practiceFeedback" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset()
     thisExp.nextEntry()
     
 # completed 1 repeats of 'trials_2'
@@ -583,7 +699,7 @@ while continueRoutine:
     
     # *key_resp_3* updates
     waitOnFlip = False
-    if key_resp_3.status == NOT_STARTED and tThisFlip >= 5-frameTolerance:
+    if key_resp_3.status == NOT_STARTED and tThisFlip >= 3-frameTolerance:
         # keep track of start time/frame for later
         key_resp_3.frameNStart = frameN  # exact frame index
         key_resp_3.tStart = t  # local t and not account for scr refresh
@@ -776,13 +892,13 @@ for thisTrial in trials:
     # ------Prepare to start Routine "break_2"-------
     continueRoutine = True
     # update component parameters for each repeat
-    if trials.thisTrialN == 0 or trials.thisTrialN % 19 != 0:
+    if trials.thisTrialN == 0 or trials.thisTrialN % 20 != 0:
         continueRoutine = False
-        
+    trialCounter=trialCounter+1;  
     
     nCorr = trials.data['key_resp_2.corr'].sum() #.std(), .mean() also available
     meanRt = trials.data['key_resp_2.rt'].mean()
-    msg = "You have completed %i out of 96 trials. You got %i trials correct (rt=%.2f). Press space bar to continue." %(trials.thisTrialN,nCorr,meanRt)
+    msg = "You have completed %i out of 480 trials. You got %i trials correct (rt=%.2f). Press space bar to continue." %(trialCounter-1,nCorr,meanRt)
     breakMessage.setText(msg)
     key_resp.keys = []
     key_resp.rt = []
