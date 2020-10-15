@@ -187,7 +187,7 @@ m_exp1_log <- readRDS("exp_1_log.models")
 # my_models_sft <- readRDS("my_sft.models")[[1]]
 # 
 m_exp1_nrl <- add_criterion(m_exp1_nrl, c("loo"))
-m_exp1_log <- add_criterion(m_exp1_log, c("loo"))
+m_exp1_log <- add_criterion(m_exp1_log, c("loo"), moment_match = TRUE)
 
 # my_models_sft <- add_criterion(my_models_sft, c("loo", "waic"))
 # 
