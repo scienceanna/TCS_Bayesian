@@ -169,13 +169,13 @@ plt_nrl / plt_log / plt_sft
 ### Fit Model and Posterior Predictions For Experiment 1
 
 ```{r loo-fit-glm-to-buetti2019-data, cache=TRUE}
-#m_exp1_nrl <- fit_glmm_to_an_exp(1, d, ppc = "no", fam = "normal")
-#saveRDS(m_exp1_nrl, "exp_1_nrl.models")
-#rm(m_exp1_nrll)
+m_exp1_nrl <- fit_glmm_to_an_exp(1, d, ppc = "no", fam = "normal")
+saveRDS(m_exp1_nrl, "exp_1_nrl.models")
+rm(m_exp1_nrll)
 
 
-# m_exp1_log <- fit_glmm_to_an_exp(1, d, ppc = "no", fam = "lognormal")
-# saveRDS(m_exp1_log, "exp_1_log.models")
+ m_exp1_log <- fit_glmm_to_an_exp(1, d, ppc = "no", fam = "lognormal")
+ saveRDS(m_exp1_log, "exp_1_log.models")
 
 # m_exp1_sft <- fit_glmm_to_an_exp(1, d, ppc = "no", fam = "shifted")
 # saveRDS(m_exp1_sft, "exp_1_sft.models")
