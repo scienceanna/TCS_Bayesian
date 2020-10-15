@@ -159,14 +159,19 @@ prior_model_sft <- fit_glmm_to_an_exp("1", d, ppc = "only", "shifted")
 ```{r plt_prior, fig.height=8, fig.cap="Sample Prior predictions for reaction time and log(N+1)."}
 plt_nrl <- plot_model_fits_ex(d, 1, prior_model_nrl)
 plt_log <- plot_model_fits_ex(d, 1, prior_model_log)
-plt_sft <- plot_model_fits_ex(d, 1, prior_model_sft
-                              )
-
+plt_sft <- plot_model_fits_ex(d, 1, prior_model_sft)
+                            
 plt_nrl / plt_log / plt_sft
 
 ```
 
+```{r remove-prior-models}
+rm(prior_model_nrl, prior_model_nrl, prior_model_sft, plt_nrl, plt_log, plt_sft)
+
+```
+
 ### Fit Model and Posterior Predictions For Experiment 1
+
 
 ```{r loo-fit-glm-to-buetti2019-data, cache=TRUE}
 #m_exp1_nrl <- fit_glmm_to_an_exp(1, d, ppc = "no", fam = "normal")
@@ -181,21 +186,30 @@ plt_nrl / plt_log / plt_sft
 # saveRDS(m_exp1_sft, "exp_1_sft.models")
 # 
 # 
- 
+#  
 m_exp1_nrl <- readRDS("exp_1_nrl.models")
 m_exp1_log <- readRDS("exp_1_log.models")
-# my_models_sft <- readRDS("my_sft.models")[[1]]
+# # my_models_sft <- readRDS("my_sft.models")[[1]]
+# # 
+# m_exp1_nrl <- add_criterion(m_exp1_nrl, c("loo"))
+# m_exp1_log <- add_criterion(m_exp1_log, c("loo"), moment_match = TRUE)
 # 
-m_exp1_nrl <- add_criterion(m_exp1_nrl, c("loo"))
-m_exp1_log <- add_criterion(m_exp1_log, c("loo"), moment_match = TRUE)
-
-# my_models_sft <- add_criterion(my_models_sft, c("loo", "waic"))
-# 
-model_weights(m_exp1_nrl, m_exp1_log)
+# # my_models_sft <- add_criterion(my_models_sft, c("loo", "waic"))
+# # 
+# model_weights(m_exp1_nrl, m_exp1_log)
 ```
 
+The plots before show our estimates for average participant to lie. The regions illustrate the distribution of reaction times estimated by our model. 
 
+```{r plt_post, fig.height=8, fig.cap="Sample Prior predictions for reaction time and log(N+1)."}
 
+plt_nrl <- plot_model_fits_ex(d, 1, m_exp1_nrl)
+plt_log <- plot_model_fits_ex(d, 1, m_exp1_log)
+
+                             
+plt_nrl / plt_log 
+
+```
 
 
 
