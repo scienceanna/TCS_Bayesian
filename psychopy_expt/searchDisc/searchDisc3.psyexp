@@ -28,7 +28,7 @@
     <Param name="blendMode" updates="None" val="avg" valType="str"/>
     <Param name="color" updates="None" val="$[0,0,0]" valType="str"/>
     <Param name="colorSpace" updates="None" val="rgb" valType="str"/>
-    <Param name="expName" updates="None" val="searchDisc2" valType="str"/>
+    <Param name="expName" updates="None" val="searchDisc3" valType="str"/>
     <Param name="exportHTML" updates="None" val="on Sync" valType="str"/>
     <Param name="logging level" updates="None" val="exp" valType="code"/>
   </Settings>
@@ -82,10 +82,10 @@
       <CodeComponent name="code">
         <Param name="Before Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Experiment" updates="constant" val="#msg variable just needs some value at start&amp;#10;msg='doh'" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="#msg variable just needs some value at start&amp;#10;msg='doh'&amp;#10;trialCounter=0;" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="msg = &quot;&quot;;&amp;#10;" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="if trials.thisTrialN == 0 or trials.thisTrialN % 19 != 0:&amp;#10;    continueRoutine = False&amp;#10;    &amp;#10;&amp;#10;nCorr = trials.data['key_resp_2.corr'].sum() #.std(), .mean() also available&amp;#10;meanRt = trials.data['key_resp_2.rt'].mean()&amp;#10;msg = &quot;You have completed %i out of 480 trials. You got %i trials correct (rt=%.2f). Press space bar to continue.&quot; %(trials.thisTrialN+1,nCorr,meanRt)" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="if trials.thisTrialN == 0 or trials.thisTrialN % 20 != 0:&amp;#10;    continueRoutine = False&amp;#10;trialCounter=trialCounter+1;  &amp;#10;&amp;#10;nCorr = trials.data['key_resp_2.corr'].sum() #.std(), .mean() also available&amp;#10;meanRt = trials.data['key_resp_2.rt'].mean()&amp;#10;msg = &quot;You have completed %i out of 480 trials. You got %i trials correct (rt=%.2f). Press space bar to continue.&quot; %(trialCounter-1,nCorr,meanRt)" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Both" valType="str"/>
         <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="" valType="extendedCode"/>
