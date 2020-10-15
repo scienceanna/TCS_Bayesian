@@ -39,7 +39,8 @@ fit_glmm_to_an_exp <- function(experiment, df, ppc = "no", fam = "lognormal") {
         prior = my_priors,
         chains = 1,
         sample_prior = ppc,
-        iter = n_itr)
+        iter = n_itr,
+        save_all_pars = TRUE)
   }  
   else if(fam == "shifted")
   {
@@ -54,7 +55,8 @@ fit_glmm_to_an_exp <- function(experiment, df, ppc = "no", fam = "lognormal") {
         prior = my_priors,
         chains = 1,
         sample_prior = ppc,
-        iter = n_itr)
+        iter = n_itr,
+        save_all_pars = TRUE)
   } 
   else 
   { 
@@ -69,7 +71,8 @@ fit_glmm_to_an_exp <- function(experiment, df, ppc = "no", fam = "lognormal") {
         prior = my_priors,
         chains = 1,
         sample_prior = ppc,
-        iter = n_itr)
+        iter = n_itr,
+        save_all_pars = TRUE)
       }
 
   return(m)
