@@ -175,7 +175,7 @@ rm(
 
 ### Fit Model and Posterior Predictions For Experiment 1
 
-```{r, cache=TRUE}
+```{r}
 
 if (refit_models)
 {
@@ -191,6 +191,7 @@ if (refit_models)
   
   m_exp1_nrl <- readRDS("exp_1_nrl.models")
   m_exp1_log <- readRDS("exp_1_log.models")
+  m_exp1_sft <- readRDS("exp_1_sft.models")
   
 }
 
@@ -212,8 +213,9 @@ The plots before show our estimates for average participant to lie. The regions 
 
 plt_nrl <- plot_model_fits_ex(d, 1, m_exp1_nrl)
 plt_log <- plot_model_fits_ex(d, 1, m_exp1_log)
+plt_sft <- plot_model_fits_ex(d, 1, m_exp1_sft)
 
-plt_nrl / plt_log 
+plt_nrl / plt_log / plt_sft
 ```
 
 
@@ -221,12 +223,16 @@ plt_nrl / plt_log
 
 Now that we have decided what the best distribution to use is, we will fit the model to the data from Experiment 2. 
 
-```{r, cache=TRUE}
+```{r}
 
-if (refit_models)
+if (TRUE)
 {
   m_exp2_log <- fit_glmm_to_an_exp(2, d, ppc = "no", fam = "lognormal")
-  saveRDS(m_exp1_log, "exp_2_log.models")
+  m_exp3_log <- fit_glmm_to_an_exp(3, d, ppc = "no", fam = "lognormal")
+  m_exp4_log <- fit_glmm_to_an_exp(4, d, ppc = "no", fam = "lognormal")
+  saveRDS(m_exp2_log, "exp_2_log.models")
+  saveRDS(m_exp3_log, "exp_3_log.models")
+  saveRDS(m_exp4_log, "exp_4_log.models")
 
 } else {
 
