@@ -225,7 +225,7 @@ Now that we have decided what the best distribution to use is, we will fit the m
 
 ```{r}
 
-if (TRUE)
+if (refit_models)
 {
   m_exp2_log <- fit_glmm_to_an_exp(2, d, ppc = "no", fam = "lognormal")
   m_exp3_log <- fit_glmm_to_an_exp(3, d, ppc = "no", fam = "lognormal")
