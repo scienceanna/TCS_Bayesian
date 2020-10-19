@@ -87,7 +87,7 @@ plot_model_fits_ex <- function(df, experiment, m, people2plot, inc_re = NA) {
       d_feature = fct_drop(d_feature),
       p_id = fct_drop(p_id)) -> d_plt
   
-  d_plt <- sample_n(d_plt, 100)
+  d_plt <- sample_n(d_plt, 500)
   
   d_plt %>%
     modelr::data_grid(p_id, N_T= seq(0,36,4), d_feature) %>%
