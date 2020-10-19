@@ -195,8 +195,15 @@ if (refit_models)
   
 }
 
-# m_exp1_nrl <- add_criterion(m_exp1_nrl, c("loo"))
-# m_exp1_log <- add_criterion(m_exp1_log, c("loo"), moment_match = TRUE)
+```
+
+```{r}
+
+m_exp1_nrl <- add_criterion(m_exp1_nrl, c("loo"))
+m_exp1_log <- add_criterion(m_exp1_log, c("loo"))
+m_exp1_sft <- add_criterion(m_exp1_sft, c("loo"))
+
+model_weights(m_exp1_nrl, m_exp1_log, m_exp1_sft)
 
 ```
 
