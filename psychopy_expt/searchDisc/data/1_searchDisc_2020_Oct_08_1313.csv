@@ -1,6 +1,0 @@
-﻿ImageFile,targ_side,correctAnswer,trials.thisRepN,trials.thisTrialN,trials.thisN,trials.thisIndex,dispStimuli.started,dispStimuli.stopped,breakMessage.started,breakMessage.stopped,key_resp.keys,key_resp.rt,key_resp.started,key_resp.stopped,participant,session,date,expName,psychopyVersion,frameRate,
-images/exp1a_trial_74_colour3_distractors1_r.png,r,2,0,0,0,74,13.603390999953263,None,16.458997400011867,None,space,2.816948899999261,16.458997400011867,None,1,001,2020_Oct_08_1313,searchDisc,2020.2.4,60.06327061360923,
-images/exp1a_trial_1_colour1_distractors4_r.png,r,2,0,1,1,1,19.358988899970427,None,None,None,None,,None,None,1,001,2020_Oct_08_1313,searchDisc,2020.2.4,60.06327061360923,
-images/exp1a_trial_26_colour3_distractors4_l.png,l,1,0,2,2,26,22.35525859997142,None,25.333201100002043,30.333301699953154,space,11.182708099950105,25.333201100002043,None,1,001,2020_Oct_08_1313,searchDisc,2020.2.4,60.06327061360923,
-images/exp1a_trial_85_colour2_distractors4_l.png,l,1,0,3,3,85,36.632707500015385,None,None,None,None,,None,None,1,001,2020_Oct_08_1313,searchDisc,2020.2.4,60.06327061360923,
-images/exp1a_trial_22_colour2_distractors9_l.png,l,1,0,4,4,22,39.58499469992239,None,42.56514630001038,None,space,0.8705774999689311,42.56514630001038,None,1,001,2020_Oct_08_1313,searchDisc,2020.2.4,60.06327061360923,
