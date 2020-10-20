@@ -94,10 +94,10 @@ plot_model_fits_ex <- function(df, experiment, m, people2plot, inc_re = NA) {
     add_predicted_draws(m, re_formula = inc_re) %>% 
     ggplot(aes(x = log(N_T+1), y = .prediction)) + 
     stat_lineribbon(.width = c(0.59, 0.73, 0.89)) + 
-    geom_point(
+    geom_jitter(
       data = d_plt, 
       aes(y = rt), 
-      alpha = 0.25, colour = "darkred") + 
+      alpha = 0.25, colour = "darkred", width  = 0.1) + 
     facet_grid(. ~ d_feature) + 
     theme_bw() + 
     scale_fill_brewer(palette = "Greys") + 

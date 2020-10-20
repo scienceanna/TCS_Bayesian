@@ -203,15 +203,13 @@ m_exp1_nrl <- add_criterion(m_exp1_nrl, c("loo"))
 m_exp1_log <- add_criterion(m_exp1_log, c("loo"))
 m_exp1_sft <- add_criterion(m_exp1_sft, c("loo"))
 
-model_weights(m_exp1_nrl, m_exp1_log, m_exp1_sft)
 
 ```
 
 Calculate model weights to decide on best model...
 
 ```{r}
-
-# model_weights(m_exp1_nrl, m_exp1_log)
+model_weights(m_exp1_nrl, m_exp1_log, m_exp1_sft)
 ```
 
 The plots before show our estimates for average participant to lie. The regions illustrate the distribution of reaction times estimated by our model. 
