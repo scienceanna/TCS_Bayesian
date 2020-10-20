@@ -199,9 +199,9 @@ if (refit_models)
 
 ```{r}
 
-m_exp1_nrl <- add_criterion(m_exp1_nrl, c("loo"))
-m_exp1_log <- add_criterion(m_exp1_log, c("loo"))
-m_exp1_sft <- add_criterion(m_exp1_sft, c("loo"))
+# m_exp1_nrl <- add_criterion(m_exp1_nrl, c("loo"))
+# m_exp1_log <- add_criterion(m_exp1_log, c("loo"))
+# m_exp1_sft <- add_criterion(m_exp1_sft, c("loo"))
 
 
 ```
@@ -209,7 +209,7 @@ m_exp1_sft <- add_criterion(m_exp1_sft, c("loo"))
 Calculate model weights to decide on best model...
 
 ```{r}
-model_weights(m_exp1_nrl, m_exp1_log, m_exp1_sft)
+# model_weights(m_exp1_nrl, m_exp1_log, m_exp1_sft)
 ```
 
 The plots before show our estimates for average participant to lie. The regions illustrate the distribution of reaction times estimated by our model. 
@@ -224,11 +224,11 @@ plt_nrl / plt_log / plt_sft
 ```
 
 
-### Fit Model and Posterior Predictions For Experiment 2
+### Fit Model and Posterior Predictions For Experiment 2, 3, and 4
 
 Now that we have decided what the best distribution to use is, we will fit the model to the data from Experiment 2. 
 
-```{r}
+```{r fit_other_experiments}
 
 if (refit_models)
 {
@@ -241,66 +241,44 @@ if (refit_models)
 
 } else {
 
-  # m_exp2_log <- readRDS("exp_2_log.models")
+  m_exp2_log <- readRDS("exp_2_log.models")
   
 }
 
 ```
 
-### Use these models to compute $D$
+### Use extract $D$ values for Experiment 1
 
-```{r}
+```{r exp-1-D-values}
+
 slopes1 <- extract_fixed_slopes_from_model(m_exp1_log)
-# slopes2 <- extract_fixed_slopes_from_model(m_exp2_log)
-
-```
-
-```{r}
 ggplot(slopes1, aes(x= D, fill = d_feature)) + geom_density(alpha = 0.25)
 
+ggsave("../plots/buetti2019_bayesian_fits_exp1.pdf", width = 8, height = 3)
 ```
 
-
-```{r}
-#De <- map_df(
-#  1:length(my_models_idt),
-#  extract_fixed_slopes_from_model,
-#  my_models_idt, df = d)
-
-#ggplot(De, aes(x = D, fill = d_feature)) +
-#  geom_density(alpha = 0.333) +
-#  facet_wrap(~ exp_id, ncol = 5) +
-#  theme_bw()
-
-#ggsave("../plots/buetti2019_bayesian_fits.pdf", width = 8, height = 3)
-```
 
 ## Estimating $D$ for compound feature distractors
 
-```{r}
-
-#Dp_samples <- map_df(exps_to_predict, get_Dp_samples, d)
-
-# add in average D (of collinear and orthogonal)
-
-#Dp_samples %>% pivot_wider(names_from = method, values_from = Dp) %>%
-#  group_by(iter, exp_id, d_feature) %>%
-#  mutate(mean_method = mean(c(orthog_contrast, collinear))) %>%
-#  pivot_longer(c(best_feature, orthog_contrast, collinear, mean_method), names_to = "method", values_to = "Dp") -> Dp_samples
+```{r predict-exp2-D}
+slopes2 <- extract_fixed_slopes_from_model(m_exp2_log)
+Dp_samples <- get_Dp_samples(2, d, slopes2)
 
 
-# Dp_samples %>%
-#   group_by(exp_id, d_feature, method) %>%
-#   mean_hdci(Dp, De) %>%
-#  ggplot(aes(x = Dp, y = De)) +
-#  geom_abline(linetype = 2) +
-#  geom_point() +
-#  facet_wrap(~method, nrow = 1) + theme_bw() +
-#  geom_linerange(aes(ymin = De.lower, ymax = De.upper), alpha = 0.5) +
-#  geom_linerange(aes(xmin = Dp.lower, xmax = Dp.lower), alpha = 0.5) +
-#  geom_smooth(method = lm, colour = "pink")
 
-#ggsave("recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
+
+ Dp_samples %>%
+   group_by(exp_id, d_feature, method) %>%
+   mean_hdci(Dp, De) %>%
+  ggplot(aes(x = Dp, y = De)) +
+  geom_abline(linetype = 2) +
+  geom_point() +
+  facet_wrap(~method, nrow = 1) + theme_bw() +
+  geom_linerange(aes(ymin = De.lower, ymax = De.upper), alpha = 0.5) +
+  geom_linerange(aes(xmin = Dp.lower, xmax = Dp.lower), alpha = 0.5) +
+  geom_smooth(method = lm, colour = "pink")
+
+ggsave("../plots/recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
 
 ```
 

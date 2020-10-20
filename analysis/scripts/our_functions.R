@@ -128,16 +128,14 @@ extract_fixed_slopes_from_model <- function(m, df) {
   
 }
 
-calc_D_overall_b <- function(f, De, e_id)
+calc_D_overall_b <- function(f, De1, De2, e_id)
 {
   f1 <- word(f, 1)
   f2 <- word(f, 2)
   
-  e_n = parse_number(e_id)
-  Dx <- filter(De, parse_number(exp_id) == e_n - 1)
   
-  D1 = as.numeric(filter(Dx, d_feature == f1)$D)
-  D2 = as.numeric(filter(Dx, d_feature == f2)$D)
+  D1 = as.numeric(filter(De1, d_feature == f1)$D)
+  D2 = as.numeric(filter(De1, d_feature == f2)$D)
   
   D_collinear = 1/((1/D1) + (1/D2))
   D_best_feature = pmin(D1, D2)
@@ -145,8 +143,8 @@ calc_D_overall_b <- function(f, De, e_id)
   
   return(tibble(
     d_feature = gsub("[[:space:]]", "", f),
-    D = filter(De, exp_id == e_id, d_feature == paste(f1, f2, sep = ""))$D,
-    iter = filter(De, exp_id == e_id, d_feature == paste(f1, f2, sep = ""))$iter,
+    iter = filter(De2, d_feature == paste(f1, f2, sep = ""))$iter,
+    D = filter(De2, d_feature == paste(f1, f2, sep = ""))$D,
     "best_feature" = D_best_feature, 
     "orthog_contrast" = D_orth_contrast, 
     "collinear" = D_collinear) %>%
@@ -154,18 +152,28 @@ calc_D_overall_b <- function(f, De, e_id)
 }
 
 
-get_Dp_samples <- function(e_id, d) {
+get_Dp_samples <- function(e_id, d, De2) {
+  
   
   df <- filter(d, exp_id == e_id, N_T > 0) %>%
     mutate(d_feature = fct_drop(d_feature))
   
   Dp <- tibble(
     exp_id = e_id,
-    map_dfr(levels(df$d_feature), calc_D_overall_b, De, e_id)) %>%
+    map_dfr(levels(df$d_feature), calc_D_overall_b, slopes1, slopes2, e_id) )%>%
     pivot_longer(
       cols = c(best_feature, orthog_contrast, collinear),
       values_to = "Dp",
       names_to = "method")
+  
+  # add in average D (of collinear and orthogonal)
+  
+  Dp %>% pivot_wider(names_from = method, values_from = Dp) %>%
+    group_by(iter, exp_id, d_feature) %>%
+    mutate(mean_method = mean(c(orthog_contrast, collinear))) %>%
+    pivot_longer(c(best_feature, orthog_contrast, collinear, mean_method), 
+                 names_to = "method", values_to = "Dp") %>%
+    mutate(method = fct_relevel(method, "mean_method", after = Inf)) -> Dp
   
   return(Dp) 
 }
