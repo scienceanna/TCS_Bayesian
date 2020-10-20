@@ -58,6 +58,494 @@ psychoJS.start({
   expName: expName,
   expInfo: expInfo,
   resources: [
+<<<<<<< HEAD
+    {'name': 'images/exp1a_trial_87_colour2_distractors19_l.png', 'path': 'images/exp1a_trial_87_colour2_distractors19_l.png'},
+    {'name': 'images/exp2c_trial_54_colour2_distractors9_l.png', 'path': 'images/exp2c_trial_54_colour2_distractors9_l.png'},
+    {'name': 'images/exp1a_trial_0_colour1_distractors1_r.png', 'path': 'images/exp1a_trial_0_colour1_distractors1_r.png'},
+    {'name': 'images/exp2b_trial_0_colour1_distractors1_r.png', 'path': 'images/exp2b_trial_0_colour1_distractors1_r.png'},
+    {'name': 'images/exp2b_trial_54_colour2_distractors9_l.png', 'path': 'images/exp2b_trial_54_colour2_distractors9_l.png'},
+    {'name': 'images/exp1a_trial_24_colour2_distractors31_l.png', 'path': 'images/exp1a_trial_24_colour2_distractors31_l.png'},
+    {'name': 'images/exp2b_trial_66_colour1_distractors9_r.png', 'path': 'images/exp2b_trial_66_colour1_distractors9_r.png'},
+    {'name': 'images/exp2c_trial_38_colour2_distractors4_r.png', 'path': 'images/exp2c_trial_38_colour2_distractors4_r.png'},
+    {'name': 'images/exp2c_trial_68_colour1_distractors31_r.png', 'path': 'images/exp2c_trial_68_colour1_distractors31_r.png'},
+    {'name': 'images/exp1b_trial_93_colour3_distractors31_l.png', 'path': 'images/exp1b_trial_93_colour3_distractors31_l.png'},
+    {'name': 'images/exp2a_trial_85_colour2_distractors4_l.png', 'path': 'images/exp2a_trial_85_colour2_distractors4_l.png'},
+    {'name': 'images/exp2b_trial_41_colour2_distractors31_r.png', 'path': 'images/exp2b_trial_41_colour2_distractors31_r.png'},
+    {'name': 'images/exp2a_trial_22_colour2_distractors9_l.png', 'path': 'images/exp2a_trial_22_colour2_distractors9_l.png'},
+    {'name': 'images/exp1b_trial_43_colour3_distractors4_r.png', 'path': 'images/exp1b_trial_43_colour3_distractors4_r.png'},
+    {'name': 'images/exp1a_trial_51_colour1_distractors31_l.png', 'path': 'images/exp1a_trial_51_colour1_distractors31_l.png'},
+    {'name': 'images/exp2a_trial_91_colour3_distractors9_l.png', 'path': 'images/exp2a_trial_91_colour3_distractors9_l.png'},
+    {'name': 'images/exp1a_trial_11_colour3_distractors4_r.png', 'path': 'images/exp1a_trial_11_colour3_distractors4_r.png'},
+    {'name': 'images/exp1a_trial_83_colour1_distractors31_l.png', 'path': 'images/exp1a_trial_83_colour1_distractors31_l.png'},
+    {'name': 'images/exp1a_trial_89_colour3_distractors1_l.png', 'path': 'images/exp1a_trial_89_colour3_distractors1_l.png'},
+    {'name': 'images/exp2c_trial_93_colour3_distractors31_l.png', 'path': 'images/exp2c_trial_93_colour3_distractors31_l.png'},
+    {'name': 'images/exp2b_trial_57_colour3_distractors1_l.png', 'path': 'images/exp2b_trial_57_colour3_distractors1_l.png'},
+    {'name': 'images/exp2a_trial_89_colour3_distractors1_l.png', 'path': 'images/exp2a_trial_89_colour3_distractors1_l.png'},
+    {'name': 'images/exp1b_trial_3_colour1_distractors19_r.png', 'path': 'images/exp1b_trial_3_colour1_distractors19_r.png'},
+    {'name': 'images/exp2a_trial_3_colour1_distractors19_r.png', 'path': 'images/exp2a_trial_3_colour1_distractors19_r.png'},
+    {'name': 'images/exp2b_trial_47_colour1_distractors1_l.png', 'path': 'images/exp2b_trial_47_colour1_distractors1_l.png'},
+    {'name': 'images/exp1b_trial_61_colour3_distractors31_l.png', 'path': 'images/exp1b_trial_61_colour3_distractors31_l.png'},
+    {'name': 'images/exp2a_trial_40_colour2_distractors19_r.png', 'path': 'images/exp2a_trial_40_colour2_distractors19_r.png'},
+    {'name': 'images/exp1b_trial_80_colour1_distractors4_l.png', 'path': 'images/exp1b_trial_80_colour1_distractors4_l.png'},
+    {'name': 'images/exp2c_trial_35_colour1_distractors19_r.png', 'path': 'images/exp2c_trial_35_colour1_distractors19_r.png'},
+    {'name': 'images/exp1b_trial_54_colour2_distractors9_l.png', 'path': 'images/exp1b_trial_54_colour2_distractors9_l.png'},
+    {'name': 'images/exp2a_trial_66_colour1_distractors9_r.png', 'path': 'images/exp2a_trial_66_colour1_distractors9_r.png'},
+    {'name': 'images/exp1b_trial_94_colour0_distractors0_r.png', 'path': 'images/exp1b_trial_94_colour0_distractors0_r.png'},
+    {'name': 'images/exp2c_trial_52_colour2_distractors1_l.png', 'path': 'images/exp2c_trial_52_colour2_distractors1_l.png'},
+    {'name': 'image_stimuli.xlsx', 'path': 'image_stimuli.xlsx'},
+    {'name': 'images/exp2a_trial_86_colour2_distractors9_l.png', 'path': 'images/exp2a_trial_86_colour2_distractors9_l.png'},
+    {'name': 'images/exp1a_trial_25_colour3_distractors1_l.png', 'path': 'images/exp1a_trial_25_colour3_distractors1_l.png'},
+    {'name': 'images/exp2b_trial_80_colour1_distractors4_l.png', 'path': 'images/exp2b_trial_80_colour1_distractors4_l.png'},
+    {'name': 'images/exp2a_trial_78_colour3_distractors31_r.png', 'path': 'images/exp2a_trial_78_colour3_distractors31_r.png'},
+    {'name': 'images/exp1b_trial_63_colour0_distractors0_l.png', 'path': 'images/exp1b_trial_63_colour0_distractors0_l.png'},
+    {'name': 'images/exp1b_trial_42_colour3_distractors1_r.png', 'path': 'images/exp1b_trial_42_colour3_distractors1_r.png'},
+    {'name': 'images/exp1b_trial_56_colour2_distractors31_l.png', 'path': 'images/exp1b_trial_56_colour2_distractors31_l.png'},
+    {'name': 'images/exp2b_trial_95_colour0_distractors0_l.png', 'path': 'images/exp2b_trial_95_colour0_distractors0_l.png'},
+    {'name': 'images/exp2a_trial_34_colour1_distractors9_r.png', 'path': 'images/exp2a_trial_34_colour1_distractors9_r.png'},
+    {'name': 'images/exp2c_trial_91_colour3_distractors9_l.png', 'path': 'images/exp2c_trial_91_colour3_distractors9_l.png'},
+    {'name': 'images/exp2a_trial_11_colour3_distractors4_r.png', 'path': 'images/exp2a_trial_11_colour3_distractors4_r.png'},
+    {'name': 'images/exp2c_trial_31_colour0_distractors0_l.png', 'path': 'images/exp2c_trial_31_colour0_distractors0_l.png'},
+    {'name': 'images/exp2c_trial_77_colour3_distractors19_r.png', 'path': 'images/exp2c_trial_77_colour3_distractors19_r.png'},
+    {'name': 'images/exp2b_trial_60_colour3_distractors19_l.png', 'path': 'images/exp2b_trial_60_colour3_distractors19_l.png'},
+    {'name': 'images/exp2a_trial_30_colour0_distractors0_r.png', 'path': 'images/exp2a_trial_30_colour0_distractors0_r.png'},
+    {'name': 'images/exp2c_trial_47_colour1_distractors1_l.png', 'path': 'images/exp2c_trial_47_colour1_distractors1_l.png'},
+    {'name': 'images/exp2b_trial_79_colour1_distractors1_l.png', 'path': 'images/exp2b_trial_79_colour1_distractors1_l.png'},
+    {'name': 'images/exp2c_trial_67_colour1_distractors19_r.png', 'path': 'images/exp2c_trial_67_colour1_distractors19_r.png'},
+    {'name': 'images/exp1a_trial_67_colour1_distractors19_r.png', 'path': 'images/exp1a_trial_67_colour1_distractors19_r.png'},
+    {'name': 'images/exp1a_trial_55_colour2_distractors19_l.png', 'path': 'images/exp1a_trial_55_colour2_distractors19_l.png'},
+    {'name': 'images/exp2a_trial_93_colour3_distractors31_l.png', 'path': 'images/exp2a_trial_93_colour3_distractors31_l.png'},
+    {'name': 'images/exp1a_trial_82_colour1_distractors19_l.png', 'path': 'images/exp1a_trial_82_colour1_distractors19_l.png'},
+    {'name': 'images/exp2a_trial_14_colour3_distractors31_r.png', 'path': 'images/exp2a_trial_14_colour3_distractors31_r.png'},
+    {'name': 'images/exp2a_trial_12_colour3_distractors9_r.png', 'path': 'images/exp2a_trial_12_colour3_distractors9_r.png'},
+    {'name': 'images/exp2b_trial_70_colour2_distractors4_r.png', 'path': 'images/exp2b_trial_70_colour2_distractors4_r.png'},
+    {'name': 'images/exp2a_trial_95_colour0_distractors0_l.png', 'path': 'images/exp2a_trial_95_colour0_distractors0_l.png'},
+    {'name': 'images/exp2a_trial_55_colour2_distractors19_l.png', 'path': 'images/exp2a_trial_55_colour2_distractors19_l.png'},
+    {'name': 'images/exp2c_trial_22_colour2_distractors9_l.png', 'path': 'images/exp2c_trial_22_colour2_distractors9_l.png'},
+    {'name': 'images/exp2c_trial_78_colour3_distractors31_r.png', 'path': 'images/exp2c_trial_78_colour3_distractors31_r.png'},
+    {'name': 'images/exp1b_trial_33_colour1_distractors4_r.png', 'path': 'images/exp1b_trial_33_colour1_distractors4_r.png'},
+    {'name': 'images/exp2b_trial_56_colour2_distractors31_l.png', 'path': 'images/exp2b_trial_56_colour2_distractors31_l.png'},
+    {'name': 'images/exp2a_trial_57_colour3_distractors1_l.png', 'path': 'images/exp2a_trial_57_colour3_distractors1_l.png'},
+    {'name': 'images/exp1a_trial_79_colour1_distractors1_l.png', 'path': 'images/exp1a_trial_79_colour1_distractors1_l.png'},
+    {'name': 'images/exp2a_trial_10_colour3_distractors1_r.png', 'path': 'images/exp2a_trial_10_colour3_distractors1_r.png'},
+    {'name': 'images/exp1a_trial_1_colour1_distractors4_r.png', 'path': 'images/exp1a_trial_1_colour1_distractors4_r.png'},
+    {'name': 'images/exp2b_trial_69_colour2_distractors1_r.png', 'path': 'images/exp2b_trial_69_colour2_distractors1_r.png'},
+    {'name': 'images/exp2b_trial_3_colour1_distractors19_r.png', 'path': 'images/exp2b_trial_3_colour1_distractors19_r.png'},
+    {'name': 'images/exp1a_trial_4_colour1_distractors31_r.png', 'path': 'images/exp1a_trial_4_colour1_distractors31_r.png'},
+    {'name': 'images/exp2c_trial_16_colour1_distractors4_l.png', 'path': 'images/exp2c_trial_16_colour1_distractors4_l.png'},
+    {'name': 'images/exp2b_trial_86_colour2_distractors9_l.png', 'path': 'images/exp2b_trial_86_colour2_distractors9_l.png'},
+    {'name': 'images/exp2c_trial_53_colour2_distractors4_l.png', 'path': 'images/exp2c_trial_53_colour2_distractors4_l.png'},
+    {'name': 'images/exp2a_trial_70_colour2_distractors4_r.png', 'path': 'images/exp2a_trial_70_colour2_distractors4_r.png'},
+    {'name': 'images/exp1b_trial_17_colour1_distractors9_l.png', 'path': 'images/exp1b_trial_17_colour1_distractors9_l.png'},
+    {'name': 'images/exp1b_trial_91_colour3_distractors9_l.png', 'path': 'images/exp1b_trial_91_colour3_distractors9_l.png'},
+    {'name': 'images/exp2b_trial_13_colour3_distractors19_r.png', 'path': 'images/exp2b_trial_13_colour3_distractors19_r.png'},
+    {'name': 'images/exp1a_trial_64_colour1_distractors1_r.png', 'path': 'images/exp1a_trial_64_colour1_distractors1_r.png'},
+    {'name': 'images/exp2c_trial_3_colour1_distractors19_r.png', 'path': 'images/exp2c_trial_3_colour1_distractors19_r.png'},
+    {'name': 'images/exp2a_trial_16_colour1_distractors4_l.png', 'path': 'images/exp2a_trial_16_colour1_distractors4_l.png'},
+    {'name': 'images/exp1a_trial_66_colour1_distractors9_r.png', 'path': 'images/exp1a_trial_66_colour1_distractors9_r.png'},
+    {'name': 'images/exp2a_trial_94_colour0_distractors0_r.png', 'path': 'images/exp2a_trial_94_colour0_distractors0_r.png'},
+    {'name': 'images/exp2b_trial_67_colour1_distractors19_r.png', 'path': 'images/exp2b_trial_67_colour1_distractors19_r.png'},
+    {'name': 'images/exp2b_trial_9_colour2_distractors31_r.png', 'path': 'images/exp2b_trial_9_colour2_distractors31_r.png'},
+    {'name': 'images/exp1b_trial_50_colour1_distractors19_l.png', 'path': 'images/exp1b_trial_50_colour1_distractors19_l.png'},
+    {'name': 'images/exp2c_trial_37_colour2_distractors1_r.png', 'path': 'images/exp2c_trial_37_colour2_distractors1_r.png'},
+    {'name': 'images/exp1b_trial_11_colour3_distractors4_r.png', 'path': 'images/exp1b_trial_11_colour3_distractors4_r.png'},
+    {'name': 'images/exp2b_trial_48_colour1_distractors4_l.png', 'path': 'images/exp2b_trial_48_colour1_distractors4_l.png'},
+    {'name': 'images/exp2b_trial_25_colour3_distractors1_l.png', 'path': 'images/exp2b_trial_25_colour3_distractors1_l.png'},
+    {'name': 'images/exp1b_trial_20_colour2_distractors1_l.png', 'path': 'images/exp1b_trial_20_colour2_distractors1_l.png'},
+    {'name': 'images/exp1a_trial_40_colour2_distractors19_r.png', 'path': 'images/exp1a_trial_40_colour2_distractors19_r.png'},
+    {'name': 'images/exp2b_trial_20_colour2_distractors1_l.png', 'path': 'images/exp2b_trial_20_colour2_distractors1_l.png'},
+    {'name': 'images/exp2c_trial_26_colour3_distractors4_l.png', 'path': 'images/exp2c_trial_26_colour3_distractors4_l.png'},
+    {'name': 'images/exp1a_trial_13_colour3_distractors19_r.png', 'path': 'images/exp1a_trial_13_colour3_distractors19_r.png'},
+    {'name': 'images/exp2c_trial_58_colour3_distractors4_l.png', 'path': 'images/exp2c_trial_58_colour3_distractors4_l.png'},
+    {'name': 'images/exp1b_trial_69_colour2_distractors1_r.png', 'path': 'images/exp1b_trial_69_colour2_distractors1_r.png'},
+    {'name': 'images/exp1a_trial_15_colour1_distractors1_l.png', 'path': 'images/exp1a_trial_15_colour1_distractors1_l.png'},
+    {'name': 'images/exp2b_trial_46_colour3_distractors31_r.png', 'path': 'images/exp2b_trial_46_colour3_distractors31_r.png'},
+    {'name': 'images/exp2a_trial_5_colour2_distractors1_r.png', 'path': 'images/exp2a_trial_5_colour2_distractors1_r.png'},
+    {'name': 'images/exp2c_trial_60_colour3_distractors19_l.png', 'path': 'images/exp2c_trial_60_colour3_distractors19_l.png'},
+    {'name': 'images/exp2a_trial_69_colour2_distractors1_r.png', 'path': 'images/exp2a_trial_69_colour2_distractors1_r.png'},
+    {'name': 'images/exp2c_trial_79_colour1_distractors1_l.png', 'path': 'images/exp2c_trial_79_colour1_distractors1_l.png'},
+    {'name': 'images/exp1b_trial_79_colour1_distractors1_l.png', 'path': 'images/exp1b_trial_79_colour1_distractors1_l.png'},
+    {'name': 'images/exp2a_trial_39_colour2_distractors9_r.png', 'path': 'images/exp2a_trial_39_colour2_distractors9_r.png'},
+    {'name': 'images/exp2c_trial_59_colour3_distractors9_l.png', 'path': 'images/exp2c_trial_59_colour3_distractors9_l.png'},
+    {'name': 'images/exp2c_trial_76_colour3_distractors9_r.png', 'path': 'images/exp2c_trial_76_colour3_distractors9_r.png'},
+    {'name': 'images/exp2c_trial_89_colour3_distractors1_l.png', 'path': 'images/exp2c_trial_89_colour3_distractors1_l.png'},
+    {'name': 'images/exp1a_trial_48_colour1_distractors4_l.png', 'path': 'images/exp1a_trial_48_colour1_distractors4_l.png'},
+    {'name': 'images/exp1a_trial_36_colour1_distractors31_r.png', 'path': 'images/exp1a_trial_36_colour1_distractors31_r.png'},
+    {'name': 'images/exp1a_trial_12_colour3_distractors9_r.png', 'path': 'images/exp1a_trial_12_colour3_distractors9_r.png'},
+    {'name': 'images/exp2c_trial_84_colour2_distractors1_l.png', 'path': 'images/exp2c_trial_84_colour2_distractors1_l.png'},
+    {'name': 'images/exp2b_trial_7_colour2_distractors9_r.png', 'path': 'images/exp2b_trial_7_colour2_distractors9_r.png'},
+    {'name': 'images/exp2a_trial_0_colour1_distractors1_r.png', 'path': 'images/exp2a_trial_0_colour1_distractors1_r.png'},
+    {'name': 'images/exp2a_trial_87_colour2_distractors19_l.png', 'path': 'images/exp2a_trial_87_colour2_distractors19_l.png'},
+    {'name': 'images/exp1b_trial_39_colour2_distractors9_r.png', 'path': 'images/exp1b_trial_39_colour2_distractors9_r.png'},
+    {'name': 'images/exp2b_trial_38_colour2_distractors4_r.png', 'path': 'images/exp2b_trial_38_colour2_distractors4_r.png'},
+    {'name': 'images/exp1a_trial_57_colour3_distractors1_l.png', 'path': 'images/exp1a_trial_57_colour3_distractors1_l.png'},
+    {'name': 'images/exp1b_trial_14_colour3_distractors31_r.png', 'path': 'images/exp1b_trial_14_colour3_distractors31_r.png'},
+    {'name': 'images/exp2a_trial_47_colour1_distractors1_l.png', 'path': 'images/exp2a_trial_47_colour1_distractors1_l.png'},
+    {'name': 'images/exp1b_trial_86_colour2_distractors9_l.png', 'path': 'images/exp1b_trial_86_colour2_distractors9_l.png'},
+    {'name': 'images/exp2a_trial_44_colour3_distractors9_r.png', 'path': 'images/exp2a_trial_44_colour3_distractors9_r.png'},
+    {'name': 'images/exp2a_trial_31_colour0_distractors0_l.png', 'path': 'images/exp2a_trial_31_colour0_distractors0_l.png'},
+    {'name': 'images/exp2b_trial_71_colour2_distractors9_r.png', 'path': 'images/exp2b_trial_71_colour2_distractors9_r.png'},
+    {'name': 'images/exp2b_trial_73_colour2_distractors31_r.png', 'path': 'images/exp2b_trial_73_colour2_distractors31_r.png'},
+    {'name': 'images/exp2b_trial_29_colour3_distractors31_l.png', 'path': 'images/exp2b_trial_29_colour3_distractors31_l.png'},
+    {'name': 'images/exp1a_trial_16_colour1_distractors4_l.png', 'path': 'images/exp1a_trial_16_colour1_distractors4_l.png'},
+    {'name': 'images/exp2a_trial_20_colour2_distractors1_l.png', 'path': 'images/exp2a_trial_20_colour2_distractors1_l.png'},
+    {'name': 'images/exp1b_trial_25_colour3_distractors1_l.png', 'path': 'images/exp1b_trial_25_colour3_distractors1_l.png'},
+    {'name': 'images/exp2c_trial_50_colour1_distractors19_l.png', 'path': 'images/exp2c_trial_50_colour1_distractors19_l.png'},
+    {'name': 'images/exp2b_trial_44_colour3_distractors9_r.png', 'path': 'images/exp2b_trial_44_colour3_distractors9_r.png'},
+    {'name': 'images/exp2b_trial_72_colour2_distractors19_r.png', 'path': 'images/exp2b_trial_72_colour2_distractors19_r.png'},
+    {'name': 'images/exp1a_trial_34_colour1_distractors9_r.png', 'path': 'images/exp1a_trial_34_colour1_distractors9_r.png'},
+    {'name': 'images/exp2c_trial_87_colour2_distractors19_l.png', 'path': 'images/exp2c_trial_87_colour2_distractors19_l.png'},
+    {'name': 'images/exp1b_trial_77_colour3_distractors19_r.png', 'path': 'images/exp1b_trial_77_colour3_distractors19_r.png'},
+    {'name': 'images/exp2b_trial_64_colour1_distractors1_r.png', 'path': 'images/exp2b_trial_64_colour1_distractors1_r.png'},
+    {'name': 'images/exp2c_trial_75_colour3_distractors4_r.png', 'path': 'images/exp2c_trial_75_colour3_distractors4_r.png'},
+    {'name': 'images/exp2b_trial_68_colour1_distractors31_r.png', 'path': 'images/exp2b_trial_68_colour1_distractors31_r.png'},
+    {'name': 'images/exp2a_trial_27_colour3_distractors9_l.png', 'path': 'images/exp2a_trial_27_colour3_distractors9_l.png'},
+    {'name': 'images/exp2b_trial_78_colour3_distractors31_r.png', 'path': 'images/exp2b_trial_78_colour3_distractors31_r.png'},
+    {'name': 'images/exp2a_trial_77_colour3_distractors19_r.png', 'path': 'images/exp2a_trial_77_colour3_distractors19_r.png'},
+    {'name': 'images/exp1a_trial_56_colour2_distractors31_l.png', 'path': 'images/exp1a_trial_56_colour2_distractors31_l.png'},
+    {'name': 'images/exp1b_trial_26_colour3_distractors4_l.png', 'path': 'images/exp1b_trial_26_colour3_distractors4_l.png'},
+    {'name': 'images/exp2c_trial_39_colour2_distractors9_r.png', 'path': 'images/exp2c_trial_39_colour2_distractors9_r.png'},
+    {'name': 'images/exp1b_trial_92_colour3_distractors19_l.png', 'path': 'images/exp1b_trial_92_colour3_distractors19_l.png'},
+    {'name': 'images/exp1a_trial_33_colour1_distractors4_r.png', 'path': 'images/exp1a_trial_33_colour1_distractors4_r.png'},
+    {'name': 'images/exp2b_trial_19_colour1_distractors31_l.png', 'path': 'images/exp2b_trial_19_colour1_distractors31_l.png'},
+    {'name': 'images/exp2a_trial_43_colour3_distractors4_r.png', 'path': 'images/exp2a_trial_43_colour3_distractors4_r.png'},
+    {'name': 'images/exp1a_trial_61_colour3_distractors31_l.png', 'path': 'images/exp1a_trial_61_colour3_distractors31_l.png'},
+    {'name': 'images/exp2b_trial_92_colour3_distractors19_l.png', 'path': 'images/exp2b_trial_92_colour3_distractors19_l.png'},
+    {'name': 'images/exp1a_trial_42_colour3_distractors1_r.png', 'path': 'images/exp1a_trial_42_colour3_distractors1_r.png'},
+    {'name': 'images/exp2b_trial_22_colour2_distractors9_l.png', 'path': 'images/exp2b_trial_22_colour2_distractors9_l.png'},
+    {'name': 'images/exp2a_trial_9_colour2_distractors31_r.png', 'path': 'images/exp2a_trial_9_colour2_distractors31_r.png'},
+    {'name': 'images/exp2a_trial_51_colour1_distractors31_l.png', 'path': 'images/exp2a_trial_51_colour1_distractors31_l.png'},
+    {'name': 'images/exp2c_trial_1_colour1_distractors4_r.png', 'path': 'images/exp2c_trial_1_colour1_distractors4_r.png'},
+    {'name': 'images/exp1b_trial_74_colour3_distractors1_r.png', 'path': 'images/exp1b_trial_74_colour3_distractors1_r.png'},
+    {'name': 'images/exp2b_trial_85_colour2_distractors4_l.png', 'path': 'images/exp2b_trial_85_colour2_distractors4_l.png'},
+    {'name': 'images/exp2a_trial_82_colour1_distractors19_l.png', 'path': 'images/exp2a_trial_82_colour1_distractors19_l.png'},
+    {'name': 'images/exp1a_trial_41_colour2_distractors31_r.png', 'path': 'images/exp1a_trial_41_colour2_distractors31_r.png'},
+    {'name': 'images/exp2c_trial_86_colour2_distractors9_l.png', 'path': 'images/exp2c_trial_86_colour2_distractors9_l.png'},
+    {'name': 'images/exp1a_trial_77_colour3_distractors19_r.png', 'path': 'images/exp1a_trial_77_colour3_distractors19_r.png'},
+    {'name': 'images/exp2c_trial_12_colour3_distractors9_r.png', 'path': 'images/exp2c_trial_12_colour3_distractors9_r.png'},
+    {'name': 'images/exp2b_trial_84_colour2_distractors1_l.png', 'path': 'images/exp2b_trial_84_colour2_distractors1_l.png'},
+    {'name': 'images/exp2b_trial_35_colour1_distractors19_r.png', 'path': 'images/exp2b_trial_35_colour1_distractors19_r.png'},
+    {'name': 'images/exp1b_trial_60_colour3_distractors19_l.png', 'path': 'images/exp1b_trial_60_colour3_distractors19_l.png'},
+    {'name': 'images/exp1a_trial_39_colour2_distractors9_r.png', 'path': 'images/exp1a_trial_39_colour2_distractors9_r.png'},
+    {'name': 'images/exp1b_trial_36_colour1_distractors31_r.png', 'path': 'images/exp1b_trial_36_colour1_distractors31_r.png'},
+    {'name': 'images/exp2b_trial_93_colour3_distractors31_l.png', 'path': 'images/exp2b_trial_93_colour3_distractors31_l.png'},
+    {'name': 'images/exp1a_trial_93_colour3_distractors31_l.png', 'path': 'images/exp1a_trial_93_colour3_distractors31_l.png'},
+    {'name': 'images/exp2c_trial_33_colour1_distractors4_r.png', 'path': 'images/exp2c_trial_33_colour1_distractors4_r.png'},
+    {'name': 'images/exp1b_trial_75_colour3_distractors4_r.png', 'path': 'images/exp1b_trial_75_colour3_distractors4_r.png'},
+    {'name': 'images/exp2c_trial_42_colour3_distractors1_r.png', 'path': 'images/exp2c_trial_42_colour3_distractors1_r.png'},
+    {'name': 'images/exp1b_trial_68_colour1_distractors31_r.png', 'path': 'images/exp1b_trial_68_colour1_distractors31_r.png'},
+    {'name': 'images/exp2b_trial_39_colour2_distractors9_r.png', 'path': 'images/exp2b_trial_39_colour2_distractors9_r.png'},
+    {'name': 'images/exp1a_trial_80_colour1_distractors4_l.png', 'path': 'images/exp1a_trial_80_colour1_distractors4_l.png'},
+    {'name': 'images/exp1b_trial_23_colour2_distractors19_l.png', 'path': 'images/exp1b_trial_23_colour2_distractors19_l.png'},
+    {'name': 'images/exp2c_trial_69_colour2_distractors1_r.png', 'path': 'images/exp2c_trial_69_colour2_distractors1_r.png'},
+    {'name': 'images/exp1b_trial_65_colour1_distractors4_r.png', 'path': 'images/exp1b_trial_65_colour1_distractors4_r.png'},
+    {'name': 'images/exp1a_trial_92_colour3_distractors19_l.png', 'path': 'images/exp1a_trial_92_colour3_distractors19_l.png'},
+    {'name': 'images/exp2b_trial_61_colour3_distractors31_l.png', 'path': 'images/exp2b_trial_61_colour3_distractors31_l.png'},
+    {'name': 'images/exp1b_trial_72_colour2_distractors19_r.png', 'path': 'images/exp1b_trial_72_colour2_distractors19_r.png'},
+    {'name': 'images/exp2c_trial_32_colour1_distractors1_r.png', 'path': 'images/exp2c_trial_32_colour1_distractors1_r.png'},
+    {'name': 'images/exp2a_trial_45_colour3_distractors19_r.png', 'path': 'images/exp2a_trial_45_colour3_distractors19_r.png'},
+    {'name': 'images/exp1b_trial_16_colour1_distractors4_l.png', 'path': 'images/exp1b_trial_16_colour1_distractors4_l.png'},
+    {'name': 'images/exp2b_trial_5_colour2_distractors1_r.png', 'path': 'images/exp2b_trial_5_colour2_distractors1_r.png'},
+    {'name': 'images/exp2c_trial_55_colour2_distractors19_l.png', 'path': 'images/exp2c_trial_55_colour2_distractors19_l.png'},
+    {'name': 'images/exp2a_trial_76_colour3_distractors9_r.png', 'path': 'images/exp2a_trial_76_colour3_distractors9_r.png'},
+    {'name': 'images/exp2c_trial_70_colour2_distractors4_r.png', 'path': 'images/exp2c_trial_70_colour2_distractors4_r.png'},
+    {'name': 'images/exp2c_trial_43_colour3_distractors4_r.png', 'path': 'images/exp2c_trial_43_colour3_distractors4_r.png'},
+    {'name': 'images/exp1a_trial_62_colour0_distractors0_r.png', 'path': 'images/exp1a_trial_62_colour0_distractors0_r.png'},
+    {'name': 'images/exp2c_trial_73_colour2_distractors31_r.png', 'path': 'images/exp2c_trial_73_colour2_distractors31_r.png'},
+    {'name': 'images/exp2c_trial_4_colour1_distractors31_r.png', 'path': 'images/exp2c_trial_4_colour1_distractors31_r.png'},
+    {'name': 'images/exp2b_trial_30_colour0_distractors0_r.png', 'path': 'images/exp2b_trial_30_colour0_distractors0_r.png'},
+    {'name': 'images/exp1a_trial_78_colour3_distractors31_r.png', 'path': 'images/exp1a_trial_78_colour3_distractors31_r.png'},
+    {'name': 'images/exp1b_trial_87_colour2_distractors19_l.png', 'path': 'images/exp1b_trial_87_colour2_distractors19_l.png'},
+    {'name': 'images/exp2c_trial_17_colour1_distractors9_l.png', 'path': 'images/exp2c_trial_17_colour1_distractors9_l.png'},
+    {'name': 'images/exp1b_trial_31_colour0_distractors0_l.png', 'path': 'images/exp1b_trial_31_colour0_distractors0_l.png'},
+    {'name': 'images/exp1a_trial_95_colour0_distractors0_l.png', 'path': 'images/exp1a_trial_95_colour0_distractors0_l.png'},
+    {'name': 'images/exp2b_trial_1_colour1_distractors4_r.png', 'path': 'images/exp2b_trial_1_colour1_distractors4_r.png'},
+    {'name': 'images/exp2c_trial_8_colour2_distractors19_r.png', 'path': 'images/exp2c_trial_8_colour2_distractors19_r.png'},
+    {'name': 'images/exp1b_trial_58_colour3_distractors4_l.png', 'path': 'images/exp1b_trial_58_colour3_distractors4_l.png'},
+    {'name': 'images/exp2b_trial_26_colour3_distractors4_l.png', 'path': 'images/exp2b_trial_26_colour3_distractors4_l.png'},
+    {'name': 'images/exp1a_trial_68_colour1_distractors31_r.png', 'path': 'images/exp1a_trial_68_colour1_distractors31_r.png'},
+    {'name': 'images/exp1b_trial_82_colour1_distractors19_l.png', 'path': 'images/exp1b_trial_82_colour1_distractors19_l.png'},
+    {'name': 'images/exp2a_trial_33_colour1_distractors4_r.png', 'path': 'images/exp2a_trial_33_colour1_distractors4_r.png'},
+    {'name': 'images/exp1a_trial_6_colour2_distractors4_r.png', 'path': 'images/exp1a_trial_6_colour2_distractors4_r.png'},
+    {'name': 'images/exp1b_trial_88_colour2_distractors31_l.png', 'path': 'images/exp1b_trial_88_colour2_distractors31_l.png'},
+    {'name': 'images/exp2b_trial_11_colour3_distractors4_r.png', 'path': 'images/exp2b_trial_11_colour3_distractors4_r.png'},
+    {'name': 'images/exp2a_trial_19_colour1_distractors31_l.png', 'path': 'images/exp2a_trial_19_colour1_distractors31_l.png'},
+    {'name': 'images/exp1b_trial_95_colour0_distractors0_l.png', 'path': 'images/exp1b_trial_95_colour0_distractors0_l.png'},
+    {'name': 'images/exp2c_trial_40_colour2_distractors19_r.png', 'path': 'images/exp2c_trial_40_colour2_distractors19_r.png'},
+    {'name': 'images/exp1b_trial_66_colour1_distractors9_r.png', 'path': 'images/exp1b_trial_66_colour1_distractors9_r.png'},
+    {'name': 'images/exp2c_trial_49_colour1_distractors9_l.png', 'path': 'images/exp2c_trial_49_colour1_distractors9_l.png'},
+    {'name': 'images/exp2b_trial_10_colour3_distractors1_r.png', 'path': 'images/exp2b_trial_10_colour3_distractors1_r.png'},
+    {'name': 'images/exp1b_trial_15_colour1_distractors1_l.png', 'path': 'images/exp1b_trial_15_colour1_distractors1_l.png'},
+    {'name': 'images/exp2a_trial_21_colour2_distractors4_l.png', 'path': 'images/exp2a_trial_21_colour2_distractors4_l.png'},
+    {'name': 'images/exp1a_trial_71_colour2_distractors9_r.png', 'path': 'images/exp1a_trial_71_colour2_distractors9_r.png'},
+    {'name': 'images/exp2c_trial_9_colour2_distractors31_r.png', 'path': 'images/exp2c_trial_9_colour2_distractors31_r.png'},
+    {'name': 'images/exp2a_trial_54_colour2_distractors9_l.png', 'path': 'images/exp2a_trial_54_colour2_distractors9_l.png'},
+    {'name': 'images/exp2a_trial_63_colour0_distractors0_l.png', 'path': 'images/exp2a_trial_63_colour0_distractors0_l.png'},
+    {'name': 'images/exp2b_trial_88_colour2_distractors31_l.png', 'path': 'images/exp2b_trial_88_colour2_distractors31_l.png'},
+    {'name': 'images/exp1b_trial_57_colour3_distractors1_l.png', 'path': 'images/exp1b_trial_57_colour3_distractors1_l.png'},
+    {'name': 'images/exp2b_trial_65_colour1_distractors4_r.png', 'path': 'images/exp2b_trial_65_colour1_distractors4_r.png'},
+    {'name': 'images/exp2a_trial_62_colour0_distractors0_r.png', 'path': 'images/exp2a_trial_62_colour0_distractors0_r.png'},
+    {'name': 'images/exp1b_trial_44_colour3_distractors9_r.png', 'path': 'images/exp1b_trial_44_colour3_distractors9_r.png'},
+    {'name': 'images/exp1b_trial_51_colour1_distractors31_l.png', 'path': 'images/exp1b_trial_51_colour1_distractors31_l.png'},
+    {'name': 'images/exp2a_trial_28_colour3_distractors19_l.png', 'path': 'images/exp2a_trial_28_colour3_distractors19_l.png'},
+    {'name': 'images/exp2c_trial_44_colour3_distractors9_r.png', 'path': 'images/exp2c_trial_44_colour3_distractors9_r.png'},
+    {'name': 'images/exp2a_trial_15_colour1_distractors1_l.png', 'path': 'images/exp2a_trial_15_colour1_distractors1_l.png'},
+    {'name': 'images/exp2b_trial_40_colour2_distractors19_r.png', 'path': 'images/exp2b_trial_40_colour2_distractors19_r.png'},
+    {'name': 'images/exp1a_trial_37_colour2_distractors1_r.png', 'path': 'images/exp1a_trial_37_colour2_distractors1_r.png'},
+    {'name': 'images/exp2a_trial_61_colour3_distractors31_l.png', 'path': 'images/exp2a_trial_61_colour3_distractors31_l.png'},
+    {'name': 'images/exp2a_trial_90_colour3_distractors4_l.png', 'path': 'images/exp2a_trial_90_colour3_distractors4_l.png'},
+    {'name': 'images/exp2c_trial_94_colour0_distractors0_r.png', 'path': 'images/exp2c_trial_94_colour0_distractors0_r.png'},
+    {'name': 'images/exp2b_trial_45_colour3_distractors19_r.png', 'path': 'images/exp2b_trial_45_colour3_distractors19_r.png'},
+    {'name': 'images/exp1b_trial_35_colour1_distractors19_r.png', 'path': 'images/exp1b_trial_35_colour1_distractors19_r.png'},
+    {'name': 'images/exp1a_trial_53_colour2_distractors4_l.png', 'path': 'images/exp1a_trial_53_colour2_distractors4_l.png'},
+    {'name': 'images/exp2c_trial_18_colour1_distractors19_l.png', 'path': 'images/exp2c_trial_18_colour1_distractors19_l.png'},
+    {'name': 'images/exp2b_trial_63_colour0_distractors0_l.png', 'path': 'images/exp2b_trial_63_colour0_distractors0_l.png'},
+    {'name': 'images/exp2c_trial_61_colour3_distractors31_l.png', 'path': 'images/exp2c_trial_61_colour3_distractors31_l.png'},
+    {'name': 'images/exp2b_trial_51_colour1_distractors31_l.png', 'path': 'images/exp2b_trial_51_colour1_distractors31_l.png'},
+    {'name': 'images/exp1b_trial_4_colour1_distractors31_r.png', 'path': 'images/exp1b_trial_4_colour1_distractors31_r.png'},
+    {'name': 'images/exp2a_trial_35_colour1_distractors19_r.png', 'path': 'images/exp2a_trial_35_colour1_distractors19_r.png'},
+    {'name': 'images/exp2b_trial_37_colour2_distractors1_r.png', 'path': 'images/exp2b_trial_37_colour2_distractors1_r.png'},
+    {'name': 'images/exp2a_trial_84_colour2_distractors1_l.png', 'path': 'images/exp2a_trial_84_colour2_distractors1_l.png'},
+    {'name': 'images/exp1a_trial_90_colour3_distractors4_l.png', 'path': 'images/exp1a_trial_90_colour3_distractors4_l.png'},
+    {'name': 'images/exp1b_trial_90_colour3_distractors4_l.png', 'path': 'images/exp1b_trial_90_colour3_distractors4_l.png'},
+    {'name': 'images/exp2b_trial_62_colour0_distractors0_r.png', 'path': 'images/exp2b_trial_62_colour0_distractors0_r.png'},
+    {'name': 'images/exp2b_trial_12_colour3_distractors9_r.png', 'path': 'images/exp2b_trial_12_colour3_distractors9_r.png'},
+    {'name': 'images/exp2b_trial_16_colour1_distractors4_l.png', 'path': 'images/exp2b_trial_16_colour1_distractors4_l.png'},
+    {'name': 'images/exp1a_trial_43_colour3_distractors4_r.png', 'path': 'images/exp1a_trial_43_colour3_distractors4_r.png'},
+    {'name': 'images/exp2a_trial_80_colour1_distractors4_l.png', 'path': 'images/exp2a_trial_80_colour1_distractors4_l.png'},
+    {'name': 'images/exp2a_trial_29_colour3_distractors31_l.png', 'path': 'images/exp2a_trial_29_colour3_distractors31_l.png'},
+    {'name': 'images/exp1a_trial_73_colour2_distractors31_r.png', 'path': 'images/exp1a_trial_73_colour2_distractors31_r.png'},
+    {'name': 'images/exp1a_trial_26_colour3_distractors4_l.png', 'path': 'images/exp1a_trial_26_colour3_distractors4_l.png'},
+    {'name': 'images/exp2c_trial_5_colour2_distractors1_r.png', 'path': 'images/exp2c_trial_5_colour2_distractors1_r.png'},
+    {'name': 'images/exp1b_trial_89_colour3_distractors1_l.png', 'path': 'images/exp1b_trial_89_colour3_distractors1_l.png'},
+    {'name': 'images/exp1a_trial_88_colour2_distractors31_l.png', 'path': 'images/exp1a_trial_88_colour2_distractors31_l.png'},
+    {'name': 'images/exp2a_trial_49_colour1_distractors9_l.png', 'path': 'images/exp2a_trial_49_colour1_distractors9_l.png'},
+    {'name': 'images/exp1a_trial_8_colour2_distractors19_r.png', 'path': 'images/exp1a_trial_8_colour2_distractors19_r.png'},
+    {'name': 'images/exp1b_trial_59_colour3_distractors9_l.png', 'path': 'images/exp1b_trial_59_colour3_distractors9_l.png'},
+    {'name': 'images/exp2c_trial_7_colour2_distractors9_r.png', 'path': 'images/exp2c_trial_7_colour2_distractors9_r.png'},
+    {'name': 'images/exp1b_trial_8_colour2_distractors19_r.png', 'path': 'images/exp1b_trial_8_colour2_distractors19_r.png'},
+    {'name': 'images/exp2b_trial_83_colour1_distractors31_l.png', 'path': 'images/exp2b_trial_83_colour1_distractors31_l.png'},
+    {'name': 'images/exp2a_trial_71_colour2_distractors9_r.png', 'path': 'images/exp2a_trial_71_colour2_distractors9_r.png'},
+    {'name': 'images/exp2a_trial_18_colour1_distractors19_l.png', 'path': 'images/exp2a_trial_18_colour1_distractors19_l.png'},
+    {'name': 'images/exp1b_trial_10_colour3_distractors1_r.png', 'path': 'images/exp1b_trial_10_colour3_distractors1_r.png'},
+    {'name': 'images/exp1b_trial_71_colour2_distractors9_r.png', 'path': 'images/exp1b_trial_71_colour2_distractors9_r.png'},
+    {'name': 'images/exp1a_trial_65_colour1_distractors4_r.png', 'path': 'images/exp1a_trial_65_colour1_distractors4_r.png'},
+    {'name': 'images/exp1b_trial_5_colour2_distractors1_r.png', 'path': 'images/exp1b_trial_5_colour2_distractors1_r.png'},
+    {'name': 'images/exp2a_trial_92_colour3_distractors19_l.png', 'path': 'images/exp2a_trial_92_colour3_distractors19_l.png'},
+    {'name': 'images/exp2c_trial_51_colour1_distractors31_l.png', 'path': 'images/exp2c_trial_51_colour1_distractors31_l.png'},
+    {'name': 'images/exp2c_trial_15_colour1_distractors1_l.png', 'path': 'images/exp2c_trial_15_colour1_distractors1_l.png'},
+    {'name': 'images/exp2c_trial_41_colour2_distractors31_r.png', 'path': 'images/exp2c_trial_41_colour2_distractors31_r.png'},
+    {'name': 'images/exp1a_trial_10_colour3_distractors1_r.png', 'path': 'images/exp1a_trial_10_colour3_distractors1_r.png'},
+    {'name': 'images/exp2a_trial_6_colour2_distractors4_r.png', 'path': 'images/exp2a_trial_6_colour2_distractors4_r.png'},
+    {'name': 'images/exp1b_trial_22_colour2_distractors9_l.png', 'path': 'images/exp1b_trial_22_colour2_distractors9_l.png'},
+    {'name': 'images/exp2c_trial_92_colour3_distractors19_l.png', 'path': 'images/exp2c_trial_92_colour3_distractors19_l.png'},
+    {'name': 'images/exp2a_trial_4_colour1_distractors31_r.png', 'path': 'images/exp2a_trial_4_colour1_distractors31_r.png'},
+    {'name': 'images/exp1a_trial_27_colour3_distractors9_l.png', 'path': 'images/exp1a_trial_27_colour3_distractors9_l.png'},
+    {'name': 'images/exp2c_trial_90_colour3_distractors4_l.png', 'path': 'images/exp2c_trial_90_colour3_distractors4_l.png'},
+    {'name': 'images/exp1b_trial_32_colour1_distractors1_r.png', 'path': 'images/exp1b_trial_32_colour1_distractors1_r.png'},
+    {'name': 'images/exp1a_trial_75_colour3_distractors4_r.png', 'path': 'images/exp1a_trial_75_colour3_distractors4_r.png'},
+    {'name': 'images/exp1a_trial_84_colour2_distractors1_l.png', 'path': 'images/exp1a_trial_84_colour2_distractors1_l.png'},
+    {'name': 'images/exp2b_trial_55_colour2_distractors19_l.png', 'path': 'images/exp2b_trial_55_colour2_distractors19_l.png'},
+    {'name': 'images/exp2a_trial_72_colour2_distractors19_r.png', 'path': 'images/exp2a_trial_72_colour2_distractors19_r.png'},
+    {'name': 'images/exp2a_trial_74_colour3_distractors1_r.png', 'path': 'images/exp2a_trial_74_colour3_distractors1_r.png'},
+    {'name': 'images/exp2b_trial_4_colour1_distractors31_r.png', 'path': 'images/exp2b_trial_4_colour1_distractors31_r.png'},
+    {'name': 'images/exp2a_trial_38_colour2_distractors4_r.png', 'path': 'images/exp2a_trial_38_colour2_distractors4_r.png'},
+    {'name': 'images/exp2a_trial_56_colour2_distractors31_l.png', 'path': 'images/exp2a_trial_56_colour2_distractors31_l.png'},
+    {'name': 'images/exp1b_trial_78_colour3_distractors31_r.png', 'path': 'images/exp1b_trial_78_colour3_distractors31_r.png'},
+    {'name': 'images/exp1a_trial_19_colour1_distractors31_l.png', 'path': 'images/exp1a_trial_19_colour1_distractors31_l.png'},
+    {'name': 'images/exp1a_trial_47_colour1_distractors1_l.png', 'path': 'images/exp1a_trial_47_colour1_distractors1_l.png'},
+    {'name': 'images/exp2a_trial_83_colour1_distractors31_l.png', 'path': 'images/exp2a_trial_83_colour1_distractors31_l.png'},
+    {'name': 'images/exp2a_trial_58_colour3_distractors4_l.png', 'path': 'images/exp2a_trial_58_colour3_distractors4_l.png'},
+    {'name': 'images/exp1b_trial_19_colour1_distractors31_l.png', 'path': 'images/exp1b_trial_19_colour1_distractors31_l.png'},
+    {'name': 'images/exp2a_trial_2_colour1_distractors9_r.png', 'path': 'images/exp2a_trial_2_colour1_distractors9_r.png'},
+    {'name': 'images/exp2b_trial_49_colour1_distractors9_l.png', 'path': 'images/exp2b_trial_49_colour1_distractors9_l.png'},
+    {'name': 'images/exp2b_trial_36_colour1_distractors31_r.png', 'path': 'images/exp2b_trial_36_colour1_distractors31_r.png'},
+    {'name': 'images/exp1a_trial_18_colour1_distractors19_l.png', 'path': 'images/exp1a_trial_18_colour1_distractors19_l.png'},
+    {'name': 'images/exp1b_trial_83_colour1_distractors31_l.png', 'path': 'images/exp1b_trial_83_colour1_distractors31_l.png'},
+    {'name': 'images/exp2b_trial_21_colour2_distractors4_l.png', 'path': 'images/exp2b_trial_21_colour2_distractors4_l.png'},
+    {'name': 'images/exp2b_trial_18_colour1_distractors19_l.png', 'path': 'images/exp2b_trial_18_colour1_distractors19_l.png'},
+    {'name': 'images/exp2b_trial_94_colour0_distractors0_r.png', 'path': 'images/exp2b_trial_94_colour0_distractors0_r.png'},
+    {'name': 'images/exp1a_trial_45_colour3_distractors19_r.png', 'path': 'images/exp1a_trial_45_colour3_distractors19_r.png'},
+    {'name': 'images/exp2a_trial_75_colour3_distractors4_r.png', 'path': 'images/exp2a_trial_75_colour3_distractors4_r.png'},
+    {'name': 'images/exp1a_trial_21_colour2_distractors4_l.png', 'path': 'images/exp1a_trial_21_colour2_distractors4_l.png'},
+    {'name': 'images/exp1a_trial_59_colour3_distractors9_l.png', 'path': 'images/exp1a_trial_59_colour3_distractors9_l.png'},
+    {'name': 'images/exp1b_trial_2_colour1_distractors9_r.png', 'path': 'images/exp1b_trial_2_colour1_distractors9_r.png'},
+    {'name': 'images/exp1b_trial_84_colour2_distractors1_l.png', 'path': 'images/exp1b_trial_84_colour2_distractors1_l.png'},
+    {'name': 'images/exp1b_trial_7_colour2_distractors9_r.png', 'path': 'images/exp1b_trial_7_colour2_distractors9_r.png'},
+    {'name': 'images/exp2a_trial_26_colour3_distractors4_l.png', 'path': 'images/exp2a_trial_26_colour3_distractors4_l.png'},
+    {'name': 'images/exp1b_trial_37_colour2_distractors1_r.png', 'path': 'images/exp1b_trial_37_colour2_distractors1_r.png'},
+    {'name': 'images/exp1a_trial_44_colour3_distractors9_r.png', 'path': 'images/exp1a_trial_44_colour3_distractors9_r.png'},
+    {'name': 'images/exp2c_trial_36_colour1_distractors31_r.png', 'path': 'images/exp2c_trial_36_colour1_distractors31_r.png'},
+    {'name': 'images/exp1a_trial_72_colour2_distractors19_r.png', 'path': 'images/exp1a_trial_72_colour2_distractors19_r.png'},
+    {'name': 'images/exp2b_trial_27_colour3_distractors9_l.png', 'path': 'images/exp2b_trial_27_colour3_distractors9_l.png'},
+    {'name': 'images/exp2a_trial_79_colour1_distractors1_l.png', 'path': 'images/exp2a_trial_79_colour1_distractors1_l.png'},
+    {'name': 'images/exp2c_trial_29_colour3_distractors31_l.png', 'path': 'images/exp2c_trial_29_colour3_distractors31_l.png'},
+    {'name': 'images/exp2a_trial_25_colour3_distractors1_l.png', 'path': 'images/exp2a_trial_25_colour3_distractors1_l.png'},
+    {'name': 'images/exp2b_trial_23_colour2_distractors19_l.png', 'path': 'images/exp2b_trial_23_colour2_distractors19_l.png'},
+    {'name': 'images/exp2c_trial_2_colour1_distractors9_r.png', 'path': 'images/exp2c_trial_2_colour1_distractors9_r.png'},
+    {'name': 'images/exp1b_trial_45_colour3_distractors19_r.png', 'path': 'images/exp1b_trial_45_colour3_distractors19_r.png'},
+    {'name': 'images/exp1b_trial_55_colour2_distractors19_l.png', 'path': 'images/exp1b_trial_55_colour2_distractors19_l.png'},
+    {'name': 'images/exp1a_trial_23_colour2_distractors19_l.png', 'path': 'images/exp1a_trial_23_colour2_distractors19_l.png'},
+    {'name': 'images/exp2c_trial_20_colour2_distractors1_l.png', 'path': 'images/exp2c_trial_20_colour2_distractors1_l.png'},
+    {'name': 'targets/rightDisc.png', 'path': 'targets/rightDisc.png'},
+    {'name': 'images/exp1a_trial_20_colour2_distractors1_l.png', 'path': 'images/exp1a_trial_20_colour2_distractors1_l.png'},
+    {'name': 'images/exp1b_trial_13_colour3_distractors19_r.png', 'path': 'images/exp1b_trial_13_colour3_distractors19_r.png'},
+    {'name': 'images/exp1b_trial_40_colour2_distractors19_r.png', 'path': 'images/exp1b_trial_40_colour2_distractors19_r.png'},
+    {'name': 'images/exp1b_trial_73_colour2_distractors31_r.png', 'path': 'images/exp1b_trial_73_colour2_distractors31_r.png'},
+    {'name': 'images/exp2a_trial_68_colour1_distractors31_r.png', 'path': 'images/exp2a_trial_68_colour1_distractors31_r.png'},
+    {'name': 'images/exp2b_trial_2_colour1_distractors9_r.png', 'path': 'images/exp2b_trial_2_colour1_distractors9_r.png'},
+    {'name': 'images/exp2a_trial_41_colour2_distractors31_r.png', 'path': 'images/exp2a_trial_41_colour2_distractors31_r.png'},
+    {'name': 'images/exp2a_trial_65_colour1_distractors4_r.png', 'path': 'images/exp2a_trial_65_colour1_distractors4_r.png'},
+    {'name': 'images/exp1b_trial_48_colour1_distractors4_l.png', 'path': 'images/exp1b_trial_48_colour1_distractors4_l.png'},
+    {'name': 'images/exp2b_trial_33_colour1_distractors4_r.png', 'path': 'images/exp2b_trial_33_colour1_distractors4_r.png'},
+    {'name': 'images/exp2c_trial_65_colour1_distractors4_r.png', 'path': 'images/exp2c_trial_65_colour1_distractors4_r.png'},
+    {'name': 'images/exp1a_trial_69_colour2_distractors1_r.png', 'path': 'images/exp1a_trial_69_colour2_distractors1_r.png'},
+    {'name': 'images/exp1a_trial_17_colour1_distractors9_l.png', 'path': 'images/exp1a_trial_17_colour1_distractors9_l.png'},
+    {'name': 'images/exp1b_trial_12_colour3_distractors9_r.png', 'path': 'images/exp1b_trial_12_colour3_distractors9_r.png'},
+    {'name': 'images/exp1a_trial_31_colour0_distractors0_l.png', 'path': 'images/exp1a_trial_31_colour0_distractors0_l.png'},
+    {'name': 'images/exp1b_trial_46_colour3_distractors31_r.png', 'path': 'images/exp1b_trial_46_colour3_distractors31_r.png'},
+    {'name': 'images/exp2a_trial_46_colour3_distractors31_r.png', 'path': 'images/exp2a_trial_46_colour3_distractors31_r.png'},
+    {'name': 'images/exp2c_trial_72_colour2_distractors19_r.png', 'path': 'images/exp2c_trial_72_colour2_distractors19_r.png'},
+    {'name': 'images/exp2b_trial_58_colour3_distractors4_l.png', 'path': 'images/exp2b_trial_58_colour3_distractors4_l.png'},
+    {'name': 'images/exp2c_trial_57_colour3_distractors1_l.png', 'path': 'images/exp2c_trial_57_colour3_distractors1_l.png'},
+    {'name': 'images/exp1b_trial_38_colour2_distractors4_r.png', 'path': 'images/exp1b_trial_38_colour2_distractors4_r.png'},
+    {'name': 'images/exp1a_trial_38_colour2_distractors4_r.png', 'path': 'images/exp1a_trial_38_colour2_distractors4_r.png'},
+    {'name': 'images/exp2c_trial_48_colour1_distractors4_l.png', 'path': 'images/exp2c_trial_48_colour1_distractors4_l.png'},
+    {'name': 'images/exp1a_trial_58_colour3_distractors4_l.png', 'path': 'images/exp1a_trial_58_colour3_distractors4_l.png'},
+    {'name': 'images/exp2a_trial_60_colour3_distractors19_l.png', 'path': 'images/exp2a_trial_60_colour3_distractors19_l.png'},
+    {'name': 'images/exp1a_trial_50_colour1_distractors19_l.png', 'path': 'images/exp1a_trial_50_colour1_distractors19_l.png'},
+    {'name': 'images/exp2b_trial_8_colour2_distractors19_r.png', 'path': 'images/exp2b_trial_8_colour2_distractors19_r.png'},
+    {'name': 'images/exp2c_trial_14_colour3_distractors31_r.png', 'path': 'images/exp2c_trial_14_colour3_distractors31_r.png'},
+    {'name': 'images/exp2c_trial_81_colour1_distractors9_l.png', 'path': 'images/exp2c_trial_81_colour1_distractors9_l.png'},
+    {'name': 'images/exp2c_trial_0_colour1_distractors1_r.png', 'path': 'images/exp2c_trial_0_colour1_distractors1_r.png'},
+    {'name': 'images/exp1a_trial_35_colour1_distractors19_r.png', 'path': 'images/exp1a_trial_35_colour1_distractors19_r.png'},
+    {'name': 'images/exp2a_trial_37_colour2_distractors1_r.png', 'path': 'images/exp2a_trial_37_colour2_distractors1_r.png'},
+    {'name': 'images/exp1a_trial_91_colour3_distractors9_l.png', 'path': 'images/exp1a_trial_91_colour3_distractors9_l.png'},
+    {'name': 'images/exp2a_trial_53_colour2_distractors4_l.png', 'path': 'images/exp2a_trial_53_colour2_distractors4_l.png'},
+    {'name': 'images/exp2c_trial_34_colour1_distractors9_r.png', 'path': 'images/exp2c_trial_34_colour1_distractors9_r.png'},
+    {'name': 'images/exp2c_trial_63_colour0_distractors0_l.png', 'path': 'images/exp2c_trial_63_colour0_distractors0_l.png'},
+    {'name': 'images/exp2a_trial_52_colour2_distractors1_l.png', 'path': 'images/exp2a_trial_52_colour2_distractors1_l.png'},
+    {'name': 'images/exp1b_trial_24_colour2_distractors31_l.png', 'path': 'images/exp1b_trial_24_colour2_distractors31_l.png'},
+    {'name': 'images/exp2a_trial_73_colour2_distractors31_r.png', 'path': 'images/exp2a_trial_73_colour2_distractors31_r.png'},
+    {'name': 'images/exp2c_trial_88_colour2_distractors31_l.png', 'path': 'images/exp2c_trial_88_colour2_distractors31_l.png'},
+    {'name': 'images/exp2b_trial_50_colour1_distractors19_l.png', 'path': 'images/exp2b_trial_50_colour1_distractors19_l.png'},
+    {'name': 'targets/leftDisc.png', 'path': 'targets/leftDisc.png'},
+    {'name': 'images/exp2b_trial_14_colour3_distractors31_r.png', 'path': 'images/exp2b_trial_14_colour3_distractors31_r.png'},
+    {'name': 'images/exp1a_trial_28_colour3_distractors19_l.png', 'path': 'images/exp1a_trial_28_colour3_distractors19_l.png'},
+    {'name': 'images/exp2c_trial_85_colour2_distractors4_l.png', 'path': 'images/exp2c_trial_85_colour2_distractors4_l.png'},
+    {'name': 'images/exp2c_trial_74_colour3_distractors1_r.png', 'path': 'images/exp2c_trial_74_colour3_distractors1_r.png'},
+    {'name': 'images/exp2a_trial_32_colour1_distractors1_r.png', 'path': 'images/exp2a_trial_32_colour1_distractors1_r.png'},
+    {'name': 'images/exp2c_trial_80_colour1_distractors4_l.png', 'path': 'images/exp2c_trial_80_colour1_distractors4_l.png'},
+    {'name': 'images/exp1b_trial_29_colour3_distractors31_l.png', 'path': 'images/exp1b_trial_29_colour3_distractors31_l.png'},
+    {'name': 'images/exp2c_trial_28_colour3_distractors19_l.png', 'path': 'images/exp2c_trial_28_colour3_distractors19_l.png'},
+    {'name': 'images/exp1b_trial_47_colour1_distractors1_l.png', 'path': 'images/exp1b_trial_47_colour1_distractors1_l.png'},
+    {'name': 'images/exp1b_trial_53_colour2_distractors4_l.png', 'path': 'images/exp1b_trial_53_colour2_distractors4_l.png'},
+    {'name': 'images/exp2a_trial_7_colour2_distractors9_r.png', 'path': 'images/exp2a_trial_7_colour2_distractors9_r.png'},
+    {'name': 'images/exp2a_trial_81_colour1_distractors9_l.png', 'path': 'images/exp2a_trial_81_colour1_distractors9_l.png'},
+    {'name': 'images/exp2c_trial_82_colour1_distractors19_l.png', 'path': 'images/exp2c_trial_82_colour1_distractors19_l.png'},
+    {'name': 'images/exp2b_trial_53_colour2_distractors4_l.png', 'path': 'images/exp2b_trial_53_colour2_distractors4_l.png'},
+    {'name': 'images/exp2b_trial_24_colour2_distractors31_l.png', 'path': 'images/exp2b_trial_24_colour2_distractors31_l.png'},
+    {'name': 'images/exp2c_trial_23_colour2_distractors19_l.png', 'path': 'images/exp2c_trial_23_colour2_distractors19_l.png'},
+    {'name': 'images/exp1a_trial_76_colour3_distractors9_r.png', 'path': 'images/exp1a_trial_76_colour3_distractors9_r.png'},
+    {'name': 'images/exp1b_trial_52_colour2_distractors1_l.png', 'path': 'images/exp1b_trial_52_colour2_distractors1_l.png'},
+    {'name': 'images/exp1b_trial_34_colour1_distractors9_r.png', 'path': 'images/exp1b_trial_34_colour1_distractors9_r.png'},
+    {'name': 'images/exp2c_trial_10_colour3_distractors1_r.png', 'path': 'images/exp2c_trial_10_colour3_distractors1_r.png'},
+    {'name': 'images/exp2b_trial_6_colour2_distractors4_r.png', 'path': 'images/exp2b_trial_6_colour2_distractors4_r.png'},
+    {'name': 'images/exp1b_trial_21_colour2_distractors4_l.png', 'path': 'images/exp1b_trial_21_colour2_distractors4_l.png'},
+    {'name': 'images/exp1a_trial_81_colour1_distractors9_l.png', 'path': 'images/exp1a_trial_81_colour1_distractors9_l.png'},
+    {'name': 'images/exp1b_trial_1_colour1_distractors4_r.png', 'path': 'images/exp1b_trial_1_colour1_distractors4_r.png'},
+    {'name': 'images/exp1b_trial_30_colour0_distractors0_r.png', 'path': 'images/exp1b_trial_30_colour0_distractors0_r.png'},
+    {'name': 'images/exp2b_trial_32_colour1_distractors1_r.png', 'path': 'images/exp2b_trial_32_colour1_distractors1_r.png'},
+    {'name': 'images/exp2a_trial_23_colour2_distractors19_l.png', 'path': 'images/exp2a_trial_23_colour2_distractors19_l.png'},
+    {'name': 'images/exp2a_trial_17_colour1_distractors9_l.png', 'path': 'images/exp2a_trial_17_colour1_distractors9_l.png'},
+    {'name': 'images/exp2b_trial_43_colour3_distractors4_r.png', 'path': 'images/exp2b_trial_43_colour3_distractors4_r.png'},
+    {'name': 'images/exp2a_trial_42_colour3_distractors1_r.png', 'path': 'images/exp2a_trial_42_colour3_distractors1_r.png'},
+    {'name': 'images/exp2b_trial_74_colour3_distractors1_r.png', 'path': 'images/exp2b_trial_74_colour3_distractors1_r.png'},
+    {'name': 'images/exp2c_trial_19_colour1_distractors31_l.png', 'path': 'images/exp2c_trial_19_colour1_distractors31_l.png'},
+    {'name': 'images/exp2b_trial_81_colour1_distractors9_l.png', 'path': 'images/exp2b_trial_81_colour1_distractors9_l.png'},
+    {'name': 'images/exp2a_trial_1_colour1_distractors4_r.png', 'path': 'images/exp2a_trial_1_colour1_distractors4_r.png'},
+    {'name': 'images/exp1a_trial_9_colour2_distractors31_r.png', 'path': 'images/exp1a_trial_9_colour2_distractors31_r.png'},
+    {'name': 'images/exp2c_trial_27_colour3_distractors9_l.png', 'path': 'images/exp2c_trial_27_colour3_distractors9_l.png'},
+    {'name': 'images/exp2c_trial_6_colour2_distractors4_r.png', 'path': 'images/exp2c_trial_6_colour2_distractors4_r.png'},
+    {'name': 'images/exp2c_trial_11_colour3_distractors4_r.png', 'path': 'images/exp2c_trial_11_colour3_distractors4_r.png'},
+    {'name': 'images/exp2b_trial_89_colour3_distractors1_l.png', 'path': 'images/exp2b_trial_89_colour3_distractors1_l.png'},
+    {'name': 'images/exp1a_trial_29_colour3_distractors31_l.png', 'path': 'images/exp1a_trial_29_colour3_distractors31_l.png'},
+    {'name': 'images/exp1b_trial_41_colour2_distractors31_r.png', 'path': 'images/exp1b_trial_41_colour2_distractors31_r.png'},
+    {'name': 'images/exp1b_trial_76_colour3_distractors9_r.png', 'path': 'images/exp1b_trial_76_colour3_distractors9_r.png'},
+    {'name': 'images/exp2c_trial_66_colour1_distractors9_r.png', 'path': 'images/exp2c_trial_66_colour1_distractors9_r.png'},
+    {'name': 'images/exp1a_trial_2_colour1_distractors9_r.png', 'path': 'images/exp1a_trial_2_colour1_distractors9_r.png'},
+    {'name': 'images/exp2b_trial_82_colour1_distractors19_l.png', 'path': 'images/exp2b_trial_82_colour1_distractors19_l.png'},
+    {'name': 'images/exp2b_trial_42_colour3_distractors1_r.png', 'path': 'images/exp2b_trial_42_colour3_distractors1_r.png'},
+    {'name': 'images/exp2c_trial_71_colour2_distractors9_r.png', 'path': 'images/exp2c_trial_71_colour2_distractors9_r.png'},
+    {'name': 'images/exp2a_trial_48_colour1_distractors4_l.png', 'path': 'images/exp2a_trial_48_colour1_distractors4_l.png'},
+    {'name': 'images/exp1b_trial_6_colour2_distractors4_r.png', 'path': 'images/exp1b_trial_6_colour2_distractors4_r.png'},
+    {'name': 'images/exp1a_trial_3_colour1_distractors19_r.png', 'path': 'images/exp1a_trial_3_colour1_distractors19_r.png'},
+    {'name': 'images/exp1a_trial_32_colour1_distractors1_r.png', 'path': 'images/exp1a_trial_32_colour1_distractors1_r.png'},
+    {'name': 'images/exp1b_trial_28_colour3_distractors19_l.png', 'path': 'images/exp1b_trial_28_colour3_distractors19_l.png'},
+    {'name': 'images/exp2c_trial_56_colour2_distractors31_l.png', 'path': 'images/exp2c_trial_56_colour2_distractors31_l.png'},
+    {'name': 'images/exp1b_trial_49_colour1_distractors9_l.png', 'path': 'images/exp1b_trial_49_colour1_distractors9_l.png'},
+    {'name': 'images/exp1a_trial_70_colour2_distractors4_r.png', 'path': 'images/exp1a_trial_70_colour2_distractors4_r.png'},
+    {'name': 'images/exp2a_trial_50_colour1_distractors19_l.png', 'path': 'images/exp2a_trial_50_colour1_distractors19_l.png'},
+    {'name': 'images/exp1a_trial_86_colour2_distractors9_l.png', 'path': 'images/exp1a_trial_86_colour2_distractors9_l.png'},
+    {'name': 'images/exp1b_trial_18_colour1_distractors19_l.png', 'path': 'images/exp1b_trial_18_colour1_distractors19_l.png'},
+    {'name': 'images/exp2b_trial_52_colour2_distractors1_l.png', 'path': 'images/exp2b_trial_52_colour2_distractors1_l.png'},
+    {'name': 'images/exp1a_trial_63_colour0_distractors0_l.png', 'path': 'images/exp1a_trial_63_colour0_distractors0_l.png'},
+    {'name': 'images/exp1a_trial_74_colour3_distractors1_r.png', 'path': 'images/exp1a_trial_74_colour3_distractors1_r.png'},
+    {'name': 'images/exp2c_trial_24_colour2_distractors31_l.png', 'path': 'images/exp2c_trial_24_colour2_distractors31_l.png'},
+    {'name': 'images/exp2b_trial_15_colour1_distractors1_l.png', 'path': 'images/exp2b_trial_15_colour1_distractors1_l.png'},
+    {'name': 'images/exp2c_trial_21_colour2_distractors4_l.png', 'path': 'images/exp2c_trial_21_colour2_distractors4_l.png'},
+    {'name': 'images/exp2c_trial_45_colour3_distractors19_r.png', 'path': 'images/exp2c_trial_45_colour3_distractors19_r.png'},
+    {'name': 'images/exp2c_trial_30_colour0_distractors0_r.png', 'path': 'images/exp2c_trial_30_colour0_distractors0_r.png'},
+    {'name': 'images/exp1b_trial_70_colour2_distractors4_r.png', 'path': 'images/exp1b_trial_70_colour2_distractors4_r.png'},
+    {'name': 'images/exp1a_trial_60_colour3_distractors19_l.png', 'path': 'images/exp1a_trial_60_colour3_distractors19_l.png'},
+    {'name': 'images/exp1a_trial_22_colour2_distractors9_l.png', 'path': 'images/exp1a_trial_22_colour2_distractors9_l.png'},
+    {'name': 'images/exp2c_trial_13_colour3_distractors19_r.png', 'path': 'images/exp2c_trial_13_colour3_distractors19_r.png'},
+    {'name': 'images/exp1b_trial_85_colour2_distractors4_l.png', 'path': 'images/exp1b_trial_85_colour2_distractors4_l.png'},
+    {'name': 'images/exp2a_trial_36_colour1_distractors31_r.png', 'path': 'images/exp2a_trial_36_colour1_distractors31_r.png'},
+    {'name': 'images/exp1a_trial_30_colour0_distractors0_r.png', 'path': 'images/exp1a_trial_30_colour0_distractors0_r.png'},
+    {'name': 'images/exp1a_trial_54_colour2_distractors9_l.png', 'path': 'images/exp1a_trial_54_colour2_distractors9_l.png'},
+    {'name': 'images/exp2a_trial_24_colour2_distractors31_l.png', 'path': 'images/exp2a_trial_24_colour2_distractors31_l.png'},
+    {'name': 'images/exp1b_trial_9_colour2_distractors31_r.png', 'path': 'images/exp1b_trial_9_colour2_distractors31_r.png'},
+    {'name': 'images/exp1a_trial_49_colour1_distractors9_l.png', 'path': 'images/exp1a_trial_49_colour1_distractors9_l.png'},
+    {'name': 'images/exp2b_trial_17_colour1_distractors9_l.png', 'path': 'images/exp2b_trial_17_colour1_distractors9_l.png'},
+    {'name': 'images/exp1b_trial_64_colour1_distractors1_r.png', 'path': 'images/exp1b_trial_64_colour1_distractors1_r.png'},
+    {'name': 'images/exp2b_trial_87_colour2_distractors19_l.png', 'path': 'images/exp2b_trial_87_colour2_distractors19_l.png'},
+    {'name': 'images/exp1b_trial_62_colour0_distractors0_r.png', 'path': 'images/exp1b_trial_62_colour0_distractors0_r.png'},
+    {'name': 'images/exp2b_trial_28_colour3_distractors19_l.png', 'path': 'images/exp2b_trial_28_colour3_distractors19_l.png'},
+    {'name': 'images/exp1a_trial_94_colour0_distractors0_r.png', 'path': 'images/exp1a_trial_94_colour0_distractors0_r.png'},
+    {'name': 'images/exp2c_trial_46_colour3_distractors31_r.png', 'path': 'images/exp2c_trial_46_colour3_distractors31_r.png'},
+    {'name': 'images/exp2c_trial_64_colour1_distractors1_r.png', 'path': 'images/exp2c_trial_64_colour1_distractors1_r.png'},
+    {'name': 'images/exp2c_trial_95_colour0_distractors0_l.png', 'path': 'images/exp2c_trial_95_colour0_distractors0_l.png'},
+    {'name': 'images/exp1a_trial_5_colour2_distractors1_r.png', 'path': 'images/exp1a_trial_5_colour2_distractors1_r.png'},
+    {'name': 'images/exp2a_trial_8_colour2_distractors19_r.png', 'path': 'images/exp2a_trial_8_colour2_distractors19_r.png'},
+    {'name': 'images/exp1a_trial_14_colour3_distractors31_r.png', 'path': 'images/exp1a_trial_14_colour3_distractors31_r.png'},
+    {'name': 'images/exp2a_trial_64_colour1_distractors1_r.png', 'path': 'images/exp2a_trial_64_colour1_distractors1_r.png'},
+    {'name': 'images/exp1a_trial_52_colour2_distractors1_l.png', 'path': 'images/exp1a_trial_52_colour2_distractors1_l.png'},
+    {'name': 'images/exp2a_trial_67_colour1_distractors19_r.png', 'path': 'images/exp2a_trial_67_colour1_distractors19_r.png'},
+    {'name': 'images/exp1b_trial_0_colour1_distractors1_r.png', 'path': 'images/exp1b_trial_0_colour1_distractors1_r.png'},
+    {'name': 'images/exp2b_trial_90_colour3_distractors4_l.png', 'path': 'images/exp2b_trial_90_colour3_distractors4_l.png'},
+    {'name': 'images/exp2b_trial_34_colour1_distractors9_r.png', 'path': 'images/exp2b_trial_34_colour1_distractors9_r.png'},
+    {'name': 'images/exp1a_trial_85_colour2_distractors4_l.png', 'path': 'images/exp1a_trial_85_colour2_distractors4_l.png'},
+    {'name': 'images/exp1b_trial_81_colour1_distractors9_l.png', 'path': 'images/exp1b_trial_81_colour1_distractors9_l.png'},
+    {'name': 'images/exp2b_trial_75_colour3_distractors4_r.png', 'path': 'images/exp2b_trial_75_colour3_distractors4_r.png'},
+    {'name': 'images/exp2a_trial_88_colour2_distractors31_l.png', 'path': 'images/exp2a_trial_88_colour2_distractors31_l.png'},
+    {'name': 'images/exp1b_trial_67_colour1_distractors19_r.png', 'path': 'images/exp1b_trial_67_colour1_distractors19_r.png'},
+    {'name': 'images/exp1b_trial_27_colour3_distractors9_l.png', 'path': 'images/exp1b_trial_27_colour3_distractors9_l.png'},
+    {'name': 'images/exp2b_trial_91_colour3_distractors9_l.png', 'path': 'images/exp2b_trial_91_colour3_distractors9_l.png'},
+    {'name': 'images/exp2b_trial_76_colour3_distractors9_r.png', 'path': 'images/exp2b_trial_76_colour3_distractors9_r.png'},
+    {'name': 'images/exp2a_trial_59_colour3_distractors9_l.png', 'path': 'images/exp2a_trial_59_colour3_distractors9_l.png'},
+    {'name': 'images/exp2c_trial_62_colour0_distractors0_r.png', 'path': 'images/exp2c_trial_62_colour0_distractors0_r.png'},
+    {'name': 'images/exp2c_trial_83_colour1_distractors31_l.png', 'path': 'images/exp2c_trial_83_colour1_distractors31_l.png'},
+    {'name': 'images/exp1a_trial_46_colour3_distractors31_r.png', 'path': 'images/exp1a_trial_46_colour3_distractors31_r.png'},
+    {'name': 'images/exp2a_trial_13_colour3_distractors19_r.png', 'path': 'images/exp2a_trial_13_colour3_distractors19_r.png'},
+    {'name': 'images/exp2c_trial_25_colour3_distractors1_l.png', 'path': 'images/exp2c_trial_25_colour3_distractors1_l.png'},
+    {'name': 'images/exp2b_trial_59_colour3_distractors9_l.png', 'path': 'images/exp2b_trial_59_colour3_distractors9_l.png'},
+    {'name': 'images/exp1a_trial_7_colour2_distractors9_r.png', 'path': 'images/exp1a_trial_7_colour2_distractors9_r.png'},
+    {'name': 'images/exp2b_trial_31_colour0_distractors0_l.png', 'path': 'images/exp2b_trial_31_colour0_distractors0_l.png'},
+    {'name': 'images/exp2b_trial_77_colour3_distractors19_r.png', 'path': 'images/exp2b_trial_77_colour3_distractors19_r.png'}
+  ]
+});
+
+=======
     {'name': 'images/exp1a_trial_37_colour2_distractors1_r.png', 'path': 'images/exp1a_trial_37_colour2_distractors1_r.png'},
     {'name': 'images/exp1b_trial_4_colour1_distractors31_r.png', 'path': 'images/exp1b_trial_4_colour1_distractors31_r.png'},
     {'name': 'images/exp1a_trial_72_colour2_distractors19_r.png', 'path': 'images/exp1a_trial_72_colour2_distractors19_r.png'},
@@ -547,12 +1035,17 @@ psychoJS.start({
 
 psychoJS.experimentLogger.setLevel(core.Logger.ServerLevel.EXP);
 
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
 
 var frameDur;
 function updateInfo() {
   expInfo['date'] = util.MonotonicClock.getDateStr();  // add a simple timestamp
   expInfo['expName'] = expName;
+<<<<<<< HEAD
+  expInfo['psychopyVersion'] = '2020.2.2';
+=======
   expInfo['psychopyVersion'] = '2020.2.4';
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
   expInfo['OS'] = window.navigator.platform;
 
   // store frame rate of monitor if we can measure it successfully
@@ -581,8 +1074,14 @@ var practiceTrialsClock;
 var image;
 var key_resp_4;
 var practiceFeedbackClock;
+<<<<<<< HEAD
+var text_4;
+var key_resp_7;
+var msg;
+=======
 var msg;
 var text_4;
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
 var WelcomeScreenClock;
 var text;
 var key_resp_3;
@@ -590,10 +1089,13 @@ var trialClock;
 var dispStimuli;
 var key_resp_2;
 var break_2Clock;
+<<<<<<< HEAD
+=======
 var trialCounter;
 var accuracySum;
 var totRT;
 var round;
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
 var breakMessage;
 var key_resp;
 var globalClock;
@@ -630,7 +1132,11 @@ function experimentInit() {
   text_3 = new visual.TextStim({
     win: psychoJS.window,
     name: 'text_3',
+<<<<<<< HEAD
+    text: 'Press 1 if you see left seicircle\n\n\n\nPress 2 if you see right semicircle\n\n\nPress SPACE to start',
+=======
     text: 'Press 1 if you see left semicircle\n\n\n\nPress 2 if you see right semicircle\n\n\nPress SPACE to start',
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
     font: 'Arial',
     units: undefined, 
     pos: [0, 0], height: 0.08,  wrapWidth: undefined, ori: 0,
@@ -662,10 +1168,13 @@ function experimentInit() {
   
   // Initialize components for Routine "practiceFeedback"
   practiceFeedbackClock = new util.Clock();
+<<<<<<< HEAD
+=======
   msg = "doh";
   //manual_loop = 0;
   
   
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
   text_4 = new visual.TextStim({
     win: psychoJS.window,
     name: 'text_4',
@@ -674,9 +1183,19 @@ function experimentInit() {
     units: undefined, 
     pos: [0, 0], height: 0.1,  wrapWidth: undefined, ori: 0,
     color: new util.Color('white'),  opacity: 1,
+<<<<<<< HEAD
+    depth: 0.0 
+  });
+  
+  key_resp_7 = new core.Keyboard({psychoJS: psychoJS, clock: new util.Clock(), waitForStart: true});
+  
+  msg = "doh";
+  
+=======
     depth: -1.0 
   });
   
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
   // Initialize components for Routine "WelcomeScreen"
   WelcomeScreenClock = new util.Clock();
   text = new visual.TextStim({
@@ -708,6 +1227,8 @@ function experimentInit() {
   // Initialize components for Routine "break_2"
   break_2Clock = new util.Clock();
   msg = "";
+<<<<<<< HEAD
+=======
   trialCounter=0;
   accuracySum=0;
   totRT=0;
@@ -715,6 +1236,7 @@ function experimentInit() {
   round = function(num, n=0) {    
      return +(Math.round(num + ("e+" + n))  + ("e-" + n));
   }
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
   
   breakMessage = new visual.TextStim({
     win: psychoJS.window,
@@ -1008,7 +1530,11 @@ function trials_2LoopBegin(trials_2LoopScheduler) {
     psychoJS: psychoJS,
     nReps: 1, method: TrialHandler.Method.RANDOM,
     extraInfo: expInfo, originPath: undefined,
+<<<<<<< HEAD
+    trialList: TrialHandler.importConditions(psychoJS.serverManager, 'image_stimuli.xlsx', '0:20'),
+=======
     trialList: 'image_stimuli_practice.xlsx',
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
     seed: undefined, name: 'trials_2'
   });
   psychoJS.experiment.addLoop(trials_2); // add the loop to the experiment
@@ -1221,6 +1747,12 @@ function practiceTrialsRoutineEnd(snapshot) {
 }
 
 
+<<<<<<< HEAD
+var _key_resp_7_allKeys;
+var nCorr;
+var meanRt;
+=======
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
 var practiceFeedbackComponents;
 function practiceFeedbackRoutineBegin(snapshot) {
   return function () {
@@ -1228,6 +1760,23 @@ function practiceFeedbackRoutineBegin(snapshot) {
     t = 0;
     practiceFeedbackClock.reset(); // clock
     frameN = -1;
+<<<<<<< HEAD
+    // update component parameters for each repeat
+    text_4.setText(msg);
+    key_resp_7.keys = undefined;
+    key_resp_7.rt = undefined;
+    _key_resp_7_allKeys = [];
+    if (((trials_2.thisTrialN === 0) || ((trials_2.thisTrialN % 19) !== 0))) {
+        continueRoutine = false;
+    }
+    nCorr = trials_2.data["key_resp_4.corr"].sum();
+    meanRt = trials_2.data["key_resp_4.rt"].mean();
+    
+    // keep track of which components have finished
+    practiceFeedbackComponents = [];
+    practiceFeedbackComponents.push(text_4);
+    practiceFeedbackComponents.push(key_resp_7);
+=======
     routineTimer.add(1.000000);
     // update component parameters for each repeat
     //manual_loop = manual_loop + 1;
@@ -1246,6 +1795,7 @@ function practiceFeedbackRoutineBegin(snapshot) {
     // keep track of which components have finished
     practiceFeedbackComponents = [];
     practiceFeedbackComponents.push(text_4);
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
     
     practiceFeedbackComponents.forEach( function(thisComponent) {
       if ('status' in thisComponent)
@@ -1265,6 +1815,8 @@ function practiceFeedbackRoutineEachFrame(snapshot) {
     t = practiceFeedbackClock.getTime();
     frameN = frameN + 1;// number of completed frames (so 0 is the first frame)
     // update/draw components on each frame
+<<<<<<< HEAD
+=======
     //if ((manual_loop !== 20)) {
     //    continueRoutine = false;
     //}
@@ -1275,6 +1827,7 @@ function practiceFeedbackRoutineEachFrame(snapshot) {
     
     //meanRT = round(meanRT, 3);
     
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
     
     // *text_4* updates
     if (t >= 0.0 && text_4.status === PsychoJS.Status.NOT_STARTED) {
@@ -1285,10 +1838,37 @@ function practiceFeedbackRoutineEachFrame(snapshot) {
       text_4.setAutoDraw(true);
     }
 
+<<<<<<< HEAD
+    
+    // *key_resp_7* updates
+    if (t >= 0.0 && key_resp_7.status === PsychoJS.Status.NOT_STARTED) {
+      // keep track of start time/frame for later
+      key_resp_7.tStart = t;  // (not accounting for frame time here)
+      key_resp_7.frameNStart = frameN;  // exact frame index
+      
+      // keyboard checking is just starting
+      psychoJS.window.callOnFlip(function() { key_resp_7.clock.reset(); });  // t=0 on next screen flip
+      psychoJS.window.callOnFlip(function() { key_resp_7.start(); }); // start on screen flip
+      psychoJS.window.callOnFlip(function() { key_resp_7.clearEvents(); });
+    }
+
+    if (key_resp_7.status === PsychoJS.Status.STARTED) {
+      let theseKeys = key_resp_7.getKeys({keyList: ['space'], waitRelease: false});
+      _key_resp_7_allKeys = _key_resp_7_allKeys.concat(theseKeys);
+      if (_key_resp_7_allKeys.length > 0) {
+        key_resp_7.keys = _key_resp_7_allKeys[_key_resp_7_allKeys.length - 1].name;  // just the last key pressed
+        key_resp_7.rt = _key_resp_7_allKeys[_key_resp_7_allKeys.length - 1].rt;
+        // a response ends the routine
+        continueRoutine = false;
+      }
+    }
+    
+=======
     frameRemains = 0.0 + 1 - psychoJS.window.monitorFramePeriod * 0.75;  // most of one frame period left
     if (text_4.status === PsychoJS.Status.STARTED && t >= frameRemains) {
       text_4.setAutoDraw(false);
     }
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
     // check for quit (typically the Esc key)
     if (psychoJS.experiment.experimentEnded || psychoJS.eventManager.getKeys({keyList:['escape']}).length > 0) {
       return quitPsychoJS('The [Escape] key was pressed. Goodbye!', false);
@@ -1307,7 +1887,11 @@ function practiceFeedbackRoutineEachFrame(snapshot) {
     });
     
     // refresh the screen if continuing
+<<<<<<< HEAD
+    if (continueRoutine) {
+=======
     if (continueRoutine && routineTimer.getTime() > 0) {
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
       return Scheduler.Event.FLIP_REPEAT;
     } else {
       return Scheduler.Event.NEXT;
@@ -1324,6 +1908,19 @@ function practiceFeedbackRoutineEnd(snapshot) {
         thisComponent.setAutoDraw(false);
       }
     });
+<<<<<<< HEAD
+    psychoJS.experiment.addData('key_resp_7.keys', key_resp_7.keys);
+    if (typeof key_resp_7.keys !== 'undefined') {  // we had a response
+        psychoJS.experiment.addData('key_resp_7.rt', key_resp_7.rt);
+        routineTimer.reset();
+        }
+    
+    key_resp_7.stop();
+    // the Routine "practiceFeedback" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset();
+    
+=======
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
     return Scheduler.Event.NEXT;
   };
 }
@@ -1456,7 +2053,10 @@ function trialRoutineBegin(snapshot) {
     t = 0;
     trialClock.reset(); // clock
     frameN = -1;
+<<<<<<< HEAD
+=======
     routineTimer.add(5.000000);
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
     // update component parameters for each repeat
     dispStimuli.setImage(ImageFile);
     key_resp_2.keys = undefined;
@@ -1512,11 +2112,14 @@ function trialRoutineEachFrame(snapshot) {
       psychoJS.window.callOnFlip(function() { key_resp_2.clearEvents(); });
     }
 
+<<<<<<< HEAD
+=======
     frameRemains = 0.0 + 5 - psychoJS.window.monitorFramePeriod * 0.75;  // most of one frame period left
     if (key_resp_2.status === PsychoJS.Status.STARTED && t >= frameRemains) {
       key_resp_2.status = PsychoJS.Status.FINISHED;
   }
 
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
     if (key_resp_2.status === PsychoJS.Status.STARTED) {
       let theseKeys = key_resp_2.getKeys({keyList: ['1', '2'], waitRelease: false});
       _key_resp_2_allKeys = _key_resp_2_allKeys.concat(theseKeys);
@@ -1552,7 +2155,11 @@ function trialRoutineEachFrame(snapshot) {
     });
     
     // refresh the screen if continuing
+<<<<<<< HEAD
+    if (continueRoutine) {
+=======
     if (continueRoutine && routineTimer.getTime() > 0) {
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
       return Scheduler.Event.FLIP_REPEAT;
     } else {
       return Scheduler.Event.NEXT;
@@ -1586,13 +2193,22 @@ function trialRoutineEnd(snapshot) {
         }
     
     key_resp_2.stop();
+<<<<<<< HEAD
+    // the Routine "trial" was not non-slip safe, so reset the non-slip timer
+    routineTimer.reset();
+    
+=======
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
     return Scheduler.Event.NEXT;
   };
 }
 
 
+<<<<<<< HEAD
+=======
 var percentAccurate;
 var meanRT;
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
 var _key_resp_allKeys;
 var break_2Components;
 function break_2RoutineBegin(snapshot) {
@@ -1602,6 +2218,8 @@ function break_2RoutineBegin(snapshot) {
     break_2Clock.reset(); // clock
     frameN = -1;
     // update component parameters for each repeat
+<<<<<<< HEAD
+=======
     trialCounter=trialCounter+1;  
     
     if(key_resp_2.corr) {
@@ -1615,6 +2233,7 @@ function break_2RoutineBegin(snapshot) {
     meanRT = round(meanRT, 3);
     
     msg = "You have completed " + trialCounter + " trials. You are " + percentAccurate + "% accurate so far, with an average reaction time of " + meanRT + "s. Press space bar to continue";
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
     breakMessage.setText(msg);
     key_resp.keys = undefined;
     key_resp.rt = undefined;
@@ -1642,12 +2261,15 @@ function break_2RoutineEachFrame(snapshot) {
     t = break_2Clock.getTime();
     frameN = frameN + 1;// number of completed frames (so 0 is the first frame)
     // update/draw components on each frame
+<<<<<<< HEAD
+=======
     if ((trialCounter !== 60 && trialCounter !== 120 && trialCounter !== 180 && trialCounter !== 240 && trialCounter !== 300 && trialCounter !== 360 && trialCounter !== 420)) {
         continueRoutine = false;
     }
     
     
     
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
     
     // *breakMessage* updates
     if (t >= 0.0 && breakMessage.status === PsychoJS.Status.NOT_STARTED) {
@@ -1672,7 +2294,11 @@ function break_2RoutineEachFrame(snapshot) {
     }
 
     if (key_resp.status === PsychoJS.Status.STARTED) {
+<<<<<<< HEAD
+      let theseKeys = key_resp.getKeys({keyList: ['space'], waitRelease: false});
+=======
       let theseKeys = key_resp.getKeys({keyList: ['space', 'return'], waitRelease: false});
+>>>>>>> 7b4208097334f98276ccf121561a7465a70b347e
       _key_resp_allKeys = _key_resp_allKeys.concat(theseKeys);
       if (_key_resp_allKeys.length > 0) {
         key_resp.keys = _key_resp_allKeys[_key_resp_allKeys.length - 1].name;  // just the last key pressed
