@@ -39,7 +39,8 @@ fit_glmm_to_an_exp <- function(experiment, df, ppc = "no", fam = "lognormal") {
         prior = my_priors,
         chains = 1,
         sample_prior = ppc,
-        iter = n_itr)
+        iter = n_itr,
+        save_all_pars = TRUE)
   }  
   else if(fam == "shifted")
   {
@@ -54,7 +55,8 @@ fit_glmm_to_an_exp <- function(experiment, df, ppc = "no", fam = "lognormal") {
         prior = my_priors,
         chains = 1,
         sample_prior = ppc,
-        iter = n_itr)
+        iter = n_itr,
+        save_all_pars = TRUE)
   } 
   else 
   { 
@@ -69,7 +71,8 @@ fit_glmm_to_an_exp <- function(experiment, df, ppc = "no", fam = "lognormal") {
         prior = my_priors,
         chains = 1,
         sample_prior = ppc,
-        iter = n_itr)
+        iter = n_itr,
+        save_all_pars = TRUE)
       }
 
   return(m)
@@ -84,7 +87,7 @@ plot_model_fits_ex <- function(df, experiment, m, people2plot, inc_re = NA) {
       d_feature = fct_drop(d_feature),
       p_id = fct_drop(p_id)) -> d_plt
   
-  d_plt <- sample_n(d_plt, 100)
+  d_plt <- sample_n(d_plt, 500)
   
   d_plt %>%
     modelr::data_grid(p_id, N_T= seq(0,36,4), d_feature) %>%
@@ -104,10 +107,10 @@ plot_model_fits_ex <- function(df, experiment, m, people2plot, inc_re = NA) {
   return(plt)
 }
 
-extract_fixed_slopes_from_model <- function(exp_n, ms, df) {
+extract_fixed_slopes_from_model <- function(m, df) {
   
-  experiment <- unique(d$exp_id)[exp_n]
-  m <- ms[[exp_n]]
+  # experiment <- unique(d$exp_id)[exp_n]
+  # m <- ms[[exp_n]]
   
   vars <- get_variables(m)
   slopes <- str_subset(vars, "b_d_[a-z]*:")
@@ -115,9 +118,8 @@ extract_fixed_slopes_from_model <- function(exp_n, ms, df) {
   samples <- posterior_samples(m, slopes, add_chain = TRUE) %>%
     pivot_longer(starts_with("b_d"), names_to = "d_feature", values_to = "D") %>%
     mutate(
-      exp_id = experiment,
       d_feature = as_factor(d_feature)) %>%
-    select(exp_id, d_feature, D, iter)
+    select(d_feature, D, iter)
   
   levels(samples$d_feature) <- str_extract(
     levels(samples$d_feature), "(?<=feature)[a-z]+(?=:logN_TP1)")
