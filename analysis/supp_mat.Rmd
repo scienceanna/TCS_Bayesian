@@ -341,7 +341,11 @@ ggplot(slopes1, aes(x= D, fill = d_feature)) + geom_density(alpha = 0.25)
 #meth <- "mean_method"
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 #d_prt <- map_df(exps_to_predict, predict_rt_b, meth, Dp_summary, d)
+=======
+d_prt <- predict_rt_b(2, meth, Dp_summary, d)
+>>>>>>> Stashed changes
 =======
 d_prt <- predict_rt_b(2, meth, Dp_summary, d)
 >>>>>>> Stashed changes
