@@ -128,13 +128,11 @@ extract_fixed_slopes_from_model <- function(m, df) {
   
 }
 
-calc_D_overall_b <- function(f, De, e_id)
+calc_D_overall_b <- function(f, Dx, De)
 {
   f1 <- word(f, 1)
   f2 <- word(f, 2)
   
-  e_n = parse_number(e_id)
-  Dx <- filter(De, parse_number(exp_id) == e_n - 1)
   
   D1 = as.numeric(filter(Dx, d_feature == f1)$D)
   D2 = as.numeric(filter(Dx, d_feature == f2)$D)
@@ -145,8 +143,8 @@ calc_D_overall_b <- function(f, De, e_id)
   
   return(tibble(
     d_feature = gsub("[[:space:]]", "", f),
-    D = filter(De, exp_id == e_id, d_feature == paste(f1, f2, sep = ""))$D,
-    iter = filter(De, exp_id == e_id, d_feature == paste(f1, f2, sep = ""))$iter,
+    D = filter(De,  d_feature == paste(f1, f2, sep = ""))$D,
+    iter = filter(De, d_feature == paste(f1, f2, sep = ""))$iter,
     "best_feature" = D_best_feature, 
     "orthog_contrast" = D_orth_contrast, 
     "collinear" = D_collinear) %>%
@@ -154,14 +152,14 @@ calc_D_overall_b <- function(f, De, e_id)
 }
 
 
-get_Dp_samples <- function(e_id, d) {
+get_Dp_samples <- function(e_id, d, Dx, De) {
   
   df <- filter(d, exp_id == e_id, N_T > 0) %>%
     mutate(d_feature = fct_drop(d_feature))
   
   Dp <- tibble(
     exp_id = e_id,
-    map_dfr(levels(df$d_feature), calc_D_overall_b, De, e_id)) %>%
+    map_dfr(levels(df$d_feature), calc_D_overall_b, Dx, De)) %>%
     pivot_longer(
       cols = c(best_feature, orthog_contrast, collinear),
       values_to = "Dp",

@@ -175,7 +175,7 @@ rm(
 
 ### Fit Model and Posterior Predictions For Experiment 1
 
-```{r}
+```{r glmm-compute-post-1}
 
 if (refit_models)
 {
@@ -195,15 +195,11 @@ if (refit_models)
   
 }
 
-# m_exp1_nrl <- add_criterion(m_exp1_nrl, c("loo"))
-# m_exp1_log <- add_criterion(m_exp1_log, c("loo"), moment_match = TRUE)
-
 ```
 
 Calculate model weights to decide on best model...
 
 ```{r}
-
 # model_weights(m_exp1_nrl, m_exp1_log)
 ```
 
@@ -216,14 +212,16 @@ plt_log <- plot_model_fits_ex(d, 1, m_exp1_log)
 plt_sft <- plot_model_fits_ex(d, 1, m_exp1_sft)
 
 plt_nrl / plt_log / plt_sft
+
+rm(plt_nrl, plt_log, plt_sft)
 ```
 
 
-### Fit Model and Posterior Predictions For Experiment 2
+### Fit Model and Posterior Predictions For Experiment 2, 3, and 4
 
 Now that we have decided what the best distribution to use is, we will fit the model to the data from Experiment 2. 
 
-```{r}
+```{r glmm-compute-post-234}
 
 if (refit_models)
 {
@@ -245,7 +243,7 @@ if (refit_models)
 
 ### Use these models to compute $D$
 
-```{r}
+```{r compute-D-1}
 slopes1 <- extract_fixed_slopes_from_model(m_exp1_log)
 ggplot(slopes1, aes(x= D, fill = d_feature)) + geom_density(alpha = 0.25)
 
@@ -256,10 +254,9 @@ ggsave("../plots/buetti2019_bayesian_fits.pdf", width = 8, height = 3)
 ## Estimating $D$ for compound feature distractors
 
 
-```{r predict-exp2-D}
+```{r predict-D-2}
 slopes2 <- extract_fixed_slopes_from_model(m_exp2_log)
-Dp_samples <- get_Dp_samples(2, d, slopes2)
-
+Dp_samples <- get_Dp_samples(2, d, slopes1, slopes2)
 
 
 
@@ -279,44 +276,17 @@ ggsave("../plots/recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
 
 ```
 
-## Which slope is closer to 1?
-
-```{r}
-#slopes_err <- function(ii, df)  {
-
-#  d_itr = filter(df, iter == ii)
-
-#  beta = summary(lm(data = d_itr, De ~ (Dp):(0 + method)))$coefficients[, 1]
-#  beta_err = abs(1 - beta)
-
-#  return(beta_err)
-#}
-
-
-#beta_err <- map_df(unique(Dp_samples$iter), slopes_err, Dp_samples)
-#names(beta_err) <- str_remove(names(beta_err), 'Dp:method')
-
-# beta_err %>% pivot_longer(1:4, names_to = "method", values_to = "abs_res") %>%
-#   ggplot(aes(x = abs_res, fill = method)) + geom_density(alpha = 0.33)
-
-
-#  beta_err %>% select(-best_feature) %>%
-#   mutate(difference = mean_method - collinear) -> x
-
-#  mean(x$difference > 0)
-
-```
 
 ## Predicting Reaction Times
 
 ```{r, fig.width = 10, fig.height = 10, cache=TRUE}
 
-# Dp_samples %>%
-#   group_by(exp_id, d_feature, method) %>%
-#  summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop")-> Dp_summary
+ Dp_samples %>%
+   group_by(exp_id, d_feature, method) %>%
+  summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop")-> Dp_summary
 
-#meth
-d_prt <- predict_rt_b(2, meth, Dp_summary, d)
+meth = "orthog_contrast"
+# d_prt <- predict_rt_b(2, meth, Dp_summary, d)
 
 ```
 
