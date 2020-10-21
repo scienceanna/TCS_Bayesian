@@ -236,11 +236,9 @@ if (refit_models)
 
 } else {
 
-<<<<<<< HEAD
-  # m_exp2_log <- readRDS("exp_2_log.models")
-=======
+
   m_exp2_log <- readRDS("exp_2_log.models")
->>>>>>> parent of 1723c2e... Calc D
+
   
 }
 
@@ -276,32 +274,7 @@ ggplot(slopes1, aes(x= D, fill = d_feature)) + geom_density(alpha = 0.25)
 
 ## Estimating $D$ for compound feature distractors
 
-<<<<<<< HEAD
-```{r}
 
-#Dp_samples <- map_df(exps_to_predict, get_Dp_samples, d)
-
-# add in average D (of collinear and orthogonal)
-
-#Dp_samples %>% pivot_wider(names_from = method, values_from = Dp) %>%
-#  group_by(iter, exp_id, d_feature) %>%
-#  mutate(mean_method = mean(c(orthog_contrast, collinear))) %>%
-#  pivot_longer(c(best_feature, orthog_contrast, collinear, mean_method), names_to = "method", values_to = "Dp") -> Dp_samples
-
-
-# Dp_samples %>%
-#   group_by(exp_id, d_feature, method) %>%
-#   mean_hdci(Dp, De) %>%
-#  ggplot(aes(x = Dp, y = De)) +
-#  geom_abline(linetype = 2) +
-#  geom_point() +
-#  facet_wrap(~method, nrow = 1) + theme_bw() +
-#  geom_linerange(aes(ymin = De.lower, ymax = De.upper), alpha = 0.5) +
-#  geom_linerange(aes(xmin = Dp.lower, xmax = Dp.lower), alpha = 0.5) +
-#  geom_smooth(method = lm, colour = "pink")
-
-#ggsave("recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
-=======
 ```{r predict-exp2-D}
 slopes2 <- extract_fixed_slopes_from_model(m_exp2_log)
 Dp_samples <- get_Dp_samples(2, d, slopes2)
@@ -321,7 +294,7 @@ Dp_samples <- get_Dp_samples(2, d, slopes2)
   geom_smooth(method = lm, colour = "pink")
 
 ggsave("../plots/recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
->>>>>>> parent of 1723c2e... Calc D
+
 
 ```
 
@@ -345,14 +318,6 @@ ggsave("../plots/recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
 # beta_err %>% pivot_longer(1:4, names_to = "method", values_to = "abs_res") %>%
 #   ggplot(aes(x = abs_res, fill = method)) + geom_density(alpha = 0.33)
 
-# beta_err %>% select(-best_feature) %>%
-#   mutate(difference = orthog_contrast - collinear) %>%
-#   ggplot(aes(x = difference)) + geom_density()
-<<<<<<< HEAD
-
-#  beta_err %>% select(-best_feature) %>%
-#   mutate(difference = mean_method - collinear) -> x
-=======
 
 #  beta_err %>% select(-best_feature) %>%
 #   mutate(difference = mean_method - collinear) -> x
@@ -360,13 +325,7 @@ ggsave("../plots/recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
 #  mean(x$difference > 0)
 
 ```
->>>>>>> parent of 1723c2e... Calc D
 
-#  mean(x$difference > 0)
-
-```
-
-<<<<<<< HEAD
 ## Predicting Reaction Times
 
 ```{r, fig.width = 10, fig.height = 10, cache=TRUE}
@@ -375,26 +334,9 @@ ggsave("../plots/recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
 #   group_by(exp_id, d_feature, method) %>%
 #  summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop")-> Dp_summary
 
-#meth <- "mean_method"
-
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-#d_prt <- map_df(exps_to_predict, predict_rt_b, meth, Dp_summary, d)
-=======
+#meth
 d_prt <- predict_rt_b(2, meth, Dp_summary, d)
->>>>>>> Stashed changes
-=======
-d_prt <- predict_rt_b(2, meth, Dp_summary, d)
->>>>>>> Stashed changes
-=======
-# Dp_samples %>%
-#   group_by(exp_id, d_feature, method) %>%
-#  summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop")-> Dp_summary
 
-#meth <- "mean_method"
-
-#d_prt <- map_df(exps_to_predict, predict_rt_b, meth, Dp_summary, d)
->>>>>>> parent of 1723c2e... Calc D
 ```
 
 
