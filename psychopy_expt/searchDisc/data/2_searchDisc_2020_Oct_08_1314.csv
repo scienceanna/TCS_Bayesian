@@ -1,0 +1,5 @@
+﻿ImageFile,targ_side,correctAnswer,trials.thisRepN,trials.thisTrialN,trials.thisN,trials.thisIndex,dispStimuli.started,dispStimuli.stopped,breakMessage.started,breakMessage.stopped,key_resp.keys,key_resp.rt,key_resp.started,key_resp.stopped,participant,session,date,expName,psychopyVersion,frameRate,
+images/exp1a_trial_49_colour1_distractors9_l.png,l,1,0,0,0,49,7.2949707000516355,None,10.138738200068474,10.138738200068474,space,7.618317900109105,10.138738200068474,None,2,001,2020_Oct_08_1314,searchDisc,2020.2.4,59.9895498525821,
+images/exp1a_trial_69_colour2_distractors1_r.png,r,2,0,1,1,69,17.87535400001798,None,None,None,None,,None,None,2,001,2020_Oct_08_1314,searchDisc,2020.2.4,59.9895498525821,
+images/exp1a_trial_93_colour3_distractors31_l.png,l,1,0,2,2,93,20.838615500018932,None,None,None,None,,None,None,2,001,2020_Oct_08_1314,searchDisc,2020.2.4,59.9895498525821,
+images/exp1a_trial_11_colour3_distractors4_r.png,r,2,0,3,3,11,23.86918819998391,None,None,None,None,,None,None,2,001,2020_Oct_08_1314,searchDisc,2020.2.4,59.9895498525821,
