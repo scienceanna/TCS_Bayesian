@@ -183,14 +183,14 @@ if (refit_models)
   saveRDS(m_exp1_nrl, "exp_1_nrl.models")
   
   m_exp1_log <- fit_glmm_to_an_exp(1, d, ppc = "no", fam = "lognormal")
-  saveRDS(m_exp1_log, "exp_1_log.models")
+  saveRDS(m_exp1_log, "exp_1_log_AH.models")
   
   m_exp1_sft <- fit_glmm_to_an_exp(1, d, ppc = "no", fam = "shifted")
   saveRDS(m_exp1_sft, "exp_1_sft.models")
 } else {
   
   m_exp1_nrl <- readRDS("exp_1_nrl.models")
-  m_exp1_log <- readRDS("exp_1_log.models")
+  m_exp1_log <- readRDS("exp_1_log_AH.models")
   m_exp1_sft <- readRDS("exp_1_sft.models")
   
 }
@@ -200,7 +200,10 @@ if (refit_models)
 Calculate model weights to decide on best model...
 
 ```{r}
-# model_weights(m_exp1_nrl, m_exp1_log)
+loo_m_exp1_nrl <- loo(m_exp1_nrl)
+loo_m_exp1_log <- loo(m_exp1_log)
+
+model_weights(m_exp1_nrl, m_exp1_log)
 ```
 
 The plots before show our estimates for average participant to lie. The regions illustrate the distribution of reaction times estimated by our model. 
