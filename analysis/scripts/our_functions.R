@@ -2,7 +2,7 @@ fit_glmm_to_an_exp <- function(experiment, df, ppc = "no", fam = "lognormal") {
   
   # ppc = TRUE to carry out a prior predictive check
   #
-  n_itr = 2000
+  n_itr = 4000
   
   df %>%
     filter(exp_id == experiment) %>%
@@ -40,7 +40,7 @@ fit_glmm_to_an_exp <- function(experiment, df, ppc = "no", fam = "lognormal") {
         chains = 1,
         sample_prior = ppc,
         iter = n_itr,
-        save_all_pars = TRUE)
+        save_pars = save_pars(all=TRUE))
   }  
   else if(fam == "shifted")
   {
@@ -56,7 +56,7 @@ fit_glmm_to_an_exp <- function(experiment, df, ppc = "no", fam = "lognormal") {
         chains = 1,
         sample_prior = ppc,
         iter = n_itr,
-        save_all_pars = TRUE)
+        save_pars = save_pars(all=TRUE))
   } 
   else 
   { 
@@ -72,7 +72,7 @@ fit_glmm_to_an_exp <- function(experiment, df, ppc = "no", fam = "lognormal") {
         chains = 1,
         sample_prior = ppc,
         iter = n_itr,
-        save_all_pars = TRUE)
+        save_pars = save_pars(all=TRUE))
       }
 
   return(m)
