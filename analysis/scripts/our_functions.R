@@ -115,7 +115,7 @@ extract_fixed_slopes_from_model <- function(m, df) {
   vars <- get_variables(m)
   slopes <- str_subset(vars, "b_d_[a-z]*:")
   
-  samples <- posterior_samples(m, slopes, add_chain = TRUE) %>%
+  samples <- posterior_samples(m, slopes, add_chain = TRUE, subset = 1:1000) %>%
     pivot_longer(starts_with("b_d"), names_to = "d_feature", values_to = "D") %>%
     mutate(
       d_feature = as_factor(d_feature)) %>%
