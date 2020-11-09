@@ -156,11 +156,11 @@ We can take the prior model, and then use it to compute our prior predictions!
 ```{r glmm-prior-sample, cache=TRUE}
 mdl_inputs <- set_up_model("1", d, "normal")
 prior_model_nrl <- run_model(mdl_inputs, ppc = "only")
-
-mdl_inputs <- set_up_model("1", d, "lognormal_shifted")
+ 
+mdl_inputs <- set_up_model("1", d, "lognormal")
 prior_model_log <- run_model(mdl_inputs, ppc = "only")
-
-mdl_inputs <- set_up_model("1", d, "shifted")
+ 
+mdl_inputs <- set_up_model("1", d, "shifted_lognormal")
 prior_model_sft <- run_model(mdl_inputs, ppc = "only")
 ```
 
@@ -168,7 +168,7 @@ prior_model_sft <- run_model(mdl_inputs, ppc = "only")
 plt_nrl <- plot_model_fits_rt(d, 1, prior_model_nrl)
 plt_log <- plot_model_fits_rt(d, 1, prior_model_log)
 plt_sft <- plot_model_fits_rt(d, 1, prior_model_sft)
-                             
+                              
 plt_nrl / plt_log / plt_sft
 
 # tidy up, we no longer need to keep hold of these models and plots
@@ -270,7 +270,6 @@ ggsave("../plots/buetti2019_bayesian_fits.pdf", width = 8, height = 3)
 slopes2 <- extract_fixed_slopes_from_model(m_exp2_log)
 Dp_samples <- get_Dp_samples(2, d, slopes1, slopes2)
 
-
 Dp_samples %>% 
   group_by(exp_id, d_feature, method) %>%
   mean_hdci(Dp, De) %>%
@@ -303,7 +302,7 @@ ggsave("../plots/recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
 meth = "orthog_contrast"
 
 model_params <- set_up_predict_model("2", d, "lognormal", meth, Dp_summary)
-d_prt <-  run_model(model_params, ppc = "only")
+m_prt <-  run_model(model_params, ppc = "only")
 
 ```
 

@@ -15,7 +15,7 @@ set_up_model <- function(experiment, df, fam = "lognormal") {
   df <- account_for_zero_distracters(df)
   
   # define model formula:
-  my_f <- rt ~  0 + d_feature + log(N_T+1):d_feature + (log(N_T+1):d_feature|p_id)
+  my_f <- rt ~  0 + d_feature + log(N_T+1):d_feature + (1|p_id)
   
   #list of variables/coefs that we want to define priors for:
   intercepts <- paste("d_feature", levels(df$d_feature), sep = "")
@@ -51,7 +51,18 @@ set_up_model <- function(experiment, df, fam = "lognormal") {
 
 run_model <- function(my_inputs, ppc) {
   
-  # ppc = TRUE to carry out a prior predictive check
+  # run the multi-level Bayesian model for predicting reaction times.
+  #
+  # my_inputs is a list that contains
+  # df - the data that we want to fit the model to
+  # my_f - the model formula that we will use 
+  # my_prior - the distributions to use as a prior (or sample from)
+  # 
+  # Additionally, we will also use:
+  # ppc = 'TRUE'only to carry out a prior predictive check
+  
+  # set number of chains and iterations per chain:
+  n_chains = 1
   n_itr = 1000
   
   # if we are only sampling from the prior, we will use a small subset of the data
@@ -59,7 +70,7 @@ run_model <- function(my_inputs, ppc) {
   if (ppc == 'only') {
     my_inputs$df %>% 
       group_by(p_id, d_feature, N_T) %>%
-      summarise(rt = sample(rt, 1), .groups = "drop") -> my_inputs$dfdf
+      summarise(rt = sample(rt, 1), .groups = "drop") -> my_inputs$df
   }
   
   # now run model, depending on choice of distribution
@@ -68,9 +79,9 @@ run_model <- function(my_inputs, ppc) {
     my_inputs$my_f, data = my_inputs$df,
     family = brmsfamily(my_inputs$my_dist),
     prior = my_inputs$my_prior,
-    chains = 1,
+    chains = n_chains,
     sample_prior = ppc,
-    ter = n_itr,
+    iter = n_itr,
     # save_pars = save_pars(all=TRUE)
     )
 
@@ -191,7 +202,7 @@ set_up_predict_model <- function(e_id, df, fam = "lognormal",  meth, Dp_summary)
   df <- account_for_zero_distracters(df)
   
   # define model formula:
-  my_f <- rt ~  0 + d_feature + log(N_T+1):d_feature + (log(N_T+1):d_feature|p_id)
+  my_f <- rt ~  0 + d_feature + log(N_T+1):d_feature + (1|p_id)
   
   Dp_summary <- filter(Dp_summary, 
                        method == meth, exp_id == e_id)
@@ -217,17 +228,14 @@ set_up_predict_model <- function(e_id, df, fam = "lognormal",  meth, Dp_summary)
   intercepts <- paste("d_feature", unique(df$d_feature), sep = "")
   intercepts <- gsub("[[:space:]]", "", intercepts)
   
-  Dp_summary$d_feature <- paste("d_feature", unique(Dp_summary$d_feature), ":logN_TP1", sep = "")
+  # Dp_summary$d_feature <- paste("d_feature", unique(Dp_summary$d_feature), ":logN_TP1", sep = "")
   
+  model_sum <- round(summary(m)$fixed,3)
   
   my_prior <-  c(
-    prior_string(paste("normal(", summary(m)$fixed[1,1], ",",  summary(m)$fixed[1,2], ")", sep = ""), class = "b", coef = intercepts[1]),
-    prior_string(paste("normal(", summary(m)$fixed[2,1], ",",  summary(m)$fixed[2,2], ")", sep = ""), class = "b", coef = intercepts[2]),
-    prior_string(paste("normal(", summary(m)$fixed[3,1], ",",  summary(m)$fixed[3,2], ")", sep = ""), class = "b", coef = intercepts[3]),
-    prior_string(paste("normal(", Dp_summary$mu[1], ",",  Dp_summary$sigma[1], ")", sep = ""), class = "b", coef = Dp_summary$d_feature[1]),
-    prior_string(paste("normal(", Dp_summary$mu[2], ",",  Dp_summary$sigma[2], ")", sep = ""), class = "b", coef = Dp_summary$d_feature[2]),
-    prior_string(paste("normal(", Dp_summary$mu[3], ",",  Dp_summary$sigma[3], ")", sep = ""), class = "b", coef = Dp_summary$d_feature[3]),
-    prior(normal(0.25, 0.01), class = "sigma"))
+    prior_string(paste("normal(", model_sum[1:length(intercepts),1], ",",  model_sum[1:length(intercepts),2], ")", sep = ""), class = "b", coef = intercepts),
+    prior_string(paste("normal(", Dp_summary$mu, ",",  Dp_summary$sigma, ")", sep = ""), class = "b", coef = Dp_summary$d_feature),
+prior(normal(0.25, 0.01), class = "sigma"))
   
   
   return(list(my_formula = my_f, my_prior = my_prior, df = df, my_dist = fam))
@@ -235,35 +243,48 @@ set_up_predict_model <- function(e_id, df, fam = "lognormal",  meth, Dp_summary)
 }
 
 
-
-predict_rt_b <- function(e_id, meth, Dp_summary, df) {
+predict_rt_b <- function(e_id, m, df) {
   
- 
-  
-  m <- brm(
-    rt ~  0 + d_feature + log(N_T+1):d_feature ,
-    data = df,
-    family = lognormal(link = "identity"),
-    prior = model_params,
-    chains = 1,
-    sample_prior = "only",
-    iter = 1000)
-  
-  #Getting mean RTs
-  
+   #Getting mean RTs
   df_test <- df %>%
+    filter(exp_id == e_id) %>%
     group_by(d_feature, N_T) %>%
-    summarise(mean_rt = mean(rt/1000),
-              sd_rt = sd(rt/1000))
-  
+    summarise(mean_rt = mean(rt),
+              sd_rt = sd(rt),
+              .groups = "drop")
 
-  d_out <- df %>%
-    modelr::data_grid(d_feature = levels(df$d_feature), N_T = unique(df$N_T)) %>%
-    add_fitted_draws(m, scale = "response") %>%
-    mean_hdci() %>%
+  d_out <- df_test %>%
+    modelr::data_grid(d_feature = unique(d_feature), N_T = unique(N_T)) %>%
+    add_fitted_draws(m, scale = "response", re_formula = NA) %>%
+    mean_hdci(.width = c(0.53, 0.97)) %>%
     mutate(exp_id = e_id)
   
-  return(d_out)
+  ggplot(d_out, aes(x  = N_T,)) + 
+    geom_ribbon(aes(ymin = .lower, ymax = .upper, fill = d_feature, group = .width), alpha = 0.2) +
+    geom_point(data = df_test, aes(y = mean_rt), alpha = 0.5) +
+    facet_wrap(~d_feature)
+  
+  full_join(d_out, df_test) %>%
+    ggplot(aes(x = .value, xmin = .lower, xmax = .upper, y = mean_rt)) + 
+    geom_abline(linetype = 2) +
+    geom_errorbarh() + 
+    theme_bw() + 
+    coord_fixed(xlim = c(0.5, 0.85), ylim = c(0.5, 0.85)) + 
+    scale_x_continuous("model prediction")
+  
+  # now model for who range of predictions for unknown observers!
+  d_out <- df_test %>%
+    modelr::data_grid(d_feature = unique(d_feature), N_T = seq(0, 36, 2), p_id = 1:100) %>%
+    add_predicted_draws(m, allow_new_levels = TRUE) %>%
+    mean_hdci(.width = c(0.53, 0.97)) %>%
+    mutate(exp_id = e_id)
+  
+  ggplot(d_out, aes(x  = N_T,)) + 
+    geom_ribbon(aes(ymin = .lower, ymax = .upper, fill = d_feature, group = .width), alpha = 0.5) +
+    stat_dots(data = filter(df, exp_id == e_id), aes(y = rt), alpha = 0.5,  quantiles = 100, size = 2) +
+    facet_wrap(~d_feature) +
+    theme_bw()
+ 
 }
 
 # compute_dist <- function(feat, m_family, N_T) {
