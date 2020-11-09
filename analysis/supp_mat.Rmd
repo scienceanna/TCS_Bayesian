@@ -154,29 +154,29 @@ d %>% mutate(
 We can take the prior model, and then use it to compute our prior predictions!
 
 ```{r glmm-prior-sample, cache=TRUE}
-mdl_inputs <- set_up_model("1", d, "normal")
-prior_model_nrl <- run_model(mdl_inputs, ppc = "only")
- 
-mdl_inputs <- set_up_model("1", d, "lognormal")
-prior_model_log <- run_model(mdl_inputs, ppc = "only")
- 
-mdl_inputs <- set_up_model("1", d, "shifted_lognormal")
-prior_model_sft <- run_model(mdl_inputs, ppc = "only")
+# mdl_inputs_nrl <- set_up_model("1", d, "normal")
+# prior_model_nrl <- run_model(mdl_inputs_nrl, ppc = "only")
+#  
+# mdl_inputs_log <- set_up_model("1", d, "lognormal")
+# prior_model_log <- run_model(mdl_inputs_log, ppc = "only")
+#  
+# mdl_inputs_sft <- set_up_model("1", d, "shifted_lognormal")
+# prior_model_sft <- run_model(mdl_inputs_sft, ppc = "only")
 ```
 
 ```{r plt-prior, fig.height=8, fig.cap="Sample Prior predictions for reaction time and log(N+1)."}
-plt_nrl <- plot_model_fits_rt(d, 1, prior_model_nrl)
-plt_log <- plot_model_fits_rt(d, 1, prior_model_log)
-plt_sft <- plot_model_fits_rt(d, 1, prior_model_sft)
-                              
-plt_nrl / plt_log / plt_sft
-
-# tidy up, we no longer need to keep hold of these models and plots
-rm(
-  prior_model_nrl, 
-  prior_model_log, 
-  prior_model_sft, 
-  plt_nrl, plt_log, plt_sft)
+# plt_nrl <- plot_model_fits_ex(d, 1, prior_model_nrl)
+# plt_log <- plot_model_fits_ex(d, 1, prior_model_log)
+# plt_sft <- plot_model_fits_ex(d, 1, prior_model_sft)
+#                               
+# plt_nrl / plt_log / plt_sft
+# 
+# # tidy up, we no longer need to keep hold of these models and plots
+# rm(
+#   prior_model_nrl, 
+#   prior_model_log, 
+#   prior_model_sft, 
+#   plt_nrl, plt_log, plt_sft)
 
 ```
 
@@ -187,13 +187,13 @@ rm(
 
 if (refit_models)
 {
-  m_exp1_nrl <- fit_glmm_to_an_exp(1, d, ppc = "no", fam = "normal")
+  m_exp1_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
   saveRDS(m_exp1_nrl, "exp_1_nrl.models")
   
-  m_exp1_log <- fit_glmm_to_an_exp(1, d, ppc = "no", fam = "lognormal")
+  m_exp1_log <- run_model(mdl_inputs_log, ppc = "no")
   saveRDS(m_exp1_log, "exp_1_log_AH.models")
   
-  m_exp1_sft <- fit_glmm_to_an_exp(1, d, ppc = "no", fam = "shifted_lognormal")
+  m_exp1_sft <- run_model(mdl_inputs_sft, ppc = "no")
   saveRDS(m_exp1_sft, "exp_1_sft.models")
   
 } else {
@@ -237,18 +237,35 @@ Now that we have decided what the best distribution to use is, we will fit the m
 
 if (refit_models)
 {
-  m_exp2_log <- fit_glmm_to_an_exp(2, d, ppc = "no", fam = "lognormal")
-  m_exp3_log <- fit_glmm_to_an_exp(3, d, ppc = "no", fam = "lognormal")
-  m_exp4_log <- fit_glmm_to_an_exp(4, d, ppc = "no", fam = "lognormal")
+  mdl_inputs_nrl <- set_up_model("2", d, "normal")
+  m_exp2_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
+  #save
   saveRDS(m_exp2_log, "exp_2_log.models")
-  saveRDS(m_exp3_log, "exp_3_log.models")
-  saveRDS(m_exp4_log, "exp_4_log.models")
+  #tidy
+  rm(m_exp2_nrl, mdl_inputs_nrl)
+  
+  mdl_inputs_log <- set_up_model("2", d, "lognormal")
+  m_exp2_log <- run_model(mdl_inputs_log, ppc = "no")
+  # save
+  saveRDS(m_exp2_log, "exp_2_log.models")
+   #tidy 
+  rm(m_exp2_log, mdl_inputs_log)
+   
+  mdl_inputs_sft <- set_up_model("2", d, "shifted_lognormal")
+  m_exp2_sft <- run_model(mdl_inputs_sft, ppc = "no")
+  # sve
+  saveRDS(m_exp2_sft, "exp_2_sft.models")
+  #tidy
+  rm(m_exp3_log, mdl_inputs_log)
+  
+
 
 } else {
 
   m_exp2_log <- readRDS("exp_2_log.models")
-  m_exp3_log <- readRDS("exp_3_log.models")
-  m_exp4_log <- readRDS("exp_4_log.models")
+  m_exp2_sft <- readRDS("exp_2_sft.models")
+  # m_exp3_log <- readRDS("exp_3_log.models")
+  # m_exp4_log <- readRDS("exp_4_log.models")
 }
 ```
 
@@ -304,6 +321,11 @@ meth = "orthog_contrast"
 model_params <- set_up_predict_model("2", d, "lognormal", meth, Dp_summary)
 m_prt <-  run_model(model_params, ppc = "only")
 
+```
+
+
+```{r}
+predict_rt_b(2, m_prt, d)
 ```
 
 

@@ -120,13 +120,10 @@ plot_model_fits_ex <- function(df, experiment, m, people2plot, inc_re = NA) {
 
 extract_fixed_slopes_from_model <- function(m, df) {
   
-  # experiment <- unique(d$exp_id)[exp_n]
-  # m <- ms[[exp_n]]
+
+  slopes <- str_subset(get_variables(m), "b_d_[a-z]*:")
   
-  vars <- get_variables(m)
-  slopes <- str_subset(vars, "b_d_[a-z]*:")
-  
-  samples <- posterior_samples(m, slopes, add_chain = TRUE, subset = 1:1000) %>%
+  samples <- posterior_samples(m, slopes, add_chain = TRUE) %>%
     pivot_longer(starts_with("b_d"), names_to = "d_feature", values_to = "D") %>%
     mutate(
       d_feature = as_factor(d_feature)) %>%
@@ -179,8 +176,10 @@ get_Dp_samples <- function(e_id, d, Dx, De) {
   Dp <- tibble(
     exp_id = e_id,
     map_dfr(levels(df$d_feature), calc_D_overall_b, Dx, De)) %>%
+    mutate(
+      mean_method = (orthog_contrast + collinear)/2) %>%
     pivot_longer(
-      cols = c(best_feature, orthog_contrast, collinear),
+      cols = c(best_feature, orthog_contrast, collinear, mean_method),
       values_to = "Dp",
       names_to = "method")
   
@@ -207,7 +206,6 @@ set_up_predict_model <- function(e_id, df, fam = "lognormal",  meth, Dp_summary)
   Dp_summary <- filter(Dp_summary, 
                        method == meth, exp_id == e_id)
   
-  # e_n <- which(unique(df$exp_id) == e_id)
   
   df %>%
     filter(exp_id == e_id) %>%
@@ -217,7 +215,8 @@ set_up_predict_model <- function(e_id, df, fam = "lognormal",  meth, Dp_summary)
     filter(d_feature != "no distractors") %>%
     mutate(
       d_feature = fct_drop(d_feature),
-      d_feature = as.factor(as.character(d_feature))) -> df
+      d_feature = as.factor(as.character(d_feature)),
+      d_feature =  gsub("[[:space:]]", "", d_feature)) -> df
   
   
   if(e_id == 2) {
@@ -228,9 +227,8 @@ set_up_predict_model <- function(e_id, df, fam = "lognormal",  meth, Dp_summary)
   intercepts <- paste("d_feature", unique(df$d_feature), sep = "")
   intercepts <- gsub("[[:space:]]", "", intercepts)
   
-  # Dp_summary$d_feature <- paste("d_feature", unique(Dp_summary$d_feature), ":logN_TP1", sep = "")
   
-  model_sum <- round(summary(m)$fixed,3)
+  model_sum <- round(summary(m)$fixed, 3)
   
   my_prior <-  c(
     prior_string(paste("normal(", model_sum[1:length(intercepts),1], ",",  model_sum[1:length(intercepts),2], ")", sep = ""), class = "b", coef = intercepts),
@@ -247,11 +245,15 @@ predict_rt_b <- function(e_id, m, df) {
   
    #Getting mean RTs
   df_test <- df %>%
-    filter(exp_id == e_id) %>%
+    filter(exp_id == e_id, N_T > 0, d_feature != "no distractors") %>%
     group_by(d_feature, N_T) %>%
     summarise(mean_rt = mean(rt),
               sd_rt = sd(rt),
-              .groups = "drop")
+              .groups = "drop") %>%
+    mutate(d_feature = fct_drop(d_feature))
+  
+  
+    # mutate(d_feature = gsub("[[:space:]]", "", d_feature))
 
   d_out <- df_test %>%
     modelr::data_grid(d_feature = unique(d_feature), N_T = unique(N_T)) %>%
