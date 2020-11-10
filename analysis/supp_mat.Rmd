@@ -190,7 +190,7 @@ rm(
 
 ```{r glmm-compute-post-1}
 
-if (FALSE)
+if (refit_models)
 {
   m_exp1_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
   saveRDS(m_exp1_nrl, "models/exp_1_nrl.models")
