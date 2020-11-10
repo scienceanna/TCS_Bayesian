@@ -21,7 +21,7 @@ options(mc.cores = parallel::detectCores())
 source("scripts/reimplementation.R")
 source("scripts/our_functions.R")
 
-refit_models = FALSE
+refit_models = TRUE
 
 exps_to_predict = c("2a", "2b", "2c", "4a", "4b", "4c")
 ```
@@ -120,12 +120,17 @@ d %>% filter(exp_id %in% exps2predict) %>%
   scale_y_continuous("empirical mean reaction time (ms)")
 
 # Exporting some data in case we need to sanity check
-d %>% filter(exp_id %in% exps2predict) %>%
-  group_by(exp_id, p_id, d_feature, N_T) %>%
-  summarise(mean_rt = mean(rt), .groups = "drop") %>%
-  group_by(exp_id,  d_feature, N_T) %>%
-  summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
-  left_join(rt_pred, by = c("exp_id", "d_feature", "N_T")) -> d_out
+# d %>% filter(exp_id %in% exps2predict) %>%
+#   group_by(exp_id, p_id, d_feature, N_T) %>%
+#   summarise(mean_rt = mean(rt), .groups = "drop") %>%
+#   group_by(exp_id,  d_feature, N_T) %>%
+#   summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
+#   left_join(rt_pred, by = c("exp_id", "d_feature", "N_T")) -> d_out
+```
+```{r tidy-up}
+# remove variables we no longer need
+rm(De, Dp)
+
 ```
 
 <TODO> show RT predictions for the other two methods?
@@ -154,29 +159,29 @@ d %>% mutate(
 We can take the prior model, and then use it to compute our prior predictions!
 
 ```{r glmm-prior-sample, cache=TRUE}
-# mdl_inputs_nrl <- set_up_model("1", d, "normal")
-# prior_model_nrl <- run_model(mdl_inputs_nrl, ppc = "only")
-#  
-# mdl_inputs_log <- set_up_model("1", d, "lognormal")
-# prior_model_log <- run_model(mdl_inputs_log, ppc = "only")
-#  
-# mdl_inputs_sft <- set_up_model("1", d, "shifted_lognormal")
-# prior_model_sft <- run_model(mdl_inputs_sft, ppc = "only")
+mdl_inputs_nrl <- set_up_model("1", d, "normal")
+prior_model_nrl <- run_model(mdl_inputs_nrl, ppc = "only")
+
+mdl_inputs_log <- set_up_model("1", d, "lognormal")
+prior_model_log <- run_model(mdl_inputs_log, ppc = "only")
+
+mdl_inputs_sft <- set_up_model("1", d, "shifted_lognormal")
+prior_model_sft <- run_model(mdl_inputs_sft, ppc = "only")
 ```
 
 ```{r plt-prior, fig.height=8, fig.cap="Sample Prior predictions for reaction time and log(N+1)."}
-# plt_nrl <- plot_model_fits_ex(d, 1, prior_model_nrl)
-# plt_log <- plot_model_fits_ex(d, 1, prior_model_log)
-# plt_sft <- plot_model_fits_ex(d, 1, prior_model_sft)
-#                               
-# plt_nrl / plt_log / plt_sft
-# 
-# # tidy up, we no longer need to keep hold of these models and plots
-# rm(
-#   prior_model_nrl, 
-#   prior_model_log, 
-#   prior_model_sft, 
-#   plt_nrl, plt_log, plt_sft)
+plt_nrl <- plot_model_fits_ex(d, 1, prior_model_nrl)
+plt_log <- plot_model_fits_ex(d, 1, prior_model_log)
+plt_sft <- plot_model_fits_ex(d, 1, prior_model_sft)
+                             
+plt_nrl / plt_log / plt_sft
+
+# tidy up, we no longer need to keep hold of these models and plots
+rm(
+ prior_model_nrl, 
+ prior_model_log, 
+ prior_model_sft, 
+ plt_nrl, plt_log, plt_sft)
 
 ```
 
@@ -185,22 +190,23 @@ We can take the prior model, and then use it to compute our prior predictions!
 
 ```{r glmm-compute-post-1}
 
-if (refit_models)
+if (FALSE)
 {
   m_exp1_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
-  saveRDS(m_exp1_nrl, "exp_1_nrl.models")
+  saveRDS(m_exp1_nrl, "models/exp_1_nrl.models")
+  
   
   m_exp1_log <- run_model(mdl_inputs_log, ppc = "no")
-  saveRDS(m_exp1_log, "exp_1_log_AH.models")
+  saveRDS(m_exp1_log, "models/exp_1_log.models")
   
   m_exp1_sft <- run_model(mdl_inputs_sft, ppc = "no")
-  saveRDS(m_exp1_sft, "exp_1_sft.models")
+  saveRDS(m_exp1_sft, "models/exp_1_sft.models")
   
 } else {
   
-  m_exp1_nrl <- readRDS("exp_1_nrl.models")
-  m_exp1_log <- readRDS("exp_1_log_AH.models")
-  m_exp1_sft <- readRDS("exp_1_sft.models")
+  m_exp1_nrl <- readRDS("models/exp_1_nrl.models")
+  m_exp1_log <- readRDS("models/exp_1_log.models")
+  m_exp1_sft <- readRDS("models/exp_1_sft.models")
   
 }
 
@@ -240,32 +246,31 @@ if (refit_models)
   mdl_inputs_nrl <- set_up_model("2", d, "normal")
   m_exp2_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
   #save
-  saveRDS(m_exp2_log, "exp_2_log.models")
+  saveRDS(m_exp2_nrl, "models/exp_2_log.models")
   #tidy
-  rm(m_exp2_nrl, mdl_inputs_nrl)
+  rm(mdl_inputs_nrl)
   
   mdl_inputs_log <- set_up_model("2", d, "lognormal")
   m_exp2_log <- run_model(mdl_inputs_log, ppc = "no")
   # save
-  saveRDS(m_exp2_log, "exp_2_log.models")
+  saveRDS(m_exp2_log, "models/exp_2_log.models")
    #tidy 
-  rm(m_exp2_log, mdl_inputs_log)
+  rm(mdl_inputs_log)
    
-  mdl_inputs_sft <- set_up_model("2", d, "shifted_lognormal")
-  m_exp2_sft <- run_model(mdl_inputs_sft, ppc = "no")
-  # sve
-  saveRDS(m_exp2_sft, "exp_2_sft.models")
-  #tidy
-  rm(m_exp3_log, mdl_inputs_log)
-  
+  # mdl_inputs_sft <- set_up_model("2", d, "shifted_lognormal")
+  # m_exp2_sft <- run_model(mdl_inputs_sft, ppc = "no")
+  # # save
+  # saveRDS(m_exp2_sft, "models/exp_2_sft.models")
+  # #tidy
+  # rm(mdl_inputs_sft)
 
 
 } else {
 
-  m_exp2_log <- readRDS("exp_2_log.models")
-  m_exp2_sft <- readRDS("exp_2_sft.models")
-  # m_exp3_log <- readRDS("exp_3_log.models")
-  # m_exp4_log <- readRDS("exp_4_log.models")
+  m_exp2_log <- readRDS("models/exp_2_log.models")
+  # m_exp2_sft <- readRDS("models/exp_2_sft.models")
+  # m_exp3_log <- readRDS("models/exp_3_log.models")
+  # m_exp4_log <- readRDS("models/exp_4_log.models")
 }
 ```
 
@@ -286,6 +291,8 @@ ggsave("../plots/buetti2019_bayesian_fits.pdf", width = 8, height = 3)
 ```{r predict-D-2}
 slopes2 <- extract_fixed_slopes_from_model(m_exp2_log)
 Dp_samples <- get_Dp_samples(2, d, slopes1, slopes2)
+
+rm(slopes1, slopes2)
 
 Dp_samples %>% 
   group_by(exp_id, d_feature, method) %>%
@@ -349,3 +356,9 @@ predict_rt_b(2, m_prt, d)
 
 ```
 # Power Analyis for Planned Studies
+
+
+What do the results look like if:
+
+1) the same people do all parts of the study, and there is a correlation between tasks
+2) We reduce the number of trials down to 96 per condition. 
