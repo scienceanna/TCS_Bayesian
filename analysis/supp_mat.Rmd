@@ -130,8 +130,6 @@ rm(De, Dp)
 
 ```
 
-<TODO> show RT predictions for the other two methods?
-
 # Switching to a Bayesian Multi-Level Framework
 
 Now that we have verified that we can re-create the original results, we switch to a Bayesian multi-level framework. We make the following important changes:
@@ -239,7 +237,7 @@ Now that we have decided what the best distribution to use is, we will fit the m
 
 ```{r glmm-compute-post-234}
 
-if (refit_models)
+if (TRUE)
 {
   mdl_inputs_nrl <- set_up_model("2", d, "normal")
   m_exp2_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
@@ -248,19 +246,19 @@ if (refit_models)
   #tidy
   rm(mdl_inputs_nrl)
   
-  mdl_inputs_log <- set_up_model("2", d, "lognormal")
-  m_exp2_log <- run_model(mdl_inputs_log, ppc = "no")
-  # save
-  saveRDS(m_exp2_log, "models/exp_2_log.models")
-   #tidy 
-  rm(mdl_inputs_log)
-   
-  # mdl_inputs_sft <- set_up_model("2", d, "shifted_lognormal")
-  # m_exp2_sft <- run_model(mdl_inputs_sft, ppc = "no")
+  # mdl_inputs_log <- set_up_model("2", d, "lognormal")
+  # m_exp2_log <- run_model(mdl_inputs_log, ppc = "no")
   # # save
-  # saveRDS(m_exp2_sft, "models/exp_2_sft.models")
-  # #tidy
-  # rm(mdl_inputs_sft)
+  # saveRDS(m_exp2_log, "models/exp_2_log.models")
+  #  #tidy 
+  # rm(mdl_inputs_log)
+   
+  mdl_inputs_sft <- set_up_model("2", d, "shifted_lognormal")
+  m_exp2_sft <- run_model(mdl_inputs_sft, ppc = "no")
+  # save
+  saveRDS(m_exp2_sft, "models/exp_2_sft.models")
+  #tidy
+  rm(mdl_inputs_sft)
 
 
 } else {
