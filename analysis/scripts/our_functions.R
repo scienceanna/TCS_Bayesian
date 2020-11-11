@@ -34,9 +34,9 @@ set_up_model <- function(experiment, df, fam = "lognormal") {
   if ( fam == "lognormal") {
     
     my_prior <- c(
-      prior_string("normal(-0.5, 0.2)", class = "b", coef = intercepts),
-      prior_string("normal(0, 0.5)", class = "b", coef = slopes),
-      prior_string("cauchy(0, 0.1)", class = "sigma"))
+      prior_string("normal(-0.5, 0.3)", class = "b", coef = intercepts),
+      prior_string("normal(0, 0.2)", class = "b", coef = slopes),
+      prior_string("cauchy(0, 0.5)", class = "sigma"))
   
   } else if(fam == "shifted_lognormal") {
     
@@ -49,8 +49,8 @@ set_up_model <- function(experiment, df, fam = "lognormal") {
     
     # use a normal distribution
     my_prior <- c(
-      prior_string("normal(0.5, 0.2)", class = "b", coef = intercepts),
-      prior_string("normal(0, 0.5)", class = "b", coef = slopes),
+      prior_string("normal(0.5, 0.3)", class = "b", coef = intercepts),
+      prior_string("normal(0, 0.6)", class = "b", coef = slopes),
       prior_string("cauchy(0, 0.1)", class = "sigma"))
   }
   
@@ -118,9 +118,9 @@ plot_model_fits_ex <- function(df, e_id, m, inc_re = NA) {
   # data points
   d_plt %>%
     modelr::data_grid(p_id, N_T= seq(0,36,4), d_feature) %>%
-    add_predicted_draws(m, re_formula = inc_re) %>% 
+    add_predicted_draws(m, re_formula = inc_re) %>%
     ggplot(aes(x = log(N_T+1), y = .prediction)) + 
-    stat_lineribbon(.width = c(0.53, 0.97)) + 
+    stat_lineribbon(point_interval = median_hdci, .width = c(0.53, 0.97)) + 
     geom_jitter(
       data = d_plt, 
       aes(y = rt), 
