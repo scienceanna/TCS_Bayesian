@@ -15,6 +15,7 @@ library(tidyverse)
 library(brms)
 library(tidybayes)
 library(patchwork)
+library(magrittr)
 
 options(mc.cores = parallel::detectCores())
 
@@ -36,7 +37,10 @@ We will import all experiments. While we're at it, we will remove error trials a
 ```{r import-data}
 source("scripts/import_and_tidy.R")
  # remove error trials and very very short responses
-d <- filter(d, error == 0, rt > 0.01)
+print(dim(d))
+d <- d %>%
+  filter(error == 0) %T>% {print(dim(.))} %>%
+  filter(rt > 0.01)  %T>% {print(dim(.))}
 ```
 
 ## Overview: some summary statisitcs
