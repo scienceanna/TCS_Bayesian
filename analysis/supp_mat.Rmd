@@ -21,7 +21,7 @@ options(mc.cores = parallel::detectCores())
 source("scripts/reimplementation.R")
 source("scripts/our_functions.R")
 
-refit_models = FALSE
+refit_models = TRUE
 
 exps_to_predict = c("2a", "2b", "2c", "4a", "4b", "4c")
 ```
@@ -41,9 +41,11 @@ d <- filter(d, error == 0, rt > 0.01)
 
 ## Overview: some summary statisitcs
 
+We will start by plotting some some 
+
 ```{r rt_exp-1b-hist, fig.cap="Histogram showing indivdidual differences in median RT in Experiment 1b."}
 d %>% group_by(exp_id, p_id, d_feature) %>%
-  summarise(median_rt = median(rt)) %>%
+  summarise(median_rt = median(rt), .groups = "drop") %>%
   filter(exp_id == "1b") %>%
   ggplot(aes(x = median_rt, fill = d_feature)) + 
   geom_histogram(bins = 10, colour = "black") + 
@@ -118,14 +120,6 @@ d %>% filter(exp_id %in% exps2predict) %>%
   see::theme_lucid() +
   scale_x_continuous("predicted reaction time (ms)") +
   scale_y_continuous("empirical mean reaction time (ms)")
-
-# Exporting some data in case we need to sanity check
-# d %>% filter(exp_id %in% exps2predict) %>%
-#   group_by(exp_id, p_id, d_feature, N_T) %>%
-#   summarise(mean_rt = mean(rt), .groups = "drop") %>%
-#   group_by(exp_id,  d_feature, N_T) %>%
-#   summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
-#   left_join(rt_pred, by = c("exp_id", "d_feature", "N_T")) -> d_out
 ```
 ```{r tidy-up}
 # remove variables we no longer need
@@ -158,7 +152,7 @@ d %>% mutate(
 
 We can take the prior model, and then use it to compute our prior predictions!
 
-```{r glmm-prior-sample}
+```{r glmm-prior-sample, cache = TRUE}
 mdl_inputs_nrl <- set_up_model(1, d, "normal")
 prior_model_nrl <- run_model(mdl_inputs_nrl, ppc = "only")
 
@@ -246,7 +240,7 @@ if (refit_models)
   mdl_inputs_nrl <- set_up_model("2", d, "normal")
   m_exp2_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
   #save
-  saveRDS(m_exp2_nrl, "models/exp_2_log.models")
+  saveRDS(m_exp2_nrl, "models/exp_2_nrl.models")
   #tidy
   rm(mdl_inputs_nrl)
   
