@@ -10,23 +10,32 @@ knitr::opts_chunk$set(
   echo = TRUE,
    fig.height = 3,
   fig.align = "center")
+```
 
+# Setup and Data Import
+
+```{r}
 library(tidyverse)
 library(brms)
 library(tidybayes)
 library(patchwork)
 library(magrittr)
 
+# set ggplot2 theme
+theme_set(see::theme_lucid())
+
+# use parallel cores for mcmc chains!
 options(mc.cores = parallel::detectCores())
 
+# functions used for the analysis reimplementation
 source("scripts/reimplementation.R")
+
+# functions used for our Bayesian re-analysis
 source("scripts/our_functions.R")
 
-refit_models = TRUE
-
-exps_to_predict = c("2a", "2b", "2c", "4a", "4b", "4c")
+# used previously ran models, or refit. 
+refit_models = FALSE
 ```
-# Data Import and Overview
 
 ## Importing
 
@@ -42,7 +51,6 @@ print(dim(d))
 d <- d %>%
   filter(error == 0) %T>% {print(dim(.))} %>%
   filter(rt > 0.025)  %T>% {print(dim(.))}
-
 ```
 
 Do we want to register any other exclusion criteria? 
@@ -88,7 +96,6 @@ left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
   geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
   coord_cartesian(xlim = c(0, 80), ylim = c(0, 80)) + 
   facet_wrap(~ method) + 
-  see::theme_lucid() + 
   scale_x_continuous("predicted D") + 
   scale_y_continuous("empirical D")
 ```
@@ -114,7 +121,6 @@ d %>% filter(exp_id %in% exps2predict) %>%
   geom_point(alpha = 0.5) + 
   geom_abline() + 
   geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
-  see::theme_lucid() +
   scale_x_continuous("predicted reaction time (ms)") +
   scale_y_continuous("empirical mean reaction time (ms)")
 ```
@@ -139,6 +145,7 @@ Now that we have verified that we can re-create the original results, we switch 
 We'll make a few minor changes to the data:
   - Switch from ms to seconds
   - Recode Experiment 1a and 1b to Experiment 1, Experiment 2a, 2b and 2c to Experiment 2, etc.
+  
 ```{r}
 d %>% mutate(
   rt = rt/1000,
@@ -214,7 +221,7 @@ Calculate model weights to decide on best model...
 
 The plots before show our estimates for average participant to lie. The regions illustrate the distribution of reaction times estimated by our model. 
 
-```{r plt_post, fig.height=8, fig.cap="Sample Prior predictions for reaction time and log(N+1)."}
+```{r plt-post, fig.height=5, fig.cap="Sample Prior predictions for reaction time and log(N+1).", cache=TRUE}
 
 plt_nrl <- plot_model_fits_ex(d, 1, m_exp1_nrl)
 plt_log <- plot_model_fits_ex(d, 1, m_exp1_log)
@@ -270,7 +277,7 @@ if (refit_models)
 note, remove ` subset = 1:1000` when we've re-ran models with equal number of 
 samples! (in the `extract_fixed_slopes_from_model()` function)
 
-```{r compute-D-1}
+```{r compute-D-1, fig.cap="Posterior estimates for $D$."}
 slopes1 <- extract_fixed_slopes_from_model(m_exp1_log)
 ggplot(slopes1, aes(x= D, fill = d_feature)) + geom_density(alpha = 0.25)
 
@@ -291,7 +298,7 @@ Dp_samples %>%
   ggplot(aes(x = Dp, y = De)) +
   geom_abline(linetype = 2) +
   geom_point() +
-  facet_wrap(~method, nrow = 1) + theme_bw() +
+  facet_wrap(~method, nrow = 1) + 
   geom_linerange(aes(ymin = De.lower, ymax = De.upper), alpha = 0.5) +
   geom_linerange(aes(xmin = Dp.lower, xmax = Dp.lower), alpha = 0.5) +
   geom_smooth(method = lm, colour = "pink")
@@ -327,25 +334,6 @@ predict_rt_b(2, m_prt, d)
 ```
 
 
-```{r}
-
-#d_rt <- d %>% filter(N_T > 0) %>%
-#  group_by(p_id, exp_id, d_feature, N_T) %>% summarise(
-#    mean_log = MASS::fitdistr(rt, densfun = "log-normal")$estimate["meanlog"],
-#    mean_rt = mean(rt)) %>%
-#   group_by(exp_id, d_feature, N_T) %>% summarise(rt = exp(median(mean_log))) %>%
-# right_join(d_prt, by = c("exp_id", "d_feature", "N_T"))
-
-#ggplot(data = d_rt, aes(x = rt, y = .value)) +
-#  geom_abline(linetype = 2) +
-#  geom_point() + geom_errorbar(aes(ymin = .lower, ymax = .upper))+
-#  theme_bw()
-
-
-
-#print(mean(abs(d_rt$rt - d_rt$.value)))
-
-```
 # Power Analyis for Planned Studies
 
 

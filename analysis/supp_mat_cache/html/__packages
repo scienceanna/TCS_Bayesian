@@ -13,3 +13,4 @@ Rcpp
 brms
 tidybayes
 patchwork
+magrittr

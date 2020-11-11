@@ -126,7 +126,6 @@ plot_model_fits_ex <- function(df, e_id, m, inc_re = NA) {
       aes(y = rt), 
       alpha = 0.25, colour = "darkred") + 
     facet_grid(. ~ d_feature) + 
-    theme_bw() + 
     scale_fill_brewer(palette = "Greys") + 
     scale_colour_manual(values = c("orange1", "cornflowerblue", "yellow3")) -> plt #+
     #scale_y_log10("reaction time") -> pltcoord_cartesian(ylim = c(-10, 10)) 
@@ -306,7 +305,6 @@ predict_rt_b <- function(e_id, m, df) {
     ggplot(aes(x = .value, xmin = .lower, xmax = .upper, y = mean_rt)) + 
     geom_abline(linetype = 2) +
     geom_errorbarh() + 
-    theme_bw() + 
     coord_fixed(xlim = c(0.5, 0.85), ylim = c(0.5, 0.85)) + 
     scale_x_continuous("model prediction")
   
@@ -320,8 +318,7 @@ predict_rt_b <- function(e_id, m, df) {
   ggplot(d_out, aes(x  = N_T,)) + 
     geom_ribbon(aes(ymin = .lower, ymax = .upper, fill = d_feature, group = .width), alpha = 0.5) +
     stat_dots(data = filter(df, exp_id == e_id), aes(y = rt), alpha = 0.5,  quantiles = 100, size = 2) +
-    facet_wrap(~d_feature) +
-    theme_bw()
+    facet_wrap(~d_feature) 
  
 }
 
