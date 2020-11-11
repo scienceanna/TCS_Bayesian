@@ -45,6 +45,13 @@ d <- d %>%
 
 ```
 
+Do we want to register any other exlucsion criteria? 
+- min accuracy per participant?
+- overly long RTs? 
+- overly slow participants?
+
+[we would expect the data to be noisier due to online... so should build in some data quality checks]
+
 # Computational Replication of Buetti et al (2019)
 
 Before doing anything else (i.e., new), we want to confirm that we can replicate the original analysis.
