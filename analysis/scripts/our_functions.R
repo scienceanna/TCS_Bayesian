@@ -34,21 +34,24 @@ set_up_model <- function(experiment, df, fam = "lognormal") {
   if ( fam == "lognormal") {
     
     my_prior <- c(
-      prior_string("normal(-0.5, 0.1)", class = "b", coef = intercepts),
-      prior_string("normal(0, 1)", class = "b", coef = slopes))
+      prior_string("normal(-0.5, 0.2)", class = "b", coef = intercepts),
+      prior_string("normal(0, 0.5)", class = "b", coef = slopes),
+      prior_string("cauchy(0, 0.1)", class = "sigma"))
   
   } else if(fam == "shifted_lognormal") {
     
     my_prior <- c(
-      prior_string("normal(-0.5, 0.1)", class = "b", coef = intercepts),
-      prior_string("normal(0, 1)", class = "b", coef = slopes))
+      prior_string("normal(-0.5, 0.2)", class = "b", coef = intercepts),
+      prior_string("normal(0, 0.2)", class = "b", coef = slopes),
+      prior_string("cauchy(0, 0.1)", class = "sigma"))
     
   } else { 
     
     # use a normal distribution
     my_prior <- c(
-      prior_string("normal(0.6, 0.1)", class = "b", coef = intercepts),
-      prior_string("normal(0, 1)", class = "b", coef = slopes))
+      prior_string("normal(0.5, 0.2)", class = "b", coef = intercepts),
+      prior_string("normal(0, 0.5)", class = "b", coef = slopes),
+      prior_string("cauchy(0, 0.1)", class = "sigma"))
   }
   
   return(list(my_formula = my_f, my_prior = my_prior, df = df, my_dist = fam))
@@ -65,11 +68,11 @@ run_model <- function(my_inputs, ppc) {
   # my_prior - the distributions to use as a prior (or sample from)
   # 
   # Additionally, we will also use:
-  # ppc = 'TRUE'only to carry out a prior predictive check
+  # ppc = 'TRUE' to only to carry out a prior predictive check
   
   # set number of chains and iterations per chain:
   n_chains = 2
-  n_itr = 2000
+  n_itr = 5000
   
   # if we are only sampling from the prior, we will use a small subset of the data
   # this is done to optimistically make things go faster!

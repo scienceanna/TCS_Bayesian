@@ -21,7 +21,7 @@ options(mc.cores = parallel::detectCores())
 source("scripts/reimplementation.R")
 source("scripts/our_functions.R")
 
-refit_models = TRUE
+refit_models = FALSE
 
 exps_to_predict = c("2a", "2b", "2c", "4a", "4b", "4c")
 ```
@@ -158,8 +158,8 @@ d %>% mutate(
 
 We can take the prior model, and then use it to compute our prior predictions!
 
-```{r glmm-prior-sample, cache=TRUE}
-mdl_inputs_nrl <- set_up_model("1", d, "normal")
+```{r glmm-prior-sample}
+mdl_inputs_nrl <- set_up_model(1, d, "normal")
 prior_model_nrl <- run_model(mdl_inputs_nrl, ppc = "only")
 
 mdl_inputs_log <- set_up_model("1", d, "lognormal")
