@@ -15,6 +15,7 @@ library(tidyverse)
 library(brms)
 library(tidybayes)
 library(patchwork)
+library(magrittr)
 
 options(mc.cores = parallel::detectCores())
 
@@ -36,24 +37,12 @@ We will import all experiments. While we're at it, we will remove error trials a
 ```{r import-data}
 source("scripts/import_and_tidy.R")
  # remove error trials and very very short responses
-d <- filter(d, error == 0, rt > 0.01)
-```
 
-## Overview: some summary statisitcs
+print(dim(d))
+d <- d %>%
+  filter(error == 0) %T>% {print(dim(.))} %>%
+  filter(rt > 0.025)  %T>% {print(dim(.))}
 
-We will start by plotting some some 
-
-```{r rt_exp-1b-hist, fig.cap="Histogram showing indivdidual differences in median RT in Experiment 1b."}
-d %>% group_by(exp_id, p_id, d_feature) %>%
-  summarise(median_rt = median(rt), .groups = "drop") %>%
-  filter(exp_id == "1b") %>%
-  ggplot(aes(x = median_rt, fill = d_feature)) + 
-  geom_histogram(bins = 10, colour = "black") + 
-  facet_wrap(~d_feature) + 
-  scale_x_continuous("median reaction time") +
-  theme_bw()
-
-ggsave("../plots/histograms_of_rt.pdf", width = 6, height = 3)
 ```
 
 # Computational Replication of Buetti et al (2019)
