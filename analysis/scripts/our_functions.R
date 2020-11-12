@@ -290,51 +290,6 @@ prior(normal(0.25, 0.01), class = "sigma"))
   
 }
 
-
-predict_rt_b <- function(e_id, m, df) {
-  
-   #Getting mean RTs
-  df_test <- df %>%
-    filter(exp_id == e_id, N_T > 0, d_feature != "no distractors") %>%
-    group_by(d_feature, N_T) %>%
-    summarise(mean_rt = mean(rt),
-              sd_rt = sd(rt),
-              .groups = "drop") %>%
-    mutate(d_feature = fct_drop(d_feature))
-  
-  
-  d_out <- df_test %>%
-    modelr::data_grid(d_feature = unique(d_feature), N_T = unique(N_T)) %>%
-    add_fitted_draws(m, scale = "response", re_formula = NA) %>%
-    mean_hdci(.width = c(0.53, 0.97)) %>%
-    mutate(exp_id = e_id)
-  
-  ggplot(d_out, aes(x  = N_T,)) + 
-    geom_ribbon(aes(ymin = .lower, ymax = .upper, fill = d_feature, group = .width), alpha = 0.2) +
-    geom_point(data = df_test, aes(y = mean_rt), alpha = 0.5) +
-    facet_wrap(~d_feature)
-  
-  full_join(d_out, df_test) %>%
-    ggplot(aes(x = .value, xmin = .lower, xmax = .upper, y = mean_rt)) + 
-    geom_abline(linetype = 2) +
-    geom_errorbarh() + 
-    coord_fixed(xlim = c(0.5, 0.85), ylim = c(0.5, 0.85)) + 
-    scale_x_continuous("model prediction")
-  
-  # now model for who range of predictions for unknown observers!
-  d_out <- df_test %>%
-    modelr::data_grid(d_feature = unique(d_feature), N_T = seq(0, 36, 2), p_id = 1:100) %>%
-    add_predicted_draws(m, allow_new_levels = TRUE) %>%
-    mean_hdci(.width = c(0.53, 0.97)) %>%
-    mutate(exp_id = e_id)
-  
-  ggplot(d_out, aes(x  = N_T,)) + 
-    geom_ribbon(aes(ymin = .lower, ymax = .upper, fill = d_feature, group = .width), alpha = 0.5) +
-    stat_dots(data = filter(df, exp_id == e_id), aes(y = rt), alpha = 0.5,  quantiles = 100, size = 2) +
-    facet_wrap(~d_feature) 
- 
-}
-
 # compute_dist <- function(feat, m_family, N_T) {
 #   
 #   

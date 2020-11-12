@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 
 # Setup and Data Import
 
-```{r load-packages, warnings = FALSE}
+```{r load-packages, include = FALSE}
 library(tidyverse)
 library(brms)
 library(tidybayes)
@@ -24,7 +24,7 @@ library(magrittr)
 
 ```{r}
 # set ggplot2 theme
-theme_set(see::theme_lucid())
+theme_set(see::theme_abyss())
 
 # use parallel cores for mcmc chains!
 options(mc.cores = parallel::detectCores())
@@ -221,7 +221,7 @@ Calculate model weights to decide on best model...
 
 The plots before show our estimates for average participant to lie. The regions illustrate the distribution of reaction times estimated by our model. 
 
-```{r plt-post, fig.height=5, fig.cap="Sample Prior predictions for reaction time and log(N+1).", cache=TRUE}
+```{r plt-post, fig.height=8, fig.cap="Sample Prior predictions for reaction time and log(N+1).", cache=TRUE}
 
 plt_nrl <- plot_model_fits_rt(1, m_exp1_nrl)
 plt_log <- plot_model_fits_rt(1, m_exp1_log)
@@ -327,17 +327,22 @@ model_params <- set_up_predict_model("2", d, "lognormal", meth, Dp_summary)
 m_prt <-  run_model(model_params, ppc = "only")
 
 ```
-
+Note, this plot is for how we expect the average person to perform in experiment 2. 
 
 ```{r}
-predict_rt_b(2, m_prt, d)
+plot_model_fits_rt(2, m_prt)
 ```
 
 
 # Power Analyis for Planned Studies
 
-
 What do the results look like if:
 
 1) the same people do all parts of the study, and there is a correlation between tasks
 2) We reduce the number of trials down to 96 per condition. 
+
+# Enviroment Details, packages and Vesion Numbers
+
+```{r session-info}
+sessionInfo()
+```
