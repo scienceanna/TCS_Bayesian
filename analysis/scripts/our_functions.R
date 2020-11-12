@@ -97,7 +97,7 @@ run_model <- function(my_inputs, ppc) {
   
 }
   
-plot_model_fits_rt <- function( e_id, m, inc_re = NA) {
+plot_model_fits_rt <- function( e_id, m, inc_re = NA, y_limits = c(0, 2.5), n_row = 2) {
   
   # plot search slopes for experiment e_id
   
@@ -116,22 +116,23 @@ plot_model_fits_rt <- function( e_id, m, inc_re = NA) {
     add_predicted_draws(m, re_formula = inc_re) %>%
     mean_hdci(.width = c(0.53, 0.97)) -> d_hdci
   
-  plt <- plot_ribbon_quantiles(d_hdci, d_plt)
+  plt <- plot_ribbon_quantiles(d_hdci, d_plt, y_limits, n_row)
   
   return(plt)
   
 }
 
-plot_ribbon_quantiles <- function(d_hdci, d_plt)
+plot_ribbon_quantiles <- function(d_hdci, d_plt, y_limits, n_row)
 {
 
   d_hdci %>% 
     ggplot(aes(x = N_T)) + 
     geom_ribbon(aes( ymin = .lower, ymax = .upper, group = .width),  alpha = 0.5) +
-    stat_dots(data = d_plt, aes(y = rt), alpha = 0.5,  quantiles = 100, color = "darkred") +
-    facet_wrap( ~ d_feature, nrow = 2) + 
+    stat_dots(data = d_plt, aes(y = rt), alpha = 0.75,  quantiles = 100, color = "yellow1") +
+    facet_wrap( ~ d_feature, nrow = n_row) + 
     scale_fill_brewer(palette = "Greys") + 
-    scale_y_continuous("reaction time (seconds)") -> plt
+    scale_y_continuous("reaction time (seconds)") +
+    coord_cartesian(ylim = y_limits) -> plt
   
   return(plt)
   

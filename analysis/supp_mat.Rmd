@@ -168,9 +168,9 @@ prior_model_sft <- run_model(mdl_inputs_sft, ppc = "only")
 ```
 
 ```{r plt-prior, fig.height=16, fig.cap="Sample Prior predictions for reaction time and log(N+1)."}
-plt_nrl <- plot_model_fits_rt(1, prior_model_nrl)
-plt_log <- plot_model_fits_rt(1, prior_model_log)
-plt_sft <- plot_model_fits_rt(1, prior_model_sft)
+plt_nrl <- plot_model_fits_rt(1, prior_model_nrl, y_limits = c(-2, 5))
+plt_log <- plot_model_fits_rt(1, prior_model_log, y_limits = c(0, 5))
+plt_sft <- plot_model_fits_rt(1, prior_model_sft, y_limits = c(0, 5))
                              
 plt_nrl / plt_log / plt_sft
 
@@ -192,7 +192,6 @@ if (refit_models)
 {
   m_exp1_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
   saveRDS(m_exp1_nrl, "models/exp_1_nrl.models")
-  
   
   m_exp1_log <- run_model(mdl_inputs_log, ppc = "no")
   saveRDS(m_exp1_log, "models/exp_1_log.models")
@@ -329,8 +328,8 @@ m_prt <-  run_model(model_params, ppc = "only")
 ```
 Note, this plot is for how we expect the average person to perform in experiment 2. 
 
-```{r}
-plot_model_fits_rt(2, m_prt)
+```{r plot-exp2-predictions, fig.height = 8, fig.cap="reaction time predictions."}
+plot_model_fits_rt(2, m_prt, y_limits = c(0, 3), n_row = 3)
 ```
 
 
