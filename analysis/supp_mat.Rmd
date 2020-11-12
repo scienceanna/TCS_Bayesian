@@ -93,7 +93,7 @@ left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
     names_to = "method") %>%
   mutate(method = fct_relevel(method, "best feature", "orthog. contrast")) %>%
   ggplot(aes(x = Dp, y = D)) +
-  geom_point() + 
+  geom_point( color = "yellow1") + 
   geom_abline(linetype = 2) +
   geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
   coord_cartesian(xlim = c(0, 80), ylim = c(0, 80)) + 
@@ -120,7 +120,7 @@ d %>% filter(exp_id %in% exps2predict) %>%
 	summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
 	left_join(rt_pred, by = c("exp_id", "d_feature", "N_T")) %>% 
 	ggplot(aes(x = p_rt, y = mean_rt)) + 
-  geom_point(alpha = 0.5) + 
+  geom_point(color = "yellow1", alpha = 0.5) + 
   geom_abline() + 
   geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
   scale_x_continuous("predicted reaction time (ms)") +
@@ -278,7 +278,7 @@ samples! (in the `extract_fixed_slopes_from_model()` function)
 
 ```{r compute-D-1, fig.cap="Posterior estimates for $D$."}
 slopes1 <- extract_fixed_slopes_from_model(m_exp1_log)
-ggplot(slopes1, aes(x= D, fill = d_feature)) + geom_density(alpha = 0.25)
+ggplot(slopes1, aes(x= D, fill = d_feature)) + geom_density(alpha = 0.5)
 
 ggsave("../plots/buetti2019_bayesian_fits.pdf", width = 8, height = 3)
 ```
@@ -294,9 +294,9 @@ rm(slopes1, slopes2)
 Dp_samples %>% 
   group_by(exp_id, d_feature, method) %>%
   mean_hdci(Dp, De) %>%
-  ggplot(aes(x = Dp, y = De)) +
+  ggplot(aes(x = Dp, y = De),  color = "yellow1") +
   geom_abline(linetype = 2) +
-  geom_point() +
+  geom_point(color = "yellow1") +
   facet_wrap(~method, nrow = 1) + 
   geom_linerange(aes(ymin = De.lower, ymax = De.upper), alpha = 0.5) +
   geom_linerange(aes(xmin = Dp.lower, xmax = Dp.lower), alpha = 0.5) +
@@ -322,14 +322,14 @@ ggsave("../plots/recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
 # now define and run new model! 
 meth = "orthog_contrast"
 
-model_params <- set_up_predict_model("2", d, "lognormal", meth, Dp_summary)
+model_params <- set_up_predict_model(2, "lognormal", meth, Dp_summary)
 m_prt <-  run_model(model_params, ppc = "only")
 
 ```
 Note, this plot is for how we expect the average person to perform in experiment 2. 
 
 ```{r plot-exp2-predictions, fig.height = 8, fig.cap="reaction time predictions."}
-plot_model_fits_rt(2, m_prt, y_limits = c(0, 3), n_row = 3)
+plot_model_fits_rt(2, m_prt, y_limits = c(0, 2.5), n_row = 3, inc_re = NA)
 ```
 
 
