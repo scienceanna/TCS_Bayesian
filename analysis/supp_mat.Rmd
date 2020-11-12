@@ -14,13 +14,15 @@ knitr::opts_chunk$set(
 
 # Setup and Data Import
 
-```{r}
+```{r load-packages, warnings = FALSE}
 library(tidyverse)
 library(brms)
 library(tidybayes)
 library(patchwork)
 library(magrittr)
+```
 
+```{r}
 # set ggplot2 theme
 theme_set(see::theme_lucid())
 
@@ -155,20 +157,20 @@ d %>% mutate(
 We can take the prior model, and then use it to compute our prior predictions!
 
 ```{r glmm-prior-sample, cache = TRUE}
-mdl_inputs_nrl <- set_up_model(1, d, "normal")
+mdl_inputs_nrl <- set_up_model(1, "normal")
 prior_model_nrl <- run_model(mdl_inputs_nrl, ppc = "only")
 
-mdl_inputs_log <- set_up_model("1", d, "lognormal")
+mdl_inputs_log <- set_up_model(1, "lognormal")
 prior_model_log <- run_model(mdl_inputs_log, ppc = "only")
 
-mdl_inputs_sft <- set_up_model("1", d, "shifted_lognormal")
+mdl_inputs_sft <- set_up_model(1, "shifted_lognormal")
 prior_model_sft <- run_model(mdl_inputs_sft, ppc = "only")
 ```
 
 ```{r plt-prior, fig.height=8, fig.cap="Sample Prior predictions for reaction time and log(N+1)."}
-plt_nrl <- plot_model_fits_ex(d, 1, prior_model_nrl)
-plt_log <- plot_model_fits_ex(d, 1, prior_model_log)
-plt_sft <- plot_model_fits_ex(d, 1, prior_model_sft)
+plt_nrl <- plot_model_fits_rt(1, prior_model_nrl)
+plt_log <- plot_model_fits_rt(1, prior_model_log)
+plt_sft <- plot_model_fits_rt(1, prior_model_sft)
                              
 plt_nrl / plt_log / plt_sft
 
@@ -221,9 +223,9 @@ The plots before show our estimates for average participant to lie. The regions 
 
 ```{r plt-post, fig.height=5, fig.cap="Sample Prior predictions for reaction time and log(N+1).", cache=TRUE}
 
-plt_nrl <- plot_model_fits_ex(d, 1, m_exp1_nrl)
-plt_log <- plot_model_fits_ex(d, 1, m_exp1_log)
-plt_sft <- plot_model_fits_ex(d, 1, m_exp1_sft)
+plt_nrl <- plot_model_fits_rt(1, m_exp1_nrl)
+plt_log <- plot_model_fits_rt(1, m_exp1_log)
+plt_sft <- plot_model_fits_rt(1, m_exp1_sft)
 
 plt_nrl / plt_log / plt_sft
 
@@ -237,23 +239,23 @@ Now that we have decided what the best distribution to use is, we will fit the m
 
 ```{r glmm-compute-post-234}
 
-if (TRUE)
+if (refit_models)
 {
-  mdl_inputs_nrl <- set_up_model("2", d, "normal")
+  mdl_inputs_nrl <- set_up_model(2, "normal")
   m_exp2_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
   #save
   saveRDS(m_exp2_nrl, "models/exp_2_nrl.models")
   #tidy
   rm(mdl_inputs_nrl)
   
-  # mdl_inputs_log <- set_up_model("2", d, "lognormal")
+  # mdl_inputs_log <- set_up_model(2, "lognormal")
   # m_exp2_log <- run_model(mdl_inputs_log, ppc = "no")
   # # save
   # saveRDS(m_exp2_log, "models/exp_2_log.models")
   #  #tidy 
   # rm(mdl_inputs_log)
    
-  mdl_inputs_sft <- set_up_model("2", d, "shifted_lognormal")
+  mdl_inputs_sft <- set_up_model(2, "shifted_lognormal")
   m_exp2_sft <- run_model(mdl_inputs_sft, ppc = "no")
   # save
   saveRDS(m_exp2_sft, "models/exp_2_sft.models")

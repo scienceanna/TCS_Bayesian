@@ -1,4 +1,4 @@
-set_up_model <- function(experiment, df, fam = "lognormal") {
+set_up_model <- function(experiment, fam = "lognormal") {
   
   # this function get's everything ready for running our model
   # mainly, this involves defining priors.
@@ -10,7 +10,7 @@ set_up_model <- function(experiment, df, fam = "lognormal") {
   }
   
   # subset data to take just th experiment that we're inserted in
-  df %>%
+  d %>%
     filter(exp_id == experiment) %>%
     group_by(exp_id, p_id, d_feature, N_T) %>%
     mutate(
@@ -97,41 +97,54 @@ run_model <- function(my_inputs, ppc) {
   
 }
   
-plot_model_fits_ex <- function(df, e_id, m, inc_re = NA) {
+plot_model_fits_rt <- function( e_id, m, inc_re = NA) {
   
   # plot search slopes for experiment e_id
   
   # take the experiment we want, and remove the N_T == 0 case.
-  df %>%
+  d %>%
     filter(
       exp_id == e_id, N_T > 0) %>%
     mutate(
       d_feature = fct_drop(d_feature),
       p_id = fct_drop(p_id)) -> d_plt
   
-  # for plotting, sample 500 data points at random
-  # set seed so each of the three model plots has the same  example points
-  set.seed(1011) 
-  d_plt <- sample_n(d_plt, 500)
-  
-  # plot 53% and 97% intervals for the model, and overall our randomly sampled
-  # data points
+
+  # calc 53% and 97% intervals for the model
   d_plt %>%
-    modelr::data_grid(p_id, N_T= seq(0,36,4), d_feature) %>%
+    modelr::data_grid(N_T = seq(0,36,4), d_feature) %>%
     add_predicted_draws(m, re_formula = inc_re) %>%
-    ggplot(aes(x = log(N_T+1), y = .prediction)) + 
-    stat_lineribbon(point_interval = median_hdci, .width = c(0.53, 0.97)) + 
-    geom_jitter(
-      data = d_plt, 
-      aes(y = rt), 
-      alpha = 0.25, colour = "darkred") + 
-    facet_grid(. ~ d_feature) + 
-    scale_fill_brewer(palette = "Greys") + 
-    scale_colour_manual(values = c("orange1", "cornflowerblue", "yellow3")) -> plt #+
-    #scale_y_log10("reaction time") -> pltcoord_cartesian(ylim = c(-10, 10)) 
+    mean_hdci(.width = c(0.53, 0.97)) -> d_hdci
+  
+  plt <- plot_ribbon_quantiles(d_hdci, d_plt)
   
   return(plt)
+  
 }
+
+plot_ribbon_quantiles <- function(d_hdci, d_plt)
+{
+
+  d_hdci %>% 
+    ggplot(aes(x = N_T)) + 
+    geom_ribbon(aes( ymin = .lower, ymax = .upper, group = .width),  alpha = 0.5) +
+    stat_dots(data = d_plt, aes(y = rt), alpha = 0.5,  quantiles = 100, color = "darkred") +
+    facet_grid(. ~ d_feature) + 
+    scale_fill_brewer(palette = "Greys") + 
+    scale_y_continuous("reaction time (seconds)") -> plt
+  
+  return(plt)
+  
+}
+    #   data = d_plt, 
+    #   aes(y = rt), 
+    #   alpha = 0.25, colour = "darkred") + 
+    # + 
+    # scale_fill_brewer(palette = "Greys") + 
+    # scale_colour_manual(values = c("orange1", "cornflowerblue", "yellow3")) -> plt #+
+    #scale_y_log10("reaction time") -> pltcoord_cartesian(ylim = c(-10, 10)) 
+  
+
 
 extract_fixed_slopes_from_model <- function(m) {
   
