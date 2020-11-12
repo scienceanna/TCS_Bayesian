@@ -326,11 +326,21 @@ model_params <- set_up_predict_model(2, "lognormal", meth, Dp_summary)
 m_prt <-  run_model(model_params, ppc = "only")
 
 ```
+
+
 Note, this plot is for how we expect the average person to perform in experiment 2. 
 
 ```{r plot-exp2-predictions, fig.height = 8, fig.cap="reaction time predictions."}
 plot_model_fits_rt(2, m_prt, y_limits = c(0, 2.5), n_row = 3, inc_re = NA)
 ```
+
+
+Attempting plots for unknown participant! 
+
+```{r plot-exp2-predictions-new-person, fig.height = 8, fig.cap="reaction time predictions."}
+plot_model_fits_rt(2, m_prt, y_limits = c(0, 2.5), n_row = 3, inc_re = NULL)
+```
+
 
 
 # Power Analyis for Planned Studies
