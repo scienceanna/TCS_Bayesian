@@ -167,7 +167,7 @@ mdl_inputs_sft <- set_up_model(1, "shifted_lognormal")
 prior_model_sft <- run_model(mdl_inputs_sft, ppc = "only")
 ```
 
-```{r plt-prior, fig.height=8, fig.cap="Sample Prior predictions for reaction time and log(N+1)."}
+```{r plt-prior, fig.height=16, fig.cap="Sample Prior predictions for reaction time and log(N+1)."}
 plt_nrl <- plot_model_fits_rt(1, prior_model_nrl)
 plt_log <- plot_model_fits_rt(1, prior_model_log)
 plt_sft <- plot_model_fits_rt(1, prior_model_sft)
@@ -221,7 +221,7 @@ Calculate model weights to decide on best model...
 
 The plots before show our estimates for average participant to lie. The regions illustrate the distribution of reaction times estimated by our model. 
 
-```{r plt-post, fig.height=8, fig.cap="Sample Prior predictions for reaction time and log(N+1).", cache=TRUE}
+```{r plt-post, fig.height=16, fig.cap="Posterior predictions for reaction time and log(N+1)."}
 
 plt_nrl <- plot_model_fits_rt(1, m_exp1_nrl)
 plt_log <- plot_model_fits_rt(1, m_exp1_log)

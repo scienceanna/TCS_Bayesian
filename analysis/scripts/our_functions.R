@@ -129,7 +129,7 @@ plot_ribbon_quantiles <- function(d_hdci, d_plt)
     ggplot(aes(x = N_T)) + 
     geom_ribbon(aes( ymin = .lower, ymax = .upper, group = .width),  alpha = 0.5) +
     stat_dots(data = d_plt, aes(y = rt), alpha = 0.5,  quantiles = 100, color = "darkred") +
-    facet_grid(. ~ d_feature) + 
+    facet_wrap( ~ d_feature, nrow = 2) + 
     scale_fill_brewer(palette = "Greys") + 
     scale_y_continuous("reaction time (seconds)") -> plt
   
