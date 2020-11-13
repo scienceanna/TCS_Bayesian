@@ -161,21 +161,21 @@ if (refit_priors) {
   
   mdl_inputs_nrl <- set_up_model(1, "normal")
   prior_model_nrl <- run_model(mdl_inputs_nrl, ppc = "only")
-  saveRDS(prior_model_nrl, "models/exp_1_nrl.models")
+  saveRDS(prior_model_nrl, "models/prior_nrl.models")
   
   mdl_inputs_log <- set_up_model(1, "lognormal")
   prior_model_log <- run_model(mdl_inputs_log, ppc = "only")
-  saveRDS(prior_model_log, "models/exp_1_log.models")
+  saveRDS(prior_model_log, "models/prior_log.models")
   
   mdl_inputs_sft <- set_up_model(1, "shifted_lognormal")
   prior_model_sft <- run_model(mdl_inputs_sft, ppc = "only")
-  saveRDS(prior_model_sft, "models/exp_1_sft.models")
+  saveRDS(prior_model_sft, "models/prior_sft.models")
   
 } else {
   
-  prior_model_nrl <- readRDS("models/exp_1_nrl.models")
-  prior_model_log <- readRDS("models/exp_1_log.models")
-  prior_model_sft <- readRDS("models/exp_1_sft.models")
+  prior_model_nrl <- readRDS("models/prior_nrl.models")
+  prior_model_log <- readRDS("models/prior_log.models")
+  prior_model_sft <- readRDS("models/prior_sft.models")
 }
 
 ```
