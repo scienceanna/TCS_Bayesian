@@ -37,7 +37,7 @@ source("scripts/our_functions.R")
 
 # used previously ran models, or refit. 
 refit_models = FALSE
-refit_priors = TRUE
+refit_priors = FALSE
 ```
 
 ## Importing
@@ -161,20 +161,26 @@ if (refit_priors) {
   
   mdl_inputs_nrl <- set_up_model(1, "normal")
   prior_model_nrl <- run_model(mdl_inputs_nrl, ppc = "only")
+  saveRDS(prior_model_nrl, "models/exp_1_nrl.models")
   
   mdl_inputs_log <- set_up_model(1, "lognormal")
   prior_model_log <- run_model(mdl_inputs_log, ppc = "only")
+  saveRDS(prior_model_log, "models/exp_1_log.models")
   
   mdl_inputs_sft <- set_up_model(1, "shifted_lognormal")
   prior_model_sft <- run_model(mdl_inputs_sft, ppc = "only")
+  saveRDS(prior_model_sft, "models/exp_1_sft.models")
   
 } else {
   
+  prior_model_nrl <- readRDS("models/exp_1_nrl.models")
+  prior_model_log <- readRDS("models/exp_1_log.models")
+  prior_model_sft <- readRDS("models/exp_1_sft.models")
 }
+
 ```
 
 ```{r plt-prior, fig.height=16, fig.cap="Sample Prior predictions for reaction time and log(N+1)."}
-if (refit_priors) {
 
 plt_nrl <- plot_model_fits_rt(1, prior_model_nrl, y_limits = c(-2, 10))
 plt_log <- plot_model_fits_rt(1, prior_model_log, y_limits = c(0, 10))
@@ -188,8 +194,6 @@ rm(
  prior_model_log, 
  prior_model_sft, 
  plt_nrl, plt_log, plt_sft)
-
-}
 
 ```
 
@@ -254,7 +258,6 @@ rm(plt_nrl, plt_log, plt_sft)
 ```
 
 
-
 ### Fit Model and Posterior Predictions For Experiment 2, 3, and 4
 
 Now that we have decided what the best distribution to use is, we will fit the model to the data from Experiment 2. 
@@ -306,7 +309,9 @@ ggplot(slopes1, aes(x= D, fill = d_feature)) + geom_density(alpha = 0.5)
 ggsave("../plots/buetti2019_bayesian_fits.pdf", width = 8, height = 3)
 ```
 
-## Estimating $D$ for compound feature distractors
+## Estimating model parameters
+
+### $D$ for compound feature distractors
 
 ```{r predict-D-2}
 slopes2 <- extract_fixed_slopes_from_model(m_exp2_log)
@@ -328,6 +333,17 @@ Dp_samples %>%
 ggsave("../plots/recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
 
 ```
+
+### Variance!
+
+As we are using multi-level models to describe the whole distribution of reaction times we aslo need to provide a $\sigma$ and a sd(Intercept). 
+
+
+```{r}
+
+
+```
+
 
 ## Predicting Reaction Times
 

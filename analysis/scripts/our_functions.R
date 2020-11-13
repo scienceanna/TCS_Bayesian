@@ -22,11 +22,14 @@ set_up_model <- function(experiment, fam = "lognormal") {
   
   # define model formula:
   if (fam == "shifted_lognormal") {
-  my_f <- bf(rt ~ 0 + d_feature + log(N_T+1):d_feature + (1|p_id),
-                ndt ~ 1 + (1|p_id))
+    
+    my_f <- bf(
+      rt ~ 0 + d_feature + log(N_T+1):d_feature + (1|p_id),
+      ndt ~ 1 + (1|p_id))
+    
   } else {
     
-  my_f <- rt ~  0 + d_feature + log(N_T+1):d_feature + (1|p_id)
+    my_f <- rt ~  0 + d_feature + log(N_T+1):d_feature + (1|p_id)
     
   }
   
