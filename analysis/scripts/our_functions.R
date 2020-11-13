@@ -119,7 +119,8 @@ plot_model_fits_rt <- function(e_id, m, inc_re = NA, y_limits = c(0, 2.5), n_row
   } else {
     # if inc_re = NA, no group-level effects are included, so we are plotting 
     # for the average participant
-    d_plt %>% modelr::data_grid(N_T = seq(0,36,4), d_feature) %>%
+    d_plt %>% 
+      modelr::data_grid(N_T = seq(0,36,4), d_feature) %>%
       add_predicted_draws(m, re_formula = inc_re) -> d_hdci
   }
 

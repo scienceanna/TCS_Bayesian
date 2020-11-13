@@ -8,9 +8,9 @@ purrr
 dplyr
 stringr
 forcats
-readxl
 Rcpp
 brms
 tidybayes
 patchwork
 magrittr
+readxl
