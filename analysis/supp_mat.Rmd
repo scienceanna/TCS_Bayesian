@@ -37,6 +37,7 @@ source("scripts/our_functions.R")
 
 # used previously ran models, or refit. 
 refit_models = FALSE
+refit_priors = FALSE
 ```
 
 ## Importing
@@ -156,17 +157,25 @@ d %>% mutate(
 We can take the prior model, and then use it to compute our prior predictions!
 
 ```{r glmm-prior-sample, cache = TRUE}
-mdl_inputs_nrl <- set_up_model(1, "normal")
-prior_model_nrl <- run_model(mdl_inputs_nrl, ppc = "only")
-
-mdl_inputs_log <- set_up_model(1, "lognormal")
-prior_model_log <- run_model(mdl_inputs_log, ppc = "only")
-
-mdl_inputs_sft <- set_up_model(1, "shifted_lognormal")
-prior_model_sft <- run_model(mdl_inputs_sft, ppc = "only")
+if (refit_priors) {
+  
+  mdl_inputs_nrl <- set_up_model(1, "normal")
+  prior_model_nrl <- run_model(mdl_inputs_nrl, ppc = "only")
+  
+  mdl_inputs_log <- set_up_model(1, "lognormal")
+  prior_model_log <- run_model(mdl_inputs_log, ppc = "only")
+  
+  mdl_inputs_sft <- set_up_model(1, "shifted_lognormal")
+  prior_model_sft <- run_model(mdl_inputs_sft, ppc = "only")
+  
+} else {
+  
+}
 ```
 
 ```{r plt-prior, fig.height=16, fig.cap="Sample Prior predictions for reaction time and log(N+1)."}
+if (refit_priors) {
+
 plt_nrl <- plot_model_fits_rt(1, prior_model_nrl, y_limits = c(-2, 5))
 plt_log <- plot_model_fits_rt(1, prior_model_log, y_limits = c(0, 5))
 plt_sft <- plot_model_fits_rt(1, prior_model_sft, y_limits = c(0, 5))
@@ -179,6 +188,8 @@ rm(
  prior_model_log, 
  prior_model_sft, 
  plt_nrl, plt_log, plt_sft)
+
+}
 
 ```
 
@@ -229,6 +240,19 @@ plt_nrl / plt_log / plt_sft
 
 rm(plt_nrl, plt_log, plt_sft)
 ```
+
+
+```{r plt-post-re, fig.height=16, fig.cap="Posterior predictions for reaction time and log(N+1)."}
+
+plt_nrl <- plot_model_fits_rt(1, m_exp1_nrl, inc_re = NULL, y_limits = c(0, 4))
+plt_log <- plot_model_fits_rt(1, m_exp1_log, inc_re = NULL, y_limits = c(0, 4))
+plt_sft <- plot_model_fits_rt(1, m_exp1_sft, inc_re = NULL, y_limits = c(0, 4))
+
+plt_nrl / plt_log / plt_sft
+
+rm(plt_nrl, plt_log, plt_sft)
+```
+
 
 
 ### Fit Model and Posterior Predictions For Experiment 2, 3, and 4

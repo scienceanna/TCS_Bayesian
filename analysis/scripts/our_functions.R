@@ -115,13 +115,17 @@ plot_model_fits_rt <- function(e_id, m, inc_re = NA, y_limits = c(0, 2.5), n_row
     # Let's simulate 100 new people!
     d_plt %>%
       modelr::data_grid(N_T = seq(0,36,4), d_feature, p_id = 1:100)  %>%
-      add_predicted_draws(m, re_formula = inc_re, allow_new_levels = TRUE)-> d_hdci
+      add_predicted_draws(m, re_formula = inc_re, allow_new_levels = TRUE, n = 10) %>%
+      ungroup() %>% 
+      select(-p_id) %>% 
+      group_by(d_feature, N_T) -> d_hdci
+    
   } else {
     # if inc_re = NA, no group-level effects are included, so we are plotting 
     # for the average participant
     d_plt %>% 
       modelr::data_grid(N_T = seq(0,36,4), d_feature) %>%
-      add_predicted_draws(m, re_formula = inc_re, scale = "response") -> d_hdci
+      add_predicted_draws(m, re_formula = inc_re, scale = "response", n = 1000) -> d_hdci
   }
 
   # calc 53% and 97% intervals for the model
@@ -295,7 +299,7 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary) {
   my_prior <-  c(
     prior_string(paste("normal(", model_sum[1:length(intercepts),1], ",",  model_sum[1:length(intercepts),2], ")", sep = ""), class = "b", coef = intercepts),
     prior_string(paste("normal(", Dp_summary$mu, ",",  Dp_summary$sigma, ")", sep = ""), class = "b", coef = slopes),
-prior(normal(0.25, 0.01), class = "sigma"))
+    prior(normal(0.25, 0.01), class = "sigma"))
   
   
   return(list(my_formula = my_f, my_prior = my_prior, df = df, my_dist = fam))
