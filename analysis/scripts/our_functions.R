@@ -97,7 +97,7 @@ run_model <- function(my_inputs, ppc) {
   
 }
   
-plot_model_fits_rt <- function(e_id, m, inc_re = NA, y_limits = c(0, 2.5), n_row = 2) {
+plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0, 2.5), n_row = 2) {
   
   # plot search slopes for experiment e_id
   
@@ -110,22 +110,22 @@ plot_model_fits_rt <- function(e_id, m, inc_re = NA, y_limits = c(0, 2.5), n_row
       p_id = fct_drop(p_id)) -> d_plt
   
   
-  if (is.null(inc_re)) {
-    # if inc_re == NULL, we include all group-level effects. 
+  if (plot_type == "predicted") {
+    # include all group-level effects. 
     # Let's simulate 100 new people!
     d_plt %>%
       modelr::data_grid(N_T = seq(0,36,4), d_feature, p_id = 1:100)  %>%
-      add_predicted_draws(m, re_formula = inc_re, allow_new_levels = TRUE, n = 10) %>%
+      add_predicted_draws(m, re_formula = NULL, allow_new_levels = TRUE, n = 10) %>%
       ungroup() %>% 
       select(-p_id) %>% 
       group_by(d_feature, N_T) -> d_hdci
     
   } else {
-    # if inc_re = NA, no group-level effects are included, so we are plotting 
+    # no group-level effects are included, so we are plotting 
     # for the average participant
     d_plt %>% 
       modelr::data_grid(N_T = seq(0,36,4), d_feature) %>%
-      add_predicted_draws(m, re_formula = inc_re, scale = "response", n = 1000) -> d_hdci
+      add_fitted_draws(m, re_formula = NA, scale = "response", n = 1000) -> d_hdci
   }
 
   # calc 53% and 97% intervals for the model
