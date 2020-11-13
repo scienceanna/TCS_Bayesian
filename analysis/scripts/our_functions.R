@@ -21,7 +21,14 @@ set_up_model <- function(experiment, fam = "lognormal") {
   df <- account_for_zero_distracters(df)
   
   # define model formula:
+  if (fam == "shifted_lognormal") {
+  my_f <- bf(rt ~ 0 + d_feature + log(N_T+1):d_feature + (1|p_id),
+                ndt ~ 1 + (1|p_id))
+  } else {
+    
   my_f <- rt ~  0 + d_feature + log(N_T+1):d_feature + (1|p_id)
+    
+  }
   
   #list of variables/coefs that we want to define priors for:
   intercepts <- paste("d_feature", levels(df$d_feature), sep = "")
@@ -41,9 +48,10 @@ set_up_model <- function(experiment, fam = "lognormal") {
   } else if(fam == "shifted_lognormal") {
     
     my_prior <- c(
-      prior_string("normal(-0.5, 0.2)", class = "b", coef = intercepts),
-      prior_string("normal(0, 0.2)", class = "b", coef = slopes),
-      prior_string("cauchy(0, 0.1)", class = "sigma"))
+      prior_string("normal(-0.5, 0.3)", class = "b", coef = intercepts),
+      prior_string("normal(0, 0.3)", class = "b", coef = slopes),
+      prior_string("cauchy(0, 0.1)", class = "sigma"),
+      prior_string("normal(0, 0.1"), class = "Intercept")
     
   } else { 
     
