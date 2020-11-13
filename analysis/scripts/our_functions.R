@@ -121,7 +121,7 @@ plot_model_fits_rt <- function(e_id, m, inc_re = NA, y_limits = c(0, 2.5), n_row
     # for the average participant
     d_plt %>% 
       modelr::data_grid(N_T = seq(0,36,4), d_feature) %>%
-      add_predicted_draws(m, re_formula = inc_re) -> d_hdci
+      add_predicted_draws(m, re_formula = inc_re, scale = "response") -> d_hdci
   }
 
   # calc 53% and 97% intervals for the model
@@ -138,10 +138,10 @@ plot_ribbon_quantiles <- function(d_hdci, d_plt, y_limits, n_row)
 
   d_hdci %>% 
     ggplot(aes(x = N_T)) + 
-    geom_ribbon(aes( ymin = .lower, ymax = .upper, group = .width),  alpha = 0.5) +
+    geom_ribbon(aes( ymin = .lower, ymax = .upper, group = .width),  alpha = 0.5, fill = "palevioletred1") +
     stat_dots(data = d_plt, aes(y = rt), alpha = 0.75,  quantiles = 100, color = "yellow1") +
     facet_wrap( ~ d_feature, nrow = n_row) + 
-    scale_fill_brewer(palette = "Greys") + 
+    # scale_fill_brewer(palette = "Greys") + 
     scale_y_continuous("reaction time (seconds)") +
     coord_cartesian(ylim = y_limits) -> plt
   
