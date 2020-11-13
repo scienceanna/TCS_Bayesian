@@ -98,6 +98,7 @@ run_model <- function(my_inputs, ppc) {
     chains = n_chains,
     sample_prior = ppc,
     iter = n_itr,
+    stanvars = my_inputs$my_stanvar
     # save_pars = save_pars(all=TRUE)
     )
 
@@ -119,6 +120,7 @@ plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0,
   
   
   if (plot_type == "predicted") {
+    
     # include all group-level effects. 
     # Let's simulate 100 new people!
     d_plt %>%
@@ -129,6 +131,7 @@ plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0,
       group_by(d_feature, N_T) -> d_hdci
     
   } else {
+    
     # no group-level effects are included, so we are plotting 
     # for the average participant
     d_plt %>% 
@@ -278,7 +281,6 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary) {
   Dp_summary <- filter(Dp_summary, 
                        method == meth, exp_id == e_id)
   
-  
   df %>%
     filter(exp_id == e_id) %>%
     mutate(
@@ -301,16 +303,29 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary) {
   slopes <- paste("d_feature", unique(df$d_feature), ":logN_TP1", sep = "")
   slopes <- gsub("[[:space:]]", "", slopes)
   
-  
   model_sum <- round(summary(m)$fixed, 3)
+  
+  
+  sigma_mean <-  VarCorr(m_exp1_log)$residual$sd[1]
+  sigma_sd   <-  VarCorr(m_exp1_log)$residual$sd[2]
+  
+  sd_mean <- VarCorr(m_exp1_log)$p_id$sd[1]
+  sd_sd <- VarCorr(m_exp1_log)$p_id$sd[2]
   
   my_prior <-  c(
     prior_string(paste("normal(", model_sum[1:length(intercepts),1], ",",  model_sum[1:length(intercepts),2], ")", sep = ""), class = "b", coef = intercepts),
     prior_string(paste("normal(", Dp_summary$mu, ",",  Dp_summary$sigma, ")", sep = ""), class = "b", coef = slopes),
-    prior(normal(0.25, 0.01), class = "sigma"))
+    prior(normal(sigma_mean, sigma_sd), class = "sigma"),
+    prior(normal(sd_mean, sd_sd), class = "sd")
+    )
+   
+  stanvars <- stanvar(sigma_mean, name='sigma_mean') + 
+    stanvar(sigma_sd, name='sigma_sd') + 
+    stanvar(sd_mean, name='sd_mean') + 
+    stanvar(sd_sd, name='sd_sd')
   
   
-  return(list(my_formula = my_f, my_prior = my_prior, df = df, my_dist = fam))
+  return(list(my_formula = my_f, my_prior = my_prior, df = df, my_dist = fam, my_stanvar = stanvars))
   
 }
 

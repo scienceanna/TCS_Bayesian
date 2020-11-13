@@ -37,7 +37,7 @@ source("scripts/our_functions.R")
 
 # used previously ran models, or refit. 
 refit_models = FALSE
-refit_priors = TRUE
+refit_priors = FALSE
 ```
 
 ## Importing
@@ -197,7 +197,6 @@ rm(
 
 ```
 
-
 ### Fit Model and Posterior Predictions For Experiment 1
 
 ```{r glmm-compute-post-1}
@@ -245,7 +244,6 @@ plt_nrl / plt_log / plt_sft
 rm(plt_nrl, plt_log, plt_sft)
 ```
 
-
 ```{r plt-post-re, fig.height=16, fig.cap="Posterior predictions for reaction time and log(N+1)."}
 
 plt_nrl <- plot_model_fits_rt(1, m_exp1_nrl, plot_type = "predicted", y_limits = c(0, 4))
@@ -256,7 +254,6 @@ plt_nrl / plt_log / plt_sft
 
 rm(plt_nrl, plt_log, plt_sft)
 ```
-
 
 ### Fit Model and Posterior Predictions For Experiment 2, 3, and 4
 
@@ -339,15 +336,27 @@ ggsave("../plots/recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
 As we are using multi-level models to describe the whole distribution of reaction times we aslo need to provide a $\sigma$ and a sd(Intercept). 
 
 
+Random intercepts look similar:
+
 ```{r}
-
-
+VarCorr(m_exp1_log)$p_id$sd
+VarCorr(m_exp2_log)$p_id$sd
 ```
+
+Residual variance looks similar, although exp2 is lower that exp 1. 
+
+```{r}
+VarCorr(m_exp1_log)$residual$sd
+VarCorr(m_exp2_log)$residual$sd
+```
+
+
+Seems legit for now to model Exp2 using the variances from Exp1 :)
 
 
 ## Predicting Reaction Times
 
-```{r, fig.width = 10, fig.height = 10, cache=TRUE}
+```{r, fig.width = 10, fig.height = 10}
 # in order to predict reaction times, we will specify a new version of our model
 # It is a little bit hacky, but we can feed the predicted values for D into the 
 # brms model as a prior, and then use that to simulate new trials.  
