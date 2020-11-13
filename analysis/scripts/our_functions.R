@@ -125,7 +125,7 @@ plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0,
     # Let's simulate 100 new people!
     d_plt %>%
       modelr::data_grid(N_T = seq(0,36,4), d_feature, p_id = 1:100)  %>%
-      add_predicted_draws(m, re_formula = NULL, allow_new_levels = TRUE, n = 10) %>%
+      add_predicted_draws(m, re_formula = NULL, allow_new_levels = TRUE, n = 100) %>%
       ungroup() %>% 
       select(-p_id) %>% 
       group_by(d_feature, N_T) -> d_hdci
