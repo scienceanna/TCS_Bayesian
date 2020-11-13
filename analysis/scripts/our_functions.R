@@ -35,8 +35,8 @@ set_up_model <- function(experiment, fam = "lognormal") {
     
     my_prior <- c(
       prior_string("normal(-0.5, 0.3)", class = "b", coef = intercepts),
-      prior_string("normal(0, 0.2)", class = "b", coef = slopes),
-      prior_string("cauchy(0, 0.5)", class = "sigma"))
+      prior_string("normal(0.1, 0.3)", class = "b", coef = slopes),
+      prior_string("cauchy(0, 0.1)", class = "sigma"))
   
   } else if(fam == "shifted_lognormal") {
     
