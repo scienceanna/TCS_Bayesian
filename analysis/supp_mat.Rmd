@@ -36,7 +36,7 @@ source("scripts/reimplementation.R")
 source("scripts/our_functions.R")
 
 # used previously ran models, or refit. 
-refit_models = TRUE
+refit_models = FALSE
 refit_priors = FALSE
 ```
 
