@@ -36,7 +36,7 @@ source("scripts/reimplementation.R")
 source("scripts/our_functions.R")
 
 # used previously ran models, or refit. 
-refit_models = FALSE
+refit_models = TRUE
 refit_priors = FALSE
 ```
 
@@ -201,7 +201,7 @@ rm(
 
 ```{r glmm-compute-post-1}
 
-if (refit_models)
+if (FALSE)
 {
   m_exp1_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
   saveRDS(m_exp1_nrl, "models/exp_1_nrl.models")
@@ -263,6 +263,9 @@ Now that we have decided what the best distribution to use is, we will fit the m
 
 if (refit_models)
 {
+  
+  # Experiment 2
+  
   mdl_inputs_nrl <- set_up_model(2, "normal")
   m_exp2_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
   #save
@@ -274,13 +277,59 @@ if (refit_models)
   # m_exp2_log <- run_model(mdl_inputs_log, ppc = "no")
   # # save
   # saveRDS(m_exp2_log, "models/exp_2_log.models")
-  #  #tidy 
+  #  #tidy
   # rm(mdl_inputs_log)
-   
-  mdl_inputs_sft <- set_up_model(2, "shifted_lognormal")
-  m_exp2_sft <- run_model(mdl_inputs_sft, ppc = "no")
+  #  
+  # mdl_inputs_sft <- set_up_model(2, "shifted_lognormal")
+  # m_exp2_sft <- run_model(mdl_inputs_sft, ppc = "no")
+  # # save
+  # saveRDS(m_exp2_sft, "models/exp_2_sft.models")
+  # #tidy
+  # rm(mdl_inputs_sft)
+  
+  # Experiment 3
+  
+  mdl_inputs_nrl <- set_up_model(3, "normal")
+  m_exp3_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
+  #save
+  saveRDS(m_exp3_nrl, "models/exp_3_nrl.models")
+  #tidy
+  rm(mdl_inputs_nrl)
+  
+  mdl_inputs_log <- set_up_model(3, "lognormal")
+  m_exp3_log <- run_model(mdl_inputs_log, ppc = "no")
   # save
-  saveRDS(m_exp2_sft, "models/exp_2_sft.models")
+  saveRDS(m_exp3_log, "models/exp_3_log.models")
+   #tidy
+  rm(mdl_inputs_log)
+   
+  mdl_inputs_sft <- set_up_model(3, "shifted_lognormal")
+  m_exp3_sft <- run_model(mdl_inputs_sft, ppc = "no")
+  # save
+  saveRDS(m_exp3_sft, "models/exp_3_sft.models")
+  #tidy
+  rm(mdl_inputs_sft)
+  
+  # Experiment 4
+  
+  mdl_inputs_nrl <- set_up_model(4, "normal")
+  m_exp4_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
+  #save
+  saveRDS(m_exp4_nrl, "models/exp_4_nrl.models")
+  #tidy
+  rm(mdl_inputs_nrl)
+  
+  mdl_inputs_log <- set_up_model(4, "lognormal")
+  m_exp4_log <- run_model(mdl_inputs_log, ppc = "no")
+  # save
+  saveRDS(m_exp4_log, "models/exp_4_log.models")
+   #tidy
+  rm(mdl_inputs_log)
+   
+  mdl_inputs_sft <- set_up_model(4, "shifted_lognormal")
+  m_exp4_sft <- run_model(mdl_inputs_sft, ppc = "no")
+  # save
+  saveRDS(m_exp4_sft, "models/exp_4_sft.models")
   #tidy
   rm(mdl_inputs_sft)
 
@@ -288,9 +337,11 @@ if (refit_models)
 } else {
 
   m_exp2_log <- readRDS("models/exp_2_log.models")
-  # m_exp2_sft <- readRDS("models/exp_2_sft.models")
-  # m_exp3_log <- readRDS("models/exp_3_log.models")
-  # m_exp4_log <- readRDS("models/exp_4_log.models")
+  m_exp2_sft <- readRDS("models/exp_2_sft.models")
+  m_exp3_log <- readRDS("models/exp_3_log.models")
+  m_exp3_sft <- readRDS("models/exp_3_sft.models")
+  m_exp4_log <- readRDS("models/exp_4_log.models")
+  m_exp4_sft <- readRDS("models/exp_4_sft.models")
 }
 ```
 
