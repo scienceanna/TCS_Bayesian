@@ -444,6 +444,26 @@ What do the results look like if:
 1) the same people do all parts of the study, and there is a correlation between tasks
 2) We reduce the number of trials down to 96 per condition. 
 
+## Sample 6 trials per condition
+
+```{r}
+# summary(d)
+# 
+# d %>% group_by(p_id, d_feature, N_T) %>%
+#   slice_sample(n = 6) -> dss
+# 
+# 
+# 
+# d <- dss
+# 
+# summary(d)
+# 
+# mdl_inputs_log <- set_up_model(1, "lognormal")
+# power_model_log <- run_model(mdl_inputs_log, ppc = "no")
+#   
+# plot_model_fits_rt(1, power_model_log, plot_type = "fitted")
+```
+
 # Enviroment Details, packages and Vesion Numbers
 
 ```{r session-info}
