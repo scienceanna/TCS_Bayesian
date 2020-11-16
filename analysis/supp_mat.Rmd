@@ -180,13 +180,13 @@ if (refit_priors) {
 
 ```
 
-```{r plt-prior, fig.height=16, fig.cap="Sample Prior predictions for reaction time and log(N+1)."}
+```{r plt-prior, fig.height=3, fig.cap="Sample Prior predictions for reaction time and log(N+1)."}
 
-plt_nrl <- plot_model_fits_rt(1, prior_model_nrl, y_limits = c(-2, 10))
-plt_log <- plot_model_fits_rt(1, prior_model_log, y_limits = c(0, 10))
-plt_sft <- plot_model_fits_rt(1, prior_model_sft, y_limits = c(0, 10))
+plt_nrl <- plot_model_fits_rt(1, prior_model_nrl, y_limits = c(-2, 10), feature2plot = "blue")
+plt_log <- plot_model_fits_rt(1, prior_model_log, y_limits = c(0, 10), feature2plot = "blue")
+plt_sft <- plot_model_fits_rt(1, prior_model_sft, y_limits = c(0, 10), feature2plot = "blue")
                              
-plt_nrl / plt_log / plt_sft
+plt_nrl + plt_log + plt_sft
 
 # tidy up, we no longer need to keep hold of these models and plots
 rm(

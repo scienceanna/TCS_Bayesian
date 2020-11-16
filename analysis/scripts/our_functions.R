@@ -106,18 +106,30 @@ run_model <- function(my_inputs, ppc) {
   
 }
   
-plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0, 2.5), n_row = 2) {
+plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0, 2.5), n_row = 2, feature2plot = 'all') {
   
   # plot search slopes for experiment e_id
   
   # take the experiment we want, and remove the N_T == 0 case.
-  d %>%
-    filter(
-      exp_id == e_id, N_T > 0) %>%
-    mutate(
-      d_feature = fct_drop(d_feature),
-      p_id = fct_drop(p_id)) -> d_plt
   
+  if (feature2plot == "all") {
+    
+    d %>%
+      filter(
+        exp_id == e_id, N_T > 0) %>%
+      mutate(
+        d_feature = fct_drop(d_feature),
+        p_id = fct_drop(p_id)) -> d_plt
+    
+  } else {
+    
+    d %>%
+      filter(
+        exp_id == e_id, N_T > 0, d_feature == feature2plot) %>%
+      mutate(
+        d_feature = fct_drop(d_feature),
+        p_id = fct_drop(p_id)) -> d_plt
+  }
   
   if (plot_type == "predicted") {
     
@@ -155,6 +167,7 @@ plot_ribbon_quantiles <- function(d_hdci, d_plt, y_limits, n_row)
     ggplot(aes(x = N_T)) + 
     geom_ribbon(aes( ymin = .lower, ymax = .upper, group = .width),  alpha = 0.5, fill = "palevioletred1") +
     stat_dots(data = d_plt, aes(y = rt), alpha = 0.75,  quantiles = 100, color = "yellow1") +
+    geom_hline(yintercept = 0, colour = "white") + 
     facet_wrap( ~ d_feature, nrow = n_row) + 
     # scale_fill_brewer(palette = "Greys") + 
     scale_y_continuous("reaction time (seconds)") +
