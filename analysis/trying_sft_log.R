@@ -11,27 +11,26 @@ source("scripts/import_and_tidy.R")
 # remove error trials and very very short responses
 
 
-
-
 d %>% mutate(
-  rt = rt/1000) %>%
-  filter(exp_id == "1b")  -> d
+  rt = rt/1000) -> d
 
 
 print(dim(d))
 d <- d %>%
   filter(error == 0) %T>% {print(dim(.))} %>%
-  filter(rt > 0.100, rt < 2)  %T>% {print(dim(.))}
+  filter(rt > 0.200, rt < 2, exp_id == "1a")  %T>% {print(dim(.))}
+
+
 
 myp <- c(
   prior_string("normal(-2, 1)", class = "Intercept"),
   prior_string("normal(0, 1)", class = "b"),
-  prior_string("cauchy(0, 0.1)", class = "sigma"),
-  prior_string("uniform(-4, -0.5)", class = "Intercept", dpar = "ndt"))
+  prior_string("cauchy(0, 1)", class = "sigma"),
+  prior_string("uniform(-3, -1)", class = "Intercept", dpar = "ndt"))
 
 m <- brm(
   bf(
-    rt ~ N_T, 
+    rt ~ N_T * d_feature, 
     ndt ~ 1),
   data = d,
   family = shifted_lognormal(),
