@@ -119,7 +119,8 @@ plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0,
         exp_id == e_id, N_T > 0) %>%
       mutate(
         d_feature = fct_drop(d_feature),
-        p_id = fct_drop(p_id)) -> d_plt
+        p_id = fct_drop(p_id)) %>%
+      ungroup() -> d_plt
     
   } else {
     

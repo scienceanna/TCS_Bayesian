@@ -18,15 +18,17 @@ d %>% mutate(
 print(dim(d))
 d <- d %>%
   filter(error == 0) %T>% {print(dim(.))} %>%
-  filter(rt > 0.200, rt < 2, exp_id == "1a")  %T>% {print(dim(.))}
-
+  filter(
+    exp_id == "1b", 
+    rt > quantile(rt, 0.005), 
+    rt < quantile(rt, 0.995))  %T>% {print(dim(.))}
 
 
 myp <- c(
   prior_string("normal(-2, 1)", class = "Intercept"),
   prior_string("normal(0, 1)", class = "b"),
   prior_string("cauchy(0, 1)", class = "sigma"),
-  prior_string("uniform(-3, -1)", class = "Intercept", dpar = "ndt"))
+  prior_string("uniform(-3, -0.69)", class = "Intercept", dpar = "ndt"))
 
 m <- brm(
   bf(
@@ -36,6 +38,7 @@ m <- brm(
   family = shifted_lognormal(),
   prior = myp,
   chains = 1,
+  iter = 5000
 )
 
 
