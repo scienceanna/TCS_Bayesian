@@ -357,7 +357,15 @@ samples! (in the `extract_fixed_slopes_from_model()` function)
 
 ```{r compute-D-1, fig.cap="Posterior estimates for $D$."}
 slopes1 <- extract_fixed_slopes_from_model(m_exp1_log)
-ggplot(slopes1, aes(x= D, fill = d_feature)) + geom_density(alpha = 0.5)
+slopes3 <- extract_fixed_slopes_from_model(m_exp3_log)
+
+bind_rows(
+  slopes1 %>% mutate(exp = "Experiment1"),
+  slopes3 %>% mutate(exp = "Experiment 3")) %>%
+  ggplot(aes(x= D, fill = d_feature)) + 
+  geom_density(alpha = 0.5) +
+  facet_wrap(~exp, nrow = 2)
+  
 
 ggsave("../plots/buetti2019_bayesian_fits.pdf", width = 8, height = 3)
 ```
@@ -368,15 +376,20 @@ ggsave("../plots/buetti2019_bayesian_fits.pdf", width = 8, height = 3)
 
 ```{r predict-D-2}
 slopes2 <- extract_fixed_slopes_from_model(m_exp2_log)
-Dp_samples <- get_Dp_samples(2, d, slopes1, slopes2)
+Dp_samples2 <- get_Dp_samples(2, d, slopes1, slopes2)
+
+slopes4 <- extract_fixed_slopes_from_model(m_exp4_log)
+Dp_samples4 <- get_Dp_samples(4, d, slopes3, slopes4)
+
+
 
 rm(slopes1, slopes2)
 
-Dp_samples %>% 
+bind_rows(Dp_samples2, Dp_samples4) %>% 
   group_by(exp_id, d_feature, method) %>%
   mean_hdci(Dp, De) %>%
   ggplot(aes(x = Dp, y = De),  color = "yellow1") +
-  geom_abline(linetype = 2) +
+  geom_abline(linetype = 2, colour = "cyan") +
   geom_point(color = "yellow1") +
   facet_wrap(~method, nrow = 1) + 
   geom_linerange(aes(ymin = De.lower, ymax = De.upper), alpha = 0.5) +
@@ -406,19 +419,18 @@ VarCorr(m_exp1_log)$residual$sd
 VarCorr(m_exp2_log)$residual$sd
 ```
 
-
 Seems legit for now to model Exp2 using the variances from Exp1 :)
 
 
 ## Predicting Reaction Times
 
-```{r, fig.width = 10, fig.height = 10}
+```{r gen-predictions, fig.width = 10, fig.height = 10, cache=TRUE}
 # in order to predict reaction times, we will specify a new version of our model
 # It is a little bit hacky, but we can feed the predicted values for D into the 
 # brms model as a prior, and then use that to simulate new trials.  
 
 # first, summarise our Dp samples to give mu and sigma.
- Dp_samples %>%
+ Dp_samples2 %>%
    group_by(exp_id, d_feature, method) %>%
   summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop")-> Dp_summary
 
@@ -449,31 +461,110 @@ What do the results look like if:
 1) the same people do all parts of the study, and there is a correlation between tasks
 2) We reduce the number of trials down to 96 per condition. 
 
+
+## Pretend the original experiment was within subjects!
+
+
+# rename participants to pretend that we have a between subjects measure!
+
+```{r}
+rank_order_people <- function(e_id) {
+  
+  shuffle_noise = 0.025
+  
+   d %>% filter(exp_id == e_id) %>%
+    group_by(p_id) %>%
+    summarise(m_rt = median(rt), .groups = 'drop') %>%
+    mutate(m_rt = m_rt + rnorm(20, 0, shuffle_noise)) %>%
+    arrange(m_rt) %>%
+    mutate(ps_id = 1:20) %>%
+    select(-m_rt) -> d_out
+  
+  return(d_out)
+}
+
+
+dr <- map_dfr(unique(d$exp_id), rank_order_people) 
+
+d <- left_join(d,dr)
+
+d %>% group_by(p_id, exp_id) %>% summarise(m_rt = median(rt)) %>% 
+  pivot_wider(names_from = "exp_id", values_from = "m_rt") %>%
+  ggplot(aes(x = `1a`, y = `1b`)) + geom_point()
+
+```
+
 ## Sample 6 trials per condition
 
-```{r, fig.height = 10}
+```{r, fig.height = 10, cache = TRUE}
 summary(d)
 
 d %>% group_by(p_id, d_feature, N_T) %>%
   slice_sample(n = 2) -> dss
-
-
 
 d <- dss
 
 summary(d)
 
 mdl_inputs_log <- set_up_model(1, "lognormal")
-power_model_log <- run_model(mdl_inputs_log, ppc = "no")
+power_mdl1_log <- run_model(mdl_inputs_log, ppc = "no")
 
-plot_model_fits_rt(1, power_model_log, plot_type = "fitted")
+md_inputs_log <- set_up_model(2, "lognormal")
+power_mdl2_log <- run_model(mdl_inputs_log, ppc = "no")
+
+mdl_inputs_log <- set_up_model(3, "lognormal")
+power_mdl3_log <- run_model(mdl_inputs_log, ppc = "no")
+
+mdl_inputs_log <- set_up_model(4, "lognormal")
+power_mdl4_log <- run_model(mdl_inputs_log, ppc = "no")
 ```
 
-And for comparison, here's the original model fits:
 
-```{r, fig.height = 10}
+```{r}
 
-plot_model_fits_rt(1, m_exp1_log, plot_type = "fitted")
+plot_model_fits_rt(1, power_mdl1_log, plot_type = "fitted")
+```
+
+
+```{r compute-D-1-power, fig.cap="Posterior estimates for $D$."}
+slopes1 <- extract_fixed_slopes_from_model(power_mdl1_log)
+slopes3 <- extract_fixed_slopes_from_model(power_mdl3_log)
+
+bind_rows(
+  slopes1 %>% mutate(exp = "Experiment1"),
+  slopes3 %>% mutate(exp = "Experiment 3")) %>%
+  ggplot(aes(x= D, fill = d_feature)) + 
+  geom_density(alpha = 0.5) +
+  facet_wrap(~exp, nrow = 2)
+  
+```
+
+
+## Estimating model parameters
+
+### $D$ for compound feature distractors
+
+```{r predict-D-2-power}
+slopes2 <- extract_fixed_slopes_from_model(m_exp2_log)
+Dp_samples2 <- get_Dp_samples(2, d, slopes1, slopes2)
+
+slopes4 <- extract_fixed_slopes_from_model(m_exp4_log)
+Dp_samples4 <- get_Dp_samples(4, d, slopes3, slopes4)
+
+rm(slopes1, slopes2)
+
+bind_rows(Dp_samples2, Dp_samples4) %>% 
+  group_by(exp_id, d_feature, method) %>%
+  mean_hdci(Dp, De) %>%
+  ggplot(aes(x = Dp, y = De),  color = "yellow1") +
+  geom_abline(linetype = 2, colour = "cyan") +
+  geom_point(color = "yellow1") +
+  facet_wrap(~method, nrow = 1) + 
+  geom_linerange(aes(ymin = De.lower, ymax = De.upper), alpha = 0.5) +
+  geom_linerange(aes(xmin = Dp.lower, xmax = Dp.lower), alpha = 0.5) +
+  geom_smooth(method = lm, colour = "pink")
+
+ggsave("../plots/recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
 
 ```
 

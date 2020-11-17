@@ -14,29 +14,29 @@ source("scripts/import_and_tidy.R")
 d %>% mutate(
   rt = rt/1000) -> d
 
-
 print(dim(d))
 d <- d %>%
   filter(error == 0) %T>% {print(dim(.))} %>%
   filter(
-    exp_id == "1b", 
     rt > quantile(rt, 0.005), 
     rt < quantile(rt, 0.995))  %T>% {print(dim(.))}
 
+d <- filter(d, exp_id == "1b")
 
-myp <- c(
-  prior_string("normal(-2, 1)", class = "Intercept"),
-  prior_string("normal(0, 1)", class = "b"),
-  prior_string("cauchy(0, 1)", class = "sigma"),
-  prior_string("uniform(-3, -0.69)", class = "Intercept", dpar = "ndt"))
+# 
+# 
+ myp <- c(
+   prior_string("normal(0, 0.1)", class = "b"),
+   prior_string("normal(2, 1)", class = "b", coef = "d_featurecircle"),
+   prior_string("normal(2, 1)", class = "b", coef = "d_featurediamond"),
+   prior_string("normal(2, 1)", class = "b", coef = "d_featuretriangle"))
 
 m <- brm(
-  bf(
-    rt ~ N_T * d_feature, 
-    ndt ~ 1),
+  
+    rt ~ 0 + d_feature +  d_feature:N_T, 
   data = d,
-  family = shifted_lognormal(),
-  prior = myp,
+  family = inverse.gaussian(),
+   prior = myp,
   chains = 1,
   iter = 5000
 )
