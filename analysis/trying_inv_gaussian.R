@@ -27,13 +27,14 @@ d <- filter(d, exp_id == "1b")
 # 
  myp <- c(
    prior_string("normal(0, 0.1)", class = "b"),
-   prior_string("normal(2, 1)", class = "b", coef = "d_featurecircle"),
-   prior_string("normal(2, 1)", class = "b", coef = "d_featurediamond"),
-   prior_string("normal(2, 1)", class = "b", coef = "d_featuretriangle"))
+   prior_string("normal(2, 0.25)", class = "b", coef = "d_featurecircle"),
+   prior_string("normal(2, 0.25)", class = "b", coef = "d_featurediamond"),
+   prior_string("normal(2, 0.25)", class = "b", coef = "d_featuretriangle"),
+   prior_string("cauchy(0, 0.1)", class = "sd"))
 
 m <- brm(
   
-    rt ~ 0 + d_feature +  d_feature:N_T, 
+    rt ~ 0 + d_feature +  d_feature:N_T + (1|p_id), 
   data = d,
   family = inverse.gaussian(),
    prior = myp,
