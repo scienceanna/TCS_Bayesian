@@ -230,8 +230,8 @@ if (FALSE)
 Calculate model weights to decide on best model...
 
 ```{r model-weights}
-# loo_m_exp1_nrl <- loo(m_exp1_nrl)
-# loo_m_exp1_log <- loo(m_exp1_log)
+ loo_m_exp1_nrl <- loo(m_exp1_nrl)
+ loo_m_exp1_log <- loo(m_exp1_log)
 # 
 # model_weights(m_exp1_nrl, m_exp1_log)
 ```
@@ -451,30 +451,22 @@ What do the results look like if:
 
 ## Sample 6 trials per condition
 
-```{r, fig.height = 10}
-summary(d)
-
-d %>% group_by(p_id, d_feature, N_T) %>%
-  slice_sample(n = 2) -> dss
-
-
-
-d <- dss
-
-summary(d)
-
-mdl_inputs_log <- set_up_model(1, "lognormal")
-power_model_log <- run_model(mdl_inputs_log, ppc = "no")
-
-plot_model_fits_rt(1, power_model_log, plot_type = "fitted")
-```
-
-And for comparison, here's the original model fits:
-
-```{r, fig.height = 10}
-
-plot_model_fits_rt(1, m_exp1_log, plot_type = "fitted")
-
+```{r}
+# summary(d)
+# 
+# d %>% group_by(p_id, d_feature, N_T) %>%
+#   slice_sample(n = 6) -> dss
+# 
+# 
+# 
+# d <- dss
+# 
+# summary(d)
+# 
+# mdl_inputs_log <- set_up_model(1, "lognormal")
+# power_model_log <- run_model(mdl_inputs_log, ppc = "no")
+#   
+# plot_model_fits_rt(1, power_model_log, plot_type = "fitted")
 ```
 
 # Enviroment Details, packages and Vesion Numbers
