@@ -150,14 +150,14 @@ We did it!
 
 But \ldots 
 
-insert a figure showing trial data points plotted around the model's point prediction to justify switch to multi-levels and log normal. 
+[insert a figure showing trial data points plotted around the model's point prediction to justify switch to multi-levels and log normal.]
 
 
 \subsection{Our Re-analysis}
 
 Some of the weaknesses of the Target Contrast Signal Theory are i) it is unable to account for individual differences, only the changes to the sample average and  ii) it  cannot account for the distribution of reaction times over multiple trials. Switching from a simple linear regression model to a multi-level model will allow us to compute $D$ for each participant, and estimate the trial-to-trial variance. By also switching from a frequentist to Bayesian framework, we can also account for the uncertainty in the model's predictions.
 
-First, we computed the $D$ values using a multi-level Bayesian model using a log-normal distribution (using R, brms etc. - see Equation \ref{eq:computeDlm}). Using this method allows us to fit each individual's performance. This is important because it is clear there are between-subjects differences that are not captured in the original model. 
+First, we computed the $D$ values using a multi-level Bayesian model using a log-normal distribution (see Equation \ref{eq:computeDlm}). Using this method allows us to fit each individual's performance. This is important because it is clear there are between-subjects differences that are not captured in the original model. 
 %(see Figure \ref{fig:buetti2019_hist}). 
 
 %\begin{figure}
@@ -167,46 +167,39 @@ First, we computed the $D$ values using a multi-level Bayesian model using a log
 %\label{fig:buetti2019_hist}
 %\end{figure}
 
-We fit the model twice, once using a log link\footnote{our preference, as this avoids predicting negative reaction times and helps to account for skew in the distribution}, and once using the identity link\footnote{makes this new version of the model more comparable to the original}. Other minor changes include modelling reaction times on the seconds scale, rather than milliseconds (making numerical model fitting easier) and removing all RTs less than 25ms.
+We fit the model three times, once using a log link\footnote{our preference, as this avoids predicting negative reaction times and helps to account for skew in the distribution}, and once using the identity link\footnote{makes this new version of the model more comparable to the original}. [ADD IN EXTRA STUFF ABOUT SHIFTED GAUSSIAN MODEL?]
+
+Other minor changes included modelling reaction times on the seconds scale, rather than milliseconds (making numerical model fitting easier) and removing all RTs less than 25ms.
+
+\begin{figure}
+\centering
+\subfigure{\includegraphics[width=\textwidth]{../plots/buetti2019_bayesian_fits.pdf}}
+\caption{The shaded regions show the model's predicted D values for each of the conditions in Expt 1 and Expt 3.}
+\label{fig:buetti2019_a1}
+\end{figure}
+
+\subsubsection{Measuring $D$}
+
+As we are using a Bayesian framework, rather than $D$ representing the best fit in equation \ref{eq:computeDlm}, it is now represented as a probability distribution over possible values (see Figure \ref{fig:buetti2019_a1}). We can can then estimate $D$ in the compound feature distractor cases using the three methods detailed above and compare the predicted values to the empirical values (see Figure \ref{fig:buetti2019_D}). We additionally calculated a fourth prediction method, the 'mean method' which simply takes the averages of the collinear contrast and orthogonal contrast models.
 
 \begin{equation}
 \hat{y} = a + D\log(N_T + 1)
 \label{eq:computeDlm}
 \end{equation}
 
-The code for our model in \textit{brms} is as follows (possibly this can be a suppmat thing?):
-
-\begin{verbatim}
-m <- brm(
-    rt ~  0 + d_feature + log(N_T+1):d_feature + 
-      (log(N_T+1):d_feature|p_id),
-    data = df,
-    family = lognormal(link = "identity"),
-    prior = my_priors,
-    iter = 5000)
-\end{verbatim}
-
+[NEED TO COMPARE BEST MODELS HERE - EXPLAIN HOW WE DO IT.]
 
 \begin{figure}
 \centering
-\subfigure{\includegraphics[width=\textwidth/0.4]{../wd_reanalyse_Buetti2019/empirical_D_examples.png}}
-\caption{The shaded regions show the model's predicted D values for each of the conditions in Expt 1A.}
-\label{fig:buetti2019_a1}
-\end{figure}
-
-\subsubsection{Measuring $D$}
-
-As we are using a Bayesian framework, rather than $D$ representing the best fit in equation \ref{eq:computeDlm}, it is now represented as a probability distribution over possible values (see Figure \ref{fig:buetti2019_a1}). We can can then estimate $D$ in the compound feature distractor cases using the three methods detailed above and compare the predicted values to the empirical values - see Figure \ref{fig:buetti2019_D}. Interestingly, the choice of distribution seems to have an effect on which model gives the best prediction; for the normal distribution (as used in \cite{buetti2019predicting}) the collinear contrast integration model gives the best fit to the data (as with the original analysis), but for the log-normal distribution, the orthogonal contrast model is better.
-
-\begin{figure}
-\centering
-\subfigure{\includegraphics[width=\textwidth]{../wd_reanalyse_Buetti2019/recreate_normal_fig_4.pdf}}
-\subfigure{\includegraphics[width=\textwidth]{../wd_reanalyse_Buetti2019/recreate_log_normal_fig_4.pdf}}
+\subfigure{\includegraphics[width=\textwidth]{../plots/recreate_normal_fig_4.pdf}}
+\subfigure{\includegraphics[width=\textwidth]{../plots/recreate_log_normal_fig_4.pdf}}
 \caption{Correlation between empirical $D$ and the predicted $D$ using \textit{(top)} normal and (\textit{bottom}) log-normal distributions.}
 \label{fig:buetti2019_D}
 \end{figure}
 
 \subsubsection{Estimating $D$ for compound distractors}
+
+
 
 \subsubsection{Reaction Time Model}
 
