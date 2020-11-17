@@ -126,7 +126,7 @@ D_\text{overall} = \frac{1}{\sqrt{\frac{1}{(D_\text{colour})^2 + (D_\text{shape}
 \label{eq:orthogonalcontrast}
 \end{equation}
 
-Which simplifies as (we think??):
+Which simplifies as:
 
 \begin{equation}
 D_\text{overall} = (D_\text{colour})^2 + (D_\text{shape})^2
@@ -150,23 +150,24 @@ We did it!
 
 But \ldots 
 
-insert  a figure showing trial data points plotted around the model's point prediction to justfify switch to multi-levels and log normal. 
+insert a figure showing trial data points plotted around the model's point prediction to justify switch to multi-levels and log normal. 
 
 
 \subsection{Our Re-analysis}
 
 Some of the weaknesses of the Target Contrast Signal Theory are i) it is unable to account for individual differences, only the changes to the sample average and  ii) it  cannot account for the distribution of reaction times over multiple trials. Switching from a simple linear regression model to a multi-level model will allow us to compute $D$ for each participant, and estimate the trial-to-trial variance. By also switching from a frequentist to Bayesian framework, we can also account for the uncertainty in the model's predictions.
 
-First, we computed the $D$ values using a multi-level Bayesian model using a log-normal distribution (using R, brms etc. - see Equation \ref{eq:computeDlm}). Using this method allows us to fit each individual's performance. This is important because it is clear there are between-subjects differences that are not captured in the original model (see Figure \ref{fig:buetti2019_hist}). 
+First, we computed the $D$ values using a multi-level Bayesian model using a log-normal distribution (using R, brms etc. - see Equation \ref{eq:computeDlm}). Using this method allows us to fit each individual's performance. This is important because it is clear there are between-subjects differences that are not captured in the original model. 
+%(see Figure \ref{fig:buetti2019_hist}). 
 
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{../plots/histograms_of_rt.pdf}
-\caption{Histograms of median RTs from Expt 3A in \cite{buetti2019predicting}). There are clearly between-subjects differences, as well as differences in distributions for the different conditions.}
-\label{fig:buetti2019_hist}
-\end{figure}
+%\begin{figure}
+%\centering
+%\includegraphics[width=\textwidth]{../plots/histograms_of_rt.pdf}
+%\caption{Histograms of median RTs from Expt 3A in \cite{buetti2019predicting}). There are clearly between-subjects differences, as well as differences in distributions for the different conditions.}
+%\label{fig:buetti2019_hist}
+%\end{figure}
 
-We fit the model twice, once using a log link\footnote{our preference, as this avoids predicting negative reaction times and helps to account for skew in the distribution}, and once using the identity link\footnote{makes this new version of the model more comparable to the original}. Other minor changes include modelling reaction times on the seconds scale, rather than milliseconds (making numerical model fitting easier) and removing all RTs less than 10ms.
+We fit the model twice, once using a log link\footnote{our preference, as this avoids predicting negative reaction times and helps to account for skew in the distribution}, and once using the identity link\footnote{makes this new version of the model more comparable to the original}. Other minor changes include modelling reaction times on the seconds scale, rather than milliseconds (making numerical model fitting easier) and removing all RTs less than 25ms.
 
 \begin{equation}
 \hat{y} = a + D\log(N_T + 1)

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2019.10.9)  17 NOV 2020 11:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2019.10.9)  17 NOV 2020 11:59
 entering extended mode
 **./app_vs.tex
 (app_vs.tex
@@ -386,67 +386,56 @@ File: ../plots/example_stimuli_figure.pdf Graphic file (type pdf)
 Package pdftex.def Info: ../plots/example_stimuli_figure.pdf  used on input lin
 e 85.
 (pdftex.def)             Requested size: 338.0pt x 190.12512pt.
-[3] [4 <../plots/example_stimuli_figure.pdf>]
-<../plots/histograms_of_rt.pdf, id=32, 433.62pt x 216.81pt>
-File: ../plots/histograms_of_rt.pdf Graphic file (type pdf)
-<use ../plots/histograms_of_rt.pdf>
-Package pdftex.def Info: ../plots/histograms_of_rt.pdf  used on input line 164.
-
-(pdftex.def)             Requested size: 338.0pt x 169.00856pt.
- [5]
-<../wd_reanalyse_Buetti2019/empirical_D_examples.png, id=36, 754.82pt x 751.808
+[3] [4 <../plots/example_stimuli_figure.pdf>] [5]
+<../wd_reanalyse_Buetti2019/empirical_D_examples.png, id=35, 754.82pt x 751.808
 75pt>
 File: ../wd_reanalyse_Buetti2019/empirical_D_examples.png Graphic file (type pn
 g)
 <use ../wd_reanalyse_Buetti2019/empirical_D_examples.png>
 Package pdftex.def Info: ../wd_reanalyse_Buetti2019/empirical_D_examples.png  u
-sed on input line 191.
+sed on input line 192.
 (pdftex.def)             Requested size: 338.0pt x 336.64742pt.
 
-Overfull \hbox (24.44785pt too wide) in paragraph at lines 191--192
+Overfull \hbox (24.44785pt too wide) in paragraph at lines 192--193
  [][] 
  []
 
-[6 <../plots/histograms_of_rt.pdf>]
-<../wd_reanalyse_Buetti2019/recreate_normal_fig_4.pdf, id=47, 578.16pt x 180.67
+<../wd_reanalyse_Buetti2019/recreate_normal_fig_4.pdf, id=37, 578.16pt x 180.67
 5pt>
 File: ../wd_reanalyse_Buetti2019/recreate_normal_fig_4.pdf Graphic file (type p
 df)
 <use ../wd_reanalyse_Buetti2019/recreate_normal_fig_4.pdf>
 Package pdftex.def Info: ../wd_reanalyse_Buetti2019/recreate_normal_fig_4.pdf  
-used on input line 202.
+used on input line 203.
 (pdftex.def)             Requested size: 338.0pt x 105.62413pt.
-<../wd_reanalyse_Buetti2019/recreate_log_normal_fig_4.pdf, id=48, 578.16pt x 18
+<../wd_reanalyse_Buetti2019/recreate_log_normal_fig_4.pdf, id=38, 578.16pt x 18
 0.675pt>
 File: ../wd_reanalyse_Buetti2019/recreate_log_normal_fig_4.pdf Graphic file (ty
 pe pdf)
 <use ../wd_reanalyse_Buetti2019/recreate_log_normal_fig_4.pdf>
 Package pdftex.def Info: ../wd_reanalyse_Buetti2019/recreate_log_normal_fig_4.p
-df  used on input line 203.
+df  used on input line 204.
 (pdftex.def)             Requested size: 338.0pt x 105.62413pt.
-<../wd_reanalyse_Buetti2019/exp1_fits.png, id=49, 3011.25pt x 1204.5pt>
+<../wd_reanalyse_Buetti2019/exp1_fits.png, id=39, 3011.25pt x 1204.5pt>
 File: ../wd_reanalyse_Buetti2019/exp1_fits.png Graphic file (type png)
 <use ../wd_reanalyse_Buetti2019/exp1_fits.png>
 Package pdftex.def Info: ../wd_reanalyse_Buetti2019/exp1_fits.png  used on inpu
-t line 218.
+t line 219.
 (pdftex.def)             Requested size: 338.0pt x 135.19714pt.
- [7 <../wd_reanalyse_Buetti2019/empirical_D_examples.png>]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [8 <../wd_reanalyse_Buetti2019/recreate_normal_fig_4.pdf> <../wd_reanalyse_Bue
-tti2019/recreate_log_normal_fig_4.pdf> <../wd_reanalyse_Buetti2019/exp1_fits.pn
-g>]
-Underfull \hbox (badness 10000) in paragraph at lines 237--238
-
- []
-
-
+[6] [7 <../wd_reanalyse_Buetti2019/empirical_D_examples.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 238--239
 
  []
 
-
+[8 <../wd_reanalyse_Buetti2019/recreate_normal_fig_4.pdf> <../wd_reanalyse_Buet
+ti2019/recreate_log_normal_fig_4.pdf> <../wd_reanalyse_Buetti2019/exp1_fits.png
+>]
 Underfull \hbox (badness 10000) in paragraph at lines 239--240
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 240--241
 
  []
 
@@ -456,13 +445,13 @@ LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
- 2798 strings out of 492973
- 39519 string characters out of 3127135
+ 2793 strings out of 492973
+ 39340 string characters out of 3127135
  106942 words of memory out of 3000000
- 6602 multiletter control sequences out of 15000+200000
+ 6598 multiletter control sequences out of 15000+200000
  38142 words of font info for 79 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,8n,25p,1326b,312s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,8n,25p,1326b,308s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}
 <C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
 /cmex10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
@@ -475,9 +464,9 @@ Data/Local/Programs/MiKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/Anna/A
 ppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Ann
 a/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Users/
 Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on app_vs.pdf (11 pages, 1234710 bytes).
+Output written on app_vs.pdf (11 pages, 1229258 bytes).
 PDF statistics:
- 119 PDF objects out of 1000 (max. 8388607)
+ 113 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 31 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 
