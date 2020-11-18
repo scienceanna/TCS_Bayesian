@@ -37,8 +37,8 @@ m <- brm(
   family = inverse.gaussian(),
    prior = myp,
   chains = 1,
-  sample_prior = "only",
-  iter = 5000
+  # sample_prior = "only",
+  iter = 2000
 )
 
 
@@ -57,4 +57,4 @@ d_plt %>%
 d_hdci %>% mean_hdci(.width = c(0.53, 0.97)) -> d_hdci
 
 
-plot_ribbon_quantiles(d_hdci, d_plt, c(-1, 10), 1)
+plot_ribbon_quantiles(d_hdci, d_plt, c(-1, 10), 1, plot_type = "fitted")

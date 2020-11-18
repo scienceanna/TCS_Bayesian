@@ -390,10 +390,12 @@ plot_Dp_lines <- function(Dp_lines) {
     mean_hdci(Dp, De) %>%
     ggplot() +
     geom_abline(linetype = 2, colour = "cyan") +
-    geom_point(aes(x = Dp, y = De), color = "yellow1") +
-    geom_smooth(aes(x = Dp, y = De), se=  FALSE, colour = "red", method = "lm") +
+    # geom_point(aes(x = Dp, y = De), color = "yellow1") +
+    geom_linerange(aes(x = Dp, ymin = De.lower, ymax = De.upper), color = "yellow1") +
+    geom_linerange(aes(y = De, xmin = Dp.lower, xmax = Dp.upper), color = "yellow1") +
     facet_wrap(~method, nrow = 1) +
-    geom_ribbon(data = Dp_lines, aes(x = x,  ymin = .lower, ymax=  .upper), alpha = 0.5, fill = "palevioletred1")
+    geom_ribbon(data = Dp_lines, aes(x = x,  ymin = .lower, ymax=  .upper), alpha = 0.5, fill = "palevioletred1") + 
+    coord_fixed()
   
   
 }

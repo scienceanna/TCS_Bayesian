@@ -393,9 +393,6 @@ ggsave("../plots/buetti2019_bayesian_fits.pdf", width = 8, height = 3)
 
 ```{r predict-D-2, fig.cap = "Estimating D."}
 
-# log normal model
-
-
 Dp_samples <- bind_rows(
   get_Dp_samples(2, d, slopes1, slopes2),
   get_Dp_samples(4, d, slopes3, slopes4))
