@@ -229,7 +229,7 @@ if (FALSE)
 
 Calculate model weights to decide on best model...
 
-<<<<<<< Updated upstream
+
 ```{r model-weights, cache = TRUE}
  # loo_m_exp1_nrl <- loo(m_exp1_nrl)
  # loo_m_exp1_log <- loo(m_exp1_log, moment_match = TRUE)
