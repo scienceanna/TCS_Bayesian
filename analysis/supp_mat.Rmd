@@ -230,8 +230,8 @@ if (FALSE)
 Calculate model weights to decide on best model...
 
 ```{r model-weights}
- loo_m_exp1_nrl <- loo(m_exp1_nrl)
- loo_m_exp1_log <- loo(m_exp1_log)
+ # loo_m_exp1_nrl <- loo(m_exp1_nrl)
+ # loo_m_exp1_log <- loo(m_exp1_log)
 # 
 # model_weights(m_exp1_nrl, m_exp1_log)
 ```
@@ -251,9 +251,9 @@ rm(plt_nrl, plt_log, plt_sft)
 
 ```{r plt-post-re, fig.height=16, fig.cap="Posterior predictions for reaction time and log(N+1)."}
 
-plt_nrl <- plot_model_fits_rt(1, m_exp1_nrl, plot_type = "predicted", y_limits = c(0, 4))
-plt_log <- plot_model_fits_rt(1, m_exp1_log, plot_type = "predicted", y_limits = c(0, 4))
-plt_sft <- plot_model_fits_rt(1, m_exp1_sft, plot_type = "predicted", y_limits = c(0, 4))
+plt_nrl <- plot_model_fits_rt(1, m_exp1_nrl, plot_type = "predicted", y_limits = c(0, 2.5))
+plt_log <- plot_model_fits_rt(1, m_exp1_log, plot_type = "predicted", y_limits = c(0, 2.5))
+plt_sft <- plot_model_fits_rt(1, m_exp1_sft, plot_type = "predicted", y_limits = c(0, 2.5))
 
 plt_nrl / plt_log / plt_sft
 
@@ -387,7 +387,7 @@ Dp_samples2 <- get_Dp_samples(2, d, slopes1, slopes2)
 slopes4 <- extract_fixed_slopes_from_model(m_exp4_nrl)
 Dp_samples4 <- get_Dp_samples(4, d, slopes3, slopes4)
 
-rm(slopes1, slopes2)
+# rm(slopes1, slopes2)
 
 bind_rows(Dp_samples2, Dp_samples4) %>% 
   group_by(exp_id, d_feature, method) %>%
@@ -473,7 +473,7 @@ m_prt <-  run_model(model_params, ppc = "only")
 Note, this plot is for how we expect the average person to perform in experiment 2. 
 
 ```{r plot-exp2-predictions, fig.height = 8, fig.cap="reaction time predictions."}
-plot_model_fits_rt(2, m_prt, y_limits = c(0, 2.5), n_row = 3, plot_type = "fitted")
+plot_model_fits_rt(2, m_prt, y_limits = c(0, 1.25), n_row = 3, plot_type = "fitted")
 ```
 
 Attempting plots for unknown participant! 
@@ -496,29 +496,29 @@ What do the results look like if:
 # rename participants to pretend that we have a between subjects measure!
 
 ```{r}
-rank_order_people <- function(e_id) {
-  
-  shuffle_noise = 0.025
-  
-   d %>% filter(exp_id == e_id) %>%
-    group_by(p_id) %>%
-    summarise(m_rt = median(rt), .groups = 'drop') %>%
-    mutate(m_rt = m_rt + rnorm(20, 0, shuffle_noise)) %>%
-    arrange(m_rt) %>%
-    mutate(ps_id = 1:20) %>%
-    select(-m_rt) -> d_out
-  
-  return(d_out)
-}
-
-
-dr <- map_dfr(unique(d$exp_id), rank_order_people) 
-
-d <- left_join(d,dr)
-
-d %>% group_by(p_id, exp_id) %>% summarise(m_rt = median(rt)) %>% 
-  pivot_wider(names_from = "exp_id", values_from = "m_rt") %>%
-  ggplot(aes(x = `1a`, y = `1b`)) + geom_point()
+# rank_order_people <- function(e_id) {
+#   
+#   shuffle_noise = 0.025
+#   
+#    d %>% filter(exp_id == e_id) %>%
+#     group_by(p_id) %>%
+#     summarise(m_rt = median(rt), .groups = 'drop') %>%
+#     mutate(m_rt = m_rt + rnorm(20, 0, shuffle_noise)) %>%
+#     arrange(m_rt) %>%
+#     mutate(ps_id = 1:20) %>%
+#     select(-m_rt) -> d_out
+#   
+#   return(d_out)
+# }
+# 
+# 
+# dr <- map_dfr(unique(d$exp_id), rank_order_people) 
+# 
+# d <- left_join(d,dr)
+# 
+# d %>% group_by(p_id, exp_id) %>% summarise(m_rt = median(rt)) %>% 
+#   pivot_wider(names_from = "exp_id", values_from = "m_rt") %>%
+#   ggplot(aes(x = `1a`, y = `1b`)) + geom_point()
 
 ```
 

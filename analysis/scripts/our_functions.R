@@ -106,7 +106,7 @@ run_model <- function(my_inputs, ppc) {
   
 }
   
-plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0, 2.5), n_row = 2, feature2plot = 'all') {
+plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0, 1.25), n_row = 2, feature2plot = 'all') {
   
   # plot search slopes for experiment e_id
   
@@ -150,24 +150,37 @@ plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0,
     d_plt %>% 
       modelr::data_grid(N_T = seq(0,36,4), d_feature) %>%
       add_fitted_draws(m, re_formula = NA, scale = "response", n = 1000) -> d_hdci
+    
+    # we will plot these against the mean mean rt
+    
+    d_plt %>% group_by(N_T, d_feature, p_id) %>%
+      summarise(mean_rt = mean(rt), .groups = "drop") %>%
+      group_by(N_T, d_feature) %>%
+      summarise(mean_rt = mean(mean_rt), .groups = "drop") -> d_plt
   }
 
   # calc 53% and 97% intervals for the model
   d_hdci %>% mean_hdci(.width = c(0.53, 0.97)) -> d_hdci
   
-  plt <- plot_ribbon_quantiles(d_hdci, d_plt, y_limits, n_row)
+  plt <- plot_ribbon_quantiles(d_hdci, d_plt, y_limits, n_row, plot_type)
   
   return(plt)
   
 }
 
-plot_ribbon_quantiles <- function(d_hdci, d_plt, y_limits, n_row)
+plot_ribbon_quantiles <- function(d_hdci, d_plt, y_limits, n_row, plot_type)
 {
 
+  if(plot_type == "fitted") {
+        my_dots <- geom_point(data = d_plt, aes(y = mean_rt), alpha = 0.75, color = "yellow1")
+  } else {
+    my_dots <- stat_dots(data = d_plt, aes(y = rt), alpha = 0.75,  quantiles = 100, color = "yellow1")
+}
+  
   d_hdci %>% 
     ggplot(aes(x = N_T)) + 
     geom_ribbon(aes( ymin = .lower, ymax = .upper, group = .width),  alpha = 0.5, fill = "palevioletred1") +
-    stat_dots(data = d_plt, aes(y = rt), alpha = 0.75,  quantiles = 100, color = "yellow1") +
+    my_dots + 
     geom_hline(yintercept = 0, colour = "white") + 
     facet_wrap( ~ d_feature, nrow = n_row) + 
     # scale_fill_brewer(palette = "Greys") + 
