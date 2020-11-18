@@ -99,7 +99,7 @@ run_model <- function(my_inputs, ppc) {
     sample_prior = ppc,
     iter = n_itr,
     stanvars = my_inputs$my_stanvar,
-    save_pars = save_pars(all=TRUE)
+    # save_pars = save_pars(all=TRUE)
     )
 
   return(m)
@@ -190,14 +190,6 @@ plot_ribbon_quantiles <- function(d_hdci, d_plt, y_limits, n_row, plot_type)
   return(plt)
   
 }
-    #   data = d_plt, 
-    #   aes(y = rt), 
-    #   alpha = 0.25, colour = "darkred") + 
-    # + 
-    # scale_fill_brewer(palette = "Greys") + 
-    # scale_colour_manual(values = c("orange1", "cornflowerblue", "yellow3")) -> plt #+
-    #scale_y_log10("reaction time") -> pltcoord_cartesian(ylim = c(-10, 10)) 
-  
 
 
 extract_fixed_slopes_from_model <- function(m) {
@@ -399,6 +391,7 @@ plot_Dp_lines <- function(Dp_lines) {
     ggplot() +
     geom_abline(linetype = 2, colour = "cyan") +
     geom_point(aes(x = Dp, y = De), color = "yellow1") +
+    geom_smooth(aes(x = Dp, y = De), se=  FALSE, colour = "red", method = "lm") +
     facet_wrap(~method, nrow = 1) +
     geom_ribbon(data = Dp_lines, aes(x = x,  ymin = .lower, ymax=  .upper), alpha = 0.5, fill = "palevioletred1")
   

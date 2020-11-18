@@ -229,14 +229,14 @@ if (FALSE)
 
 Calculate model weights to decide on best model...
 
-```{r model-weights}
- loo_m_exp1_nrl <- loo(m_exp1_nrl)
- loo_m_exp1_log <- loo(m_exp1_log, moment_match = TRUE)
- saveRDS(loo_m_exp1_nrl, "models/loo_m_exp1_nrl.rds")
- saveRDS(loo_m_exp1_log, "models/loo_m_exp1_log.rds")
- 
- loo_list <- list(loo_m_exp1_nrl, loo_m_exp1_log)
- loo_model_weights(loo_list)
+
+```{r model-weights, cache = TRUE}
+ # loo_m_exp1_nrl <- loo(m_exp1_nrl)
+ # loo_m_exp1_log <- loo(m_exp1_log, moment_match = TRUE)
+ # 
+ # loo_list <- list(loo_m_exp1_nrl, loo_m_exp1_log)
+ # loo_model_weights(loo_list)
+
 ```
 
 The plots before show our estimates for average participant to lie. The regions illustrate the distribution of reaction times estimated by our model. 
@@ -421,6 +421,8 @@ Residual variance looks similar, although exp2 is lower that exp 1.
 VarCorr(m_exp1_log)$residual$sd
 VarCorr(m_exp2_log)$residual$sd
 ```
+
+
 
 Seems legit for now to model Exp2 using the variances from Exp1 :)
 
