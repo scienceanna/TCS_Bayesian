@@ -98,8 +98,8 @@ run_model <- function(my_inputs, ppc) {
     chains = n_chains,
     sample_prior = ppc,
     iter = n_itr,
-    stanvars = my_inputs$my_stanvar
-    # save_pars = save_pars(all=TRUE)
+    stanvars = my_inputs$my_stanvar,
+    save_pars = save_pars(all=TRUE)
     )
 
   return(m)
