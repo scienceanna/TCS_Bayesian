@@ -360,6 +360,51 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary) {
   
 }
 
+
+lm_D <- function(df) {
+  
+  my_lm = lm(De ~ 0 + Dp:method, df)
+  
+  return(tibble(method = levels(df$method), 
+                slope = summary(my_lm)$coefficients[,1]))
+  
+}
+
+
+get_Dp_lines <- function(Dp_s) {
+  
+  Dp_s %>% 
+    group_split(iter) %>%
+    map_dfr(lm_D) %>%
+    group_by(method) %>%
+    mean_hdci(.width = 0.97) %>%
+    mutate(method = as_factor(method),
+           method = fct_relevel(method, "mean_method", after = Inf)) %>%
+    select(method, .lower, slope, .upper) -> Dp_lines
+  
+  return(Dp_lines)
+  
+}
+
+plot_Dp_lines <- function(Dp_lines) {
+  
+  x_range = 0.12
+  bind_rows(Dp_lines %>% mutate(x = 0, .lower = 0, .upper = 0),
+            Dp_lines %>% mutate(x = x_range, .lower = x * .lower, .upper = x * .upper)) -> Dp_lines
+  
+  
+  Dp_samples %>%
+    group_by(exp_id, d_feature, method) %>%
+    mean_hdci(Dp, De) %>%
+    ggplot() +
+    geom_abline(linetype = 2, colour = "cyan") +
+    geom_point(aes(x = Dp, y = De), color = "yellow1") +
+    facet_wrap(~method, nrow = 1) +
+    geom_ribbon(data = Dp_lines, aes(x = x,  ymin = .lower, ymax=  .upper), alpha = 0.5, fill = "palevioletred1")
+  
+  
+}
+
 # compute_dist <- function(feat, m_family, N_T) {
 #   
 #   
