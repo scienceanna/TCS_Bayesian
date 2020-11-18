@@ -282,7 +282,11 @@ get_Dp_samples <- function(e_id, d, Dx, De) {
     pivot_longer(
       cols = c(best_feature, orthog_contrast, collinear, mean_method),
       values_to = "Dp",
-      names_to = "method")
+      names_to = "method") %>%
+    mutate(
+      method = as_factor(method),
+      method = fct_relevel(method, "mean_method", after = Inf)
+    )
   
   return(Dp) 
 }

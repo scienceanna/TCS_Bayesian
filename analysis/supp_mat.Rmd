@@ -392,18 +392,21 @@ lm_D <- function(df) {
   
   my_lm = lm(De ~ 0 + Dp:method, df)
   
-  return(tibble(method = unique(df$method), 
+  return(tibble(method = levels(df$method), 
                 slope = summary(my_lm)$coefficients[,1]))
   
 }
 
-
 bind_rows(Dp_samples2, Dp_samples4) %>% 
-  group_by(iter) -> Dp_samples
+  group_split(iter) %>%
+  map_dfr(lm_D) %>%
+  group_by(method) %>%
+  mean_hdci(.width = 0.97) %>%
+  mutate(method = as_factor(method),
+         method = fct_relevel(method, "mean_method", after = Inf)) -> Dp
 
 
-group_map(Dp_samples, ~ lm_D) -> a
-
+knitr::kable(Dp)
 
 rm(
   slopes1, slopes2, slopes3, slopes4, 
