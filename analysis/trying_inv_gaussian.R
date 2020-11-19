@@ -26,10 +26,10 @@ d <- filter(d, exp_id == "1b")
 # 
 # 
  myp <- c(
-   prior_string("normal(-0.04, 0.01)", class = "b"),
-   prior_string("normal(2.5, 0.1)", class = "b", coef = "d_featurecircle"),
-   prior_string("normal(2.5, 0.1)", class = "b", coef = "d_featurediamond"),
-   prior_string("normal(2.5, 0.1)", class = "b", coef = "d_featuretriangle"),
+   prior_string("normal(-5, 1)", class = "b"),
+   prior_string("normal(2.5, 1)", class = "b", coef = "d_featurecircle"),
+   prior_string("normal(2.5, 1)", class = "b", coef = "d_featurediamond"),
+   prior_string("normal(2.5, 1)", class = "b", coef = "d_featuretriangle"),
    prior_string("gamma(5, 1)", class = "shape"))
 
 m <- brm(
@@ -39,7 +39,8 @@ m <- brm(
    prior = myp,
   chains = 1,
   sample_prior = "only",
-  iter = 5000
+  iter = 5000,
+  control =list(adapt_delta = 0.95)
 )
 
 
@@ -54,9 +55,11 @@ d %>%
 # for the average participant
 d_plt %>% 
   modelr::data_grid(N_T = seq(0,36,4), d_feature) %>%
-  add_fitted_draws(m, re_formula = NA, scale = "response", n = 100) -> d_hdci
+  add_predicted_draws(m, re_formula = NA, scale = "response", n = 1000) %>%
+  filter(is.finite(.prediction)) -> d_hdci
 
 d_hdci %>% mean_hdci(.width = c(0.53, 0.97)) -> d_hdci
 
 
 plot_ribbon_quantiles(d_hdci, d_plt, c(-1, 10), 1, plot_type = "predicted")
+
