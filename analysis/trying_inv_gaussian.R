@@ -23,6 +23,10 @@ d <- d %>%
 
 d <- filter(d, exp_id == "1b")
 
+d <- account_for_zero_distracters(d)
+
+d <- filter(d, d_feature != "orange", d_feature != "yellow", d_feature != "blue")
+
 # 
 # 
  myp <- c(
