@@ -93,9 +93,21 @@ We first run a replication of \cite{buetti2019predicting}, in an online, within-
 \section{A multi-level Bayesian reanalysis}
 \label{sec:reanalysis}
 
-We first describe the original analysis methods, and then our modifications. 
+We first describe the original analysis methods (and verify that we can replciate the original analysis - see supp. mat.) and then our modifications. 
 
 \subsection{TCS modelling overview} 
+
+\subsubsection{Calculating $D_j$: the logarithmic slope parameter}
+
+The TCS model is built around a log-linear model for reaction times:
+
+\begin{equation}
+\hat{RT} = D\log(N_T) + c
+\end{equation}
+
+\subsubsection{Calculating $D$ for multiple features}
+
+\subsubsection{Estimating mean Reaction Times}
 
 According to TCS, Equation \ref{eq:buetti2019} allows us to predict mean reaction times:
 
