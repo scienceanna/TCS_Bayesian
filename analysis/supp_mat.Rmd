@@ -36,8 +36,8 @@ source("scripts/reimplementation.R")
 source("scripts/our_functions.R")
 
 # used previously ran models, or refit. 
-refit_models = FALSE
-refit_priors = FALSE
+#refit_models = FALSE
+#refit_priors = FALSE
 ```
 
 ## Importing
@@ -150,26 +150,10 @@ Now that we have verified that we can re-create the original results, we switch 
 We can take the prior model, and then use it to compute our prior predictions!
 
 ```{r glmm-prior-sample}
-if (refit_priors) {
-  
-  mdl_inputs_nrl <- set_up_model(1, "normal")
-  prior_model_nrl <- run_model(mdl_inputs_nrl, ppc = "only")
-  saveRDS(prior_model_nrl, "models/prior_nrl.models")
-  
-  mdl_inputs_log <- set_up_model(1, "lognormal")
-  prior_model_log <- run_model(mdl_inputs_log, ppc = "only")
-  saveRDS(prior_model_log, "models/prior_log.models")
-  
-  mdl_inputs_sft <- set_up_model(1, "shifted_lognormal")
-  prior_model_sft <- run_model(mdl_inputs_sft, ppc = "only")
-  saveRDS(prior_model_sft, "models/prior_sft.models")
-  
-} else {
-  
+
   prior_model_nrl <- readRDS("models/prior_nrl.models")
   prior_model_log <- readRDS("models/prior_log.models")
   prior_model_sft <- readRDS("models/prior_sft.models")
-}
 
 ```
 
@@ -193,30 +177,9 @@ rm(
 
 ```{r glmm-compute-post-1}
 
-if (FALSE)
-{
-  mdl_inputs_nrl <- set_up_model(1, "normal")
-  m_exp1_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
-  saveRDS(m_exp1_nrl, "models/exp_1_nrl.models")
-  rm(mdl_inputs_nrl)
-  
-  mdl_inputs_log <- set_up_model(1, "lognormal")
-  m_exp1_log <- run_model(mdl_inputs_log, ppc = "no")
-  saveRDS(m_exp1_log, "models/exp_1_log.models")
-  rm(mdl_inputs_log)
-  
-  mdl_inputs_sft <- set_up_model(1, "shifted_lognormal")
-  m_exp1_sft <- run_model(mdl_inputs_sft, ppc = "no")
-  saveRDS(m_exp1_sft, "models/exp_1_sft.models")
-  rm(mdl_inputs_sft)
-  
-} else {
-  
-  m_exp1_nrl <- readRDS("models/exp_1_nrl.models")
-  m_exp1_log <- readRDS("models/exp_1_log.models")
-  m_exp1_sft <- readRDS("models/exp_1_sft.models")
-  
-}
+m_exp1_nrl <- readRDS("models/exp_1_nrl.models")
+m_exp1_log <- readRDS("models/exp_1_log.models")
+m_exp1_sft <- readRDS("models/exp_1_sft.models")
 
 ```
 
@@ -224,20 +187,12 @@ Calculate model weights to decide on best model...
 
 
 ```{r model-weights, cache = TRUE}
- # loo_m_exp1_nrl <- loo(m_exp1_nrl)
- # loo_m_exp1_log <- loo(m_exp1_log, moment_match = TRUE)
- # saveRDS(loo_m_exp1_nrl, "models/loo_m_exp1_nrl.rds")
- # saveRDS(loo_m_exp1_log, "models/loo_m_exp1_log.rds")
- # 
- # loo_list <- list(loo_m_exp1_nrl, loo_m_exp1_log)
- # loo_model_weights(loo_list)
 
+loo_m_exp1_nrl <- readRDS("models/loo_m_exp1_nrl.rds")
+loo_m_exp1_log <- readRDS("models/loo_m_exp1_log.rds")
 
- # loo_m_exp1_nrl <- loo(m_exp1_nrl)
- # loo_m_exp1_log <- loo(m_exp1_log, moment_match = TRUE)
- # 
- # loo_list <- list(loo_m_exp1_nrl, loo_m_exp1_log)
- # loo_model_weights(loo_list)
+loo_list <- list(loo_m_exp1_nrl, loo_m_exp1_log)
+loo_model_weights(loo_list)
 
 ```
 
@@ -271,91 +226,16 @@ Now that we have decided what the best distribution to use is, we will fit the m
 
 ```{r glmm-compute-post-234}
 
-if (refit_models)
-{
-  
-  # Experiment 2
-  
-  mdl_inputs_nrl <- set_up_model(2, "normal")
-  m_exp2_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
-  #save
-  saveRDS(m_exp2_nrl, "models/exp_2_nrl.models")
-  #tidy
-  rm(mdl_inputs_nrl)
-  
-   mdl_inputs_log <- set_up_model(2, "lognormal")
-   m_exp2_log <- run_model(mdl_inputs_log, ppc = "no")
-   # save
-   saveRDS(m_exp2_log, "models/exp_2_log.models")
-    #tidy
-   rm(mdl_inputs_log)
-    
-  # mdl_inputs_sft <- set_up_model(2, "shifted_lognormal")
-  # m_exp2_sft <- run_model(mdl_inputs_sft, ppc = "no")
-  # # save
-  # saveRDS(m_exp2_sft, "models/exp_2_sft.models")
-  # #tidy
-  # rm(mdl_inputs_sft)
-  
-  # Experiment 3
-  
-  mdl_inputs_nrl <- set_up_model(3, "normal")
-  m_exp3_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
-  #save
-  saveRDS(m_exp3_nrl, "models/exp_3_nrl.models")
-  #tidy
-  rm(mdl_inputs_nrl)
-  
-  mdl_inputs_log <- set_up_model(3, "lognormal")
-  m_exp3_log <- run_model(mdl_inputs_log, ppc = "no")
-  # save
-  saveRDS(m_exp3_log, "models/exp_3_log.models")
-   #tidy
-  rm(mdl_inputs_log)
-   
-  #mdl_inputs_sft <- set_up_model(3, "shifted_lognormal")
-  #m_exp3_sft <- run_model(mdl_inputs_sft, ppc = "no")
-  # save
-  #saveRDS(m_exp3_sft, "models/exp_3_sft.models")
-  #tidy
-  #rm(mdl_inputs_sft)
-  
-  # Experiment 4
-  
-  mdl_inputs_nrl <- set_up_model(4, "normal")
-  m_exp4_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
-  #save
-  saveRDS(m_exp4_nrl, "models/exp_4_nrl.models")
-  #tidy
-  rm(mdl_inputs_nrl)
-  
-  mdl_inputs_log <- set_up_model(4, "lognormal")
-  m_exp4_log <- run_model(mdl_inputs_log, ppc = "no")
-  # save
-  saveRDS(m_exp4_log, "models/exp_4_log.models")
-   #tidy
-  rm(mdl_inputs_log)
-   
-  #mdl_inputs_sft <- set_up_model(4, "shifted_lognormal")
-  #m_exp4_sft <- run_model(mdl_inputs_sft, ppc = "no")
-  # save
-  #saveRDS(m_exp4_sft, "models/exp_4_sft.models")
-  #tidy
-  #rm(mdl_inputs_sft)
+m_exp2_nrl <- readRDS("models/exp_2_nrl.models")
+m_exp2_log <- readRDS("models/exp_2_log.models")
+#m_exp2_sft <- readRDS("models/exp_2_sft.models")
+m_exp3_nrl <- readRDS("models/exp_3_nrl.models")
+m_exp3_log <- readRDS("models/exp_3_log.models")
+#m_exp3_sft <- readRDS("models/exp_3_sft.models")
+m_exp4_nrl <- readRDS("models/exp_4_nrl.models")
+m_exp4_log <- readRDS("models/exp_4_log.models")
+#m_exp4_sft <- readRDS("models/exp_4_sft.models")
 
-
-} else {
-
-  m_exp2_nrl <- readRDS("models/exp_2_nrl.models")
-  m_exp2_log <- readRDS("models/exp_2_log.models")
-  #m_exp2_sft <- readRDS("models/exp_2_sft.models")
-  m_exp3_nrl <- readRDS("models/exp_3_nrl.models")
-  m_exp3_log <- readRDS("models/exp_3_log.models")
-  #m_exp3_sft <- readRDS("models/exp_3_sft.models")
-  m_exp4_nrl <- readRDS("models/exp_4_nrl.models")
-  m_exp4_log <- readRDS("models/exp_4_log.models")
-  #m_exp4_sft <- readRDS("models/exp_4_sft.models")
-}
 ```
 
 ### Use these models to compute $D$
