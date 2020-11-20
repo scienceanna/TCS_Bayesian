@@ -10,8 +10,8 @@ source("scripts/reimplementation.R")
 source("scripts/import_and_tidy.R")
 
 
-d <- filter(d, id == 1)
-d <- account_for_zero_distracters(d)
+d <- filter(d, exp_id == 1)
+
 
 
 #list of variables/coefs that we want to define priors for:
@@ -20,18 +20,18 @@ intercepts <- gsub("[[:space:]]", "", intercepts)
 slopes <- paste("d_feature", levels(d$d_feature), ":logN_TP1", sep = "")
 slopes <- gsub("[[:space:]]", "", slopes)
 #
- myp <- c(
-   prior_string("normal(2.5, 1)", class = "b", coef = intercepts),
+myp <- c(
+   prior_string("normal(-1.5, 1)", class = "b", coef = intercepts),
    prior_string("normal(0, 1)", class = "b", coef = slopes),
-   prior_string("gamma(80, 10)", class = "shape"))
+   prior_string("cauchy(0, 1)", class = "sigma"))
 
 m <- brm(
  bf(
    rt ~ 0 + d_feature + d_feature:log(N_T+1) + (1|p_id), 
    ndt ~ 1),
-  data = sample_frac(d,0.1),
+  data = sample_frac(d,0.05),
   family = shifted_lognormal(),
-  # prior = myp,
+  prior = myp,
   chains = 1,
   # sample_prior = "only",
   iter = 5000,

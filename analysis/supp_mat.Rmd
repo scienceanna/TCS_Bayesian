@@ -67,7 +67,7 @@ Before doing anything else (i.e., new), we want to confirm that we can replicate
 Calculate $D_e$ for each condition in each experiment. 
 
 ```{r}
-De <- map_dfr(unique(d$exp_id), calc_D_per_feature, d)
+De <- map_dfr(unique(d$exp_id), calc_D_per_feature)
 ```
 
 ## Predicing $D$
