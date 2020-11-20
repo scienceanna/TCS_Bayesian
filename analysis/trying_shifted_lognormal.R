@@ -10,11 +10,9 @@ source("scripts/reimplementation.R")
 source("scripts/import_and_tidy.R")
 
 
-
 d <- filter(d, id == 1)
 d <- account_for_zero_distracters(d)
 
-# d <- filter(d, d_feature != "orange", d_feature != "yellow", d_feature != "blue")
 
 #list of variables/coefs that we want to define priors for:
 intercepts <- paste("d_feature", levels(d$d_feature), sep = "")
@@ -28,9 +26,9 @@ slopes <- gsub("[[:space:]]", "", slopes)
    prior_string("gamma(80, 10)", class = "shape"))
 
 m <- brm(
-    rt ~ 0 + d_feature + d_feature:log(N_T+1) , 
+  rt ~ 0 + d_feature + d_feature:log(N_T+1) , 
   data = d,
-  family = inverse.gaussian(),
+  family = shifted_lognormal(),
   # prior = myp,
   chains = 1,
   # sample_prior = "only",
