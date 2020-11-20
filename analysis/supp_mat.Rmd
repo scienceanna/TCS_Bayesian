@@ -45,6 +45,11 @@ refit_priors = FALSE
 We will import all experiments. While we're at it, we will remove error trials and very very short responses.
 
 *What about very very long RTs? I'm not sure if there is a good reason to, or obvious cut off? Unlike for short Rts, in which values == 0 are mathematically impossible, and values <10ms are implausible. 
+
+We'll make a few minor changes to the data:
+  - Switch from ms to seconds
+  - Recode Experiment 1a and 1b to Experiment 1, Experiment 2a, 2b and 2c to Experiment 2, etc.
+  
   
 ```{r import-data}
 source("scripts/import_and_tidy.R")
@@ -75,7 +80,7 @@ De <- map_dfr(unique(d$exp_id), calc_D_per_feature)
 We can now predict values of $D$ for all experiments 2x and 4x. 
 
 ```{r}
-Dp <- map_df(c("2a", "2b", "2c", "4a", "4b", "4c"), gen_exp_predictions, De)
+Dp <- map_df(c(2,4), gen_exp_predictions, De)
 ```
  
 Now, recreate the scatter plots from Buetti et al (2019), Figure 4.
@@ -91,7 +96,7 @@ left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
   geom_point( color = "yellow1") + 
   geom_abline(linetype = 2) +
   geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
-  coord_cartesian(xlim = c(0, 80), ylim = c(0, 80)) + 
+  # coord_cartesian(xlim = c(0, 80), ylim = c(0, 80)) + 
   facet_wrap(~ method) + 
   scale_x_continuous("predicted D") + 
   scale_y_continuous("empirical D")
@@ -104,7 +109,7 @@ $L$ indicates the number of distractor types present in the display, $N_T$ is th
 The constant a represents the reaction time when the target is alone in the display. Inter-item interactions were indexed by the multiplicative factor $\beta$. Finally, the index function $1_{[2, \infty)} (j)$ indicates that the sum over Ni only applies when there are at least two different types of lures in the display $(j > 1)$. When $j = 1$, the second sum is zero.
 
 ```{r pred-rt-replication, fig.width = 4, fig.cap="Computational Replication of RT predictions."}
-exps2predict = c("2a", "2b", "2c", "4a", "4b", "4c")
+exps2predict = c(2, 4)
 
 rt_pred <- map_dfr(exps2predict, predict_rt)
 
@@ -123,7 +128,8 @@ d %>% filter(exp_id %in% exps2predict) %>%
 ```
 ```{r tidy-up}
 # remove variables we no longer need
-rm(De, Dp, rt_pred, exps2predict)
+rm(De, Dp, rt_pred, exps2predict, 
+   calc_D_per_feature, extract_a_value, predict_D_overall, gen_exp_predictions, extract_D, predict_rt)
 ```
 
 # Switching to a Bayesian Multi-Level Framework
@@ -134,17 +140,9 @@ Now that we have verified that we can re-create the original results, we switch 
   - Use a lognormal distribution for modelling reaction times, This allows us to avoid ever predicing impossible negative reaction times. It also helps us to account for the skew in the distribution
   - We will switch from using milli-seconds to seconds. This leaves us with most values around 0.5-1seconds, which will help model fitting. I.e., a more standardised scale. 
   
-```{r}
-d %>% mutate(exp_id = id) -> d
 
-```
-  
 ## Measuring $D$ from Empirical Data
 
-We'll make a few minor changes to the data:
-  - Switch from ms to seconds
-  - Recode Experiment 1a and 1b to Experiment 1, Experiment 2a, 2b and 2c to Experiment 2, etc.
-  
 
 
 ### Prior Predictions
@@ -436,7 +434,7 @@ Seems legit for now to model Exp2 using the variances from Exp1 :)
 # brms model as a prior, and then use that to simulate new trials.  
 
 # first, summarise our Dp samples to give mu and sigma.
- Dp_samples2 %>%
+ Dp_samples %>%
    group_by(exp_id, d_feature, method) %>%
   summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop")-> Dp_summary
 
@@ -444,7 +442,7 @@ Seems legit for now to model Exp2 using the variances from Exp1 :)
 meth = "orthog_contrast"
 
 model_params <- set_up_predict_model(2, "lognormal", meth, Dp_summary)
-m_prt <-  run_model(model_params, ppc = "only")
+m_prt <- run_model(model_params, ppc = "only")
 
 ```
 
@@ -504,45 +502,45 @@ What do the results look like if:
 
 
 ```{r, fig.height = 10}
-summary(d)
-
-d %>% group_by(p_id, d_feature, N_T) %>%
-  slice_sample(n = 6) -> dss
-
-d <- dss
-
-summary(d)
-
-mdl_inputs_log <- set_up_model(1, "lognormal")
-power_mdl1_log <- run_model(mdl_inputs_log, ppc = "no")
-
-md_inputs_log <- set_up_model(2, "lognormal")
-power_mdl2_log <- run_model(mdl_inputs_log, ppc = "no")
-
-mdl_inputs_log <- set_up_model(3, "lognormal")
-power_mdl3_log <- run_model(mdl_inputs_log, ppc = "no")
-
-mdl_inputs_log <- set_up_model(4, "lognormal")
-power_mdl4_log <- run_model(mdl_inputs_log, ppc = "no")
+# summary(d)
+# 
+# d %>% group_by(p_id, d_feature, N_T) %>%
+#   slice_sample(n = 6) -> dss
+# 
+# d <- dss
+# 
+# summary(d)
+# 
+# mdl_inputs_log <- set_up_model(1, "lognormal")
+# power_mdl1_log <- run_model(mdl_inputs_log, ppc = "no")
+# 
+# md_inputs_log <- set_up_model(2, "lognormal")
+# power_mdl2_log <- run_model(mdl_inputs_log, ppc = "no")
+# 
+# mdl_inputs_log <- set_up_model(3, "lognormal")
+# power_mdl3_log <- run_model(mdl_inputs_log, ppc = "no")
+# 
+# mdl_inputs_log <- set_up_model(4, "lognormal")
+# power_mdl4_log <- run_model(mdl_inputs_log, ppc = "no")
 ```
 
 
 ```{r}
 
-plot_model_fits_rt(1, power_mdl1_log, plot_type = "fitted")
+# plot_model_fits_rt(1, power_mdl1_log, plot_type = "fitted")
 ```
 
 
 ```{r compute-D-1-power, fig.cap="Posterior estimates for $D$."}
-slopes1 <- extract_fixed_slopes_from_model(power_mdl1_log)
-slopes3 <- extract_fixed_slopes_from_model(power_mdl3_log)
-
-bind_rows(
-  slopes1 %>% mutate(exp = "Experiment1"),
-  slopes3 %>% mutate(exp = "Experiment 3")) %>%
-  ggplot(aes(x= D, fill = d_feature)) + 
-  geom_density(alpha = 0.5) +
-  facet_wrap(~exp, nrow = 2)
+# slopes1 <- extract_fixed_slopes_from_model(power_mdl1_log)
+# slopes3 <- extract_fixed_slopes_from_model(power_mdl3_log)
+# 
+# bind_rows(
+#   slopes1 %>% mutate(exp = "Experiment1"),
+#   slopes3 %>% mutate(exp = "Experiment 3")) %>%
+#   ggplot(aes(x= D, fill = d_feature)) + 
+#   geom_density(alpha = 0.5) +
+#   facet_wrap(~exp, nrow = 2)
   
 ```
 
@@ -552,21 +550,21 @@ bind_rows(
 ### $D$ for compound feature distractors
 
 ```{r predict-D-2-power}
-slopes2 <- extract_fixed_slopes_from_model(m_exp2_log)
-slopes4 <- extract_fixed_slopes_from_model(m_exp4_log)
-
-
-Dp_samples <- bind_rows(
-  get_Dp_samples(2, d, slopes1, slopes2),
-  get_Dp_samples(4, d, slopes3, slopes4))
-
-Dp_lines <- get_Dp_lines(Dp_samples)
-knitr::kable(Dp_lines, digits = 2)
-plot_Dp_lines(Dp_lines)
-
-ggsave("../plots/recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
-
-rm(slopes1, slopes2)
+# slopes2 <- extract_fixed_slopes_from_model(m_exp2_log)
+# slopes4 <- extract_fixed_slopes_from_model(m_exp4_log)
+# 
+# 
+# Dp_samples <- bind_rows(
+#   get_Dp_samples(2, d, slopes1, slopes2),
+#   get_Dp_samples(4, d, slopes3, slopes4))
+# 
+# Dp_lines <- get_Dp_lines(Dp_samples)
+# knitr::kable(Dp_lines, digits = 2)
+# plot_Dp_lines(Dp_lines)
+# 
+# ggsave("../plots/recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
+# 
+# rm(slopes1, slopes2)
 
 
 ```

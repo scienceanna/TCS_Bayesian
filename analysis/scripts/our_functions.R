@@ -17,9 +17,6 @@ set_up_model <- function(experiment, fam = "lognormal") {
       d_feature = fct_drop(d_feature),
       p_id = fct_drop(p_id)) -> df
   
-  # Anna..... 
-  df <- account_for_zero_distracters(df)
-  
   # define model formula:
   if (fam == "shifted_lognormal") {
   my_f <- bf(rt ~ 0 + d_feature + log(N_T+1):d_feature + (1|p_id),
@@ -79,9 +76,17 @@ run_model <- function(my_inputs, ppc) {
   # ppc = 'TRUE' to only to carry out a prior predictive check
   
   # set number of chains and iterations per chain:
-  n_chains = 2
-  n_itr = 5000
-  
+  if (ppc == "only") {
+    
+    n_chains = 1
+    n_itr = 1000
+    
+  } else {
+    
+    n_chains = 2
+    n_itr = 5000
+    
+  }
   # if we are only sampling from the prior, we will use a small subset of the data
   # this is done to optimistically make things go faster!
   if (ppc == 'only') {
@@ -149,7 +154,7 @@ plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0,
     # for the average participant
     d_plt %>% 
       modelr::data_grid(N_T = seq(0,36,4), d_feature) %>%
-      add_fitted_draws(m, re_formula = NA, scale = "response", n = 1000) -> d_hdci
+      add_fitted_draws(m, re_formula = NA, scale = "response", n = 500) -> d_hdci
     
     # we will plot these against the mean mean rt
     
@@ -296,7 +301,7 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary) {
       d_feature = fct_drop(d_feature),
       p_id = fct_drop(p_id)) -> df
   
-  df <- account_for_zero_distracters(df)
+
   
   # define model formula:
   my_f <- rt ~  0 + d_feature + log(N_T+1):d_feature + (1|p_id)

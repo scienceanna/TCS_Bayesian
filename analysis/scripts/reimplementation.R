@@ -43,20 +43,20 @@ predict_D_overall <- function(f, D)
     "collinear" = D_collinear))
 }
 
-gen_exp_predictions <- function(e_id, De) 
+gen_exp_predictions <- function(experiment, De) 
 {
   # Predict values of D for composite features
   
-  df <- filter(d, exp_id == e_id) %>%
+  df <- filter(d, exp_id == experiment) %>%
     mutate(d_feature = fct_drop(d_feature))
   
-  e_n = parse_number(e_id)
-  D <- filter(De, parse_number(exp_id) == e_n - 1)
+
+  D <- filter(De, exp_id == experiment - 1)
   
   d_out <- tibble(
-    exp_id = e_id,
-    d_feature = levels(df$d_feature)[2:4], 
-    map_dfr(levels(df$d_feature)[2:4], predict_D_overall, D))
+    exp_id = experiment,
+    d_feature = levels(df$d_feature), 
+    map_dfr(levels(df$d_feature), predict_D_overall, D))
   
   return(d_out)
 }
