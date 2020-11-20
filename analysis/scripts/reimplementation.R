@@ -1,32 +1,16 @@
 # These functions are for the direct computational replication
 
-account_for_zero_distracters <- function(df)
-{
-  # Little helper function to sort out the quirk with N_T = 0
-  # i.e, in this case, d_feature is undefined
-  # So, well, copy this row three times - once for each value of d_feature
-  bind_rows(
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[2]),
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[3]),
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[4]),
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[5]),
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[6]),
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[7]),
-    filter(df, N_T>0)) %>%
-    mutate(d_feature = as_factor(d_feature)) -> df
-  
-  return(df)
-}
 
-calc_D_per_feature <- function(experiment, df) {
+
+calc_D_per_feature <- function(experiment) {
   
-  df %>%
+  d %>%
     filter(exp_id == experiment) %>%
     group_by(exp_id, p_id, d_feature, N_T) %>%
     summarise(mean_rt = mean(rt), .groups = "drop") %>%
     mutate(d_feature = fct_drop(d_feature)) -> df
   
-  df <- account_for_zero_distracters(df)
+  n_feat <- length(levels(df$d_feature))
   
   m <- lm(mean_rt ~  0 + d_feature + log(N_T+1):d_feature, df)
   coef_tab <- summary(m)$coefficients
@@ -34,7 +18,7 @@ calc_D_per_feature <- function(experiment, df) {
   d_out <- tibble(
     exp_id = experiment,
     d_feature = levels(df$d_feature),
-    D = c(coef_tab[4:6,1]))
+    D = c(coef_tab[(n_feat+1):(2*n_feat),1]))
   
   return(d_out)
 }

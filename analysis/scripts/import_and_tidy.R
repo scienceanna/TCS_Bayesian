@@ -59,3 +59,33 @@ print(dim(d))
 d <- d %>%
   filter(error == 0) %>%
   filter(rt > quantile(d$rt, 0.005), rt < quantile(d$rt, 0.995))  
+
+
+
+account_for_zero_distracters <- function(experiment)
+{
+  # Little helper function to sort out the quirk with N_T = 0
+  # i.e, in this case, d_feature is undefined
+  # So, well, copy this row three times - once for each value of d_feature
+  
+  d %>% filter(exp_id == experiment) %>%
+    mutate(d_feature = fct_drop(d_feature)) -> df
+  
+  bind_rows(
+    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[2]),
+    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[3]),
+    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[4]),
+    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[5]),
+    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[6]),
+    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[7]),
+    filter(df, N_T>0)) %>%
+    mutate(d_feature = as_factor(d_feature)) -> df
+  
+  return(df)
+}
+
+
+d <- map_dfr(1:4, account_for_zero_distracters)
+
+rm(account_for_zero_distracters, import_experiment)
+
