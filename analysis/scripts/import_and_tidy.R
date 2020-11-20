@@ -51,10 +51,11 @@ d <- bind_rows(d)
 # convert from ms to seconds
 d %>% mutate(
   rt = rt/1000,
-id = parse_number(exp_id)) -> d
+exp_id = parse_number(exp_id)) -> d
+
 
 # remove error trials and very very short responses
 print(dim(d))
 d <- d %>%
-  filter(error == 0) %T>% {print(dim(.))} %>%
-  filter(rt > quantile(d$rt, 0.005), rt < quantile(d$rt, 0.995))  %T>% {print(dim(.))}
+  filter(error == 0) %>%
+  filter(rt > quantile(d$rt, 0.005), rt < quantile(d$rt, 0.995))  
