@@ -35,17 +35,17 @@ rm(
 
 mdl_inputs_nrl <- set_up_model(1, "normal")
 m_exp1_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
-saveRDS(m_exp1_nrl, "models/exp_1_nrl.models") #ESS too low
+saveRDS(m_exp1_nrl, "models/exp_1_nrl.models") 
 
 mdl_inputs_log <- set_up_model(1, "lognormal")
-m_exp1_log <- run_model(mdl_inputs_log, ppc = "no") #ESS too low
+m_exp1_log <- run_model(mdl_inputs_log, ppc = "no") 
 saveRDS(m_exp1_log, "models/exp_1_log.models")
 
 #### Calculating model weights to decide on best model ####
 
-loo_m_exp1_nrl <- loo(m_exp1_nrl)
+loo_m_exp1_nrl <- loo(m_exp1_nrl, nsamples=4500)
 saveRDS(loo_m_exp1_nrl, "models/loo_m_exp1_nrl.rds")
-loo_m_exp1_log <- loo(m_exp1_log, moment_match = TRUE)
+loo_m_exp1_log <- loo(m_exp1_log, nsamples=4500, moment_match = TRUE)
 saveRDS(loo_m_exp1_log, "models/loo_m_exp1_log.rds")
 
 loo_list <- list(loo_m_exp1_nrl, loo_m_exp1_log)

@@ -76,6 +76,7 @@ run_model <- function(my_inputs, ppc) {
   # ppc = 'TRUE' to only to carry out a prior predictive check
   
   # set number of chains and iterations per chain:
+
   if (ppc == "only") {
     
     n_chains = 1
@@ -83,10 +84,11 @@ run_model <- function(my_inputs, ppc) {
     
   } else {
     
-    n_chains = 2
+    n_chains = 4
     n_itr = 5000
     
   }
+
   # if we are only sampling from the prior, we will use a small subset of the data
   # this is done to optimistically make things go faster!
   if (ppc == 'only') {
