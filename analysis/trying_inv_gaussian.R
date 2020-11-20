@@ -6,45 +6,38 @@ library(magrittr)
 
 
 source("scripts/our_functions.R")
-
+source("scripts/reimplementation.R")
 source("scripts/import_and_tidy.R")
-# remove error trials and very very short responses
 
 
-d %>% mutate(
-  rt = rt/1000) -> d
 
-print(dim(d))
-d <- d %>%
-  filter(error == 0) %T>% {print(dim(.))} %>%
-  filter(
-    rt > quantile(rt, 0.005), 
-    rt < quantile(rt, 0.995))  %T>% {print(dim(.))}
-
-d <- filter(d, exp_id == "1b")
+d <- filter(d, id == 1)
 
 d <- account_for_zero_distracters(d)
 
 d <- filter(d, d_feature != "orange", d_feature != "yellow", d_feature != "blue")
 
-# 
-# 
+#list of variables/coefs that we want to define priors for:
+intercepts <- paste("d_feature", levels(d$d_feature), sep = "")
+intercepts <- gsub("[[:space:]]", "", intercepts)
+slopes <- paste("d_feature", levels(d$d_feature), ":logN_TP1", sep = "")
+slopes <- gsub("[[:space:]]", "", slopes)
+#
  myp <- c(
-   prior_string("normal(-5, 1)", class = "b"),
-   prior_string("normal(2.5, 1)", class = "b", coef = "d_featurecircle"),
-   prior_string("normal(2.5, 1)", class = "b", coef = "d_featurediamond"),
-   prior_string("normal(2.5, 1)", class = "b", coef = "d_featuretriangle"),
-   prior_string("gamma(5, 1)", class = "shape"))
+   prior_string("normal(2.5, 1)", class = "b", coef = intercepts),
+   prior_string("normal(-5, 1)", class = "b", coef = slopes),
+   prior_string("gamma(80, 10)", class = "shape"))
 
 m <- brm(
-    rt ~ 0 + d_feature + d_feature:N_T , 
+    rt ~ 0 + d_feature + d_feature:log(N_T+1), 
   data = d,
   family = inverse.gaussian(),
-   prior = myp,
+   # prior = myp,
   chains = 1,
-  sample_prior = "only",
+  # sample_prior = "only",
   iter = 5000,
-  control =list(adapt_delta = 0.95)
+  control =list(adapt_delta = 0.95),
+  seed = 2
 )
 
 
@@ -65,5 +58,5 @@ d_plt %>%
 d_hdci %>% mean_hdci(.width = c(0.53, 0.97)) -> d_hdci
 
 
-plot_ribbon_quantiles(d_hdci, d_plt, c(-1, 10), 1, plot_type = "predicted")
+plot_ribbon_quantiles(d_hdci, d_plt, c(-1, 2.5), 1, plot_type = "predicted")
 

@@ -46,3 +46,15 @@ d$e4b <- import_experiment(18, c(`orange circle` = "1", `yellow diamond` = "2", 
 d$e4c <- import_experiment(20, c(`blue diamond` = "1", `yellow circle` = "2", `orange semicircle` = "3"), 4, "c")
 
 d <- bind_rows(d)
+
+
+# convert from ms to seconds
+d %>% mutate(
+  rt = rt/1000,
+id = parse_number(exp_id)) -> d
+
+# remove error trials and very very short responses
+print(dim(d))
+d <- d %>%
+  filter(error == 0) %T>% {print(dim(.))} %>%
+  filter(rt > quantile(d$rt, 0.005), rt < quantile(d$rt, 0.995))  %T>% {print(dim(.))}

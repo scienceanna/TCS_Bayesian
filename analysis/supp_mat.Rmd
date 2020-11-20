@@ -48,12 +48,6 @@ We will import all experiments. While we're at it, we will remove error trials a
   
 ```{r import-data}
 source("scripts/import_and_tidy.R")
- # remove error trials and very very short responses
-
-print(dim(d))
-d <- d %>%
-  filter(error == 0) %T>% {print(dim(.))} %>%
-  filter(rt > 0.025)  %T>% {print(dim(.))}
 ```
 
 Do we want to register any other exclusion criteria? 
@@ -146,11 +140,7 @@ We'll make a few minor changes to the data:
   - Switch from ms to seconds
   - Recode Experiment 1a and 1b to Experiment 1, Experiment 2a, 2b and 2c to Experiment 2, etc.
   
-```{r}
-d %>% mutate(
-  rt = rt/1000,
-  exp_id = parse_number(exp_id)) -> d
-```
+
 
 ### Prior Predictions
 
