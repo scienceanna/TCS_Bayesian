@@ -9,8 +9,12 @@ source("scripts/our_functions.R")
 source("scripts/reimplementation.R")
 source("scripts/import_and_tidy.R")
 
+options(mc.cores = parallel::detectCores())
 
-d <- filter(d, exp_id == 1)
+
+d <- filter(d, exp_id == 1) %>%
+  mutate(d_feature = fct_drop(d_feature),
+         p_id = fct_drop(p_id))
 
 
 
@@ -23,18 +27,20 @@ slopes <- gsub("[[:space:]]", "", slopes)
 myp <- c(
    prior_string("normal(-1.5, 1)", class = "b", coef = intercepts),
    prior_string("normal(0, 1)", class = "b", coef = slopes),
-   prior_string("cauchy(0, 1)", class = "sigma"))
+   prior_string("cauchy(0, 0.1)", class = "sigma"),
+   prior_string("cauchy(0, 0.1)", class = "sd"),
+   prior_string("normal(-1, 0.1)", class = "Intercept", dpar = "ndt" ))
 
 m <- brm(
  bf(
    rt ~ 0 + d_feature + d_feature:log(N_T+1) + (1|p_id), 
    ndt ~ 1),
-  data = sample_frac(d,0.01),
   family = shifted_lognormal(),
-  prior = myp,
-  chains = 1,
+ data = d,
+  # prior = myp,
+  chains = 2,
   # sample_prior = "only",
-  iter = 5000,
+  iter = 2000,
   control =list(adapt_delta = 0.95)
 )
 
@@ -42,7 +48,6 @@ m <- brm(
 d %>%
   filter(N_T > 0) %>%
   mutate(
-    d_feature = fct_drop(d_feature),
     p_id = fct_drop(p_id)) %>%
   ungroup() -> d_plt
 
