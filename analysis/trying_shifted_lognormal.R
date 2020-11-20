@@ -29,7 +29,7 @@ m <- brm(
  bf(
    rt ~ 0 + d_feature + d_feature:log(N_T+1) + (1|p_id), 
    ndt ~ 1),
-  data = sample_frac(d,0.05),
+  data = sample_frac(d,0.01),
   family = shifted_lognormal(),
   prior = myp,
   chains = 1,
