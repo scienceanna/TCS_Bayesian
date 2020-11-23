@@ -58,7 +58,7 @@ exp_id = parse_number(exp_id)) -> d
 print(dim(d))
 d <- d %>%
   filter(error == 0) %>%
-  filter(rt > quantile(d$rt, 0.005), rt < quantile(d$rt, 0.995))  
+  filter(rt > quantile(d$rt, 0.01), rt < quantile(d$rt, 0.99))  
 
 
 

@@ -25,23 +25,23 @@ slopes <- paste("d_feature", levels(d$d_feature), ":logN_TP1", sep = "")
 slopes <- gsub("[[:space:]]", "", slopes)
 #
 myp <- c(
-   prior_string("normal(-1.5, 1)", class = "b", coef = intercepts),
-   prior_string("normal(0, 1)", class = "b", coef = slopes),
-   prior_string("cauchy(0, 0.1)", class = "sigma"),
-   prior_string("cauchy(0, 0.1)", class = "sd"),
-   prior_string("normal(-1, 0.1)", class = "Intercept", dpar = "ndt" ))
+   prior_string("normal(-1.4, 0.1)", class = "b", coef = intercepts),
+   prior_string("normal(0, 0.05)", class = "b", coef = slopes),
+   prior_string("normal(-1.3, 0.1)", class = "Intercept", dpar = "ndt" ),
+   prior_string("cauchy(0, 0.5)", class = "sigma"))
+  #prior_string("cauchy(0, 0.5)", class = "sd"),
 
 m <- brm(
  bf(
-   rt ~ 0 + d_feature + d_feature:log(N_T+1) + (1|p_id), 
+   rt ~ 0 + d_feature + d_feature:log(N_T+1) ,#+ (1|p_id), 
    ndt ~ 1),
   family = shifted_lognormal(),
- data = d,
-  # prior = myp,
+ data = sample_frac(d, 0.1),
+  prior = myp,
   chains = 2,
   # sample_prior = "only",
-  iter = 2000,
-  control =list(adapt_delta = 0.95)
+  iter = 3000,
+  control =list(adapt_delta = 0.9)
 )
 
 
@@ -50,6 +50,7 @@ d %>%
   mutate(
     p_id = fct_drop(p_id)) %>%
   ungroup() -> d_plt
+
 
 # no group-level effects are included, so we are plotting 
 # for the average participant
