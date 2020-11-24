@@ -11,11 +11,9 @@ source("scripts/import_and_tidy.R")
 
 options(mc.cores = parallel::detectCores())
 
-
 d <- filter(d, exp_id == 1) %>%
   mutate(d_feature = fct_drop(d_feature),
          p_id = fct_drop(p_id))
-
 
 
 #list of variables/coefs that we want to define priors for:
@@ -25,23 +23,26 @@ slopes <- paste("d_feature", levels(d$d_feature), ":logN_TP1", sep = "")
 slopes <- gsub("[[:space:]]", "", slopes)
 #
 myp <- c(
-   prior_string("normal(-1.4, 0.1)", class = "b", coef = intercepts),
-   prior_string("normal(0, 0.05)", class = "b", coef = slopes),
-   prior_string("normal(-1.3, 0.1)", class = "Intercept", dpar = "ndt" ),
-   prior_string("cauchy(0, 0.5)", class = "sigma"))
-  #prior_string("cauchy(0, 0.5)", class = "sd"),
+   prior_string("normal(-1.4, 0.2)", class = "b", coef = intercepts),
+   prior_string("normal(0, 0.2)", class = "b", coef = slopes),
+   prior_string("normal(-1, 0.5)", class = "Intercept", dpar = "ndt" ),
+   prior_string("cauchy(0, 0.4)", class = "sigma"),
+   prior_string("cauchy(0, 0.1)", class = "sd"),
+   prior_string("cauchy(0, 0.1)", class = "sd", dpar = "ndt"))
 
 m <- brm(
  bf(
-   rt ~ 0 + d_feature + d_feature:log(N_T+1) ,#+ (1|p_id), 
-   ndt ~ 1),
-  family = shifted_lognormal(),
- data = sample_frac(d, 0.1),
-  prior = myp,
-  chains = 2,
-  # sample_prior = "only",
-  iter = 3000,
-  control =list(adapt_delta = 0.9)
+   rt ~ 0 + d_feature + d_feature:log(N_T+1) + (1|p_id), 
+   ndt ~ 1 + (1|p_id)),
+ family = shifted_lognormal(),
+ data = sample_frac(d,0.1),
+ prior = myp,
+ chains = 1,
+ iter = 3000,
+ inits = function(){
+   list(b_ndt = array(-5))
+ },
+ control =list(adapt_delta = 0.9)
 )
 
 
@@ -62,7 +63,7 @@ d_plt %>%
 d_hdci %>% mean_hdci(.width = c(0.53, 0.97)) -> d_hdci
 
 
-plot_ribbon_quantiles(d_hdci, d_plt, c(-1, 2.5), 1, plot_type = "predicted")
+plot_ribbon_quantiles(d_hdci, d_plt, c(0, 2), 1, plot_type = "predicted")
 
 # 
 # 
