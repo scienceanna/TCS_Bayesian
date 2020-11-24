@@ -21,9 +21,13 @@ set_up_model <- function(experiment, fam = "lognormal") {
   if (fam == "shifted_lognormal") {
   my_f <- bf(rt ~ 0 + d_feature + log(N_T+1):d_feature + (1|p_id),
                 ndt ~ 1 + (1|p_id))
+  
+  my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
+  
   } else {
     
   my_f <- rt ~  0 + d_feature + log(N_T+1):d_feature + (1|p_id)
+  my_inits <- "random"
     
   }
   
@@ -60,7 +64,7 @@ set_up_model <- function(experiment, fam = "lognormal") {
       prior_string("cauchy(0, 0.1)", class = "sigma"))
   }
   
-  return(list(my_formula = my_f, my_prior = my_prior, df = df, my_dist = fam))
+  return(list(my_formula = my_f, my_inits = my_inits, my_prior = my_prior, df = df, my_dist = fam))
    
 }
 
@@ -99,7 +103,6 @@ run_model <- function(my_inputs, ppc) {
   }
   
   # now run model
-  # need to add inits for the sft model here somehow
   m <- brm(
     my_inputs$my_f, data = my_inputs$df,
     family = brmsfamily(my_inputs$my_dist),
@@ -107,6 +110,7 @@ run_model <- function(my_inputs, ppc) {
     chains = n_chains,
     sample_prior = ppc,
     iter = n_itr,
+    inits = my_inputs$my_inits,
     stanvars = my_inputs$my_stanvar,
     save_pars = save_pars(all=TRUE)
     )
