@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This experiment was created using PsychoPy3 Experiment Builder (v2020.2.4),
-    on November 19, 2020, at 16:01
+This experiment was created using PsychoPy3 Experiment Builder (v2020.2.8),
+    on November 24, 2020, at 15:49
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -35,10 +35,10 @@ _thisDir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(_thisDir)
 
 # Store info about the experiment session
-psychopyVersion = '2020.2.4'
+psychopyVersion = '2020.2.8'
 expName = 'searchDisc3'  # from the Builder filename that created this script
 expInfo = {'participant': '', 'session': '001'}
-dlg = gui.DlgFromDict(dictionary=expInfo, sort_keys=False, title=expName)
+dlg = gui.DlgFromDict(dictionary=expInfo, sortKeys=False, title=expName)
 if dlg.OK == False:
     core.quit()  # user pressed cancel
 expInfo['date'] = data.getDateStr()  # add a simple timestamp
@@ -61,7 +61,7 @@ logging.console.setLevel(logging.WARNING)  # this outputs to the screen, not a f
 endExpNow = False  # flag for 'escape' or other condition => quit the exp
 frameTolerance = 0.001  # how close to onset before 'same' frame
 
-# Start Code - component code to be run before the window creation
+# Start Code - component code to be run after the window creation
 
 # Setup the Window
 win = visual.Window(
@@ -166,9 +166,10 @@ key_resp_2 = keyboard.Keyboard()
 
 # Initialize components for Routine "break_2"
 break_2Clock = core.Clock()
-#msg variable just needs some value at start
 msg='doh'
-trialCounter=0;
+trialCounter=0
+accuracySum=0
+totRT=0
 breakMessage = visual.TextStim(win=win, name='breakMessage',
     text='default text',
     font='Arial',
@@ -542,13 +543,18 @@ for thisTrial_2 in trials_2:
     continueRoutine = True
     routineTimer.add(1.000000)
     # update component parameters for each repeat
-    if trials_2.thisTrialN == 0 or trials_2.thisTrialN % 19 != 0:
-        continueRoutine = False
-        
+    if key_resp_4.corr:
+        msg = "Correct!"
+    else:
+        msg = "Oops, incorrect"
     
-    nCorr = trials_2.data['key_resp_4.corr'].sum() #.std(), .mean() also available
-    meanRt = trials_2.data['key_resp_4.rt'].mean()
-    msg = "You have completed 20 practice trials. You got %i trials correct (rt=%.2f). Press space bar to continue to main experiment." %(nCorr+1,meanRt)
+    #if trials_2.thisTrialN == 0 or trials_2.thisTrialN % 19 != 0:
+    #    continueRoutine = False
+    
+    
+    #nCorr = trials_2.data['key_resp_4.corr'].sum() #.std(), .mean() also available
+    #meanRt = trials_2.data['key_resp_4.rt'].mean()
+    #msg = "You have completed 20 practice trials. You got %i trials correct (rt=%.2f). Press space bar to continue to main experiment." %(nCorr+1,meanRt)
     text_4.setText(msg)
     # keep track of which components have finished
     practiceFeedbackComponents = [text_4]
@@ -872,13 +878,20 @@ for thisTrial in trials:
     # ------Prepare to start Routine "break_2"-------
     continueRoutine = True
     # update component parameters for each repeat
-    if trials.thisTrialN == 0 or trials.thisTrialN % 20 != 0:
-        continueRoutine = False
-    trialCounter=trialCounter+1;  
+    trialCounter = trialCounter + 1
     
-    nCorr = trials.data['key_resp_2.corr'].sum() #.std(), .mean() also available
-    meanRt = trials.data['key_resp_2.rt'].mean()
-    msg = "You have completed %i out of 480 trials. You got %i trials correct (rt=%.2f). Press space bar to continue." %(trialCounter-1,nCorr,meanRt)
+    if key_resp_2.corr:
+        accuracySum = accuracySum + 1
+        totRT = totRT + key_resp_2.rt
+    
+    percentAccurate = accuracySum/trialCounter * 100
+    percentAccurate = round(percentAccurate, 3)
+    meanRT = totRT/trialCounter
+    meanRT = round(meanRT, 3)
+    
+    #msg = "You have completed " + trialCounter + " trials. You are " + percentAccurate + "% accurate so far, with an average reaction time of " + meanRT + "s. Press space bar to continue"
+    
+    msg = "You have completed %i out of 480 trials. You are %i %% accurate so far, with an average reaction time of %.2f sec. Press space bar to continue." %(trialCounter,percentAccurate,meanRT)
     breakMessage.setText(msg)
     key_resp.keys = []
     key_resp.rt = []
@@ -906,6 +919,11 @@ for thisTrial in trials:
         tThisFlipGlobal = win.getFutureFlipTime(clock=None)
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
         # update/draw components on each frame
+        if trialCounter != 60 and trialCounter != 120 and trialCounter !=180 and trialCounter !=240 and trialCounter !=300 and trialCounter !=360 and trialCounter !=420:
+            continueRoutine = False
+        
+            
+        
         
         # *breakMessage* updates
         if breakMessage.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
