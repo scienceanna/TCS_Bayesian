@@ -27,22 +27,19 @@ myp <- c(
    prior_string("normal(0, 0.2)", class = "b", coef = slopes),
    prior_string("normal(-1, 0.5)", class = "Intercept", dpar = "ndt" ),
    prior_string("cauchy(0, 0.4)", class = "sigma"),
-   prior_string("cauchy(0, 0.1)", class = "sd"),
-   prior_string("cauchy(0, 0.1)", class = "sd", dpar = "ndt"))
+   prior_string("cauchy(0, 0.05)", class = "sd"),
+   prior_string("cauchy(0, 0.05)", class = "sd", dpar = "ndt"))
 
 m <- brm(
- bf(
-   rt ~ 0 + d_feature + d_feature:log(N_T+1) + (1|p_id), 
-   ndt ~ 1 + (1|p_id)),
- family = shifted_lognormal(),
- data = sample_frac(d,0.1),
- prior = myp,
- chains = 1,
- iter = 3000,
- inits = function(){
-   list(b_ndt = array(-5))
- },
- control =list(adapt_delta = 0.9)
+   bf(
+      rt ~ 0 + d_feature + d_feature:log(N_T+1) + (1|p_id), 
+      ndt ~ 1 + (1|p_id)),
+   family = shifted_lognormal(),
+   data = d,
+   prior = myp,
+   chains = 4,
+   iter = 5000,
+   inits = list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
 )
 
 
@@ -65,6 +62,8 @@ d_hdci %>% mean_hdci(.width = c(0.53, 0.97)) -> d_hdci
 
 plot_ribbon_quantiles(d_hdci, d_plt, c(0, 2), 1, plot_type = "predicted")
 
+
+loo_m_exp1_sft <- loo(m, nsamples=4500)
 # 
 # 
 # Links: mu = identity; sigma = identity; ndt = log 
