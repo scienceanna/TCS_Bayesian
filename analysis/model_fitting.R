@@ -27,9 +27,14 @@ mdl_inputs_log <- set_up_model(1, "lognormal")
 prior_model_log <- run_model(mdl_inputs_log, ppc = "only")
 saveRDS(prior_model_log, "models/prior_log.models")
 
+mdl_inputs_sft <- set_up_model(1, "shifted_lognormal")
+prior_model_sft <- run_model(mdl_inputs_sft, ppc = "only")
+saveRDS(prior_model_sft, "models/prior_sft.models")
+
 rm(
   prior_model_nrl, 
-  prior_model_log)
+  prior_model_log,
+  prior_model_sft)
 
 #### Fit model for Expt 1 ####
 
@@ -40,6 +45,10 @@ saveRDS(m_exp1_nrl, "models/exp_1_nrl.models")
 mdl_inputs_log <- set_up_model(1, "lognormal")
 m_exp1_log <- run_model(mdl_inputs_log, ppc = "no") 
 saveRDS(m_exp1_log, "models/exp_1_log.models")
+
+mdl_inputs_sft <- set_up_model(1, "shifted_lognormal")
+m_exp1_sft <- run_model(mdl_inputs_sft, ppc = "no") 
+saveRDS(m_exp1_sft, "models/exp_1_sft.models")
 
 #### Calculating model weights to decide on best model ####
 

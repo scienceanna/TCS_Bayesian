@@ -30,7 +30,6 @@ set_up_model <- function(experiment, fam = "lognormal") {
   #list of variables/coefs that we want to define priors for:
   intercepts <- paste("d_feature", levels(df$d_feature), sep = "")
   intercepts <- gsub("[[:space:]]", "", intercepts)
-  
   slopes <- paste("d_feature", levels(df$d_feature), ":logN_TP1", sep = "")
   slopes <- gsub("[[:space:]]", "", slopes)
   
@@ -45,10 +44,12 @@ set_up_model <- function(experiment, fam = "lognormal") {
   } else if(fam == "shifted_lognormal") {
     
     my_prior <- c(
-      prior_string("normal(-0.5, 0.4)", class = "b", coef = intercepts),
-      prior_string("normal(0, 0.3)", class = "b", coef = slopes),
-      prior_string("cauchy(0, 0.1)", class = "sigma"),
-      prior_string("normal(-2,0.5)", class = "Intercept", dpar = "ndt"))
+      prior_string("normal(-1.4, 0.2)", class = "b", coef = intercepts),
+      prior_string("normal(0, 0.2)", class = "b", coef = slopes),
+      prior_string("normal(-1, 0.5)", class = "Intercept", dpar = "ndt" ),
+      prior_string("cauchy(0, 0.4)", class = "sigma"),
+      prior_string("cauchy(0, 0.05)", class = "sd"),
+      prior_string("cauchy(0, 0.05)", class = "sd", dpar = "ndt"))
     
   } else { 
     
@@ -98,6 +99,7 @@ run_model <- function(my_inputs, ppc) {
   }
   
   # now run model
+  # need to add inits for the sft model here somehow
   m <- brm(
     my_inputs$my_f, data = my_inputs$df,
     family = brmsfamily(my_inputs$my_dist),
@@ -106,7 +108,7 @@ run_model <- function(my_inputs, ppc) {
     sample_prior = ppc,
     iter = n_itr,
     stanvars = my_inputs$my_stanvar,
-    # save_pars = save_pars(all=TRUE)
+    save_pars = save_pars(all=TRUE)
     )
 
   return(m)
