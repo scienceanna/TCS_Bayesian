@@ -84,8 +84,8 @@ run_model <- function(my_inputs, ppc) {
 
   if (ppc == "only") {
     
-    n_chains = 1
-    n_itr = 1000
+    n_chains = 4
+    n_itr = 5000
     
   } else {
     
@@ -365,7 +365,7 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary, one_
     prior(normal(sigma_mean, sigma_sd), class = "sigma"),
     prior(normal(sd_mean, sd_sd), class = "sd"),
     prior_string(paste("normal(",ndt_Int, ", ", ndt_Int_sd, ")"), class = "Intercept", dpar = "ndt" ),
-    prior(normal(sd_ndt_mean, sd_ndt_sd), class = "sd", dpar = "ndt")
+    prior_string(paste("normal(",sd_ndt_mean,",", sd_ndt_sd,")"), class = "sd", dpar = "ndt")
     )
    
   stanvars <- stanvar(sigma_mean, name='sigma_mean') + 
