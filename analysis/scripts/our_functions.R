@@ -358,7 +358,6 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary, one_
   ndt_Int <- fixef(m_exp1_sft)[1,1]
   ndt_Int_sd <- fixef(m_exp1_sft)[1,2]
   
-  
   my_prior <-  c(
     prior_string(paste("normal(", model_sum[1:length(intercepts),1], ",",  model_sum[1:length(intercepts),2], ")", sep = ""), class = "b", coef = intercepts),
     prior_string(paste("normal(", Dp_summary$mu, ",",  Dp_summary$sigma, ")", sep = ""), class = "b", coef = slopes),
@@ -422,5 +421,17 @@ plot_Dp_lines <- function(Dp_lines) {
     geom_ribbon(data = Dp_lines, aes(x = x,  ymin = .lower, ymax=  .upper), alpha = 0.5, fill = "palevioletred1") + 
     coord_fixed()
   
+}
+
+rank_order_people <- function(e_id, shuffle_noise = 0.025) {
   
+  d %>% filter(exp_id == e_id) %>%
+    group_by(p_id) %>%
+    summarise(m_rt = median(rt), .groups = 'drop') %>%
+    mutate(m_rt = m_rt + rnorm(20, 0, shuffle_noise)) %>%
+    arrange(m_rt) %>%
+    mutate(ps_id = 1:20) %>%
+    select(-m_rt) -> d_out
+  
+  return(d_out)
 }
