@@ -93,17 +93,23 @@ We first run a replication of \cite{buetti2019predicting}, in an online, within-
 \section{The Target Contrast Model}
 \label{sec:reansalysis}
 
-We first describe the original analysis methods (and verify that we can replicate the original analysis - see Supplementary Materials) and then our modifications. 
+We first describe the original Target Contrast Model (and verify that we can replicate the original analysis - see Supplementary Materials). This is followed by our proposed extension.
 
 \subsection{TCS modelling overview} 
 
 \subsubsection{Calculating $D_j$: the logarithmic slope parameter}
+
+
+<outline exp 1 here... search for a target that differs from distracters with a single feature> 
+
 
 The TCS model is built around a log-linear model for reaction times:
 
 \begin{equation}
 \hat{RT} = D\log(N_T) + c
 \end{equation}
+
+I.e., reaction times increase lienarly with $\log(N_T)$, and the error distribution is assumed to be normal. 
 
 \subsubsection{Calculating $D$ for multiple features}
 

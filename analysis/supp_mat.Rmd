@@ -144,7 +144,6 @@ Now that we have verified that we can re-create the original results, we switch 
 ## Measuring $D$ from Empirical Data
 
 
-
 ### Prior Predictions
 
 We can take the prior model, and then use it to compute our prior predictions!
@@ -257,8 +256,6 @@ bind_rows(
   geom_density(alpha = 0.5) +
   facet_wrap(~exp, nrow = 2)
   
-
-ggsave("../plots/buetti2019_bayesian_fits.pdf", width = 8, height = 3)
 ```
 
 ## Estimating model parameters
@@ -267,9 +264,12 @@ ggsave("../plots/buetti2019_bayesian_fits.pdf", width = 8, height = 3)
 
 ```{r predict-D-2, fig.cap = "Estimating D."}
 
-Dp_samples <- bind_rows(
-  get_Dp_samples(2, d, slopes1, slopes2),
-  get_Dp_samples(4, d, slopes3, slopes4))
+# Dp_samples <- bind_rows(
+#   get_Dp_samples(2, d, slopes1, slopes2),
+#   get_Dp_samples(4, d, slopes3, slopes4))
+
+ Dp_samples <-  get_Dp_samples(2, d, slopes1, slopes2)
+
 
 Dp_lines <- get_Dp_lines(Dp_samples)
 knitr::kable(Dp_lines, digits = 2)
@@ -301,7 +301,6 @@ Residual variance looks similar, although exp2 is lower that exp 1.
 VarCorr(m_exp1_log)$residual$sd
 VarCorr(m_exp2_log)$residual$sd
 ```
-
 
 
 Seems legit for now to model Exp2 using the variances from Exp1 :)
