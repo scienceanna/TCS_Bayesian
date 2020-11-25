@@ -321,7 +321,7 @@ Seems legit for now to model Exp2 using the variances from Exp1 :)
 # now define and run new model! 
 meth = "orthog_contrast"
 
-model_params <- set_up_predict_model(2, "shifted_lognormal", meth, Dp_summary)
+model_params <- set_up_predict_model(2, "shifted_lognormal", meth, Dp_summary, m_exp1_sft)
 m_prt <- run_model(model_params, ppc = "only")
 
 ```

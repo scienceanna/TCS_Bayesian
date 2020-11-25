@@ -297,7 +297,7 @@ get_Dp_samples <- function(e_id, d, Dx, De) {
 }
 
 
-set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary) {
+set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary, one_feature_model, two_feature_model) {
   
   # this function get's everything ready for running our model
   # this is the prediction version of the set_up_model() function at the top of the script
@@ -309,11 +309,19 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary) {
       d_feature = fct_drop(d_feature),
       p_id = fct_drop(p_id)) -> df
   
-
-  
   # define model formula:
-  my_f <- rt ~  0 + d_feature + log(N_T+1):d_feature + (1|p_id)
-  my_inits <- "random"
+  if (fam == "shifted_lognormal") {
+    my_f <- bf(rt ~ 0 + d_feature + log(N_T+1):d_feature + (1|p_id),
+               ndt ~ 1 + (1|p_id))
+    
+    my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
+    
+  } else {
+    
+    my_f <- rt ~  0 + d_feature + log(N_T+1):d_feature + (1|p_id)
+    my_inits <- "random"
+    
+  }
   
   Dp_summary <- filter(Dp_summary, 
                        method == meth, exp_id == e_id)
@@ -327,40 +335,43 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary) {
     mutate(
       d_feature = fct_drop(d_feature),
       d_feature = as.factor(as.character(d_feature))) -> df
-  
-  
-  if(e_id == 2) {
-    m <- m_exp2_log
-  } else {
-    m <- m_exp4_log}
-  
+
+
   intercepts <- paste("d_feature", unique(df$d_feature), sep = "")
   intercepts <- gsub("[[:space:]]", "", intercepts)
   
   slopes <- paste("d_feature", unique(df$d_feature), ":logN_TP1", sep = "")
   slopes <- gsub("[[:space:]]", "", slopes)
   
-  model_sum <- round(summary(m)$fixed, 3)
+  model_sum <- round(summary(two_feature_model)$fixed, 3)
   
   
   sigma_mean <-  VarCorr(m_exp1_log)$residual$sd[1]
   sigma_sd   <-  VarCorr(m_exp1_log)$residual$sd[2]
   
-  sd_mean <- VarCorr(m_exp1_log)$p_id$sd[1]
-  sd_sd <- VarCorr(m_exp1_log)$p_id$sd[2]
+  sd_mean <- VarCorr(one_feature_model)$p_id$sd[1,1]
+  sd_sd <- VarCorr(one_feature_model)$p_id$sd[1,2]
+  
+  sd_ndt_mean <- VarCorr(one_feature_model)$p_id$sd[2,1]
+  sd_ndt_sd <- VarCorr(one_feature_model)$p_id$sd[2,2]
+  
+  ndt_Int <- fixef(m_exp1_sft)[1,1]
+  ndt_Int_sd <- fixef(m_exp1_sft)[1,2]
+  
   
   my_prior <-  c(
     prior_string(paste("normal(", model_sum[1:length(intercepts),1], ",",  model_sum[1:length(intercepts),2], ")", sep = ""), class = "b", coef = intercepts),
     prior_string(paste("normal(", Dp_summary$mu, ",",  Dp_summary$sigma, ")", sep = ""), class = "b", coef = slopes),
     prior(normal(sigma_mean, sigma_sd), class = "sigma"),
-    prior(normal(sd_mean, sd_sd), class = "sd")
+    prior(normal(sd_mean, sd_sd), class = "sd"),
+    prior_string(paste("normal(",ndt_Int, ", ", ndt_Int_sd, ")"), class = "Intercept", dpar = "ndt" ),
+    prior(normal(sd_ndt_mean, sd_ndt_sd), class = "sd", dpar = "ndt")
     )
    
   stanvars <- stanvar(sigma_mean, name='sigma_mean') + 
     stanvar(sigma_sd, name='sigma_sd') + 
     stanvar(sd_mean, name='sd_mean') + 
     stanvar(sd_sd, name='sd_sd')
-  
   
   return(list(my_formula = my_f, my_inits = my_inits, my_prior = my_prior, df = df, my_dist = fam, my_stanvar = stanvars))
   
@@ -413,43 +424,3 @@ plot_Dp_lines <- function(Dp_lines) {
   
   
 }
-
-# compute_dist <- function(feat, m_family, N_T) {
-#   
-#   
-#   if (m_family == "normal") {
-#     ss <- samples_nrl
-#   } else {
-#     ss <- samples_idt
-#   }
-#   
-#   a <- ss[paste("b_d_feature", feat, sep = "")][[1]]
-#   D <- ss[paste("b_d_feature", feat, ":logN_TP1", sep = "")][[1]]
-#   sigma <-ss["sigma"][[1]]
-#   
-#   mu <- a + log(N_T+1)*D
-#   
-#   d_out <- tibble(distribution = as.character(), d_feature = as.character(), N_T = as.numeric(), iter = as.numeric(), rt = as.numeric(), p = as.numeric())
-#   
-#   rt = seq(0.01, 3, 0.01)
-#   
-#   for (ii in 1:10) {
-#     if (m_family == "normal") 
-#     {
-#       pred = dnorm(rt, mu[ii], sigma[ii])
-#     } else {
-#       pred =    dlnorm(rt, mu[ii], sigma[ii])
-#     }
-#     
-#     d_out %>% add_row(
-#       distribution = m_family,
-#       d_feature = feat,
-#       N_T = N_T,
-#       iter = ii,
-#       rt = rt,
-#       p = pred)-> d_out
-#   }
-#   
-#   return(d_out)
-#   
-# }
