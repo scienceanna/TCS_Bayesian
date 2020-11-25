@@ -112,7 +112,7 @@ run_model <- function(my_inputs, ppc) {
     iter = n_itr,
     inits = my_inputs$my_inits,
     stanvars = my_inputs$my_stanvar,
-    save_pars = save_pars(all=TRUE)
+    # save_pars = save_pars(all=TRUE)
     )
 
   return(m)
