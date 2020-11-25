@@ -337,10 +337,10 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary, one_
       d_feature = as.factor(as.character(d_feature))) -> df
 
 
-  intercepts <- paste("d_feature", unique(df$d_feature), sep = "")
+  intercepts <- paste("d_feature", unique(Dp_summary$d_feature), sep = "")
   intercepts <- gsub("[[:space:]]", "", intercepts)
   
-  slopes <- paste("d_feature", unique(df$d_feature), ":logN_TP1", sep = "")
+  slopes <- paste("d_feature", unique(Dp_summary$d_feature), ":logN_TP1", sep = "")
   slopes <- gsub("[[:space:]]", "", slopes)
   
   model_sum <- round(summary(two_feature_model)$fixed, 3)
