@@ -112,10 +112,13 @@ saveRDS(m_exp4_sft, "models/exp_4_sft.models")
 
 rm(m_exp2_nrl,
    m_exp2_log,
+   m_exp2_sft,
    m_exp3_nrl,
    m_exp3_log,
+   m_exp3_sft,
    m_exp4_nrl,
-   m_exp4_log)
+   m_exp4_log,
+   m_exp4_sft)
 
 
 

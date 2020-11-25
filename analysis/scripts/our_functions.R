@@ -313,6 +313,7 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary) {
   
   # define model formula:
   my_f <- rt ~  0 + d_feature + log(N_T+1):d_feature + (1|p_id)
+  my_inits <- "random"
   
   Dp_summary <- filter(Dp_summary, 
                        method == meth, exp_id == e_id)
@@ -361,7 +362,7 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary) {
     stanvar(sd_sd, name='sd_sd')
   
   
-  return(list(my_formula = my_f, my_prior = my_prior, df = df, my_dist = fam, my_stanvar = stanvars))
+  return(list(my_formula = my_f, my_inits = my_inits, my_prior = my_prior, df = df, my_dist = fam, my_stanvar = stanvars))
   
 }
 
