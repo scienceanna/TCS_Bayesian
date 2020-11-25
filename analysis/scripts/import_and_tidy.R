@@ -51,7 +51,7 @@ d <- bind_rows(d)
 # convert from ms to seconds
 d %>% mutate(
   rt = rt/1000,
-exp_id = parse_number(exp_id)) -> d
+  exp_id = parse_number(exp_id)) -> d
 
 
 # remove error trials and very very short responses
