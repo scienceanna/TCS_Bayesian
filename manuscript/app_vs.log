@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2019.10.9)  19 NOV 2020 10:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2019.10.9)  25 NOV 2020 11:19
 entering extended mode
 **./app_vs.tex
 (app_vs.tex
@@ -386,70 +386,83 @@ File: ../plots/example_stimuli_figure.pdf Graphic file (type pdf)
 Package pdftex.def Info: ../plots/example_stimuli_figure.pdf  used on input lin
 e 85.
 (pdftex.def)             Requested size: 338.0pt x 190.12512pt.
+
+LaTeX Warning: Reference `eq:loglin' on page 3 undefined on input line 102.
+
 [3] [4 <../plots/example_stimuli_figure.pdf>] [5]
 <../plots/buetti2019_bayesian_fits.pdf, id=35, 578.16pt x 216.81pt>
 File: ../plots/buetti2019_bayesian_fits.pdf Graphic file (type pdf)
 <use ../plots/buetti2019_bayesian_fits.pdf>
 Package pdftex.def Info: ../plots/buetti2019_bayesian_fits.pdf  used on input l
-ine 188.
+ine 191.
 (pdftex.def)             Requested size: 338.0pt x 126.74896pt.
  [6 <../plots/buetti2019_bayesian_fits.pdf>]
 <../plots/recreate_normal_fig_4.pdf, id=48, 578.16pt x 180.675pt>
 File: ../plots/recreate_normal_fig_4.pdf Graphic file (type pdf)
 <use ../plots/recreate_normal_fig_4.pdf>
 Package pdftex.def Info: ../plots/recreate_normal_fig_4.pdf  used on input line
- 206.
+ 209.
 (pdftex.def)             Requested size: 338.0pt x 105.62413pt.
 <../plots/recreate_log_normal_fig_4.pdf, id=49, 578.16pt x 180.675pt>
 File: ../plots/recreate_log_normal_fig_4.pdf Graphic file (type pdf)
 <use ../plots/recreate_log_normal_fig_4.pdf>
 Package pdftex.def Info: ../plots/recreate_log_normal_fig_4.pdf  used on input 
-line 207.
+line 210.
 (pdftex.def)             Requested size: 338.0pt x 105.62413pt.
 <../wd_reanalyse_Buetti2019/exp1_fits.png, id=50, 3011.25pt x 1204.5pt>
 File: ../wd_reanalyse_Buetti2019/exp1_fits.png Graphic file (type png)
 <use ../wd_reanalyse_Buetti2019/exp1_fits.png>
 Package pdftex.def Info: ../wd_reanalyse_Buetti2019/exp1_fits.png  used on inpu
-t line 224.
+t line 227.
 (pdftex.def)             Requested size: 338.0pt x 135.19714pt.
  [7 <../plots/recreate_normal_fig_4.pdf> <../plots/recreate_log_normal_fig_4.pd
 f>]
-Underfull \hbox (badness 10000) in paragraph at lines 243--244
+Underfull \hbox (badness 10000) in paragraph at lines 246--247
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 244--245
+Underfull \hbox (badness 10000) in paragraph at lines 247--248
+
+ []
+
+[8 <../wd_reanalyse_Buetti2019/exp1_fits.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 248--249
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 245--246
+LaTeX Warning: Reference `sec:reanalysis' on page 9 undefined on input line 267
+.
 
- []
+[9] (app_vs.bbl [10]) [11] (app_vs.aux)
 
-[8 <../wd_reanalyse_Buetti2019/exp1_fits.png>] [9] (app_vs.bbl [10]) [11]
-(app_vs.aux) ) 
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
- 2790 strings out of 492973
- 39126 string characters out of 3127135
+ 2792 strings out of 492973
+ 39154 string characters out of 3127135
  106934 words of memory out of 3000000
- 6596 multiletter control sequences out of 15000+200000
+ 6598 multiletter control sequences out of 15000+200000
  37974 words of font info for 78 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,8n,25p,1326b,308s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/
-base/8r.enc}<C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmex10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/
-type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTe
-X 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Anna/AppData/Local/Pro
-grams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Anna/AppDa
-ta/Local/Programs/MiKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/Anna/App
-Data/Local/Programs/MiKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/Anna/A
-ppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Ann
-a/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Users/
-Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on app_vs.pdf (11 pages, 977914 bytes).
+{C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}
+<C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
+/cmex10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
+/amsfonts/cm/cmmi10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/
+type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX
+ 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Anna/AppData/Local/Pro
+grams/MiKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/Anna/AppData/Local/P
+rograms/MiKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/Anna/AppData/Local
+/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Anna/AppData/Lo
+cal/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Users/Anna/AppData
+/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
+Output written on app_vs.pdf (11 pages, 977774 bytes).
 PDF statistics:
  119 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
