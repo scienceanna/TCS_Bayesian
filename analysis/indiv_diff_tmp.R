@@ -1,3 +1,4 @@
+library(tidyverse)
 # rename participants to pretend that we have a between subjects measure!
 
 rank_order_people <- function(e_id) {
@@ -15,6 +16,11 @@ rank_order_people <- function(e_id) {
   return(d_out)
 }
 
+source("scripts/import_and_tidy.R")
+
+d %>% 
+  select(-exp_id) %>% 
+  separate(p_id, c("exp_id", "p_id"), "-") -> d
 
 dr <- map_dfr(unique(d$exp_id), rank_order_people) 
 
