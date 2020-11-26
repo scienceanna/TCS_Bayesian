@@ -100,7 +100,7 @@ We first describe the original Target Contrast Model (and verify that we can rep
 
 In Experiment 1a of \cite{buetti2019predicting}, participants searched for a cyan semicircle target among blue, yellow or orange semicircular distractors i.e. they searched for a target that differed from the distractors by a textit{single feature} (colour). The experiment was then repeated (1b) using a different single feature (shape, with participants searching for the semicircular target within triangle, circle or diamond distractors). In Experiments 2a, 2b and 2c, participants again searched for a cyan semicircle, but this time, the distracters differed in both shape and colour. We will refer to these conditions as \textit{double features}. Note, unlike in standard conjunction searches, in this paradigm, the distracters are all identical (i.e, orange triangles). 
 
-The \textit{Target Signal Contrast} theory allows us to predict the value of the logarithmic slope, $D_\text{overall}$, in this condition based on the  corresponding $D_j$ in the single feature seach experiments. 
+The \textit{Target Signal Contrast} theory allows us to predict the value of the logarithmic slope, $D_\text{c,s}$, in this condition based on the  corresponding $D_j$ in the single feature seach experiments. 
 
 \subsubsection{Calculating the logarithmic slope parameter, $D_i$}
 \label{sec:fitting_D}
@@ -121,28 +121,23 @@ The core of the idea in the TSC theory is that we estimate the logarthmic slope 
 \cite{buetti2019predicting} tested three different models for predicting $D$ for compound colour-shape stimuli. The best feature guidance model (Equation \ref{eq:bestfeature}) suggests that when the target and lures differ in two dimensions, participants will choose to attend to whichever feature dimension is the most discriminable (i.e. has the smallest $D$ value):
 
 \begin{equation}
-D_\text{overall} = \text{min}\left(D_\text{colour}, D_\text{shape}\right)
+D_\text{c,s} = \text{min}\left(D_\text{c}, D_\text{s}\right)
 \label{eq:bestfeature}
 \end{equation}
 
 The orthogonal contrast combination model instead suggests that independent feature dimensions comprise a multidimensional space, where an object can be described by the overall vector in this space, and thus $\mathrm{D_{overall}}$ can be represented as:
 
 \begin{equation}
-D_\text{overall} = \frac{1}{\sqrt{\frac{1}{(D_\text{colour})^2 + (D_\text{shape})^2}}}
+D_\text{c,s} = \frac{1}{\sqrt{\frac{1}{(D_\text{c})^2 + (D_\text{s})^2}}}
 \label{eq:orthogonalcontrast}
 \end{equation}
 
-Which simplifies as:
-
-\begin{equation}
-D_\text{overall} = (D_\text{colour})^2 + (D_\text{shape})^2
-\label{eq:orthogonalcontrast2}
-\end{equation}
+Note: we had to change this a little to make it match! !!!! *******
 
 Finally, the collinear contrast integration model also assumes independence of feature dimensions, but assumes that while the visual features create a multidimensional space, the contrast between them is unidimensional. As $D$ is assumed to be inversely proportional to contrast, the equation can be written as follows:
 
 \begin{equation}
-\frac{1}{D_\text{overall}} = \frac{1}{D_\text{colour}} + \frac{1}{D_\text{shape}}
+\frac{1}{D_\text{c,s}} = \frac{1}{D_\text{c}} + \frac{1}{D_\text{s}}
 \label{eq:collinearcontrast}
 \end{equation}
 
@@ -152,26 +147,19 @@ We verified we were able to replicate the results of \cite{buetti2019predicting}
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{../plots/computational_replication.pdf}
-\caption{(left) The collinear method for calculating $D$ offers a good prediction. (right) Using the TSC to predict reaction times.}
+\caption{(left) The collinear method for calculating $D$ offers a good prediction. (centre) Using the TSC to predict reaction times. (right) Each dot now represents a randomly sampled reation from an observer.}
 \label{fig:comp_rep}
 \end{figure}
 
 \subsubsection{Estimating mean Reaction Times}
 
-According to TCS, Equation \ref{eq:buetti2019} allows us to predict mean reaction times:
+The TCS theory now allows us to predict mean reaction times:
 
 \begin{equation}
-RT = a + \beta\sum_{j=1}^L\left((D_j - D_{j-1})\log\left(\left(N_T - \sum_{i=1}^{j-1}N_i\right)1_{[2,\infty](j)}+1 \right)\right)
-\label{eq:buetti2019}
+RT = D{c,s}\log(N_T+1) + a
 \end{equation}
 
-Where $L$ is the number of distractor types present in the display, $N_T$ is the total number of distractors, $N_i$ is the number of distractors of type $i$ and $D_j$ is the logarithmic slope parameters associated with distractors of type $j$ (from smallest $D_1$ to largest $D_L$). The constant $a$ represents the reaction time when no distractors are present and $\beta$ represents inter-item interactions. When $L=1$ (all lures are identical), as in the current experiment, the equation simplifies to:
-
-\begin{equation}
-RT = a + D_1\log(N_T+1)
-\end{equation}
-
-These predictions are shown in Figure \ref{fig:comp_rep}(right).
+As can be seen in  Figure \ref{fig:comp_rep}, these predictions are very close to the observed values. 
 
 \subsubsection{Discussion}
 
@@ -183,14 +171,13 @@ Switching from a linear regression model to a multi-level model will allow us to
 
 However, switching from linear regression to a mutli-level model raises the problem of which disribution to use for modelling reaction times. Using a normal distribution is unlikely to be satisfactory, as it is unable to account for the skew frequently seen in rt distributions, and also allows the posibility of negative reaction times! We can account for both of these problems by using a log-normal distribution, $\text{rt} ~ \text{lognormal}(\mu, \sigma))$. We will also test whether a slightly more complex extension of this model, the \textit{shifted lognormal} model offers any improvement in model fit.
 
-\subsubsection{Fitting the single feature search data}
+\subsubsection{Calculating the logarithmic slope parameter, $D_i$}
 
 We proceed in a similar fashion to section \ref{sec:fitting_D}, although this time, we fit each model three times using a (i) normal, (ii) lognormal, and (iii) shifted lognormal distribution. Please see Supplementary Materials for full details of out modelling approach, including prior predictive checks and model fit diagnostics. The three models were compared using leave-one-out cross validation, and the results showed that the shifted-lognormal model (illustrated in Figure \ref{fig:buetti2019_a1}) was given $100\%$ of the weight. Therefore, we will only use this model for the rest of the analysis. 
 
-
 \begin{figure}
 \centering
-%\subfigure{\includegraphics[width=\textwidth]{../plots/buetti2019_bayesian_fits.pdf}}
+\subfigure{\includegraphics[width=\textwidth]{../plots/bayes_buetti_refit.pdf}}
 \caption{The shaded regions show the model's predicted D values for each of the conditions in Expt 1 and Expt 3.}
 \label{fig:buetti2019_a1}
 \end{figure}

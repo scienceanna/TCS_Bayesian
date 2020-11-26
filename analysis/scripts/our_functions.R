@@ -119,7 +119,7 @@ run_model <- function(my_inputs, ppc) {
   
 }
   
-plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0, 1.25), n_row = 2, feature2plot = 'all') {
+plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0, 1.5), n_row = 2, feature2plot = 'all', dot_col = "yellow1") {
   
   # plot search slopes for experiment e_id
   
@@ -175,19 +175,19 @@ plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0,
   # calc 53% and 97% intervals for the model
   d_hdci %>% mean_hdci(.width = c(0.53, 0.97)) -> d_hdci
   
-  plt <- plot_ribbon_quantiles(d_hdci, d_plt, y_limits, n_row, plot_type)
+  plt <- plot_ribbon_quantiles(d_hdci, d_plt, y_limits, n_row, plot_type, dot_col)
   
   return(plt)
   
 }
 
-plot_ribbon_quantiles <- function(d_hdci, d_plt, y_limits, n_row, plot_type)
+plot_ribbon_quantiles <- function(d_hdci, d_plt, y_limits, n_row, plot_type, dot_col)
 {
 
   if(plot_type == "fitted") {
-        my_dots <- geom_point(data = d_plt, aes(y = mean_rt), alpha = 0.75, color = "yellow1")
+        my_dots <- geom_point(data = d_plt, aes(y = mean_rt), alpha = 0.75, color = dot_col)
   } else {
-    my_dots <- stat_dots(data = d_plt, aes(y = rt), alpha = 0.75,  quantiles = 100, color = "yellow1")
+    my_dots <- stat_dots(data = d_plt, aes(y = rt), alpha = 0.75,  quantiles = 100, color = dot_col)
 }
   
   d_hdci %>% 
@@ -197,7 +197,7 @@ plot_ribbon_quantiles <- function(d_hdci, d_plt, y_limits, n_row, plot_type)
     geom_hline(yintercept = 0, colour = "white") + 
     facet_wrap( ~ d_feature, nrow = n_row) + 
     # scale_fill_brewer(palette = "Greys") + 
-    scale_y_continuous("reaction time (seconds)") +
+    scale_y_continuous("reaction time (seconds)", expand = c(0,0)) +
     coord_cartesian(ylim = y_limits) -> plt
   
   return(plt)
@@ -252,7 +252,7 @@ calc_D_overall_b <- function(f, Dx, De)
   # now calculate D_overall using the three proposed methods
   D_collinear = 1/((1/D1) + (1/D2))
   D_best_feature = pmin(D1, D2)
-  D_orth_contrast =  sqrt(1/((1/D1^2) + (1/D2^2)))
+  D_orth_contrast =  1/sqrt(1/(D1^2 + D2^2))
   
   return(tibble(
     d_feature = gsub("[[:space:]]", "", f),

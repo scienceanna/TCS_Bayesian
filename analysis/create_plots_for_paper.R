@@ -18,8 +18,9 @@ source("scripts/our_functions.R")
 
 source("scripts/import_and_tidy.R")
 
-
+###################################################
 ## Computational Replication of Buetti et al (2019)
+###################################################
 De <- map_dfr(unique(d$exp_id), calc_D_per_feature)
 Dp <- map_df(c(2,4), gen_exp_predictions, De)
 
@@ -71,3 +72,14 @@ d %>% filter(exp_id %in% exps2predict) %>%
   scale_y_continuous("sampled reaction time (sec)") -> plt_sample_rt
 
 ggsave("../plots/computational_replication.pdf", plt_D + plt_mean_rt + plt_sample_rt, width = 8, height = 3)
+
+
+###################################################
+## Bayesian RT fits
+###################################################
+
+m_exp1_sft <- readRDS("models/exp_1_sft.models")
+plt_bayes_fit1 <-plot_model_fits_rt(1, m_exp1_sft, plot_type = "fitted", y_limits = c(0.4, 1.2), dot_col = 'darkblue', n_row = 1)
+plt_bayes_pred1 <-plot_model_fits_rt(1, m_exp1_sft, plot_type = "predicted", y_limits = c(0, 2),dot_col = 'darkblue', n_row = 1)
+
+ggsave("../plots/bayes_buetti_refit.pdf", plt_bayes_fit1 / plt_bayes_pred1, width = 8, height = 6)
