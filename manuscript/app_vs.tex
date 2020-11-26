@@ -1,15 +1,16 @@
 %\documentclass{svjour3}                     % onecolumn (standard format)
 %\documentclass[smallcondensed]{svjour3}     % onecolumn (ditto)
-\documentclass[smallextended]{svjour3}       % onecolumn (second format)
+\documentclass[smallextended, natbib]{svjour3}       % onecolumn (second format)
 %\documentclass[twocolumn]{svjour3}          % twocolumn
 %
 \smartqed  % flush right qed marks, e.g. at end of proof
 %
 \usepackage{graphicx}
-\usepackage{cite}
+%\usepackage{cite},
 \usepackage{amsmath}
 \usepackage{mathptmx}  
 \usepackage{subfigure}    % use Times fonts if available on your TeX system
+%\usepackage{natbib}
 %
 % insert here the call for the packages your document requires
 %\usepackage{latexsym}
@@ -97,21 +98,25 @@ We first describe the original Target Contrast Model (and verify that we can rep
 
 \subsection{TCS modelling overview} 
 
-\subsubsection{Calculating the logarithmic slope parameter, $D$, for a single  distracter type}
+In Experiment 1a of \cite{buetti2019predicting}, participants searched for a cyan semicircle target among blue, yellow or orange semicircular distractors i.e. they searched for a target that differed from the distractors by a textit{single feature} (colour). The experiment was then repeated (1b) using a different single feature (shape, with participants searching for the semicircular target within triangle, circle or diamond distractors). In Experiments 2a, 2b and 2c, participants again searched for a cyan semicircle, but this time, the distracters differed in both shape and colour. We will refer to these conditions as \textit{double features}. Note, unlike in standard conjunction searches, in this paradigm, the distracters are all identical (i.e, orange triangles). 
+
+The \textit{Target Signal Contrast} theory allows us to predict the value of the logarithmic slope, $D_\text{overall}$, in this condition based on the  corresponding $D_j$ in the single feature seach experiments. 
+
+\subsubsection{Calculating the logarithmic slope parameter, $D_i$}
 \label{sec:fitting_D}
 
-In Experiment 1a of \cite{buetti2019predicting}, participants searched for a cyan semicircle target among blue, yellow or orange semicircular distractors i.e. they searched for a target that differed from the distractors by a single feature (colour). The experiment was then repeated (1b) using a different single feature (shape, with participants searching for the semicircular target within triangle, circle or diamond distractors). In both experiments, the number of distractors varied, allowing the data to be used to fit a log-linear model for reaction times, where reaction times increase linearly with $\log(N_T)$ (the log of the number of distractors) \ref{eq:loglin}. In the original model the error distribution was assumed to be normal. 
+In both experiments, the number of distractors varied, allowing the data to be used to fit a log-linear model for reaction times, where reaction times increase linearly with $\log(N_T)$ (the log of the number of distractors) \ref{eq:loglin}. In the original model the error distribution was assumed to be normal. 
 
 \begin{equation}
-\hat{RT} = D\log(N_T) + c
+\hat{RT} = D_i\log(N_T+1) + a
 \label{eq:loglin}
 \end{equation}
 
-Thus the results of Experiment 1 were used to calculate $D$, the logarithmic slope, for each type of distractor.
+Thus the results of Experiment 1 were used to calculate the logarithmic slope, for each type of distractor. When colour varied, we will refer to $D_c$, for $c=1,2,3$. Similar for share ($D_s$), and the compound features ($D_{c,s}$). As $a$ represened the intercept in our model, it is indepand of both shape and colour, as it represented how long observers take to find a target when $N_T = 0$, i.e., there are no distracters.
 
-\subsubsection{Calculating $D$ for multiple features}
+\subsubsection{Estimating $D_{c,s}$, the logarithmic slope parameter for compound features}
 
-In Experiment 2 of \cite{buetti2019predicting}, participants again searched for a cyan semicircle, but this time, the distracters differed in both shape and colour. Note, unlike in standard conjunction searches, in this paradigm, the distracters are all identical (i.e, orange triangles). The \textit{Target Signal Contrast} theory allows us to predict the value of the logarithmic slope, $D_\text{overall}$, in this condition based on the  corresponding $D_j$ in the single feature seach experiments. 
+The core of the idea in the TSC theory is that we estimate the logarthmic slope parameter for a double feature visual search from the slopes parameters in the two independant single feature searches. I.e., $D_{c,s} = f(D_c, D_s)$.
 
 \cite{buetti2019predicting} tested three different models for predicting $D$ for compound colour-shape stimuli. The best feature guidance model (Equation \ref{eq:bestfeature}) suggests that when the target and lures differ in two dimensions, participants will choose to attend to whichever feature dimension is the most discriminable (i.e. has the smallest $D$ value):
 
@@ -176,7 +181,7 @@ While the TCS theory offers a good prediction of search slopes and corresponding
 
 Switching from a linear regression model to a multi-level model will allow us to compute $D$ for each participant, while simultaneously estimating the trial-to-trial variance. We also switch from a frequentist to Bayesian framework, as this allows us to naturally account for the uncertainty in the model's predictions.
 
-However, switching from linear regression to a mutli-level model raises the problem of which disribution to use for modelling reaction times. Using a normal distribution is unlikely to be satisfactory, as it is unable to account for the skew frequently seen in rt distributions, and also allows the posibility of negative reaction times! We can account for both of these problems by using a log-normal distribution, $\text{rt} ~ \text{lognormal}(\mu, \sigma)). We will also test whether a slightly more complex extension of this model, the \textit{shifted lognormal} model offers any improvement in model fit.
+However, switching from linear regression to a mutli-level model raises the problem of which disribution to use for modelling reaction times. Using a normal distribution is unlikely to be satisfactory, as it is unable to account for the skew frequently seen in rt distributions, and also allows the posibility of negative reaction times! We can account for both of these problems by using a log-normal distribution, $\text{rt} ~ \text{lognormal}(\mu, \sigma))$. We will also test whether a slightly more complex extension of this model, the \textit{shifted lognormal} model offers any improvement in model fit.
 
 \subsubsection{Fitting the single feature search data}
 
@@ -185,7 +190,7 @@ We proceed in a similar fashion to section \ref{sec:fitting_D}, although this ti
 
 \begin{figure}
 \centering
-\subfigure{\includegraphics[width=\textwidth]{../plots/buetti2019_bayesian_fits.pdf}}
+%\subfigure{\includegraphics[width=\textwidth]{../plots/buetti2019_bayesian_fits.pdf}}
 \caption{The shaded regions show the model's predicted D values for each of the conditions in Expt 1 and Expt 3.}
 \label{fig:buetti2019_a1}
 \end{figure}
@@ -203,8 +208,8 @@ As we are using a Bayesian framework, rather than $D$ representing the best fit 
 
 \begin{figure}
 \centering
-\subfigure{\includegraphics[width=\textwidth]{../plots/recreate_normal_fig_4.pdf}}
-\subfigure{\includegraphics[width=\textwidth]{../plots/recreate_log_normal_fig_4.pdf}}
+%\subfigure{\includegraphics[width=\textwidth]{../plots/recreate_normal_fig_4.pdf}}
+%\subfigure{\includegraphics[width=\textwidth]{../plots/recreate_log_normal_fig_4.pdf}}
 \caption{Correlation between empirical $D$ and the predicted $D$ using \textit{(top)} normal and (\textit{bottom}) log-normal distributions.}
 \label{fig:buetti2019_D}
 \end{figure}
@@ -311,7 +316,7 @@ Thank you to AL for help and encouragement!
 The authors declare that they have no conflict of interest.
 
 % BibTeX users please use one of
-\bibliographystyle{plain}      % basic style, author-year citations
+\bibliographystyle{plainnat}    % basic style, author-year citations
 %\bibliographystyle{spmpsci}      % mathematics and physical sciences
 %\bibliographystyle{spphys}       % APS-like style for physics
 \bibliography{sources}   % name your BibTeX data base

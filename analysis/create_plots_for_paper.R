@@ -53,8 +53,21 @@ d %>% filter(exp_id %in% exps2predict) %>%
   geom_point(color = "darkblue", alpha = 0.5) + 
   geom_abline(linetype = 2) +
   geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
-  scale_x_continuous("predicted reaction time (ms)") +
-  scale_y_continuous("empirical mean reaction time (ms)") + 
-  coord_fixed() -> plt_rt
+  scale_x_continuous("predicted reaction time (sec)") +
+  scale_y_continuous("empirical mean reaction time (sec)") + 
+  coord_fixed() -> plt_mean_rt
 
-ggsave("../plots/computational_replication.pdf", plt_D + plt_rt, width = 7, height = 3.5)
+rt_pred <- map_dfr(exps2predict, predict_rt)
+
+d %>% filter(exp_id %in% exps2predict) %>%
+  group_by(exp_id, p_id, d_feature, N_T) %>%
+  sample_n(1) %>%
+  left_join(rt_pred, by = c("exp_id", "d_feature", "N_T")) %>% 
+  ggplot(aes(x = p_rt, y = rt)) + 
+  geom_point(color = "darkblue", alpha = 0.15) + 
+  geom_abline(linetype = 2) +
+  geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
+  scale_x_continuous("predicted reaction time (sec)") +
+  scale_y_continuous("sampled reaction time (sec)") -> plt_sample_rt
+
+ggsave("../plots/computational_replication.pdf", plt_D + plt_mean_rt + plt_sample_rt, width = 8, height = 3)
