@@ -369,11 +369,9 @@ shuffle_noise = 0
 dr <- map_dfr(unique(d$exp_id), rank_order_people, shuffle_noise = shuffle_noise) 
 
 
-dr <- left_join(d,dr) %>% 
-  mutate(p_id = as_factor(ps_id), exp_id = as_factor(exp_id))
+dr <- left_join(d,dr)
 
-
-dr %>% group_by(ps_id, exp_id) %>% summarise(m_rt = mean(rt)) %>% 
+dr %>% group_by(ps_id, exp_id) %>% summarise(m_rt = median(rt)) %>% 
   pivot_wider(names_from = "exp_id", values_from = "m_rt") %>%
   ggplot(aes(x = `1a`, y = `1b`)) + geom_point(colour = "cyan")
 
