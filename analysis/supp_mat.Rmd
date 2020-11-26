@@ -1,6 +1,6 @@
 ---
 title: "Implementing Buetti et al(2019)"
-author: "ADF Clarke"
+author: "ADF Clarke and AE Hughes"
 date: "24/08/2020"
 output: bookdown::html_document2
 ---
@@ -35,9 +35,6 @@ source("scripts/reimplementation.R")
 # functions used for our Bayesian re-analysis
 source("scripts/our_functions.R")
 
-# used previously ran models, or refit. 
-#refit_models = FALSE
-#refit_priors = FALSE
 ```
 
 ## Importing
@@ -49,6 +46,7 @@ We will import all experiments. While we're at it, we will remove error trials a
 We'll make a few minor changes to the data:
   - Switch from ms to seconds
   - Recode Experiment 1a and 1b to Experiment 1, Experiment 2a, 2b and 2c to Experiment 2, etc.
+  - Remove the bottom and top 1% of data
   
   
 ```{r import-data}
