@@ -197,6 +197,7 @@ plot_ribbon_quantiles <- function(d_hdci, d_plt, y_limits, n_row, plot_type, dot
     geom_hline(yintercept = 0, colour = "white") + 
     facet_wrap( ~ d_feature, nrow = n_row) + 
     # scale_fill_brewer(palette = "Greys") + 
+    scale_x_continuous(TeX("$N_T$")) + 
     scale_y_continuous("reaction time (seconds)", expand = c(0,0)) +
     coord_cartesian(ylim = y_limits) -> plt
   
@@ -346,8 +347,8 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary, one_
   model_sum <- round(summary(two_feature_model)$fixed, 3)
   
   
-  sigma_mean <-  VarCorr(m_exp1_log)$residual$sd[1]
-  sigma_sd   <-  VarCorr(m_exp1_log)$residual$sd[2]
+  sigma_mean <-  VarCorr(m_exp1_sft)$residual$sd[1]
+  sigma_sd   <-  VarCorr(m_exp1_sft)$residual$sd[2]
   
   sd_mean <- VarCorr(one_feature_model)$p_id$sd[1,1]
   sd_sd <- VarCorr(one_feature_model)$p_id$sd[1,2]

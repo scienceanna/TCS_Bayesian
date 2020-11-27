@@ -113,6 +113,25 @@ Dp_lines <- get_Dp_lines(Dp_samples)
 plot_Dp_lines(Dp_lines, dot_col = "darkblue", xyline_col = "darkred") -> plt_Dcs
 
 
-
 ggsave("../plots/bayes_buetti_D.pdf", plt_Di / plt_Dcs, width = 8, height = 6)
 
+
+
+###################################################
+## Bayesian RT Predictions
+###################################################
+Dp_samples %>%
+  group_by(exp_id, d_feature, method) %>%
+  summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop") %>%
+  mutate(d_feature = as_factor(d_feature)) -> Dp_summary
+
+# now define and run new model! 
+meth = "orthog_contrast"
+
+model_params <- set_up_predict_model(2, "shifted_lognormal", meth, Dp_summary, m_exp1_sft, m_exp2_sft)
+m_prt <- run_model(model_params, ppc = "only")
+
+plt_rt_scat <- plot_model_fits_rt(2, m_prt, y_limits = c(0, 1), n_row = 3, plot_type = "fitted", dot_col = "darkblue")
+plt_rt_pred <-plot_model_fits_rt(2, m_prt, y_limits = c(0, 1.8), n_row = 3, plot_type = "predicted", dot_col = "darkblue")
+
+ggsave("../plots/bayes_buetti_rt.pdf", plt_rt_scat + plt_rt_pred, width = 8, height = 6)

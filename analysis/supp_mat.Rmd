@@ -285,15 +285,15 @@ As we are using multi-level models to describe the whole distribution of reactio
 Random intercepts look similar:
 
 ```{r}
-VarCorr(m_exp1_log)$p_id$sd
-VarCorr(m_exp2_log)$p_id$sd
+VarCorr(m_exp1_sft)$p_id$sd
+VarCorr(m_exp2_sft)$p_id$sd
 ```
 
 Residual variance looks similar, although exp2 is lower that exp 1. 
 
 ```{r}
-VarCorr(m_exp1_log)$residual$sd
-VarCorr(m_exp2_log)$residual$sd
+VarCorr(m_exp1_sft)$residual$sd
+VarCorr(m_exp2_sft)$residual$sd
 ```
 
 

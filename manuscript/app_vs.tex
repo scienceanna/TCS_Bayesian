@@ -196,11 +196,31 @@ We then extracted the posterior distributions for the logarithmic slope paramete
 
 We predict $D_{c,s}$ from $D_c$ and $D_c$ in the same way as the original TCS, except this time we use 1000\footnote{check!} samples from the posterior distributions, rather than just the maximum likelihood fit. These predictions are shown in Figure \ref{fig:buetti2019_D}(bottom). We can see that as with the original model, we still find the \textit{best feature} is the worst of the three methods. We additionally calculated a fourth prediction method, the \textit{mean method} which simply takes the averages of the \textit{collinear contrast} and \textit{orthogonal contrast} models.
 
-\subsubsection{Estimating reaction times}
+\subsubsection{Estimating other parameters and predicting reaction times}
+
+Unlike the origianl TCS, before we can use the predicted values of $D_{c,s}$ to generate reaction times, we first have to estimate some additional parameters: 
+
+\begin{itemize}	
+\item $\alpha$ - the intercept for the shift\footnote{ndt} parameter.
+\item $\phi_a$ - the random intercepts for the linear predictor for $\mu$.
+\item $\phi_\alpha$ - the random intercepts for $a$.
+\item $\sigma$ - the residual (trial-to-trial) variance. 
+\end{itemize}
+
+For the implementation presented here, in order to predict the data from Experiment 2 (4) we will simply use the values for the above parameters obtained from Experiment 1 (3). Once these have been set, we can use the specified model to generate the HDPI intervals for the expected average performance and the full distribution of reaction times over a number of simulated new observers (Figure \ref{fig:buetti2019_rt}).
+
+\begin{figure}
+\centering
+\subfigure{\includegraphics[width=\textwidth]{../plots/bayes_buetti_rt.pdf}}
+\caption{(\textit{left}) HDPI and empirical mean reaction times for each condition in Experiment 2. (\textit{right}) Similar, for the full distribution of reaction times over trials. }
+\label{fig:buetti2019_rt}
+\end{figure}
 
 \subsubsection{Discussion}
 
-\subsection{Power and Sensitiviity Simulations for Proposed New Study}
+Our extension to a multi-level TCS model allows us to go beyond the original version and predict the full distribution of reaction times over samples of known, or new, observers. Moving from a normal to a shifted-lognormal distribution allows us to accuratly model the skew seen in the empirical data, and avoid predicting negative response times. 
+
+\subsection{Power and Sensitivity Simulations for Proposed New Study}
 
 \subsection{Extension: Individual Differences}
 
