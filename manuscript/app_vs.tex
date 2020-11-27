@@ -98,25 +98,25 @@ We first describe the original Target Contrast Model (and verify that we can rep
 
 \subsection{TCS modelling overview} 
 
-In Experiment 1a of \cite{buetti2019predicting}, participants searched for a cyan semicircle target among blue, yellow or orange semicircular distractors i.e. they searched for a target that differed from the distractors by a textit{single feature} (colour). The experiment was then repeated (1b) using a different single feature (shape, with participants searching for the semicircular target within triangle, circle or diamond distractors). In Experiments 2a, 2b and 2c, participants again searched for a cyan semicircle, but this time, the distracters differed in both shape and colour. We will refer to these conditions as \textit{double features}. Note, unlike in standard conjunction searches, in this paradigm, the distracters are all identical (i.e, orange triangles). 
+In Experiment 1a of \cite{buetti2019predicting}, participants searched for a cyan semicircle target among blue, yellow or orange semicircular distractors i.e. they searched for a target that differed from the distractors by a \textit{single feature} (colour). The experiment was then repeated (1b) using a different single feature (shape, with participants searching for the semicircular target within triangle, circle or diamond distractors). In Experiments 2a, 2b and 2c, participants again searched for a cyan semicircle, but this time, the distractors differed in both shape and colour. We will refer to these conditions as \textit{double features}. Note, unlike in standard conjunction searches, in this paradigm, the distractors are all identical with respect to these features (i.e, orange triangles). 
 
 The \textit{Target Signal Contrast} theory allows us to predict the value of the logarithmic slope, $D_\text{c,s}$, in this condition based on the  corresponding $D_j$ in the single feature seach experiments. 
 
 \subsubsection{Calculating the logarithmic slope parameter, $D_i$}
 \label{sec:fitting_D}
 
-In both experiments, the number of distractors varied, allowing the data to be used to fit a log-linear model for reaction times, where reaction times increase linearly with $\log(N_T)$ (the log of the number of distractors) \ref{eq:loglin}. In the original model the error distribution was assumed to be normal. 
+Experiments 1a and 1b (referred to jointly as Experiment 1) were used to calculate the logarithmic slope parameter $D_i$. In both experiments, the number of distractors varied, allowing the data to be used to fit a log-linear model for reaction times, where reaction times increase linearly with $\log(N_T)$ (the log of the number of distractors) \ref{eq:loglin}. In the original model the error distribution was assumed to be normal. 
 
 \begin{equation}
 \hat{RT} = D_i\log(N_T+1) + a
 \label{eq:loglin}
 \end{equation}
 
-Thus the results of Experiment 1 were used to calculate the logarithmic slope, for each type of distractor. When colour varied, we will refer to $D_c$, for $c=1,2,3$. Similar for share ($D_s$), and the compound features ($D_{c,s}$). As $a$ represened the intercept in our model, it is indepand of both shape and colour, as it represented how long observers take to find a target when $N_T = 0$, i.e., there are no distracters.
+Thus the results of Experiment 1 were used to calculate the logarithmic slope, for each type of distractor. When colour varied, we will refer to $D_c$, for $c=1,2,3$. Similarly for shape we will denote this ($D_s$), and the compound features are denoted as ($D_{c,s}$). As $a$ represented the intercept in our model, it is independent of both shape and colour, as it represents how long observers take to find a target when $N_T = 0$, i.e., there are no distractors.
 
 \subsubsection{Estimating $D_{c,s}$, the logarithmic slope parameter for compound features}
 
-The core of the idea in the TSC theory is that we estimate the logarthmic slope parameter for a double feature visual search from the slopes parameters in the two independant single feature searches. I.e., $D_{c,s} = f(D_c, D_s)$.
+In the context of the current experiments, the core idea of TCS theory is that we can estimate the logarithmic slope parameter for a double feature visual search from the slopes parameters in the two independent single feature searches. I.e., $D_{c,s} = f(D_c, D_s)$.
 
 \cite{buetti2019predicting} tested three different models for predicting $D$ for compound colour-shape stimuli. The best feature guidance model (Equation \ref{eq:bestfeature}) suggests that when the target and lures differ in two dimensions, participants will choose to attend to whichever feature dimension is the most discriminable (i.e. has the smallest $D$ value):
 
@@ -142,12 +142,13 @@ Finally, the collinear contrast integration model also assumes independence of f
 \end{equation}
 
 \cite{buetti2019predicting} found that with their dataset, the collinear contrast integration model was best able to predict their empirical RT results with an $R^2 = 93.27\%$. 
-We verified we were able to replicate the results of \cite{buetti2019predicting} using the dataset available on OSF (https://osf.io/f3m24/)\footnote{downloaded on 28th August 2020} and using the exclusion criteria originally applied\footnote{We also applied some additional exlusion crit!}; see \textit{Supplementary Materials} for details. See Figure \ref{fig:comp_rep}(left).
+
+We verified we were able to replicate the results of \cite{buetti2019predicting} using the dataset available on OSF (https://osf.io/f3m24/)\footnote{downloaded on 28th August 2020} and using the exclusion criteria originally applied\footnote{We also applied some additional exlusion crit!}; see \textit{Supplementary Materials} for details. See Figure \ref{fig:comp_rep}(left panel).
 
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{../plots/computational_replication.pdf}
-\caption{(left) The collinear method for calculating $D$ offers a good prediction. (centre) Using the TSC to predict reaction times. (right) Each dot now represents a randomly sampled reation from an observer.}
+\caption{(left) The collinear method for calculating $D$ offers a good prediction. (centre) Using the TSC to predict reaction times. (right) Each dot now represents a randomly sampled reaction time from an observer.}
 \label{fig:comp_rep}
 \end{figure}
 
@@ -159,21 +160,21 @@ The TCS theory now allows us to predict mean reaction times:
 RT = D{c,s}\log(N_T+1) + a
 \end{equation}
 
-As can be seen in  Figure \ref{fig:comp_rep}, these predictions are very close to the observed values. 
+As can be seen in  Figure \ref{fig:comp_rep} (centre panel), these predictions are very close to the observed values. 
 
 \subsubsection{Discussion}
 
-While the TCS theory offers a good prediction of search slopes and corresponding mean reaction times for compound feature search, there are two related limitations. Firstly, it is unable to account for individual differences between observers, only the changes to the sample average. Secondly, it cannot account for the distribution of reaction times over multiple trials. To address these issues, we propose a second version of the TCS that makes use of mutli-level modelling techniques
+While TCS theory offers a good prediction of search slopes and corresponding mean reaction times for double feature search, there are two related limitations. Firstly, it is unable to account for individual differences between observers, only the changes to the sample average. Secondly, it cannot account for the distribution of reaction times over multiple trials. Figure \ref{fig:comp_rep} (right panel) shows clearly that these factors generate high levels of variability within the individual trial-level data. To address these issues, we propose a second version of the TCS that makes use of multi-level modelling techniques.
 
 \subsection{A multi-level TCS}
 
 Switching from a linear regression model to a multi-level model will allow us to compute $D$ for each participant, while simultaneously estimating the trial-to-trial variance. We also switch from a frequentist to Bayesian framework, as this allows us to naturally account for the uncertainty in the model's predictions.
 
-However, switching from linear regression to a mutli-level model raises the problem of which disribution to use for modelling reaction times. Using a normal distribution is unlikely to be satisfactory, as it is unable to account for the skew frequently seen in rt distributions, and also allows the posibility of negative reaction times! We can account for both of these problems by using a log-normal distribution, $\text{rt} ~ \text{lognormal}(\mu, \sigma))$. We will also test whether a slightly more complex extension of this model, the \textit{shifted lognormal} model offers any improvement in model fit.
+However, switching from linear regression to a mutli-level model raises the problem of which distribution to use for modelling reaction times. Using a normal distribution is unlikely to be satisfactory, as it is unable to account for the skew frequently seen in reaction time distributions, and also allows the possibility of negative reaction times. We can account for both of these problems by using a log-normal distribution, $\text{rt} ~ \text{lognormal}(\mu, \sigma))$. We will also test whether a slightly more complex extension of this model, the \textit{shifted lognormal} model (which allows the distribution to be offset to the right i.e. mimicking the patterns seen in reaction time data, where valid responses begin at around 100ms) offers any improvement in model fit.
 
 \subsubsection{Calculating the logarithmic slope parameter, $D_i$}
 
-We proceed in a similar fashion to section \ref{sec:fitting_D}, although this time, we fit each model three times using a (i) normal, (ii) lognormal, and (iii) shifted lognormal distribution. Please see Supplementary Materials for full details of out modelling approach, including prior predictive checks and model fit diagnostics. The three models were compared using leave-one-out cross validation, and the results showed that the shifted-lognormal model (illustrated in Figure \ref{fig:buetti2019_a1}) was given $100\%$ of the weight. Therefore, we will only use this model for the rest of the analysis. 
+We began in a similar fashion to section \ref{sec:fitting_D}, although this time, we fitted each model three times using a (i) normal, (ii) lognormal, and (iii) shifted lognormal distribution (please see Supplementary Materials for full details of out modelling approach, including prior predictive checks and model fit diagnostics). The three models were compared using leave-one-out cross validation, and the results showed that the shifted-lognormal model (illustrated in Figure \ref{fig:buetti2019_a1}) was given $100\%$ of the weight. Therefore, we used only this model for the rest of the analysis. 
 
 \begin{figure}
 \centering
@@ -182,19 +183,19 @@ We proceed in a similar fashion to section \ref{sec:fitting_D}, although this ti
 \label{fig:buetti2019_a1}
 \end{figure}
 
-We can then extract the posterior disbritubions for the logarithmic slope parameters as before. The only difference is that i) we have the full posterior distribution for each $D_c$ amd $D_s$, rather than just the maximum likelihood fit, and ii) the units are now in $\frac{\log{rt}}{\log{N_T+1}}$
+We then extracted the posterior distributions for the logarithmic slope parameters as before. The only differences were that i) this approach allowed us to obtain the full posterior distribution for each $D_c$ and $D_s$, rather than just the maximum likelihood fit, and ii) the units are now in $\frac{\log{rt}}{\log{N_T+1}}$
 
 \begin{figure}
 \centering
 \subfigure{\includegraphics[width=\textwidth]{../plots/bayes_buetti_D.pdf}}
 
-\caption{(\textit{top} Posterior probability density functions for each $D_c$ and $D_s$ in Experiment 1. As with the original TCS model, when searching for a blue semicircle, triangular distracters are the hardest, while yellow and orange distracters are the eaiest.) (\textit{bottom}) Predicting $D_{c,s}$ from $D_c$ and $D_s$. Crosshairs indicate $97/5$ HPDI for estimates and predictions, while the pink region shows the HDPI for the best fit line. }
+\caption{(\textit{top}) Posterior probability density functions for each $D_c$ and $D_s$ in Experiment 1. As with the original TCS model, when searching for a blue semicircle, triangular distracters are the hardest, while yellow and orange distracters are the eaiest.) (\textit{bottom}) Predicting $D_{c,s}$ from $D_c$ and $D_s$. Crosshairs indicate $97.5$ HPDI for estimates and predictions, while the pink region shows the HDPI for the best fit line. }
 \label{fig:buetti2019_a1}
 \end{figure}
 
 \subsubsection{Estimating $D_{c,s}$, the logarithmic slope parameter for compound features}
 
-As we are using a Bayesian framework, rather than $D$ representing the best fit in equation \ref{eq:computeDlm}, it is now represented as a probability distribution over possible values (see Figure \ref{fig:buetti2019_a1}). We can can then estimate $D$ in the compound feature distractor cases using the three methods detailed above and compare the predicted values to the empirical values (see Figure \ref{fig:buetti2019_D}). We additionally calculated a fourth prediction method, the 'mean method' which simply takes the averages of the collinear contrast and orthogonal contrast models.
+As we are using a Bayesian framework, rather than $D$ representing the best fit in equation \ref{eq:computeDlm}, it is now represented as a probability distribution over possible values (see Figure \ref{fig:buetti2019_a1}). We can can then estimate $D$ in the double feature distractor cases using the three methods detailed above and compare the predicted values to the empirical values (see Figure \ref{fig:buetti2019_D}). We additionally calculated a fourth prediction method, the 'mean method' which simply takes the averages of the collinear contrast and orthogonal contrast models.
 
 \begin{equation}
 \hat{y} = a + D\log(N_T + 1)
@@ -210,12 +211,12 @@ As we are using a Bayesian framework, rather than $D$ representing the best fit 
 
 While we can't generate within-participant reaction time predictions from the original data, we can present data on the uncertainty around the individual differences in $D$ for each condition (see Figure \ref{fig:buetti2019_people}).
 
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{../wd_reanalyse_Buetti2019/exp1_fits.png}
-\caption{Example results from the first five participants of Experiment 1a \cite{buetti2019predicting}. We can see considerable between-subjects variation. }
-\label{fig:buetti2019_people}
-\end{figure}
+%\begin{figure}
+%\centering
+%\includegraphics[width=\textwidth]{../wd_reanalyse_Buetti2019/exp1_fits.png}
+%\caption{Example results from the first five participants of Experiment 1a %\cite{buetti2019predicting}. We can see considerable between-subjects variation. }
+%\label{fig:buetti2019_people}
+%\end{figure}
 
 \subsection{Power Analysis}
 \label{sec:power}
