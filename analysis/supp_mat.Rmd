@@ -260,13 +260,13 @@ bind_rows(
 
 ### $D$ for compound feature distractors
 
-```{r predict-D-2, fig.cap = "Estimating D."}
+```{r predict-D-2, fig.cap = "Estimating D.", fig.height = 8}
 
 # Dp_samples <- bind_rows(
 #   get_Dp_samples(2, d, slopes1, slopes2),
 #   get_Dp_samples(4, d, slopes3, slopes4))
 
- Dp_samples <-  get_Dp_samples(2, d, slopes1, slopes2)
+Dp_samples <-  get_Dp_samples(2, d, slopes1, slopes2)
 
 
 Dp_lines <- get_Dp_lines(Dp_samples)
@@ -274,10 +274,6 @@ knitr::kable(Dp_lines, digits = 2)
 plot_Dp_lines(Dp_lines)
 
 rm(slopes1, slopes2, slopes3, slopes4)
-
-
-# ggsave("../plots/recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
-
 
 ```
 

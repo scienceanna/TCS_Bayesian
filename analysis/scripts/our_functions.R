@@ -252,7 +252,7 @@ calc_D_overall_b <- function(f, Dx, De)
   # now calculate D_overall using the three proposed methods
   D_collinear = 1/((1/D1) + (1/D2))
   D_best_feature = pmin(D1, D2)
-  D_orth_contrast =  1/sqrt(1/(D1^2 + D2^2))
+  D_orth_contrast =  1/sqrt(1/(D1^2) + (1/D2^2))
   
   return(tibble(
     d_feature = gsub("[[:space:]]", "", f),
@@ -376,7 +376,6 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary, one_
   
 }
 
-
 lm_D <- function(df) {
   
   my_lm = lm(De ~ 0 + Dp:method, df)
@@ -385,7 +384,6 @@ lm_D <- function(df) {
                 slope = summary(my_lm)$coefficients[,1]))
   
 }
-
 
 get_Dp_lines <- function(Dp_s) {
   
@@ -402,9 +400,9 @@ get_Dp_lines <- function(Dp_s) {
   
 }
 
-plot_Dp_lines <- function(Dp_lines) {
+plot_Dp_lines <- function(Dp_lines, dot_col = "yellow1", xyline_col = "cyan") {
   
-  x_range = 0.12
+  x_range = 0.22
   bind_rows(Dp_lines %>% mutate(x = 0, .lower = 0, .upper = 0),
             Dp_lines %>% mutate(x = x_range, .lower = x * .lower, .upper = x * .upper)) -> Dp_lines
   
@@ -413,13 +411,15 @@ plot_Dp_lines <- function(Dp_lines) {
     group_by(exp_id, d_feature, method) %>%
     mean_hdci(Dp, De) %>%
     ggplot() +
-    geom_abline(linetype = 2, colour = "cyan") +
-    # geom_point(aes(x = Dp, y = De), color = "yellow1") +
-    geom_linerange(aes(x = Dp, ymin = De.lower, ymax = De.upper), color = "yellow1") +
-    geom_linerange(aes(y = De, xmin = Dp.lower, xmax = Dp.upper), color = "yellow1") +
+    geom_abline(linetype = 2, colour = xyline_col) +
+    # geom_point(aes(x = Dp, y = De), color = dot_col) +
+    geom_linerange(aes(x = Dp, ymin = De.lower, ymax = De.upper), color = dot_col) +
+    geom_linerange(aes(y = De, xmin = Dp.lower, xmax = Dp.upper), color = dot_col) +
     facet_wrap(~method, nrow = 1) +
     geom_ribbon(data = Dp_lines, aes(x = x,  ymin = .lower, ymax=  .upper), alpha = 0.5, fill = "palevioletred1") + 
-    coord_fixed()
+    coord_fixed(xlim = c(0, 0.25), ylim = c(0, 0.25)) +
+    scale_x_continuous(TeX("Predicted value for $D_{c,s}$"), expand = c(0, 0), breaks = c(0, 0.1, 0.2)) +
+    scale_y_continuous(TeX("empirical value for $D_{c,s}$"), expand = c(0, 0), breaks = c(0, 0.1, 0.2)) 
   
 }
 
