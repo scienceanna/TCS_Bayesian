@@ -81,14 +81,19 @@ ggsave("../plots/computational_replication.pdf", plt_D + plt_mean_rt + plt_sampl
 
 m_exp1_sft <- readRDS("models/exp_1_sft.models")
 m_exp2_sft <- readRDS("models/exp_2_sft.models")
+m_exp3_sft <- readRDS("models/exp_3_sft.models")
+m_exp4_sft <- readRDS("models/exp_4_sft.models")
 
 plt_bayes_fit1 <-plot_model_fits_rt(1, m_exp1_sft, plot_type = "fitted", y_limits = c(0.4, 1.2), dot_col = 'darkblue', n_row = 1)
 plt_bayes_pred1 <-plot_model_fits_rt(1, m_exp1_sft, plot_type = "predicted", y_limits = c(0, 2),dot_col = 'darkblue', n_row = 1)
 
 ggsave("../plots/bayes_buetti_refit.pdf", plt_bayes_fit1 / plt_bayes_pred1, width = 8, height = 5)
 
+
 slopes1 <- extract_fixed_slopes_from_model(m_exp1_sft)
 slopes2 <- extract_fixed_slopes_from_model(m_exp2_sft)
+slopes3 <- extract_fixed_slopes_from_model(m_exp3_sft)
+slopes4 <- extract_fixed_slopes_from_model(m_exp4_sft)
 
 ggplot(slopes1, aes(x= D, fill = d_feature, colour = d_feature)) + 
   geom_density( alpha = 0.33) +
@@ -99,7 +104,9 @@ ggplot(slopes1, aes(x= D, fill = d_feature, colour = d_feature)) +
   theme(legend.title = element_blank())-> plt_Di
 
  
-Dp_samples <-  get_Dp_samples(2, d, slopes1, slopes2) 
+Dp_samples <- bind_rows(
+  get_Dp_samples(2, d, slopes1, slopes2),
+  get_Dp_samples(4, d, slopes3, slopes4))
   
   
 Dp_lines <- get_Dp_lines(Dp_samples)

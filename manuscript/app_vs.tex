@@ -152,7 +152,7 @@ We verified we were able to replicate the results of \cite{buetti2019predicting}
 \label{fig:comp_rep}
 \end{figure}
 
-\subsubsection{Estimating mean Reaction Times}
+\subsubsection{Estimating mean reaction times}
 
 The TCS theory now allows us to predict mean reaction times:
 
@@ -183,29 +183,24 @@ We began in a similar fashion to section \ref{sec:fitting_D}, although this time
 \label{fig:buetti2019_a1}
 \end{figure}
 
-We then extracted the posterior distributions for the logarithmic slope parameters as before. The only differences were that i) this approach allowed us to obtain the full posterior distribution for each $D_c$ and $D_s$, rather than just the maximum likelihood fit, and ii) the units are now in $\frac{\log{rt}}{\log{N_T+1}}$
+We then extracted the posterior distributions for the logarithmic slope parameters as before. The only differences were that i) this approach allowed us to obtain the full posterior distribution for each $D_c$ and $D_s$, rather than just the maximum likelihood fit, and ii) the units are now in $\frac{\log{rt}}{\log{N_T+1}}$ See Figure \ref{fig:buetti2019_D}(bottom).
 
 \begin{figure}
 \centering
 \subfigure{\includegraphics[width=\textwidth]{../plots/bayes_buetti_D.pdf}}
-
 \caption{(\textit{top}) Posterior probability density functions for each $D_c$ and $D_s$ in Experiment 1. As with the original TCS model, when searching for a blue semicircle, triangular distracters are the hardest, while yellow and orange distracters are the eaiest.) (\textit{bottom}) Predicting $D_{c,s}$ from $D_c$ and $D_s$. Crosshairs indicate $97.5$ HPDI for estimates and predictions, while the pink region shows the HDPI for the best fit line. }
-\label{fig:buetti2019_a1}
+\label{fig:buetti2019_D}
 \end{figure}
 
 \subsubsection{Estimating $D_{c,s}$, the logarithmic slope parameter for compound features}
 
-As we are using a Bayesian framework, rather than $D$ representing the best fit in equation \ref{eq:computeDlm}, it is now represented as a probability distribution over possible values (see Figure \ref{fig:buetti2019_a1}). We can can then estimate $D$ in the double feature distractor cases using the three methods detailed above and compare the predicted values to the empirical values (see Figure \ref{fig:buetti2019_D}). We additionally calculated a fourth prediction method, the 'mean method' which simply takes the averages of the collinear contrast and orthogonal contrast models.
+We predict $D_{c,s}$ from $D_c$ and $D_c$ in the same way as the original TCS, except this time we use 1000\footnote{check!} samples from the posterior distributions, rather than just the maximum likelihood fit. These predictions are shown in Figure \ref{fig:buetti2019_D}(bottom). We can see that as with the original model, we still find the \textit{best feature} is the worst of the three methods. We additionally calculated a fourth prediction method, the \textit{mean method} which simply takes the averages of the \textit{collinear contrast} and \textit{orthogonal contrast} models.
 
-\begin{equation}
-\hat{y} = a + D\log(N_T + 1)
-\label{eq:computeDlm}
-\end{equation}
+\subsubsection{Estimating reaction times}
 
+\subsubsection{Discussion}
 
-
-
-\subsubsection{Reaction Time Model}
+\subsection{Power and Sensitiviity Simulations for Proposed New Study}
 
 \subsection{Extension: Individual Differences}
 
