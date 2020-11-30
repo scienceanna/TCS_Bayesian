@@ -20,6 +20,7 @@ library(brms)
 library(tidybayes)
 library(patchwork)
 library(magrittr)
+library(latex2exp)
 ```
 
 ```{r}
