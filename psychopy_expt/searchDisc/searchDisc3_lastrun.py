@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This experiment was created using PsychoPy3 Experiment Builder (v2020.2.8),
-    on November 24, 2020, at 15:49
+This experiment was created using PsychoPy3 Experiment Builder (v2020.2.4),
+    on November 25, 2020, at 10:26
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -35,10 +35,10 @@ _thisDir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(_thisDir)
 
 # Store info about the experiment session
-psychopyVersion = '2020.2.8'
+psychopyVersion = '2020.2.4'
 expName = 'searchDisc3'  # from the Builder filename that created this script
 expInfo = {'participant': '', 'session': '001'}
-dlg = gui.DlgFromDict(dictionary=expInfo, sortKeys=False, title=expName)
+dlg = gui.DlgFromDict(dictionary=expInfo, sort_keys=False, title=expName)
 if dlg.OK == False:
     core.quit()  # user pressed cancel
 expInfo['date'] = data.getDateStr()  # add a simple timestamp
@@ -51,7 +51,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='C:\\Users\\Anna\\Documents\\APP_VS_git\\psychopy_expt\\searchDisc\\searchDisc3_lastrun.py',
+    originPath='C:\\Users\\s03an7\\Documents\\GitHub\\APP_VS\\psychopy_expt\\searchDisc\\searchDisc3_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -61,7 +61,7 @@ logging.console.setLevel(logging.WARNING)  # this outputs to the screen, not a f
 endExpNow = False  # flag for 'escape' or other condition => quit the exp
 frameTolerance = 0.001  # how close to onset before 'same' frame
 
-# Start Code - component code to be run after the window creation
+# Start Code - component code to be run before the window creation
 
 # Setup the Window
 win = visual.Window(
@@ -83,7 +83,7 @@ defaultKeyboard = keyboard.Keyboard()
 # Initialize components for Routine "WelcomePractice"
 WelcomePracticeClock = core.Clock()
 text_2 = visual.TextStim(win=win, name='text_2',
-    text="Welcome to our experiment.\nYour task is to look for a semicircle and indicate if it faces to the left or to the right.\nPress '1' to indicate that the semicircle is facing left.\nPress '2' to indicate that the semicircle is facing right.\nYou will first complete 20 practice trials.\nPress SPACE bar when you are ready to start.\n",
+    text="Welcome! Your task is to find\nwhite or blue semicircle and indicate \nif it is facing left or right.\nPress '1' for semicircle facing left.\nPress '2' for semicircle facing right.\nYou will first complete 20 practice trials.\nPress SPACE bar when you are ready to start.\n",
     font='Arial',
     pos=(0, 0), height=0.07, wrapWidth=None, ori=0, 
     color='white', colorSpace='rgb', opacity=1, 
@@ -103,7 +103,7 @@ image_2 = visual.ImageStim(
     texRes=128, interpolate=True, depth=0.0)
 key_resp_6 = keyboard.Keyboard()
 text_3 = visual.TextStim(win=win, name='text_3',
-    text='Press 1 if you see left semicircle\n\n\n\nPress 2 if you see right semicircle\n\n\nPress SPACE to start',
+    text='Press 1 if you see left semicircle\n\n\nPress 2 if you see right semicircle\n\n\nPress SPACE to start',
     font='Arial',
     pos=(0, 0), height=0.08, wrapWidth=None, ori=0, 
     color='white', colorSpace='rgb', opacity=1, 
@@ -144,7 +144,7 @@ text_4 = visual.TextStim(win=win, name='text_4',
 # Initialize components for Routine "WelcomeScreen"
 WelcomeScreenClock = core.Clock()
 text = visual.TextStim(win=win, name='text',
-    text='Welcome to the experimental trials.\nBe reminded that your task is to look for a semicircle.\nIf semicircle is facing left press 1.\nIf semicircle is facing right press 2.\nPress SPACE bar to continue\n',
+    text="Welcome to the experimental trials.\nBe reminded that your task is to look for \na white or a blue semicircle.\nIf semicircle is facing left press '1'.\nIf semicircle is facing right press '2'.\nPress SPACE bar to continue\n",
     font='Arial',
     pos=(0, 0), height=0.07, wrapWidth=None, ori=0, 
     color='white', colorSpace='rgb', opacity=1, 
