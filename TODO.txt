@@ -2,8 +2,6 @@ SUPP MAT
 
 - Why are plots in Fig 2.1 and 2.2 looking different? ANNA H
 - Make priors a bit broader in Fig 3.1 ANNA H
-- Fig 3.2 - all 6 panels on one line ALASDAIR
-- Include expts 3 & 4 ALASDAIR
 - Fig 3.6 has gone wrong - why? ALASDAIR
 - Go do something with power models ALASDAIR
 - What model diagnostics to report in supp mat? Print summary? ANNA H
@@ -13,5 +11,5 @@ MANUSCRIPT
 - Check over methods ANNA H
 - Fig 4 needs prettifying (better colours) ANNA H
 - Talk to Alejandro about OC model ALASDAIR
-- Sft model where sigma can vary with log(NT + 1). Try to fit models? ANNA H
+- Sft model where sigma can vary with log(NT + 1). Try to fit models? ANNA H - PAUSE FOR NOW
 - Add a bit more text about the reasoning behind hypothesis 2
