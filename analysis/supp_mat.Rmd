@@ -197,7 +197,7 @@ loo_model_weights(loo_list)
 
 The plots before show our estimates for average participant to lie. The regions illustrate the distribution of reaction times estimated by our model. 
 
-```{r plt-post, fig.height=16, fig.cap="Posterior predictions for reaction time and log(N+1)."}
+```{r plt-post, fig.height=8, fig.cap="Posterior predictions for reaction time and log(N+1)."}
 
 plt_nrl <- plot_model_fits_rt(1, m_exp1_nrl, plot_type = "fitted")
 plt_log <- plot_model_fits_rt(1, m_exp1_log, plot_type = "fitted")
@@ -208,7 +208,7 @@ plt_nrl / plt_log / plt_sft
 rm(plt_nrl, plt_log, plt_sft)
 ```
 
-```{r plt-post-re, fig.height=16, fig.cap="Posterior predictions for reaction time and log(N+1)."}
+```{r plt-post-re, fig.height=8, fig.cap="Posterior predictions for reaction time and log(N+1)."}
 
 plt_nrl <- plot_model_fits_rt(1, m_exp1_nrl, plot_type = "predicted", y_limits = c(0, 2.5))
 plt_log <- plot_model_fits_rt(1, m_exp1_log, plot_type = "predicted", y_limits = c(0, 2.5))

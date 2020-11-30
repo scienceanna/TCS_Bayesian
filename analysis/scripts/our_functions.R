@@ -119,7 +119,7 @@ run_model <- function(my_inputs, ppc) {
   
 }
   
-plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0, 1.5), n_row = 2, feature2plot = 'all', dot_col = "yellow1") {
+plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0, 1.5), n_row = 1, feature2plot = 'all', dot_col = "yellow1") {
   
   # plot search slopes for experiment e_id
   
