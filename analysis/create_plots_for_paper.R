@@ -134,4 +134,4 @@ m_prt <- run_model(model_params, ppc = "only")
 plt_rt_scat <- plot_model_fits_rt(2, m_prt, y_limits = c(0, 1), n_row = 3, plot_type = "fitted", dot_col = "darkblue")
 plt_rt_pred <-plot_model_fits_rt(2, m_prt, y_limits = c(0, 1.8), n_row = 3, plot_type = "predicted", dot_col = "darkblue")
 
-ggsave("../plots/bayes_buetti_rt.pdf", plt_rt_scat + plt_rt_pred, width = 8, height = 6)
+ggsave("../plots/bayes_buetti_rt.pdf", plt_rt_scat + plt_rt_pred, width = 8, height = 4)
