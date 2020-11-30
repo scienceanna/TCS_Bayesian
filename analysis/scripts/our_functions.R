@@ -347,8 +347,8 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary, one_
   model_sum <- round(summary(two_feature_model)$fixed, 3)
   
   
-  sigma_mean <-  VarCorr(m_exp1_sft)$residual$sd[1]
-  sigma_sd   <-  VarCorr(m_exp1_sft)$residual$sd[2]
+  sigma_mean <-  VarCorr(one_feature_model)$residual$sd[1]
+  sigma_sd   <-  VarCorr(one_feature_model)$residual$sd[2]
   
   sd_mean <- VarCorr(one_feature_model)$p_id$sd[1,1]
   sd_sd <- VarCorr(one_feature_model)$p_id$sd[1,2]
@@ -356,8 +356,8 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary, one_
   sd_ndt_mean <- VarCorr(one_feature_model)$p_id$sd[2,1]
   sd_ndt_sd <- VarCorr(one_feature_model)$p_id$sd[2,2]
   
-  ndt_Int <- fixef(m_exp1_sft)[1,1]
-  ndt_Int_sd <- fixef(m_exp1_sft)[1,2]
+  ndt_Int <- fixef(one_feature_model)[1,1]
+  ndt_Int_sd <- fixef(one_feature_model)[1,2]
   
   my_prior <-  c(
     prior_string(paste("normal(", model_sum[1:length(intercepts),1], ",",  model_sum[1:length(intercepts),2], ")", sep = ""), class = "b", coef = intercepts),
