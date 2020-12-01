@@ -7,7 +7,6 @@ SUPP MAT
 
 MANUSCRIPT
 
-- Fig 4 needs prettifying (better colours) ANNA H
 - Talk to Alejandro about OC model ALASDAIR
 - Sft model where sigma can vary with log(NT + 1). Try to fit models? ANNA H - PAUSE FOR NOW
 - Add a bit more text about the reasoning behind hypothesis 2
