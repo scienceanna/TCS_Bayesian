@@ -97,8 +97,8 @@ slopes4 <- extract_fixed_slopes_from_model(m_exp4_sft)
 
 ggplot(slopes1, aes(x= D, fill = d_feature, colour = d_feature)) + 
   geom_density( alpha = 0.33) +
-  scale_fill_manual("feature", values = c("orange", "blue", "yellow", "red", "green", "purple")) +
-  scale_colour_manual("feature", values = c("orange", "blue", "yellow", "red", "green", "purple")) +
+  scale_fill_manual("feature", values = c("orange1", "royalblue1", "gold1", "gray0", "gray40", "gray90")) +
+  scale_colour_manual("feature", values = c("orange1", "royalblue1", "gold1", "gray0", "gray40", "gray90")) +
   scale_x_continuous(TeX("posterior distributions for $D_c$ and $D_s$")) + 
   scale_y_continuous(expand = c(0,0)) +
   theme(legend.title = element_blank())-> plt_Di
