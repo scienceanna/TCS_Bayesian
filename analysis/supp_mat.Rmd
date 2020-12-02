@@ -350,6 +350,7 @@ rename participants to pretend that we have a between subjects measure!
 ```{r}
 
 d %>% 
+  filter(exp_id %in% c(1, 2)) %>%
   select(-exp_id) %>% 
   separate(p_id, c("exp_id", "p_id"), "-") %>%
   mutate(p_id = paste(p_id, exp_id)) -> d
@@ -360,7 +361,7 @@ map_dfr(unique(d$exp_id), rank_order_people, shuffle_noise = shuffle_noise) %>%
 
 dr_no_shuffle %>% group_by(ps_id, exp_id) %>% summarise(m_rt = median(rt), .groups = "drop") %>% 
   pivot_wider(names_from = "exp_id", values_from = "m_rt") %>%
-  ggplot(aes(x = `1a`, y = `1b`)) + geom_point(colour = "cyan")  + 
+  ggplot(aes(x = `1a`, y = `2c`)) + geom_point(colour = "cyan")  + 
   coord_fixed() -> plt_no_shuffle
 
 shuffle_noise = 0.15
@@ -369,7 +370,7 @@ map_dfr(unique(d$exp_id), rank_order_people, shuffle_noise = shuffle_noise) %>%
 
 dr_shuffle %>% group_by(ps_id, exp_id) %>% summarise(m_rt = median(rt), .groups = "drop") %>% 
   pivot_wider(names_from = "exp_id", values_from = "m_rt") %>%
-  ggplot(aes(x = `1a`, y = `1b`)) + geom_point(colour = "cyan") + 
+  ggplot(aes(x = `1a`, y = `2c`)) + geom_point(colour = "cyan") + 
   coord_fixed() -> plt_shuffle
 
 plt_no_shuffle + plt_shuffle
