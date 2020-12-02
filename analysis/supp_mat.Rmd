@@ -21,6 +21,7 @@ library(tidybayes)
 library(patchwork)
 library(magrittr)
 library(latex2exp)
+library(corrplot)
 ```
 
 ```{r}
@@ -327,9 +328,6 @@ Note, this plot is for how we expect the average person to perform in experiment
 plot_model_fits_rt(2, m_prt, y_limits = c(0, 1), n_row = 3, plot_type = "fitted")
 ```
 
-
-
-
 Attempting plots for unknown participant! 
 
 ```{r plot-exp2-predictions-new-person, fig.height = 6, fig.cap="reaction time predictions."}
@@ -347,32 +345,58 @@ What do the results look like if:
 ## Pretend the original experiment was within subjects!
 
 
-### Best case correlation!
 rename participants to pretend that we have a between subjects measure!
 
 ```{r}
-
 
 d %>% 
   select(-exp_id) %>% 
   separate(p_id, c("exp_id", "p_id"), "-") %>%
   mutate(p_id = paste(p_id, exp_id)) -> d
 
-
 shuffle_noise = 0
+map_dfr(unique(d$exp_id), rank_order_people, shuffle_noise = shuffle_noise) %>%
+  left_join(d, by = "p_id") -> dr_no_shuffle 
 
-
-dr <- map_dfr(unique(d$exp_id), rank_order_people, shuffle_noise = shuffle_noise) 
-
-
-dr <- left_join(d,dr)
-
-dr %>% group_by(ps_id, exp_id) %>% summarise(m_rt = median(rt)) %>% 
+dr_no_shuffle %>% group_by(ps_id, exp_id) %>% summarise(m_rt = median(rt), .groups = "drop") %>% 
   pivot_wider(names_from = "exp_id", values_from = "m_rt") %>%
-  ggplot(aes(x = `1a`, y = `1b`)) + geom_point(colour = "cyan")
+  ggplot(aes(x = `1a`, y = `1b`)) + geom_point(colour = "cyan")  + 
+  coord_fixed() -> plt_no_shuffle
 
+shuffle_noise = 0.15
+map_dfr(unique(d$exp_id), rank_order_people, shuffle_noise = shuffle_noise) %>%
+  left_join(d, by = "p_id") -> dr_shuffle 
+
+dr_shuffle %>% group_by(ps_id, exp_id) %>% summarise(m_rt = median(rt), .groups = "drop") %>% 
+  pivot_wider(names_from = "exp_id", values_from = "m_rt") %>%
+  ggplot(aes(x = `1a`, y = `1b`)) + geom_point(colour = "cyan") + 
+  coord_fixed() -> plt_shuffle
+
+plt_no_shuffle + plt_shuffle
+```
+
+We can get a better idea of our assumed correlations by calculating the correlation matrix between each participant's median RT
+
+```{r}
+dr_no_shuffle %>% group_by(ps_id, exp_id) %>% summarise(m_rt = median(rt), .groups = "drop") %>%
+  pivot_wider(names_from = "exp_id", values_from = "m_rt") %>%
+  select(-ps_id) -> dc
+
+corrplot(cor(dc), method = "number") -> plt_c_ns
+
+dr_shuffle %>% group_by(ps_id, exp_id) %>% summarise(m_rt = median(rt), .groups = "drop") %>%
+  pivot_wider(names_from = "exp_id", values_from = "m_rt") %>%
+  select(-ps_id) -> dc
+
+corrplot(cor(dc), method = "number") -> plt_c_s
+
+plt_c_ns + plt_c_s
 
 ```
+
+If we now rerun the shifted-lognormal model on this dataset (Experiment 1 only) we can investigate how well we can predict each individual participant's performance in Experiment 2. 
+
+
 
 ## Sample 6 trials per condition
 
