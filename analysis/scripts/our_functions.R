@@ -111,8 +111,8 @@ run_model <- function(my_inputs, ppc) {
     sample_prior = ppc,
     iter = n_itr,
     inits = my_inputs$my_inits,
-    stanvars = my_inputs$my_stanvar,
-    save_pars = save_pars(all=TRUE)
+    stanvars = my_inputs$my_stanvar#,
+   # save_pars = save_pars(all=TRUE)
     )
 
   return(m)
@@ -264,8 +264,6 @@ calc_D_overall_b <- function(f, Dx, De)
     "collinear" = D_collinear) %>%
     rename(De = "D"))
 }
-
-
 get_Dp_samples <- function(e_id, d, Dx, De) {
   # This function predicts the values for D of experiment 2 (or 4) 
   # based on the results or experiment 1 (3). 
@@ -297,7 +295,6 @@ get_Dp_samples <- function(e_id, d, Dx, De) {
   return(Dp) 
 }
 
-
 set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary, one_feature_model, two_feature_model) {
   
   # this function get's everything ready for running our model
@@ -312,14 +309,14 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary, one_
   
   # define model formula:
   if (fam == "shifted_lognormal") {
-    my_f <- bf(rt ~ 0 + d_feature + log(N_T+1):d_feature + (1|p_id),
+    my_f <- bf(rt ~ 1 + d_feature:log(N_T+1) + (1|p_id),
                ndt ~ 1 + (1|p_id))
     
     my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
     
   } else {
     
-    my_f <- rt ~  0 + d_feature + log(N_T+1):d_feature + (1|p_id)
+    my_f <- rt ~ 1 + log(N_T+1):d_feature + (1|p_id)
     my_inits <- "random"
     
   }
@@ -338,8 +335,8 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary, one_
       d_feature = as.factor(as.character(d_feature))) -> df
 
 
-  intercepts <- paste("d_feature", unique(Dp_summary$d_feature), sep = "")
-  intercepts <- gsub("[[:space:]]", "", intercepts)
+  # intercepts <- paste("d_feature", unique(Dp_summary$d_feature), sep = "")
+  # intercepts <- gsub("[[:space:]]", "", intercepts)
   
   slopes <- paste("d_feature", unique(Dp_summary$d_feature), ":logN_TP1", sep = "")
   slopes <- gsub("[[:space:]]", "", slopes)
@@ -360,7 +357,7 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary, one_
   ndt_Int_sd <- fixef(one_feature_model)[1,2]
   
   my_prior <-  c(
-    prior_string(paste("normal(", model_sum[1:length(intercepts),1], ",",  model_sum[1:length(intercepts),2], ")", sep = ""), class = "b", coef = intercepts),
+    prior_string(paste("normal(", fixef(two_feature_model)[1,1], ",",  fixef(two_feature_model)[1,2], ")", sep = ""), class = "Intercept"),
     prior_string(paste("normal(", Dp_summary$mu, ",",  Dp_summary$sigma, ")", sep = ""), class = "b", coef = slopes),
     prior(normal(sigma_mean, sigma_sd), class = "sigma"),
     prior(normal(sd_mean, sd_sd), class = "sd"),

@@ -13,5 +13,6 @@ brms
 tidybayes
 patchwork
 magrittr
-readxl
 latex2exp
+corrplot
+readxl
