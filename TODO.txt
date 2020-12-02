@@ -10,3 +10,12 @@ MANUSCRIPT
 - Talk to Alejandro about OC model ALASDAIR
 - Sft model where sigma can vary with log(NT + 1). Try to fit models? ANNA H - PAUSE FOR NOW
 - Add a bit more text about the reasoning behind hypothesis 2
+- Read through section 2 - ANNA N
+
+EXPERIMENT NOTES
+
+- Hypotheses - 1. increase distractors, 2. within subj - individual differences, 3. distributional predictive model. Individual differences (and more sophisticated RE structures) as exploratory analysis
+- For increased distractors: new ring, or same number of levels but more distractors on each ring? To think about
+- Save distractor locations when make stimuli
+- Practice trials - same number of L and R trials - ANNA N
+- Draft up an R script to turn Pavlovia data into useful input for models
