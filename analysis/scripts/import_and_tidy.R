@@ -65,79 +65,20 @@ account_for_zero_distracters <- function(experiment)
 {
   # Little helper function to sort out the quirk with N_T = 0
   # i.e, in this case, d_feature is undefined
-  # So, well, copy this row three times - once for each value of d_feature
+  # So, well, copy this row once for each value of d_feature
   
   d %>% filter(exp_id == experiment) %>%
-    mutate(d_feature = fct_drop(d_feature)) -> df
+    mutate(d_feature = as.character(d_feature)) -> df
   
-  bind_rows(
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[2]),
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[3]),
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[4]),
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[5]),
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[6]),
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[7]),
-    filter(df, N_T>0)) %>%
-    mutate(d_feature = as_factor(d_feature)) -> df
+  df_no_distarcors <- filter(df, N_T == 0)
+  df <- filter(df, N_T > 0)
   
-  # This is a bunch of ugly code which makes the direct re-analysis actually direct.
-  # It makes sure that each of the zero distractors cases is defined within a sub experiment.
+  for (lvl in unique(df$d_feature))
+  { 
+    no_dist_lvl <- df_no_distarcors %>% mutate(d_feature = lvl)
+    df <- bind_rows(df, no_dist_lvl)
+  }
   
-  #if (experiment == 1){
-    
-  #  bind_rows(
-  #    filter(df, N_T==0, str_detect(df$p_id, "1a")) %>% mutate(d_feature = levels(df$d_feature)[2]),
-  #    filter(df, N_T==0, str_detect(df$p_id, "1a")) %>% mutate(d_feature = levels(df$d_feature)[3]),
-  #    filter(df, N_T==0, str_detect(df$p_id, "1a")) %>% mutate(d_feature = levels(df$d_feature)[4]),
-  #    filter(df, N_T==0, str_detect(df$p_id, "1b")) %>% mutate(d_feature = levels(df$d_feature)[5]),
-  #    filter(df, N_T==0, str_detect(df$p_id, "1b")) %>% mutate(d_feature = levels(df$d_feature)[6]),
-  #    filter(df, N_T==0, str_detect(df$p_id, "1b")) %>% mutate(d_feature = levels(df$d_feature)[7]),
-  #    filter(df, N_T>0)) %>%
-  #    mutate(d_feature = as_factor(d_feature)) -> df
-    
-  #} else if (experiment == 3) {
-    
-  #  bind_rows(
-  #    filter(df, N_T==0, str_detect(df$p_id, "3a")) %>% mutate(d_feature = levels(df$d_feature)[2]),
-  #    filter(df, N_T==0, str_detect(df$p_id, "3a")) %>% mutate(d_feature = levels(df$d_feature)[3]),
-  #    filter(df, N_T==0, str_detect(df$p_id, "3a")) %>% mutate(d_feature = levels(df$d_feature)[4]),
-  #    filter(df, N_T==0, str_detect(df$p_id, "3b")) %>% mutate(d_feature = levels(df$d_feature)[5]),
-  #    filter(df, N_T==0, str_detect(df$p_id, "3b")) %>% mutate(d_feature = levels(df$d_feature)[6]),
-  #    filter(df, N_T==0, str_detect(df$p_id, "3b")) %>% mutate(d_feature = levels(df$d_feature)[7]),
-  #    filter(df, N_T>0)) %>%
-  #    mutate(d_feature = as_factor(d_feature)) -> df
-    
-  #} else if (experiment == 2) {
-  
-  #bind_rows(
-  #  filter(df, N_T==0, str_detect(df$p_id, "2a")) %>% mutate(d_feature = "orange diamond"),
-  #  filter(df, N_T==0, str_detect(df$p_id, "2a")) %>% mutate(d_feature = "blue circle"),
-  #  filter(df, N_T==0, str_detect(df$p_id, "2a")) %>% mutate(d_feature = "yellow triangle"),
-  #  filter(df, N_T==0, str_detect(df$p_id, "2b")) %>% mutate(d_feature = "orange circle"),
-  #  filter(df, N_T==0, str_detect(df$p_id, "2b")) %>% mutate(d_feature = "yellow diamond"),
-  #  filter(df, N_T==0, str_detect(df$p_id, "2b")) %>% mutate(d_feature = "blue triangle"),
-  #  filter(df, N_T==0, str_detect(df$p_id, "2c")) %>% mutate(d_feature = "blue diamond"),
-  #  filter(df, N_T==0, str_detect(df$p_id, "2c")) %>% mutate(d_feature = "yellow circle"),
-  #  filter(df, N_T==0, str_detect(df$p_id, "2c")) %>% mutate(d_feature = "orange triangle"),
-  #  filter(df, N_T>0)) %>%
-  #  mutate(d_feature = as_factor(d_feature)) -> df
-  
-  #} else if (experiment == 4) {
-    
-  #  bind_rows(
-  #    filter(df, N_T==0, str_detect(df$p_id, "4a")) %>% mutate(d_feature = "orange diamond"),
-  #    filter(df, N_T==0, str_detect(df$p_id, "4a")) %>% mutate(d_feature = "blue circle"),
-  #    filter(df, N_T==0, str_detect(df$p_id, "4a")) %>% mutate(d_feature = "yellow semicircle"),
-  #    filter(df, N_T==0, str_detect(df$p_id, "4b")) %>% mutate(d_feature = "orange circle"),
-  #    filter(df, N_T==0, str_detect(df$p_id, "4b")) %>% mutate(d_feature = "yellow diamond"),
-  #    filter(df, N_T==0, str_detect(df$p_id, "4b")) %>% mutate(d_feature = "blue semicircle"),
-  #    filter(df, N_T==0, str_detect(df$p_id, "4c")) %>% mutate(d_feature = "blue diamond"),
-  #    filter(df, N_T==0, str_detect(df$p_id, "4c")) %>% mutate(d_feature = "yellow circle"),
-  #    filter(df, N_T==0, str_detect(df$p_id, "4c")) %>% mutate(d_feature = "orange semicircle"),
-  #    filter(df, N_T>0)) %>%
-  #    mutate(d_feature = as_factor(d_feature)) -> df 
-    
-  #}
   return(df)
 }
 
