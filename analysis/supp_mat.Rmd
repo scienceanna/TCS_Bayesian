@@ -379,24 +379,15 @@ plt_no_shuffle + plt_shuffle
 
 We now calculate our assumed "groundtruth"
 
-```{r}
-
-dr_no_shuffle %>% group_by(ps_id, exp_id) %>% summarise(m_rt = median(rt), .groups = "drop") %>% 
-  mutate(exp_id = paste("exp_id", exp_id, sep = "" )) %>%
-  pivot_wider(names_from = "exp_id", values_from = "m_rt") -> dm_ns
-
-dr_shuffle %>% group_by(ps_id, exp_id) %>% summarise(m_rt = median(rt), .groups = "drop") %>% 
-  mutate(exp_id = paste("exp_id", exp_id, sep = "" )) %>%
-  pivot_wider(names_from = "exp_id", values_from = "m_rt") -> dm_s
+```{r, message=FALSE}
 
 
-m <- brm(exp_id2 ~ exp_id1, data = dm_ns)
-bayes_R2(m)
-
-m <- brm(exp_id2 ~ exp_id1, data = dm_s)
-bayes_R2(m)
+bayes_corr_subsample(dr_no_shuffle) 
+bayes_corr_subsample(dr_no_shuffle, 6) 
 
 
+bayes_corr_subsample(dr_shuffle) 
+bayes_corr_subsample(dr_shuffle, 6) 
 
 ```
 

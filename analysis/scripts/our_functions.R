@@ -433,3 +433,23 @@ rank_order_people <- function(e_id, shuffle_noise = 0.025) {
   
   return(d_out)
 }
+
+
+bayes_corr_subsample <- function(df, n_trials = NA) {
+  
+  if (is.finite(n_trials)) {
+    df %>% group_by(p_id, exp_id, d_feature, N_T) %>%
+      sample_n(n_trials) %>%
+      ungroup() -> df
+  }
+  
+  df %>% group_by(ps_id, exp_id) %>%
+
+    summarise(m_rt = median(rt), .groups = "drop") %>% 
+    mutate(exp_id = paste("exp_id", exp_id, sep = "" )) %>%
+    pivot_wider(names_from = "exp_id", values_from = "m_rt") -> dm_ns
+  
+  m <- brm(exp_id2 ~ exp_id1, data = dm_ns)
+  return(bayes_R2(m))
+  
+}
