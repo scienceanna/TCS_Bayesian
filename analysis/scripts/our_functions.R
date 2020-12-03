@@ -129,7 +129,7 @@ plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0,
     
     d %>%
       filter(
-        exp_id == e_id, N_T > 0) %>%
+        exp_id == e_id) %>%
       mutate(
         d_feature = fct_drop(d_feature),
         p_id = fct_drop(p_id)) %>%
@@ -139,7 +139,7 @@ plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0,
     
     d %>%
       filter(
-        exp_id == e_id, N_T > 0, d_feature == feature2plot) %>%
+        exp_id == e_id, d_feature == feature2plot) %>%
       mutate(
         d_feature = fct_drop(d_feature),
         p_id = fct_drop(p_id)) -> d_plt
@@ -204,7 +204,6 @@ plot_ribbon_quantiles <- function(d_hdci, d_plt, y_limits, n_row, plot_type, dot
   return(plt)
   
 }
-
 
 extract_fixed_slopes_from_model <- function(m) {
   
@@ -343,7 +342,6 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary, one_
   
   model_sum <- round(summary(two_feature_model)$fixed, 3)
   
-  
   sigma_mean <-  VarCorr(one_feature_model)$residual$sd[1]
   sigma_sd   <-  VarCorr(one_feature_model)$residual$sd[2]
   
@@ -353,11 +351,16 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary, one_
   sd_ndt_mean <- VarCorr(one_feature_model)$p_id$sd[2,1]
   sd_ndt_sd <- VarCorr(one_feature_model)$p_id$sd[2,2]
   
-  ndt_Int <- fixef(one_feature_model)[1,1]
-  ndt_Int_sd <- fixef(one_feature_model)[1,2]
+  ndt_Int <- fixef(two_feature_model)[2,1]
+  ndt_Int_sd <- fixef(two_feature_model)[2,2]
   
+  intercept_mu <- fixef(two_feature_model)[1,1]
+  intercept_sd <- fixef(two_feature_model)[1,2]
+  
+  
+    
   my_prior <-  c(
-    prior_string(paste("normal(", fixef(two_feature_model)[1,1], ",",  fixef(two_feature_model)[1,2], ")", sep = ""), class = "Intercept"),
+    prior_string(paste("normal(", intercept_mu, ",",  intercept_sd, ")", sep = ""), class = "Intercept"),
     prior_string(paste("normal(", Dp_summary$mu, ",",  Dp_summary$sigma, ")", sep = ""), class = "b", coef = slopes),
     prior(normal(sigma_mean, sigma_sd), class = "sigma"),
     prior(normal(sd_mean, sd_sd), class = "sd"),

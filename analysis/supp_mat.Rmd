@@ -317,7 +317,6 @@ VarCorr(m_exp2_sft)$residual$sd
 
 Seems legit for now to model Exp2 using the variances from Exp1 :)
 
-
 ## Predicting Reaction Times
 
 ```{r gen-predictions, fig.width = 10, fig.height = 10, cache=TRUE}
@@ -382,7 +381,7 @@ for (draw in unique(d_samples$.draw)) {
   r2[i] <-   summary(lm(mean_rt ~ .value, ddraw))$r.squared
 }
 
- hdci(r2, 0.93)      
+ hdci(r2, 0.97)      
 
 ```
 
