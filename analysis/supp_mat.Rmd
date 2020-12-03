@@ -325,13 +325,20 @@ m_prt <- run_model(model_params, ppc = "only")
 Note, this plot is for how we expect the average person to perform in experiment 2. 
 
 ```{r plot-exp2-predictions, fig.height = 6, fig.cap="reaction time predictions."}
-plot_model_fits_rt(2, m_prt, y_limits = c(0, 1), n_row = 3, plot_type = "fitted")
+plot_model_fits_rt(2, m_prt, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
 ```
+
+Do an R2 for this!
 
 Attempting plots for unknown participant! 
 
 ```{r plot-exp2-predictions-new-person, fig.height = 6, fig.cap="reaction time predictions."}
 plot_model_fits_rt(2, m_prt, y_limits = c(0, 2), n_row = 3, plot_type = "predicted")
+```
+
+Does Bayes_R2 work on this>
+```{r}
+bayes_R2(m_prt)
 ```
 
 # Power Analyis for Planned Studies
@@ -364,7 +371,7 @@ dr_no_shuffle %>% group_by(ps_id, exp_id) %>% summarise(m_rt = median(rt), .grou
   ggplot(aes(x = `1`, y = `2`)) + geom_point(colour = "cyan")  + 
   coord_fixed() -> plt_no_shuffle
 
-shuffle_noise = 0.15
+shuffle_noise = 0.10
 map_dfr(unique(d$exp_id), rank_order_people, shuffle_noise = shuffle_noise) %>%
   left_join(d, by = "p_id") %>%
   mutate(exp_id = parse_number(exp_id)) -> dr_shuffle 
