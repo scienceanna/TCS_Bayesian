@@ -330,13 +330,53 @@ plot_model_fits_rt(2, m_prt, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fit
 
 Do an R2 for this!
 
+
+```{r}
+d %>%
+  filter(
+    exp_id == 2, N_T > 0) %>%
+  mutate(
+    d_feature = fct_drop(d_feature),
+    p_id = fct_drop(p_id)) %>%
+  ungroup() %>%
+  modelr::data_grid(N_T = unique(filter(d, N_T>0)$N_T), d_feature) %>%
+  add_fitted_draws(m_prt, re_formula = NA, scale = "response", n = 500) -> d_samples
+
+d %>%
+  filter(
+    exp_id == 2, N_T > 0) %>%
+  mutate(
+    d_feature = fct_drop(d_feature),
+    p_id = fct_drop(p_id)) %>%
+  ungroup() %>% 
+  group_by(N_T, d_feature, p_id) %>%
+  summarise(mean_rt = mean(rt), .groups = "drop") %>%
+  group_by(N_T, d_feature) %>%
+  summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
+  left_join(d_samples, by = c("N_T", "d_feature")) -> d_samples
+    
+    
+r2 <- vector()
+    
+i <- 0
+for (draw in unique(d_samples$.draw)) {
+  i <- i + 1
+  ddraw <- filter(d_samples, .draw == draw)
+  r2[i] <-   summary(lm(mean_rt ~ .value, ddraw))$r.squared
+}
+
+ hdci(r2, 0.93)      
+
+```
+
 Attempting plots for unknown participant! 
 
 ```{r plot-exp2-predictions-new-person, fig.height = 6, fig.cap="reaction time predictions."}
 plot_model_fits_rt(2, m_prt, y_limits = c(0, 2), n_row = 3, plot_type = "predicted")
 ```
 
-Does Bayes_R2 work on this>
+Does Bayes_R2 work on this?
+
 ```{r}
 bayes_R2(m_prt)
 ```
@@ -386,7 +426,7 @@ plt_no_shuffle + plt_shuffle
 
 We now calculate our assumed "groundtruth"
 
-```{r, message=FALSE}
+```{r, message=FALSE, cache=TRUE}
 
 
 bayes_corr_subsample(dr_no_shuffle) 
