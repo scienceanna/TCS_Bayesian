@@ -209,12 +209,16 @@ Unlike the origianl TCS, before we can use the predicted values of $D_{c,s}$ to 
 
 For the implementation presented here, in order to predict the data from Experiment 2 (4) we will simply use the values for the above parameters obtained from Experiment 1 (3). Once these have been set, we can use the specified model to generate the HDPI intervals for the expected average performance and the full distribution of reaction times over a number of simulated new observers (Figure \ref{fig:buetti2019_rt}).
 
+
 \begin{figure}
 \centering
 \subfigure{\includegraphics[width=\textwidth]{../plots/bayes_buetti_rt.pdf}}
 \caption{(\textit{left}) HDPI and empirical mean reaction times for each condition in Experiment 2. (\textit{right}) Similar, for the full distribution of reaction times over trials. }
 \label{fig:buetti2019_rt}
 \end{figure}
+
+We can summarise how well the model predicts the mean reaction times (Figure \ref{fig:buetti2019_rt}(left)) by repeatedly i) sampling from the posterior, ii) computing the predicted mean reaction times, and iii) computing the $R^2$ statistic for the correlation between predicted and empirical mean reaction times. Doing this gives us a HPDI of $[0.75, 0.79]$, which compares with the value of $R^2 = 0.88$ obtained for the original TCS. [DO WE WANT TO COMMENT ON THE DIFFERENCE?]. While our new model is slighlty lower than the original method, as discussed above, it offers substantial improvements over the original model in terms of predicting the full distribution of reaction times over multiple trials and participants. 
+
 
 \subsubsection{Discussion}
 

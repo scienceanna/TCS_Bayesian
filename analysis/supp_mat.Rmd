@@ -125,11 +125,28 @@ d %>% filter(exp_id %in% exps2predict) %>%
   geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
   scale_x_continuous("predicted reaction time (ms)") +
   scale_y_continuous("empirical mean reaction time (ms)")
+
 ```
+
+Compute correlation!
+```{r}
+d %>% filter(exp_id %in% exps2predict, N_T > 0) %>%
+	group_by(exp_id, p_id, d_feature, N_T) %>%
+	summarise(mean_rt = mean(rt), .groups = "drop") %>%
+	group_by(exp_id,  d_feature, N_T) %>%
+	summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
+	left_join(rt_pred, by = c("exp_id", "d_feature", "N_T")) -> d_corr
+
+round(summary(lm(mean_rt ~ p_rt, d_corr))$r.squared,2)
+
+```
+The $R^2= `r,round(summary(lm(mean_rt ~ p_rt, d_corr))$r.squared,2)`
+
 ```{r tidy-up}
+
 # remove variables we no longer need
 rm(De, Dp, rt_pred, exps2predict, 
-   calc_D_per_feature, extract_a_value, predict_D_overall, gen_exp_predictions, extract_D, predict_rt)
+   calc_D_per_feature, extract_a_value, predict_D_overall, gen_exp_predictions, extract_D, predict_rt, d_corr)
 ```
 
 # Switching to a Bayesian Multi-Level Framework
@@ -350,7 +367,7 @@ d %>%
     p_id = fct_drop(p_id)) %>%
   ungroup() %>% 
   group_by(N_T, d_feature, p_id) %>%
-  summarise(mean_rt = mean(rt), .groups = "drop") %>%
+  summarise(mean_rt = exp(mean(log(rt))), .groups = "drop") %>%
   group_by(N_T, d_feature) %>%
   summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
   left_join(d_samples, by = c("N_T", "d_feature")) -> d_samples
