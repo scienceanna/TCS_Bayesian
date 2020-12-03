@@ -364,7 +364,7 @@ dr_no_shuffle %>% group_by(ps_id, exp_id) %>% summarise(m_rt = median(rt), .grou
   ggplot(aes(x = `1`, y = `2`)) + geom_point(colour = "cyan")  + 
   coord_fixed() -> plt_no_shuffle
 
-shuffle_noise = 0.1
+shuffle_noise = 0.15
 map_dfr(unique(d$exp_id), rank_order_people, shuffle_noise = shuffle_noise) %>%
   left_join(d, by = "p_id") %>%
   mutate(exp_id = parse_number(exp_id)) -> dr_shuffle 
@@ -388,6 +388,15 @@ bayes_corr_subsample(dr_no_shuffle, 6)
 
 bayes_corr_subsample(dr_shuffle) 
 bayes_corr_subsample(dr_shuffle, 6) 
+
+# save the subsampled version:
+
+dr_shuffle %>% group_by(p_id, exp_id, d_feature, N_T) %>%
+      sample_n(6) %>%
+      ungroup() -> dr_shuffle_ss 
+
+write_csv(dr_shuffle_ss, "models/ss_data.csv")
+
 
 ```
 
