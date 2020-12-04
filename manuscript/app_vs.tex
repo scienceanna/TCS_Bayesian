@@ -153,19 +153,18 @@ Finally, the collinear contrast integration model also assumes independence of f
 
 However, the evidence that the collinear contrast model outperforms the orthogonal contrast model is somewhat weak. The above $R^2$ statistic was calculated over Experiments 2 and 4 together. If we analyse each experiment seperately, we find that the orthogonal contrast model offers the best fit for the Experiment 2 data (see Table ). Furthermore, there is very little difference between the top two methods. This will be discussed further below (Section...)
 
-
-\begin{center}
-\begin{tabular}{ |c|cc|c| } 
+\begin{table}
+\centering
+\begin{tabular}{ c|cc|c } 
 method & Experiment 2 & Experiment 4 & Both Experiments \\
  \hline 
 best feature & 0.960 & 0.946 & 0.944 \\ 
  orthogonal contrast & 0.961 & 0.958 & 0.945 \\ 
  collinear & 0.956& 0.966& 0.936 \\
- \hline
 \end{tabular}
 \caption{A table of $R^2$ values}
 \label{tab:reimp_D_r2}
-\end{center}
+\end{table}
 
 \subsubsection{Estimating mean reaction times}
 
@@ -178,7 +177,6 @@ RT = D{c,s}\log(N_T+1) + a
 As can be seen in  Figure \ref{fig:comp_rep} (centre panel), these predictions are very close to the observed values. 
 
 their empirical RT results with an $R^2 = 93.27\%$. 
-
 
 \subsubsection{Discussion}
 
@@ -239,6 +237,10 @@ We can summarise how well the model predicts the mean reaction times (Figure \re
 \subsubsection{Discussion}
 
 Our extension to a multi-level TCS model allows us to go beyond the original version and predict the full distribution of reaction times over samples of known, or new, observers. Moving from a normal to a shifted-lognormal distribution allows us to accuratly model the skew seen in the empirical data, and avoid predicting negative response times. 
+
+\subsection{Sensitivity to different $D$ methods}
+
+It is hard to distinguish between the three methods!
 
 \subsection{Discussion}
 
