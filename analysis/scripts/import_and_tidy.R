@@ -48,11 +48,6 @@ d$e4c <- import_experiment(20, c(`blue diamond` = "1", `yellow circle` = "2", `o
 d <- bind_rows(d)
 
 
-# convert from ms to seconds
-d %>% mutate(
-  rt = rt/1000,
-  exp_id = parse_number(exp_id)) -> d
-
 
 # remove error trials and very very short responses
 print(dim(d))
@@ -83,7 +78,13 @@ account_for_zero_distracters <- function(experiment)
 }
 
 
-d <- map_dfr(1:4, account_for_zero_distracters)
+d <- map_dfr(unique(d$exp_id), account_for_zero_distracters)
+
+
+# convert from ms to seconds
+d %>% mutate(
+  rt = rt/1000,
+  exp_id = parse_number(exp_id)) -> d
 
 rm(account_for_zero_distracters, import_experiment)
 
