@@ -102,6 +102,10 @@ left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
   scale_y_continuous("empirical D")
 ```
 
+```{r}
+knitr::kable(De)
+```
+
 And compute $R^2$
 
 ```{r}
@@ -189,6 +193,10 @@ Now that we have verified that we can re-create the original results, we switch 
   - Use a lognormal distribution for modelling reaction times, This allows us to avoid ever predicing impossible negative reaction times. It also helps us to account for the skew in the distribution
   - We will switch from using milli-seconds to seconds. This leaves us with most values around 0.5-1seconds, which will help model fitting. I.e., a more standardised scale. 
   
+  
+```{r}
+d$rt <- d$rt/1000
+```
 
 ## Measuring $D$ from Empirical Data
 
