@@ -102,7 +102,9 @@ In Experiment 1a of \cite{buetti2019predicting}, participants searched for a cya
 
 The \textit{Target Signal Contrast} theory allows us to predict the value of the logarithmic slope, $D_\text{c,s}$, in this condition based on the  corresponding $D_j$ in the single feature seach experiments. 
 
-\subsubsection{Calculating the logarithmic slope parameter, $D_i$}
+
+
+\subsubsection{Calculating the intercept, $a$, and the logarithmic slope parameter, $D_i$}
 \label{sec:fitting_D}
 
 Experiments 1a and 1b (referred to jointly as Experiment 1) were used to calculate the logarithmic slope parameter $D_i$. In both experiments, the number of distractors varied, allowing the data to be used to fit a log-linear model for reaction times, where reaction times increase linearly with $\log(N_T)$ (the log of the number of distractors) \ref{eq:loglin}. In the original model the error distribution was assumed to be normal. 
@@ -111,6 +113,8 @@ Experiments 1a and 1b (referred to jointly as Experiment 1) were used to calcula
 \hat{RT} = D_i\log(N_T+1) + a
 \label{eq:loglin}
 \end{equation}
+
+TODO: ANNA H WILL TALK ABOUT $a$
 
 Thus the results of Experiment 1 were used to calculate the logarithmic slope, for each type of distractor. When colour varied, we will refer to $D_c$, for $c=1,2,3$. Similarly for shape we will denote this ($D_s$), and the compound features are denoted as ($D_{c,s}$). As $a$ represented the intercept in our model, it is independent of both shape and colour, as it represents how long observers take to find a target when $N_T = 0$, i.e., there are no distractors.
 
@@ -142,7 +146,6 @@ Finally, the collinear contrast integration model also assumes independence of f
 \end{equation}
 
 \cite{buetti2019predicting} found that with their dataset, the collinear contrast integration model was best able to predict $D_{c,s}$ from $D_c$ and $D_s$, with $R^2 = 0.915 $. We verified we were able to replicate the results of \cite{buetti2019predicting} using the dataset available on OSF (https://osf.io/f3m24/)\footnote{downloaded on 28th August 2020} and using the exclusion criteria originally applied\footnote{We also applied some additional exlusion crit!}; see \textit{Supplementary Materials} for details. See Figure \ref{fig:comp_rep}(left panel). 
-
 
 \begin{figure}
 \centering
