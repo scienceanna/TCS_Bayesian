@@ -284,16 +284,12 @@ get_Dp_samples <- function(e_id, d, Dx, De) {
   Dp <- tibble(
     exp_id = e_id,
     map_dfr(levels(df$d_feature), calc_D_overall_b, Dx, De)) %>%
-    mutate(
-      mean_method = (orthog_contrast + collinear)/2) %>%
     pivot_longer(
-      cols = c(best_feature, orthog_contrast, collinear, mean_method),
+      cols = c(best_feature, orthog_contrast, collinear),
       values_to = "Dp",
       names_to = "method") %>%
     mutate(
-      method = as_factor(method),
-      method = fct_relevel(method, "mean_method", after = Inf)
-    )
+      method = as_factor(method))
   
   return(Dp) 
 }
@@ -397,8 +393,7 @@ get_Dp_lines <- function(Dp_s) {
     map_dfr(lm_D) %>%
     group_by(method) %>%
     mean_hdci(.width = 0.97) %>%
-    mutate(method = as_factor(method),
-           method = fct_relevel(method, "mean_method", after = Inf)) %>%
+    mutate(method = as_factor(method)) %>%
     select(method, .lower, slope, .upper) -> Dp_lines
   
   return(Dp_lines)
