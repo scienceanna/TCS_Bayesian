@@ -1,7 +1,5 @@
 # These functions are for the direct computational replication
 
-
-
 calc_D_per_feature <- function(experiment) {
   
   d %>%
@@ -73,7 +71,7 @@ extract_a_value <- function(e_id) {
 
 extract_D <- function(e_id) {
   
-  D <- filter(Dp, exp_id == e_id) %>% arrange(collinear)
+  D <- filter(Dp, exp_id == e_id)# %>% arrange(collinear)
   return(D)
 }
 

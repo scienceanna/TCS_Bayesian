@@ -102,6 +102,31 @@ left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
   scale_y_continuous("empirical D")
 ```
 
+And compute $R^2$
+
+```{r}
+Dp_tmp <- left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
+  pivot_longer(-c(exp_id, d_feature, D), names_to = "method", values_to = "Dp")
+
+df_r2 <- tibble(exp_id = as.numeric(), method = as.character(), r2 = as.numeric())
+
+for (e_id in c(2,4)) {
+  for (meth in unique(Dp_tmp$method)) {
+    df <- filter(Dp_tmp, method == meth, exp_id == e_id)
+    r2 <- summary(lm(D ~ 0 + Dp, data = df))$r.squared
+    
+    df_r2 <- add_row(df_r2, 
+                      exp_id = e_id, method = meth, r2 = r2)
+  }  
+
+}
+
+knitr::kable(df_r2, digits =3)
+
+rm(df_r2, Dp_tmp)
+
+```
+
 ## Predicting Reaction Times
 
 $L$ indicates the number of distractor types present in the display, $N_T$ is the total number of distractors, $N_i$ is the number of distractors of type $i$, $D_j$ indicates the logarithmic slope parameters associated with distractor of type $j$ (organized from smallest $D_1$ to largest $D_L$). Note that the $D$ parameter is the one that increases with increasing target-distractor similarity.
