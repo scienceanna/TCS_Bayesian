@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.11.25)  4 DEC 2020 09:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.11.25)  4 DEC 2020 11:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -323,52 +323,64 @@ File: ../plots/example_stimuli_figure.pdf Graphic file (type pdf)
 Package pdftex.def Info: ../plots/example_stimuli_figure.pdf  used on input lin
 e 86.
 (pdftex.def)             Requested size: 338.0pt x 190.12512pt.
-[3] [4 <../plots/example_stimuli_figure.pdf>]
-<../plots/computational_replication.pdf, id=28, 578.16pt x 216.81pt>
+[3] [4 <../plots/example_stimuli_figure.pdf>] [5]
+<../plots/computational_replication.pdf, id=34, 578.16pt x 216.81pt>
 File: ../plots/computational_replication.pdf Graphic file (type pdf)
 <use ../plots/computational_replication.pdf>
 Package pdftex.def Info: ../plots/computational_replication.pdf  used on input 
-line 150.
+line 149.
 (pdftex.def)             Requested size: 338.0pt x 126.74896pt.
- [5] [6 <../plots/computational_replication.pdf>]
+
+
+! LaTeX Error: \caption outside float.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.166 \caption
+              {A table of $R^2$ values}
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[6 <../plots/computational_replication.pdf>]
 <../plots/bayes_buetti_refit.pdf, id=50, 578.16pt x 361.35pt>
 File: ../plots/bayes_buetti_refit.pdf Graphic file (type pdf)
 <use ../plots/bayes_buetti_refit.pdf>
-Package pdftex.def Info: ../plots/bayes_buetti_refit.pdf  used on input line 18
-1.
+Package pdftex.def Info: ../plots/bayes_buetti_refit.pdf  used on input line 19
+9.
 (pdftex.def)             Requested size: 338.0pt x 211.24829pt.
 <../plots/bayes_buetti_D.pdf, id=51, 578.16pt x 433.62pt>
 File: ../plots/bayes_buetti_D.pdf Graphic file (type pdf)
 <use ../plots/bayes_buetti_D.pdf>
-Package pdftex.def Info: ../plots/bayes_buetti_D.pdf  used on input line 190.
+Package pdftex.def Info: ../plots/bayes_buetti_D.pdf  used on input line 208.
 (pdftex.def)             Requested size: 338.0pt x 253.49796pt.
+
+Underfull \vbox (badness 2134) has occurred while \output is active []
+
  [7]
 <../plots/bayes_buetti_rt.pdf, id=57, 578.16pt x 289.08pt>
 File: ../plots/bayes_buetti_rt.pdf Graphic file (type pdf)
 <use ../plots/bayes_buetti_rt.pdf>
-Package pdftex.def Info: ../plots/bayes_buetti_rt.pdf  used on input line 215.
+Package pdftex.def Info: ../plots/bayes_buetti_rt.pdf  used on input line 232.
 (pdftex.def)             Requested size: 338.0pt x 168.99863pt.
 
-Underfull \vbox (badness 2096) has occurred while \output is active []
+[8 <../plots/bayes_buetti_refit.pdf>] [9 <../plots/bayes_buetti_D.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 254--255
 
- [8 <../plots/bayes_buetti_refit.pdf>] [9 <../plots/bayes_buetti_D.pdf> <../plo
-ts/bayes_buetti_rt.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 239--240
+ []
+
+[10 <../plots/bayes_buetti_rt.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 255--256
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 240--241
-
- []
-
-[10]
-
-LaTeX Warning: Reference `sec:power' on page 11 undefined on input line 253.
+LaTeX Warning: Reference `sec:power' on page 11 undefined on input line 268.
 
 
-LaTeX Warning: Reference `sec:reanalysis' on page 11 undefined on input line 26
-5.
+LaTeX Warning: Reference `sec:reanalysis' on page 11 undefined on input line 28
+0.
 
 [11] (./app_vs.bbl [12]) [13] (./app_vs.aux)
 
@@ -376,13 +388,13 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 2880 strings out of 479485
- 39542 string characters out of 5875915
- 324860 words of memory out of 5000000
- 19849 multiletter control sequences out of 15000+600000
+ 2881 strings out of 479485
+ 39558 string characters out of 5875915
+ 323873 words of memory out of 5000000
+ 19850 multiletter control sequences out of 15000+600000
  571494 words of font info for 96 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 66i,8n,72p,1324b,349s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 66i,8n,72p,1324b,331s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/texlive/2020/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2020/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2020/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2020/texmf-dist/fonts/type1
@@ -391,7 +403,7 @@ sfonts/cm/cmsy10.pfb><c:/texlive/2020/texmf-dist/fonts/type1/urw/symbol/usyr.pf
 b><c:/texlive/2020/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2020
 /texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2020/texmf-dist/fonts/
 type1/urw/times/utmri8a.pfb>
-Output written on app_vs.pdf (13 pages, 612259 bytes).
+Output written on app_vs.pdf (13 pages, 613335 bytes).
 PDF statistics:
  137 PDF objects out of 1000 (max. 8388607)
  99 compressed objects within 1 object stream
