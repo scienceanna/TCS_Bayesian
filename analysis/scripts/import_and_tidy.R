@@ -49,11 +49,11 @@ d <- bind_rows(d)
 
 
 
-# remove error trials and very very short responses
-print(dim(d))
-d <- d %>%
-  filter(error == 0) %>%
-  filter(rt > quantile(d$rt, 0.01), rt < quantile(d$rt, 0.99))  
+# # remove error trials and very very short responses
+# print(dim(d))
+# d <- d %>%
+#   filter(error == 0) %>%
+#   filter(rt > quantile(d$rt, 0.01), rt < quantile(d$rt, 0.99))  
 
 
 account_for_zero_distracters <- function(experiment)

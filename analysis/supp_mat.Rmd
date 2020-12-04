@@ -94,7 +94,7 @@ left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
   mutate(method = fct_relevel(method, "best feature", "orthog. contrast")) %>%
   ggplot(aes(x = Dp, y = D)) +
   geom_point( color = "yellow1") + 
-  geom_abline(linetype = 2) +
+  geom_abline(linetype = 2, colour = "cyan") +
   geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
   # coord_cartesian(xlim = c(0, 80), ylim = c(0, 80)) + 
   facet_wrap(~ method) + 
