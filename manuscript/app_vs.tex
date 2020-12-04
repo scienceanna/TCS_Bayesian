@@ -114,7 +114,7 @@ Experiments 1a and 1b (referred to jointly as Experiment 1) were used to calcula
 \label{eq:loglin}
 \end{equation}
 
-Thus the results of Experiment 1 were used to calculate the logarithmic slope, for each type of distractor. When colour varied, we will refer to $D_c$, for $c=1,2,3$. Similarly for shape we will denote this ($D_s$), and the compound features are denoted as ($D_{c,s}$). As $a$ represented the intercept in our model, it is independent of both shape and colour, as it represents how long observers take to find a target when $N_T = 0$, i.e., there are no distractors. However, this leads to some ambiguity in how $a$ should be defined; in \cite{buetti2019predicting}, $a$ was calculated for each feature in each sub-experiment (e.g. experiments 1a, 1b, 2a, 2b, 2c). Here, we follow that method in order to replicate their results exactly. However, it is also possible to calculate $a$ at the level of an experiment (e.g. experiments 1 and 2), and this is the approach we take for our re-analysis (see below).
+Thus the results of Experiment 1 were used to calculate the logarithmic slope, for each type of distractor. When colour varied, we will refer to $D_c$, for $c=1,2,3$. Similarly for shape we will denote this ($D_s$), and the compound features are denoted as ($D_{c,s}$). As $a$ represented the intercept in our model, it is independent of both shape and colour, as it represents how long observers take to find a target when $N_T = 0$, i.e., there are no distractors. However, this leads to some ambiguity in how $a$ should be defined; in \cite{buetti2019predicting}, $a$ was calculated for each feature in each sub-experiment (e.g. experiments 1a, 1b, 2a, 2b, 2c). Here, we follow that method in order to replicate their results exactly. However, it is also possible to calculate $a$ at the level of an experiment (e.g. experiments 1 and 2), and this is the approach we take in our future work.
 
 \subsubsection{Estimating $D_{c,s}$, the logarithmic slope parameter for compound features}
 
@@ -151,21 +151,6 @@ Finally, the collinear contrast integration model also assumes independence of f
 \caption{(left) The collinear method for calculating $D$ offers a good prediction. (centre) Using the TSC to predict reaction times. (right) Each dot now represents a randomly sampled reaction time from an observer.}
 \label{fig:comp_rep}
 \end{figure}
-
-However, the evidence that the collinear contrast model outperforms the orthogonal contrast model is somewhat weak. The above $R^2$ statistic was calculated over Experiments 2 and 4 together. If we analyse each experiment seperately, we find that the orthogonal contrast model offers the best fit for the Experiment 2 data (see Table ). Furthermore, there is very little difference between the top two methods. This will be discussed further below (Section...)
-
-\begin{table}
-\centering
-\begin{tabular}{ c|cc|c } 
-method & Experiment 2 & Experiment 4 & Both Experiments \\
- \hline 
-best feature & 0.960 & 0.946 & 0.944 \\ 
- orthogonal contrast & 0.961 & 0.958 & 0.945 \\ 
- collinear & 0.956& 0.966& 0.936 \\
-\end{tabular}
-\caption{A table of $R^2$ values}
-\label{tab:reimp_D_r2}
-\end{table}
 
 \subsubsection{Estimating mean reaction times}
 
@@ -233,20 +218,37 @@ For the implementation presented here, in order to predict the data from Experim
 \label{fig:buetti2019_rt}
 \end{figure}
 
-We can summarise how well the model predicts the mean reaction times (Figure \ref{fig:buetti2019_rt}(left)) by repeatedly i) sampling from the posterior, ii) computing the predicted mean reaction times, and iii) computing the $R^2$ statistic for the correlation between predicted and empirical mean reaction times. Doing this gives us a HPDI of $[0.75, 0.79]$, which compares with the value of $R^2 = 0.88$ obtained for the original TCS. [DO WE WANT TO COMMENT ON THE DIFFERENCE?]. While our new model is slighlty lower than the original method, as discussed above, it offers substantial improvements over the original model in terms of predicting the full distribution of reaction times over multiple trials and participants. 
+We can summarise how well the model predicts the mean reaction times (Figure \ref{fig:buetti2019_rt}(left)) by repeatedly i) sampling from the posterior, ii) computing the predicted mean reaction times, and iii) computing the $R^2$ statistic for the correlation between predicted and empirical mean reaction times. Doing this gives us a HPDI of $[0.75, 0.79]$, which compares with the value of $R^2 = 0.88$ obtained for the original TCS. [DO WE WANT TO COMMENT ON THE DIFFERENCE?]. While our new model is slightly lower than the original method, as discussed above, it offers substantial improvements over the original model in terms of predicting the full distribution of reaction times over multiple trials and participants. 
 
 \subsubsection{Discussion}
 
-Our extension to a multi-level TCS model allows us to go beyond the original version and predict the full distribution of reaction times over samples of known, or new, observers. Moving from a normal to a shifted-lognormal distribution allows us to accuratly model the skew seen in the empirical data, and avoid predicting negative response times. 
+Our extension to a multi-level TCS model allows us to go beyond the original version and predict the full distribution of reaction times over samples of known, or new, observers. Moving from a normal to a shifted-lognormal distribution allows us to accurately model the skew seen in the empirical data, and avoid predicting negative response times. 
 
 \subsection{Sensitivity to different $D$ methods}
 
-It is hard to distinguish between the three methods! See Figure \ref{fig:buetti2019_D_issue}
+\cite{buetti2019predicting} concluded that the \textit{collinear} contrast integration model offered the best fit to their data. They reasoned that this was due to the independence of the two features in their study, and they would not expect this result to generalize to integral dimensions\footnote{cite Garner for odd terminology?}, in which case they expect the \textit{orthogonal} contrast combination model to offer the best predictions.
+
+However, a closer look at the original data suggests that the superiority of the collinear contrast model to be, at best, marginal. As we can see in Table \ref{tab:reimp_D_r2}, the $R^2$ values are very similar across methods. Furthermore, if we analyse the two experiment pairs separately, as find that \ldots
+
+\begin{table}
+\centering
+\begin{tabular}{ c|cc|c } 
+method & Experiments 1 \& 2 & Experiments 3 \& 4 & Both Experiments \\
+ \hline 
+best feature & 0.960 & 0.946 & 0.944 \\ 
+ orthogonal contrast & 0.961 & 0.958 & 0.945 \\ 
+ collinear & 0.956& 0.966& 0.936 \\
+\end{tabular}
+\caption{A table of $R^2$ values}
+\label{tab:reimp_D_r2}
+\end{table}
+
+If we look at the different predictions made by the three proposed feature combination models, we can see that in most of the parameter space explored in Buetti et al's original studies, the models all make very similar predictions (Figure \ref{fig:buetti2019_D_issue}). In Experiment 2, we are only able to discriminate between models in the \textit{blue} conditions, whereas in the \textit{yellow} and \textit{orange} conditions, they make essentially identical predictions. As such, if we want to distinguish between these three models, we will have to combinations of features that lead to larger target-distracter combinations. We propose using yellow, green and blue for the cyan target, and \ldots
 
 \begin{figure}
 \centering
 \subfigure{\includegraphics[width=\textwidth]{../plots/D_sensitivity.pdf}}
-\caption{(Some oof our conditions aren't all that sensitive!}
+\caption{(Some of our conditions aren't all that sensitive!}
 \label{fig:buetti2019_D_issue}
 \end{figure}
 

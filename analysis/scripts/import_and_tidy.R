@@ -75,9 +75,7 @@ account_for_zero_distracters <- function(experiment)
   return(df)
 }
 
-
 d <- map_dfr(unique(d$exp_id), account_for_zero_distracters)
-
 
 # convert from ms to seconds
 d %>% mutate(
