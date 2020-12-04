@@ -12,8 +12,6 @@ MANUSCRIPT
 - Talk to Alejandro about OC model ALASDAIR
 - Sft model where sigma can vary with log(NT + 1). Try to fit models? ANNA H - PAUSE FOR NOW
 - Add a bit more text about the reasoning behind hypothesis 2
-- Differences in replication - talk about a - ANNA H
-- Check R2 stuff
 
 EXPERIMENT NOTES
 
