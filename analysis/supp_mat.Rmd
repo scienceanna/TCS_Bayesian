@@ -286,12 +286,50 @@ Dp_samples <- bind_rows(
    get_Dp_samples(4, d, slopes3, slopes4))
 
 
-
 Dp_lines <- get_Dp_lines(Dp_samples)
 knitr::kable(Dp_lines, digits = 2)
 plot_Dp_lines(Dp_lines)
 
 rm(slopes1, slopes2, slopes3, slopes4)
+
+```
+
+Compute $R^2$ for each method
+
+```{r}
+
+get_D_R2 <- function(ii) {
+
+  r2 <- summary(
+    lm(
+      De ~ 0 + Dp, 
+       filter(df, iter == ii))
+    )$r.squared
+  return(r2)
+}
+
+
+d_r2 <- tibble(method = as.character(),
+               experiment = as.numeric(),
+               r2_lower = as.numeric(),
+               r2_upper = as.numeric())
+
+for (meth in unique(Dp_samples$method)) {
+  df <- filter(Dp_samples, exp_id == 2, method == meth)
+  r2 <- map_dbl(unique(df$iter), get_D_R2) %>% hdci(.width = 0.97)
+  d_r2 <- add_row(d_r2, method = meth, experiment = 2, r2_lower = r2[1], r2_upper = r2[2])
+  
+  df <- filter(Dp_samples, exp_id == 4, method == meth)
+  r2 <- map_dbl(unique(df$iter), get_D_R2) %>% hdci(.width = 0.97)
+  d_r2 <- add_row(d_r2, method = meth, experiment = 4, r2_lower = r2[1], r2_upper = r2[2])
+
+}
+
+knitr::kable(d_r2)
+
+rm(df, r2, d_r2)
+
+
 
 ```
 

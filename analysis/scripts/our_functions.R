@@ -210,11 +210,15 @@ extract_fixed_slopes_from_model <- function(m) {
   # Extract the slopes from the rt models.
   # These values are called 'D' in the original paper
 
+  n_samples <- 1000 # the number of posterior samples to extract!
+  
   # get the slopes from the model
   slopes <- str_subset(get_variables(m), "b_d_[a-z]*:")
 
   # get samples from the posterior for these slopes
-  samples <- posterior_samples(m, slopes, add_chain = TRUE) %>%
+  samples <- posterior_samples(m, slopes, 
+                               add_chain = TRUE, 
+                               subset =sample(1:nsamples(m), n_samples)) %>%
     pivot_longer(starts_with("b_d"), names_to = "d_feature", values_to = "D") %>%
     mutate(
       d_feature = as_factor(d_feature)) %>%
@@ -436,7 +440,6 @@ rank_order_people <- function(e_id, shuffle_noise = 0.025) {
   
   return(d_out)
 }
-
 
 bayes_corr_subsample <- function(df, n_trials = NA) {
   
