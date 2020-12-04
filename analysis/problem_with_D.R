@@ -28,7 +28,7 @@ calc_D_plot <- function(e_id) {
   
   for (col in cs){
     
-    Dc = filter(De, d_feature == col, exp_id == 1)$D
+    Dc = filter(De, d_feature == col, exp_id == e_id)$D
     
     Dss = c(
       filter(De, d_feature == ss[1], exp_id == e_id)$D,
@@ -74,7 +74,7 @@ plt1 <- calc_D_plot(1)
 
 
 # experiment 2 features
-cs <- c("yellow", "orange", "blue")
+cs <- c("blue", "yellow", "orange")
 ss <- c("circle", "diamond", "semicircle")
 
 plt3 <- calc_D_plot(3)
