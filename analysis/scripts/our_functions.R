@@ -1,3 +1,14 @@
+our_changes_to_data <- function(d) {
+  
+  d %>% mutate(
+    exp_id = parse_number(exp_id), 
+    rt = rt/1000) %>% 
+    filter(
+      rt > quantile(rt, 0.01), 
+      rt < quantile(rt, 0.99)) -> d
+  
+}
+
 set_up_model <- function(experiment, fam = "lognormal") {
   
   # this function get's everything ready for running our model
