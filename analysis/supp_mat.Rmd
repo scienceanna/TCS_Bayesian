@@ -119,7 +119,7 @@ for (e_id in exps_to_predict) {
   for (meth in unique(Dp_tmp$method)) {
     
     df <- filter(Dp_tmp, method == meth, exp_id == e_id)
-    r2 <- summary(lm(D ~ 0 + Dp, data = df))$r.squared
+    r2 <- summary(lm(D ~ Dp, data = df))$r.squared
     
     df_r2 <- add_row(df_r2, 
                       exp_id = paste("Exp", e_id), method = meth, r2 = r2)
@@ -128,7 +128,9 @@ for (e_id in exps_to_predict) {
 
  for (meth in unique(Dp_tmp$method)) {
   df <- filter(Dp_tmp, method == meth)
-  r2 <- summary(lm(D ~ 0 + Dp, data = df))$r.squared
+  r2 <- summary(lm(D ~ Dp, data = df))$r.squared
+  print(meth)
+  print(summary(lm(D ~ Dp, data = df))$r.squared)
   df_r2 <- add_row(df_r2, 
                  exp_id = "all", method = meth, r2 = r2)
  }
@@ -197,7 +199,8 @@ Now that we have verified that we can re-create the original results, we switch 
   
 ```{r}
 # switch from ms to seconds
-# Recode experiment as 1, 2, 3 and 4 
+# recode experiment as 1, 2, 3 and 4 
+# remove outlier RTs
 d <- our_changes_to_data(d)
 ```
 
