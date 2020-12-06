@@ -37,29 +37,29 @@ set_up_model <- function(experiment, fam = "lognormal") {
   
   } else {
     
-  my_f <- rt ~  0 + d_feature + log(N_T+1):d_feature + (1|p_id)
+  my_f <- rt ~  1 + d_feature:log(N_T+1) + (1|p_id)
   my_inits <- "random"
     
   }
   
   #list of variables/coefs that we want to define priors for:
-  intercepts <- paste("d_feature", levels(df$d_feature), sep = "")
-  intercepts <- gsub("[[:space:]]", "", intercepts)
-  slopes <- paste("d_feature", levels(df$d_feature), ":logN_TP1", sep = "")
-  slopes <- gsub("[[:space:]]", "", slopes)
+  #intercepts <- paste("d_feature", levels(df$d_feature), sep = "")
+  #intercepts <- gsub("[[:space:]]", "", intercepts)
+  #slopes <- paste("d_feature", levels(df$d_feature), ":logN_TP1", sep = "")
+  #slopes <- gsub("[[:space:]]", "", slopes)
   
   # now define priors, based on our choice of distribution:
   if ( fam == "lognormal") {
     
     my_prior <- c(
-      prior_string("normal(-0.5, 0.3)", class = "b", coef = intercepts),
-      prior_string("normal(0.1, 0.3)", class = "b", coef = slopes),
+      prior_string("normal(-0.5, 0.3)", class = "Intercept"),
+      prior_string("normal(0.1, 0.3)", class = "b"),
       prior_string("cauchy(0, 0.1)", class = "sigma"))
   
   } else if(fam == "shifted_lognormal") {
     
     my_prior <- c(
-      #prior_string("normal(-1.4, 0.2)", class = "b", coef = intercepts),
+      prior_string("normal(-1.4, 0.2)", class = "Intercept"),
       prior_string("normal(0, 0.2)", class = "b"),
       prior_string("normal(-1, 0.5)", class = "Intercept", dpar = "ndt" ),
       prior_string("cauchy(0, 0.4)", class = "sigma"),
@@ -70,8 +70,8 @@ set_up_model <- function(experiment, fam = "lognormal") {
     
     # use a normal distribution
     my_prior <- c(
-      prior_string("normal(0.5, 0.3)", class = "b", coef = intercepts),
-      prior_string("normal(0, 0.6)", class = "b", coef = slopes),
+      prior_string("normal(0.5, 0.3)", class = "Intercept"),
+      prior_string("normal(0, 0.6)", class = "b"),
       prior_string("cauchy(0, 0.1)", class = "sigma"))
   }
   
@@ -95,8 +95,8 @@ run_model <- function(my_inputs, ppc) {
 
   if (ppc == "only") {
     
-    n_chains = 4
-    n_itr = 5000
+    n_chains = 2
+    n_itr = 1000
     
   } else {
     
@@ -122,8 +122,8 @@ run_model <- function(my_inputs, ppc) {
     sample_prior = ppc,
     iter = n_itr,
     inits = my_inputs$my_inits,
-    stanvars = my_inputs$my_stanvar#,
-   # save_pars = save_pars(all=TRUE)
+    stanvars = my_inputs$my_stanvar,
+    save_pars = save_pars(all=TRUE)
     )
 
   return(m)
