@@ -80,7 +80,8 @@ De <- map_dfr(unique(d$exp_id), calc_D_per_feature)
 We can now predict values of $D$ for all experiments 2x and 4x. 
 
 ```{r}
-Dp <- map_df(c("2a", "2b", "2c, 4a", "4b", "4c"), gen_exp_predictions, De)
+exps_to_predict <- c("2a", "2b", "2c", "4a", "4b", "4c")
+Dp <- map_df(exps_to_predict, gen_exp_predictions, De)
 ```
  
 Now, recreate the scatter plots from Buetti et al (2019), Figure 4.
@@ -114,8 +115,9 @@ Dp_tmp <- left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
 
 df_r2 <- tibble(exp_id = as.character(), method = as.character(), r2 = as.numeric())
 
-for (e_id in c(2, 4)) {
+for (e_id in exps_to_predict) {
   for (meth in unique(Dp_tmp$method)) {
+    
     df <- filter(Dp_tmp, method == meth, exp_id == e_id)
     r2 <- summary(lm(D ~ 0 + Dp, data = df))$r.squared
     
@@ -145,11 +147,10 @@ $L$ indicates the number of distractor types present in the display, $N_T$ is th
 The constant a represents the reaction time when the target is alone in the display. Inter-item interactions were indexed by the multiplicative factor $\beta$. Finally, the index function $1_{[2, \infty)} (j)$ indicates that the sum over Ni only applies when there are at least two different types of lures in the display $(j > 1)$. When $j = 1$, the second sum is zero.
 
 ```{r pred-rt-replication, fig.width = 4, fig.cap="Computational Replication of RT predictions."}
-exps2predict = c(2, 4)
 
-rt_pred <- map_dfr(exps2predict, predict_rt)
+rt_pred <- map_dfr(exps_to_predict, predict_rt)
 
-d %>% filter(exp_id %in% exps2predict) %>%
+d %>% filter(exp_id %in% exps_to_predict) %>%
 	group_by(exp_id, p_id, d_feature, N_T) %>%
 	summarise(mean_rt = mean(rt), .groups = "drop") %>%
 	group_by(exp_id,  d_feature, N_T) %>%
@@ -166,7 +167,7 @@ d %>% filter(exp_id %in% exps2predict) %>%
 
 Compute correlation!
 ```{r}
-d %>% filter(exp_id %in% exps2predict, N_T > 0) %>%
+d %>% filter(exp_id %in% exps_to_predict, N_T > 0) %>%
 	group_by(exp_id, p_id, d_feature, N_T) %>%
 	summarise(mean_rt = mean(rt), .groups = "drop") %>%
 	group_by(exp_id,  d_feature, N_T) %>%
@@ -181,7 +182,7 @@ The $R^2= `r,round(summary(lm(mean_rt ~ p_rt, d_corr))$r.squared,2)`
 ```{r tidy-up}
 
 # remove variables we no longer need
-rm(De, Dp, rt_pred, exps2predict, 
+rm(De, Dp, rt_pred, exps_to_predict, 
    calc_D_per_feature, extract_a_value, predict_D_overall, gen_exp_predictions, extract_D, predict_rt, d_corr)
 ```
 
@@ -195,7 +196,11 @@ Now that we have verified that we can re-create the original results, we switch 
   
   
 ```{r}
-d$rt <- d$rt/1000
+# switch from ms to seconds
+# Recode experiment as 1, 2, 3 and 4 
+d %>% mutate(
+  exp_id = parse_number(exp_id), 
+  rt = rt/1000) -> d
 ```
 
 ## Measuring $D$ from Empirical Data
