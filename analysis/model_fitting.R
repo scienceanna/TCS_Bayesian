@@ -17,6 +17,10 @@ source("scripts/our_functions.R")
 # import and tidy data
 source("scripts/import_and_tidy.R")
 
+# switch from ms to seconds
+# Recode experiment as 1, 2, 3 and 4 
+d <- our_changes_to_data(d)
+
 
 #### Prior fitting ####
 mdl_inputs_nrl <- set_up_model(1, "normal")
