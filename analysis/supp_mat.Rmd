@@ -80,7 +80,7 @@ De <- map_dfr(unique(d$exp_id), calc_D_per_feature)
 We can now predict values of $D$ for all experiments 2x and 4x. 
 
 ```{r}
-Dp <- map_df(c(2,4), gen_exp_predictions, De)
+Dp <- map_df(c("2a", "2b", "2c, 4a", "4b", "4c"), gen_exp_predictions, De)
 ```
  
 Now, recreate the scatter plots from Buetti et al (2019), Figure 4.

@@ -48,8 +48,12 @@ gen_exp_predictions <- function(experiment, De)
   df <- filter(d, exp_id == experiment) %>%
     mutate(d_feature = fct_drop(d_feature))
   
+  prev_exp_number <- parse_number(experiment) - 1
+  prev_exps <- c(
+    paste(prev_exp_number, "a", sep = ""),
+    paste(prev_exp_number, "b", sep = ""))
 
-  D <- filter(De, exp_id == experiment - 1)
+  D <- filter(De, exp_id %in% prev_exps)
   
   d_out <- tibble(
     exp_id = experiment,
