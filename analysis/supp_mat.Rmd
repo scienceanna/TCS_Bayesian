@@ -19,9 +19,8 @@ library(tidyverse)
 library(brms)
 library(tidybayes)
 library(patchwork)
-library(magrittr)
 library(latex2exp)
-library(corrplot)
+
 ```
 
 ```{r}
@@ -289,14 +288,14 @@ Now that we have decided what the best distribution to use is, we will fit the m
 
 ```{r glmm-compute-post-234}
 
-m_exp2_nrl <- readRDS("models/exp_2_nrl.models")
-m_exp2_log <- readRDS("models/exp_2_log.models")
+# m_exp2_nrl <- readRDS("models/exp_2_nrl.models")
+# m_exp2_log <- readRDS("models/exp_2_log.models")
 m_exp2_sft <- readRDS("models/exp_2_sft.models")
-m_exp3_nrl <- readRDS("models/exp_3_nrl.models")
-m_exp3_log <- readRDS("models/exp_3_log.models")
+# m_exp3_nrl <- readRDS("models/exp_3_nrl.models")
+# m_exp3_log <- readRDS("models/exp_3_log.models")
 m_exp3_sft <- readRDS("models/exp_3_sft.models")
-m_exp4_nrl <- readRDS("models/exp_4_nrl.models")
-m_exp4_log <- readRDS("models/exp_4_log.models")
+# m_exp4_nrl <- readRDS("models/exp_4_nrl.models")
+# m_exp4_log <- readRDS("models/exp_4_log.models")
 m_exp4_sft <- readRDS("models/exp_4_sft.models")
 
 ```
