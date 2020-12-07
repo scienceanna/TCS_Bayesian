@@ -95,7 +95,7 @@ left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
   ggplot(aes(x = Dp, y = D)) +
   geom_point( color = "yellow1") + 
   geom_abline(linetype = 2, colour = "cyan") +
-  geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
+  geom_smooth(method = "lm", formula = y ~ 0 + x, colour = "violetred3") + 
   # coord_cartesian(xlim = c(0, 80), ylim = c(0, 80)) + 
   facet_wrap(~ method) + 
   scale_x_continuous("predicted D") + 
@@ -159,8 +159,8 @@ d %>% filter(exp_id %in% exps_to_predict) %>%
 	left_join(rt_pred, by = c("exp_id", "d_feature", "N_T")) %>% 
 	ggplot(aes(x = p_rt, y = mean_rt)) + 
   geom_point(color = "yellow1", alpha = 0.5) + 
-  geom_abline() + 
-  geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
+  geom_abline(colour = "cyan") + 
+  geom_smooth(method = "lm", formula = y ~ 0 + x, colour = "violetred3") + 
   scale_x_continuous("predicted reaction time (ms)") +
   scale_y_continuous("empirical mean reaction time (ms)")
 
@@ -175,16 +175,36 @@ d %>% filter(exp_id %in% exps_to_predict, N_T > 0) %>%
 	summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
 	left_join(rt_pred, by = c("exp_id", "d_feature", "N_T")) -> d_corr
 
-round(summary(lm(mean_rt ~ p_rt, d_corr))$r.squared,2)
+r2
 
 ```
-The $R^2= `r,round(summary(lm(mean_rt ~ p_rt, d_corr))$r.squared,2)`
+The $R^2=$ `r r2`. However, this is potentially misleading, as it doesn't show how the model fits the different conditions! 
+
+
+```{r fig.height = 6}
+
+d %>% filter(parse_number(exp_id) == 2) %>%
+	group_by(exp_id, p_id, d_feature, N_T) %>%
+	summarise(mean_rt = mean(rt), .groups = "drop") %>%
+	group_by(exp_id,  d_feature, N_T) %>%
+	summarise(mean_rt = mean(mean_rt), .groups = "drop") -> d_mean_mean
+
+rt_pred %>%
+  filter(parse_number(exp_id) == 2) %>%
+  ggplot( aes(x = N_T, y = p_rt)) + 
+  geom_line(colour = "pink") + 
+  facet_wrap( ~ d_feature) + 
+  geom_point(data = d_mean_mean, aes(y = mean_rt), colour = "yellow1" )
+
+
+```
+
 
 ```{r tidy-up}
 
 # remove variables we no longer need
 rm(De, Dp, rt_pred, exps_to_predict, 
-   calc_D_per_feature, extract_a_value, predict_D_overall, gen_exp_predictions, extract_D, predict_rt, d_corr)
+   calc_D_per_feature, extract_a_value, predict_D_overall, gen_exp_predictions, extract_D, predict_rt, d_corr, r2)
 ```
 
 # Switching to a Bayesian Multi-Level Framework
@@ -374,8 +394,6 @@ knitr::kable(d_r2)
 
 rm(df, r2, d_r2)
 
-
-
 ```
 
 ### Variance!
@@ -414,7 +432,7 @@ Seems legit for now to model Exp2 using the variances from Exp1 :)
   mutate(d_feature = as_factor(d_feature)) -> Dp_summary
 
 # now define and run new model! 
-meth = "orthog_contrast"
+meth = "best_feature"
 
 model_params <- set_up_predict_model(2, "shifted_lognormal", meth, Dp_summary, m_exp1_sft, m_exp2_sft)
 m_prt <- run_model(model_params, ppc = "only")
@@ -430,7 +448,7 @@ plot_model_fits_rt(2, m_prt, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fit
 Do an R2 for this!
 
 
-```{r}
+```{r, cache = TRUE}
 d %>%
   filter(
     exp_id == 2, N_T > 0) %>%
@@ -470,13 +488,13 @@ for (draw in unique(d_samples$.draw)) {
 
 Attempting plots for unknown participant! 
 
-```{r plot-exp2-predictions-new-person, fig.height = 6, fig.cap="reaction time predictions."}
+```{r plot-exp2-predictions-new-person, fig.height = 6, fig.cap="reaction time predictions.", cache = TRUE}
 plot_model_fits_rt(2, m_prt, y_limits = c(0, 2), n_row = 3, plot_type = "predicted")
 ```
 
 Does Bayes_R2 work on this?
 
-```{r}
+```{r, cache=TRUE}
 bayes_R2(m_prt)
 ```
 

@@ -305,7 +305,14 @@ get_Dp_samples <- function(e_id, d, Dx, De) {
   return(Dp) 
 }
 
-set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary, one_feature_model, two_feature_model) {
+convert_d_feature_to_coef_name <- function(Dp) {
+  
+  Dp <- paste("d_feature", Dp, ":logN_TP1", sep = "")
+  
+}
+
+
+set_up_predict_model <- function(e_id, fam = "shifted_lognormal", meth, Dp_summary, one_feature_model, two_feature_model) {
   
   # this function get's everything ready for running our model
   # this is the prediction version of the set_up_model() function at the top of the script
@@ -325,10 +332,8 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary, one_
     my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
     
   } else {
-    
     my_f <- rt ~ 1 + log(N_T+1):d_feature + (1|p_id)
     my_inits <- "random"
-    
   }
   
   Dp_summary <- filter(Dp_summary, 
@@ -345,14 +350,15 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary, one_
       d_feature = as.factor(as.character(d_feature))) -> df
 
 
-  # intercepts <- paste("d_feature", unique(Dp_summary$d_feature), sep = "")
-  # intercepts <- gsub("[[:space:]]", "", intercepts)
+  # cheatign a little and using the "correct" intercepts 
+  # (from the double feature model)
+  intercept_mu <- fixef(two_feature_model)[1,1]
+  intercept_sd <- fixef(two_feature_model)[1,2]
   
-  slopes <- paste("d_feature", unique(Dp_summary$d_feature), ":logN_TP1", sep = "")
-  slopes <- gsub("[[:space:]]", "", slopes)
+  ndt_int_mu <- fixef(two_feature_model)[2,1]
+  ndt_int_sd <- fixef(two_feature_model)[2,2]
   
-  model_sum <- round(summary(two_feature_model)$fixed, 3)
-  
+  # simply copy over from experiment 1
   sigma_mean <-  VarCorr(one_feature_model)$residual$sd[1]
   sigma_sd   <-  VarCorr(one_feature_model)$residual$sd[2]
   
@@ -362,20 +368,18 @@ set_up_predict_model <- function(e_id, fam = "lognormal", meth, Dp_summary, one_
   sd_ndt_mean <- VarCorr(one_feature_model)$p_id$sd[2,1]
   sd_ndt_sd <- VarCorr(one_feature_model)$p_id$sd[2,2]
   
-  ndt_Int <- fixef(two_feature_model)[2,1]
-  ndt_Int_sd <- fixef(two_feature_model)[2,2]
-  
-  intercept_mu <- fixef(two_feature_model)[1,1]
-  intercept_sd <- fixef(two_feature_model)[1,2]
-  
+  # use our model of D!
+  slopes <- convert_d_feature_to_coef_name(Dp_summary$d_feature)
+  slopes_mu <-Dp_summary$mu 
+  slopes_sd <-Dp_summary$sigma 
   
     
   my_prior <-  c(
     prior_string(paste("normal(", intercept_mu, ",",  intercept_sd, ")", sep = ""), class = "Intercept"),
-    prior_string(paste("normal(", Dp_summary$mu, ",",  Dp_summary$sigma, ")", sep = ""), class = "b", coef = slopes),
+    prior_string(paste("normal(", slopes_mu, ",",  slopes_sd, ")", sep = ""), class = "b", coef = slopes),
     prior(normal(sigma_mean, sigma_sd), class = "sigma"),
     prior(normal(sd_mean, sd_sd), class = "sd"),
-    prior_string(paste("normal(",ndt_Int, ", ", ndt_Int_sd, ")"), class = "Intercept", dpar = "ndt" ),
+    prior_string(paste("normal(",ndt_int_mu, ", ", ndt_int_sd, ")"), class = "Intercept", dpar = "ndt" ),
     prior_string(paste("normal(",sd_ndt_mean,",", sd_ndt_sd,")"), class = "sd", dpar = "ndt")
     )
    
