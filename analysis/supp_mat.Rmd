@@ -374,8 +374,6 @@ knitr::kable(d_r2)
 
 rm(df, r2, d_r2)
 
-
-
 ```
 
 ### Variance!
