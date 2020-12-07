@@ -3,7 +3,6 @@ SUPP MAT
 - Make priors a bit broader in Fig 3.1 ANNA H
 - Go do something with power models ALASDAIR
 - What model diagnostics to report in supp mat? Print summary? ANNA H
-- Re-run models with new model formula ANNA H - done 1 sft, 2 sft
 - Run model with shuffle noise, 6 samples, sft, expt 1 ANNA H
 - Reimplementation: calculate better R^2 values D ~ 1*Dp+0
 
