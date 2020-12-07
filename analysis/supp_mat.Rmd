@@ -414,13 +414,20 @@ Seems legit for now to model Exp2 using the variances from Exp1 :)
 # brms model as a prior, and then use that to simulate new trials.  
 
 # first, summarise our Dp samples to give mu and sigma.
+
+meth = "collinear"
+
  Dp_samples %>%
-   group_by(exp_id, d_feature, method) %>%
+   filter(method == meth)%>%
+   group_by(exp_id, d_feature) %>%
+   mutate(Dp = 1.8*Dp -0.03) %>%
   summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop") %>%
-  mutate(d_feature = as_factor(d_feature)) -> Dp_summary
+  mutate(
+    d_feature = as_factor(d_feature),
+    method = meth) -> Dp_summary
 
 # now define and run new model! 
-meth = "orthog_contrast"
+
 
 model_params <- set_up_predict_model(2, "shifted_lognormal", meth, Dp_summary, m_exp1_sft, m_exp2_sft)
 m_prt <- run_model(model_params, ppc = "only")
