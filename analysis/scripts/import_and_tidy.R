@@ -47,12 +47,10 @@ d$e4c <- import_experiment(20, c(`blue diamond` = "1", `yellow circle` = "2", `o
 
 d <- bind_rows(d)
 
-# # remove error trials and very very short responses
+# # remove error trials 
 # print(dim(d))
  d <- d %>%
-   filter(error == 0) #%>%
-#   filter(rt > quantile(d$rt, 0.01), rt < quantile(d$rt, 0.99))  
-
+   filter(error == 0) 
 
 account_for_zero_distracters <- function(experiment)
 {
@@ -76,10 +74,6 @@ account_for_zero_distracters <- function(experiment)
 }
 
 d <- map_dfr(unique(d$exp_id), account_for_zero_distracters)
-
-# this changes the exp ids
-#d %>% mutate(
-#  exp_id = parse_number(exp_id)) -> d
 
 rm(account_for_zero_distracters, import_experiment)
 
