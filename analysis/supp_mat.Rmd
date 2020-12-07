@@ -345,32 +345,40 @@ Compute $R^2$ for each method
 
 get_D_R2 <- function(ii) {
 
-  r2 <- summary(
-    lm(
-      De ~ Dp, 
-       filter(df, iter == ii))
-    )$r.squared
-  return(r2)
+ my_lm <- lm(De ~ Dp,
+             filter(df, iter == ii))
+ 
+   r2 <- summary(my_lm)$r.squared
+   intercept <- my_lm$coefficients[1]
+   slope <- my_lm$coefficients[2]
+   
+  return(tibble(r2 = r2, c = intercept, m = slope))
 }
 
 
 d_r2 <- tibble(method = as.character(),
-               experiment = as.numeric(),
-               r2_lower = as.numeric(),
-               r2_upper = as.numeric())
+               stat = as.character(),
+               value = as.numeric(),
+               .lower = as.numeric(),
+               .upper = as.numeric())
 
 for (meth in unique(Dp_samples$method)) {
-  df <- filter(Dp_samples, exp_id == 2, method == meth)
-  r2 <- map_dbl(unique(df$iter), get_D_R2) %>% hdci(.width = 0.97)
-  d_r2 <- add_row(d_r2, method = meth, experiment = 2, r2_lower = r2[1], r2_upper = r2[2])
   
-  df <- filter(Dp_samples, exp_id == 4, method == meth)
-  r2 <- map_dbl(unique(df$iter), get_D_R2) %>% hdci(.width = 0.97)
-  d_r2 <- add_row(d_r2, method = meth, experiment = 4, r2_lower = r2[1], r2_upper = r2[2])
-
+  df <- filter(Dp_samples, method == meth)
+  df_r2 <- map_df(unique(df$iter), get_D_R2)
+  
+  df_r2 %>% 
+    pivot_longer(c(r2, c, m), names_to = "stat", values_to = "value") %>%
+         group_by(stat) %>%  mean_hdci(.width = 0.97) %>%
+    select(-.width, -.point, -.interval) %>%
+    mutate(method = meth) -> df_r2
+      
+     d_r2 <- bind_rows(d_r2, df_r2)
+     
+     rm(df_r2)
 }
 
-knitr::kable(d_r2)
+knitr::kable(d_r2, digits = 3)
 
 rm(df, r2, d_r2)
 
