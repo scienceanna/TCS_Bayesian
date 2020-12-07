@@ -113,7 +113,7 @@ Experiments 1a and 1b (referred to jointly as Experiment 1) were used to calcula
 \label{eq:loglin}
 \end{equation}
 
-Thus the results of Experiment 1 were used to calculate the logarithmic slope, for each type of distractor. When colour varied, we will refer to $D_c$, for $c=1,2,3$. Similarly for shape we will denote this ($D_s$), and the compound features are denoted as ($D_{c,s}$). As $a$ represented the intercept in our model, it is independent of both shape and colour, as it represents how long observers take to find a target when $N_T = 0$, i.e., there are no distractors. However, this leads to some ambiguity in how $a$ should be defined; in \cite{buetti2019predicting}, $a$ was calculated for each feature in each sub-experiment (e.g. experiments 1a, 1b, 2a, 2b, 2c). Here, we follow that method in order to replicate their results exactly. However, it is also possible to calculate $a$ at the level of an experiment (e.g. experiments 1 and 2), and this is the approach we take in our future work.
+Thus the results of Experiment 1 were used to calculate the logarithmic slope, for each type of distractor. When colour varied, we will refer to $D_c$, for $c=1,2,3$. Similarly for shape we will denote this ($D_s$), and the compound features are denoted as ($D_{c,s}$). As $a$ represented the intercept in our model, it is independent of both shape and colour, as it represents how long observers take to find a target when $N_T = 0$, i.e., there are no distractors. However, this leads to some ambiguity in how $a$ should be defined; in \cite{buetti2019predicting}, $a$ was calculated for each feature in each sub-experiment (e.g. experiments 1a, 1b, 2a, 2b, 2c). Here, we follow that method in order to replicate their results exactly. However, it is also possible to calculate $a$ at the level of an experiment (e.g. experiments 1 and 2), and this is the approach we take in our replication.
 
 \subsubsection{Estimating $D_{c,s}$, the logarithmic slope parameter for compound features}
 
@@ -142,7 +142,7 @@ Finally, the collinear contrast integration model also assumes independence of f
 \label{eq:collinearcontrast}
 \end{equation}
 
-\cite{buetti2019predicting} found that with their dataset, the collinear contrast integration model was best able to predict $D_{c,s}$ from $D_c$ and $D_s$, with $R^2 = 0.915 $. We verified we were able to replicate the results of \cite{buetti2019predicting} using the dataset available on OSF (https://osf.io/f3m24/)\footnote{downloaded on 28th August 2020} and using the exclusion criteria originally applied\footnote{We also applied some additional exlusion crit!}; see \textit{Supplementary Materials} for details. See Figure \ref{fig:comp_rep}(left panel). 
+\cite{buetti2019predicting} found that with their dataset, the collinear contrast integration model was best able to predict $D_{c,s}$ from $D_c$ and $D_s$, with $R^2 = 0.915 $ . We verified we were able to replicate the results of \cite{buetti2019predicting} using the dataset available on OSF (https://osf.io/f3m24/)\footnote{downloaded on 28th August 2020} and using the exclusion criteria originally applied\footnote{We also applied some additional exlusion crit!}; see Figure \ref{fig:comp_rep} (left panel) and \textit{Supplementary Materials} for details.
 
 \begin{figure}
 \centering
@@ -159,9 +159,7 @@ The TCS theory now allows us to predict mean reaction times:
 RT = D{c,s}\log(N_T+1) + a
 \end{equation}
 
-As can be seen in  Figure \ref{fig:comp_rep} (centre panel), these predictions are very close to the observed values.  
-
-their empirical RT results with an $R^2 = 93.27\%$. 
+As can be seen in  Figure \ref{fig:comp_rep} (centre panel), these predictions are essentially identical to their empirical RT results with an $R^2 = 93.27\%$. 
 
 \begin{figure}
 \centering
@@ -173,9 +171,9 @@ their empirical RT results with an $R^2 = 93.27\%$.
 
 \subsubsection{Discussion}
 
-While TCS theory offers a good prediction of search slopes and corresponding mean reaction times for double feature search, there are two related limitations. Firstly, it is unable to account for individual differences between observers, only the changes to the sample average. Secondly, it cannot account for the distribution of reaction times over multiple trials. Figure \ref{fig:comp_rep} (right panel) shows clearly that these factors generate high levels of variability within the individual trial-level data. To address these issues, we propose a second version of the TCS that makes use of multi-level modelling techniques.
+While TCS theory mostly offers a good prediction of search slopes and corresponding mean reaction times for double feature search, there are two related limitations. Firstly, it is unable to account for individual differences between observers, only the changes to the sample average. Secondly, it cannot account for the distribution of reaction times over multiple trials. Figure \ref{fig:comp_rep} (right panel) shows clearly that these factors generate high levels of variability within the individual trial-level data. To address these issues, we propose a second version of the TCS that makes use of multi-level modelling techniques.
 
-
+It is also worth noting that relying simply on $R^2$ values may give a misleading view of the accuracy of the TCS model. Figure \ref{fig:comp_rep} shows the predicted RTs (pink line) for three conditions from Experiment 2 (a, b and c) of \citep{buetti2019predicting}, plotted next to the mean of means for each condition. It is clear that for at least some conditions, the TCS model is doing a poor job of predicting the empirical data, even when allowing quite rigid constraints on the model; for example, the intercept ($a$) is set at the level of each sub-experiment and thus would be expected to be perfect. 
 
 
 \subsection{A multi-level TCS}
@@ -195,18 +193,18 @@ We began in a similar fashion to section \ref{sec:fitting_D}, although this time
 \label{fig:buetti2019_a1}
 \end{figure}
 
-We then extracted the posterior distributions for the logarithmic slope parameters as before. The only differences were that i) this approach allowed us to obtain the full posterior distribution for each $D_c$ and $D_s$, rather than just the maximum likelihood fit, and ii) the units are now in $\frac{\log{rt}}{\log{N_T+1}}$ See Figure \ref{fig:buetti2019_D}(bottom).
+We then extracted the posterior distributions for the logarithmic slope parameters as before. The only differences were that i) this approach allowed us to obtain the full posterior distribution for each $D_c$ and $D_s$, rather than just the maximum likelihood fit, and ii) the units are now in $\frac{\log{rt}}{\log{N_T+1}}$ See Figure \ref{fig:buetti2019_D} (bottom).
 
 \begin{figure}
 \centering
 \subfigure{\includegraphics[width=\textwidth]{../plots/bayes_buetti_D.pdf}}
-\caption{(\textit{top}) Posterior probability density functions for each $D_c$ and $D_s$ in Experiment 1. As with the original TCS model, when searching for a blue semicircle, triangular distracters are the hardest, while yellow and orange distracters are the eaiest.) (\textit{bottom}) Predicting $D_{c,s}$ from $D_c$ and $D_s$. Crosshairs indicate $97.5$ HPDI for estimates and predictions, while the pink region shows the HDPI for the best fit line. }
+\caption{(\textit{top}) Posterior probability density functions for each $D_c$ and $D_s$ in Experiment 1. As with the original TCS model, when searching for a blue semicircle, triangular distractors are the hardest, while yellow and orange distractors are the eaiest.) (\textit{bottom}) Predicting $D_{c,s}$ from $D_c$ and $D_s$. Crosshairs indicate $97.5$ HPDI for estimates and predictions, while the pink region shows the HDPI for the best fit line. }
 \label{fig:buetti2019_D}
 \end{figure}
 
 \subsubsection{Estimating $D_{c,s}$, the logarithmic slope parameter for compound features}
 
-We predict $D_{c,s}$ from $D_c$ and $D_c$ in the same way as the original TCS, except this time we use 1000\footnote{check!} samples from the posterior distributions, rather than just the maximum likelihood fit. These predictions are shown in Figure \ref{fig:buetti2019_D}(bottom). We can see that as with the original model, we still find the \textit{best feature} is the worst of the three methods. We additionally calculated a fourth prediction method, the \textit{mean method} which simply takes the averages of the \textit{collinear contrast} and \textit{orthogonal contrast} models.
+We predict $D_{c,s}$ from $D_c$ and $D_c$ in the same way as the original TCS, except this time we use 1000\footnote{check!} samples from the posterior distributions, rather than just the maximum likelihood fit. These predictions are shown in Figure \ref{fig:buetti2019_D} (bottom). We can see that as with the original model, we still find the \textit{best feature} is the worst of the three methods. We additionally calculated a fourth prediction method, the \textit{mean method} which simply takes the averages of the \textit{collinear contrast} and \textit{orthogonal contrast} models.
 
 \subsubsection{Estimating other parameters and predicting reaction times}
 
@@ -228,7 +226,7 @@ For the implementation presented here, in order to predict the data from Experim
 \label{fig:buetti2019_rt}
 \end{figure}
 
-We can summarise how well the model predicts the mean reaction times (Figure \ref{fig:buetti2019_rt}(left)) by repeatedly i) sampling from the posterior, ii) computing the predicted mean reaction times, and iii) computing the $R^2$ statistic for the correlation between predicted and empirical mean reaction times. Doing this gives us a HPDI of $[0.75, 0.79]$, which compares with the value of $R^2 = 0.88$ obtained for the original TCS. [DO WE WANT TO COMMENT ON THE DIFFERENCE?]. While our new model is slightly lower than the original method, as discussed above, it offers substantial improvements over the original model in terms of predicting the full distribution of reaction times over multiple trials and participants. 
+We can summarise how well the model predicts the mean reaction times (Figure \ref{fig:buetti2019_rt}(left) by repeatedly i) sampling from the posterior, ii) computing the predicted mean reaction times, and iii) computing the $R^2$ statistic for the correlation between predicted and empirical mean reaction times. Doing this gives us a HPDI of $[0.75, 0.80]$, which compares with the value of $R^2 = 0.93$ obtained for the original TCS. While our new model is slightly lower than the original method, as discussed above, it offers substantial improvements over the original model in terms of predicting the full distribution of reaction times over multiple trials and participants. 
 
 \subsubsection{Discussion}
 
