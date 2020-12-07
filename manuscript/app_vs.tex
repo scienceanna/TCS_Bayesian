@@ -15,7 +15,6 @@
 % insert here the call for the packages your document requires
 %\usepackage{latexsym}
 % etc.
-%
 % please place your own definitions here and don't use \def but
 % \newcommand{}{}
 %B
@@ -160,13 +159,24 @@ The TCS theory now allows us to predict mean reaction times:
 RT = D{c,s}\log(N_T+1) + a
 \end{equation}
 
-As can be seen in  Figure \ref{fig:comp_rep} (centre panel), these predictions are very close to the observed values. 
+As can be seen in  Figure \ref{fig:comp_rep} (centre panel), these predictions are very close to the observed values.  
 
 their empirical RT results with an $R^2 = 93.27\%$. 
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{../plots/computational_replication_rt.pdf}
+\caption{Three conditions from Experiment 2. Blue dots represent the mean of means for each condition, while the line shows the prediction of the TCS theory.}
+\label{fig:comp_rep}
+\end{figure}
+
 
 \subsubsection{Discussion}
 
 While TCS theory offers a good prediction of search slopes and corresponding mean reaction times for double feature search, there are two related limitations. Firstly, it is unable to account for individual differences between observers, only the changes to the sample average. Secondly, it cannot account for the distribution of reaction times over multiple trials. Figure \ref{fig:comp_rep} (right panel) shows clearly that these factors generate high levels of variability within the individual trial-level data. To address these issues, we propose a second version of the TCS that makes use of multi-level modelling techniques.
+
+
+
 
 \subsection{A multi-level TCS}
 

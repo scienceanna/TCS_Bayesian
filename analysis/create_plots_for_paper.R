@@ -2,7 +2,6 @@ library(tidyverse)
 library(brms)
 library(tidybayes)
 library(patchwork)
-library(magrittr)
 library(latex2exp)
 
 # set ggplot2 theme
@@ -22,8 +21,9 @@ source("scripts/import_and_tidy.R")
 ###################################################
 ## Computational Replication of Buetti et al (2019)
 ###################################################
+exps_to_predict <- c("2a", "2b", "2c", "4a", "4b", "4c")
 De <- map_dfr(unique(d$exp_id), calc_D_per_feature)
-Dp <- map_df(c(2,4), gen_exp_predictions, De)
+Dp <- map_df(exps_to_predict, gen_exp_predictions, De)
 
 ## Create summary of results for paper
 left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
@@ -41,11 +41,10 @@ left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
   scale_y_continuous("empirical D")  + 
   coord_fixed()-> plt_D
 
-exps2predict = c(2, 4)
 
-rt_pred <- map_dfr(exps2predict, predict_rt)
+rt_pred <- map_dfr(exps_to_predict, predict_rt)
 
-d %>% filter(exp_id %in% exps2predict) %>%
+d %>% 
   group_by(exp_id, p_id, d_feature, N_T) %>%
   summarise(mean_rt = mean(rt), .groups = "drop") %>%
   group_by(exp_id,  d_feature, N_T) %>%
@@ -59,9 +58,8 @@ d %>% filter(exp_id %in% exps2predict) %>%
   scale_y_continuous("empirical mean reaction time (sec)") + 
   coord_fixed() -> plt_mean_rt
 
-rt_pred <- map_dfr(exps2predict, predict_rt)
 
-d %>% filter(exp_id %in% exps2predict) %>%
+d %>%
   group_by(exp_id, p_id, d_feature, N_T) %>%
   sample_n(1) %>%
   left_join(rt_pred, by = c("exp_id", "d_feature", "N_T")) %>% 
@@ -69,10 +67,31 @@ d %>% filter(exp_id %in% exps2predict) %>%
   geom_point(color = "darkblue", alpha = 0.15) + 
   geom_abline(linetype = 2) +
   geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
-  scale_x_continuous("predicted reaction time (sec)") +
-  scale_y_continuous("sampled reaction time (sec)") -> plt_sample_rt
+  scale_x_continuous("predicted rt (sec)") +
+  scale_y_continuous("sampled rt (sec)") -> plt_sample_rt
 
 ggsave("../plots/computational_replication.pdf", plt_D + plt_mean_rt + plt_sample_rt, width = 8, height = 3)
+
+
+
+d %>% filter(parse_number(exp_id) == 2,
+             d_feature %in% c("blue diamond", "blue triangle", "orange triangle")) %>%
+  group_by(exp_id, p_id, d_feature, N_T) %>%
+  summarise(mean_rt = mean(rt), .groups = "drop") %>%
+  group_by(exp_id,  d_feature, N_T) %>%
+  summarise(mean_rt = mean(mean_rt), .groups = "drop") -> d_mean_mean
+
+rt_pred %>%
+  filter(parse_number(exp_id) == 2,
+         d_feature %in% c("blue diamond", "blue triangle", "orange triangle")) %>%
+  ggplot( aes(x = N_T, y = p_rt)) + 
+  geom_line(colour = "violetred3") + 
+  facet_wrap( ~ d_feature, nrow = 1) + 
+  geom_point(data = d_mean_mean, aes(y = mean_rt), colour = "darkblue" ) + 
+  scale_y_continuous("predicted rt (sec)") + 
+  scale_x_continuous(TeX("$N_T")) -> plt_rt
+
+ggsave("../plots/computational_replication_rt.pdf", plt_rt, width = 8, height = 3)
 
 
 ###################################################

@@ -181,7 +181,7 @@ r2
 The $R^2=$ `r r2`. However, this is potentially misleading, as it doesn't show how the model fits the different conditions! 
 
 
-```{r fig.height = 6}
+```{r fig.height = 6, fig.cap="Breaking down the TCS predictions by condition."}
 
 d %>% filter(parse_number(exp_id) == 2) %>%
 	group_by(exp_id, p_id, d_feature, N_T) %>%
