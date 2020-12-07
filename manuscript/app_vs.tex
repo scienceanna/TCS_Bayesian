@@ -173,14 +173,16 @@ As can be seen in  Figure \ref{fig:comp_rep} (centre panel), these predictions a
 
 While TCS theory mostly offers a good prediction of search slopes and corresponding mean reaction times for double feature search, there are two related limitations. Firstly, it is unable to account for individual differences between observers, only the changes to the sample average. Secondly, it cannot account for the distribution of reaction times over multiple trials. Figure \ref{fig:comp_rep} (right panel) shows clearly that these factors generate high levels of variability within the individual trial-level data. To address these issues, we propose a second version of the TCS that makes use of multi-level modelling techniques.
 
-It is also worth noting that relying simply on $R^2$ values may give a misleading view of the accuracy of the TCS model. Figure \ref{fig:comp_rep} shows the predicted RTs (pink line) for three conditions from Experiment 2 (a, b and c) of \citep{buetti2019predicting}, plotted next to the mean of means for each condition. It is clear that for at least some conditions, the TCS model is doing a poor job of predicting the empirical data, even when allowing quite rigid constraints on the model; for example, the intercept ($a$) is set at the level of each sub-experiment and thus would be expected to be perfect. 
+It is also worth noting that relying simply on $R^2$ values may give a misleading view of the accuracy of the TCS model. Figure \ref{fig:comp_rep} shows the predicted RTs (pink line) for three conditions from Experiment 2 (a, b and c) of \citep{buetti2019predicting}, plotted next to the mean of means for each condition. It is clear that for at least some conditions, the TCS model is doing a poor job of predicting the empirical data, even when allowing quite rigid constraints on the model; for example, the intercept ($a$) is set at the level of each sub-experiment and thus would be expected to be perfect. To some extent, this could reflect the fact that the $R^2$ measure of goodness-of-fit simply measures how tightly clustered the points are around a line with arbitrary intercept and slope. It is possible therefore for the $R^2$ value to be high, but for the line to deviate significantly from an intercept of 0 and a slope of 1, which is the unity line required for the predictions to be a good match to the empirical data.
 
 
 \subsection{A multi-level TCS}
 
 Switching from a linear regression model to a multi-level model will allow us to compute $D$ for each participant, while simultaneously estimating the trial-to-trial variance. We also switch from a frequentist to Bayesian framework, as this allows us to naturally account for the uncertainty in the model's predictions.
 
-However, switching from linear regression to a mutli-level model raises the problem of which distribution to use for modelling reaction times. Using a normal distribution is unlikely to be satisfactory, as it is unable to account for the skew frequently seen in reaction time distributions, and also allows the possibility of negative reaction times. We can account for both of these problems by using a log-normal distribution, $\text{rt} ~ \text{lognormal}(\mu, \sigma))$. We will also test whether a slightly more complex extension of this model, the \textit{shifted lognormal} model (which allows the distribution to be offset to the right i.e. mimicking the patterns seen in reaction time data, where valid responses begin at around 100ms) offers any improvement in model fit.
+However, switching from linear regression to a multi-level model raises the problem of which distribution to use for modelling reaction times. Using a normal distribution is unlikely to be satisfactory, as it is unable to account for the skew frequently seen in reaction time distributions, and also allows the possibility of negative reaction times. We can account for both of these problems by using a log-normal distribution, $\text{rt} ~ \text{lognormal}(\mu, \sigma))$. We will also test whether a slightly more complex extension of this model, the \textit{shifted lognormal} model (which allows the distribution to be offset to the right i.e. mimicking the patterns seen in reaction time data, where valid responses begin at around 100ms) offers any improvement in model fit.
+
+Finally, when comparing models, we acknowledge that $R^2$ value on its own is not an adequate measure of the goodness-of-fit of the model, and that the match to the unity line also needs to be considered. We suggest adjustments to the original models proposed by \citep{buetti2019predicting} to improve the predictive power of the TCS model.
 
 \subsubsection{Calculating the logarithmic slope parameter, $D_i$}
 
@@ -240,12 +242,12 @@ However, a closer look at the original data suggests that the superiority of the
 
 \begin{table}
 \centering
-\begin{tabular}{ c|cc|c } 
-method & Experiments 1 \& 2 & Experiments 3 \& 4 & Both Experiments \\
+\begin{tabular}{ c|c|c|c|c|c } 
+Method & Intercept & Slope & $R^2$ & $R^2$ Lower & $R^2$ Upper \\
  \hline 
-best feature & 0.960 & 0.946 & 0.944 \\ 
- orthogonal contrast & 0.961 & 0.958 & 0.945 \\ 
- collinear & 0.956& 0.966& 0.936 \\
+best feature & 0.003 & 0.831 & 0.752 & 0.545 & 0.927\\ 
+ orthogonal contrast & -0.019 & 1.206 & 0.856 & 0.739 & 0.944\\ 
+ collinear & -0.034 & 1.814	& 0.901 & 0.824 & 0.963\\
 \end{tabular}
 \caption{A table of $R^2$ values}
 \label{tab:reimp_D_r2}
