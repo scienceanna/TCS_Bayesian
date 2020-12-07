@@ -4,8 +4,6 @@ SUPP MAT
 - Go do something with power models ALASDAIR
 - What model diagnostics to report in supp mat? Print summary? ANNA H
 - Reimplementation: calculate better R^2 values D ~ 1*Dp+0
-- Run model 2, normal ANNA H
-- 3.6, but for reimplementation ANNA H/ALASDAIR
 
 MANUSCRIPT
 
