@@ -60,7 +60,7 @@ loo_m_exp1_nrl <- loo(m_exp1_nrl, nsamples=4500)
 saveRDS(loo_m_exp1_nrl, "models/loo_m_exp1_nrl.rds")
 loo_m_exp1_log <- loo(m_exp1_log, nsamples=4500, moment_match = TRUE)
 saveRDS(loo_m_exp1_log, "models/loo_m_exp1_log.rds")
-loo_m_exp1_sft <- loo(m_exp1_sft, nsamples=4500)
+loo_m_exp1_sft <- loo(m_exp1_sft, nsamples=4500, moment_match = TRUE)
 saveRDS(loo_m_exp1_sft, "models/loo_m_exp1_sft.rds")
 
 loo_list <- list(loo_m_exp1_nrl, loo_m_exp1_log, loo_m_exp1_sft)
@@ -76,42 +76,42 @@ rm(m_exp1_nrl,
 #### Fit models for Expts 2, 3, and 4 ####
 
 # Experiment 2
-mdl_inputs_nrl <- set_up_model(2, "normal")
-m_exp2_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
-saveRDS(m_exp2_nrl, "models/exp_2_nrl.models")
+#mdl_inputs_nrl <- set_up_model(2, "normal")
+#m_exp2_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
+#saveRDS(m_exp2_nrl, "models/exp_2_nrl.models")
 
-mdl_inputs_log <- set_up_model(2, "lognormal")
-m_exp2_log <- run_model(mdl_inputs_log, ppc = "no")
-saveRDS(m_exp2_log, "models/exp_2_log.models")
+#mdl_inputs_log <- set_up_model(2, "lognormal")
+#m_exp2_log <- run_model(mdl_inputs_log, ppc = "no")
+#saveRDS(m_exp2_log, "models/exp_2_log.models")
 
-mdl_inputs_sft <- set_up_model(2, "shifted_lognormal")
-m_exp2_sft <- run_model(mdl_inputs_sft, ppc = "no")
+mdl_inputs_sft2 <- set_up_model(2, "shifted_lognormal")
+m_exp2_sft <- run_model(mdl_inputs_sft2, ppc = "no")
 saveRDS(m_exp2_sft, "models/exp_2_sft.models")
 
 # Experiment 3
-mdl_inputs_nrl <- set_up_model(3, "normal")
-m_exp3_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
-saveRDS(m_exp3_nrl, "models/exp_3_nrl.models")
+#mdl_inputs_nrl <- set_up_model(3, "normal")
+#m_exp3_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
+#saveRDS(m_exp3_nrl, "models/exp_3_nrl.models")
 
-mdl_inputs_log <- set_up_model(3, "lognormal")
-m_exp3_log <- run_model(mdl_inputs_log, ppc = "no")
-saveRDS(m_exp3_log, "models/exp_3_log.models")
+#mdl_inputs_log <- set_up_model(3, "lognormal")
+#m_exp3_log <- run_model(mdl_inputs_log, ppc = "no")
+#saveRDS(m_exp3_log, "models/exp_3_log.models")
 
-mdl_inputs_sft <- set_up_model(3, "shifted_lognormal")
-m_exp3_sft <- run_model(mdl_inputs_sft, ppc = "no")
+mdl_inputs_sft3 <- set_up_model(3, "shifted_lognormal")
+m_exp3_sft <- run_model(mdl_inputs_sft3, ppc = "no")
 saveRDS(m_exp3_sft, "models/exp_3_sft.models")
 
 # Experiment 4
-mdl_inputs_nrl <- set_up_model(4, "normal")
-m_exp4_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
-saveRDS(m_exp4_nrl, "models/exp_4_nrl.models")
+#mdl_inputs_nrl <- set_up_model(4, "normal")
+#m_exp4_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
+#saveRDS(m_exp4_nrl, "models/exp_4_nrl.models")
 
-mdl_inputs_log <- set_up_model(4, "lognormal")
-m_exp4_log <- run_model(mdl_inputs_log, ppc = "no")
-saveRDS(m_exp4_log, "models/exp_4_log.models")
+#mdl_inputs_log <- set_up_model(4, "lognormal")
+#m_exp4_log <- run_model(mdl_inputs_log, ppc = "no")
+#saveRDS(m_exp4_log, "models/exp_4_log.models")
 
-mdl_inputs_sft <- set_up_model(4, "shifted_lognormal")
-m_exp4_sft <- run_model(mdl_inputs_sft, ppc = "no")
+mdl_inputs_sft4 <- set_up_model(4, "shifted_lognormal")
+m_exp4_sft <- run_model(mdl_inputs_sft4, ppc = "no")
 saveRDS(m_exp4_sft, "models/exp_4_sft.models")
 
 rm(m_exp2_nrl,
