@@ -394,10 +394,11 @@ set_up_predict_model <- function(e_id, fam = "shifted_lognormal", meth, Dp_summa
 
 lm_D <- function(df) {
   
-  my_lm = lm(De ~ 0 + Dp:method, df)
+  my_lm = lm(De ~ 0 + method + Dp:method, df)
   
-  return(tibble(method = levels(df$method), 
-                slope = summary(my_lm)$coefficients[,1]))
+  return(tibble(method = levels(df$method),
+                intercept = summary(my_lm)$coefficients[1:3,1],
+                slope = summary(my_lm)$coefficients[4:6,1]))
   
 }
 
@@ -407,9 +408,9 @@ get_Dp_lines <- function(Dp_s) {
     group_split(iter) %>%
     map_dfr(lm_D) %>%
     group_by(method) %>%
-    mean_hdci(.width = 0.97) %>%
-    mutate(method = as_factor(method)) %>%
-    select(method, .lower, slope, .upper) -> Dp_lines
+    sample_n(50) %>%
+    # mean_hdci(.width = 0.97) %>%
+    mutate(method = as_factor(method)) -> Dp_lines
   
   return(Dp_lines)
   
@@ -417,9 +418,9 @@ get_Dp_lines <- function(Dp_s) {
 
 plot_Dp_lines <- function(Dp_lines, dot_col = "yellow1", xyline_col = "cyan") {
   
-  x_range = 0.22
-  bind_rows(Dp_lines %>% mutate(x = 0, .lower = 0, .upper = 0),
-            Dp_lines %>% mutate(x = x_range, .lower = x * .lower, .upper = x * .upper)) -> Dp_lines
+  # x_range = 0.25
+  # bind_rows(Dp_lines %>% mutate(x = 0, .lower = 0, .upper = 0),
+            # Dp_lines %>% mutate(x = x_range, .lower = x * .lower, .upper = x * .upper)) -> Dp_lines
   
   
   Dp_samples %>%
@@ -427,11 +428,12 @@ plot_Dp_lines <- function(Dp_lines, dot_col = "yellow1", xyline_col = "cyan") {
     mean_hdci(Dp, De) %>%
     ggplot() +
     geom_abline(linetype = 2, colour = xyline_col) +
-    # geom_point(aes(x = Dp, y = De), color = dot_col) +
+     geom_point(aes(x = Dp, y = De), color = dot_col) +
     geom_linerange(aes(x = Dp, ymin = De.lower, ymax = De.upper), color = dot_col) +
-    geom_linerange(aes(y = De, xmin = Dp.lower, xmax = Dp.upper), color = dot_col) +
-    facet_wrap(~method, nrow = 1) +
-    geom_ribbon(data = Dp_lines, aes(x = x,  ymin = .lower, ymax=  .upper), alpha = 0.5, fill = "palevioletred1") + 
+   # geom_linerange(aes(y = De, xmin = Dp.lower, xmax = Dp.upper), color = dot_col) +
+   geom_abline(data = Dp_lines, aes(intercept = intercept, slope = slope), colour = "palevioletred1", alpha = 0.1) +
+     facet_wrap(~method, nrow = 1) +
+    # geom_ribbon(data = Dp_lines, aes(x = x,  ymin = .lower, ymax=  .upper), alpha = 0.5, fill = "palevioletred1") + 
     coord_fixed(xlim = c(0, 0.25), ylim = c(0, 0.25)) +
     scale_x_continuous(TeX("Predicted value for $D_{c,s}$"), expand = c(0, 0), breaks = c(0, 0.1, 0.2)) +
     scale_y_continuous(TeX("empirical value for $D_{c,s}$"), expand = c(0, 0), breaks = c(0, 0.1, 0.2)) 

@@ -98,6 +98,12 @@ ggsave("../plots/computational_replication_rt.pdf", plt_rt, width = 8, height = 
 ## Bayesian RT fits
 ###################################################
 
+# switch from ms to seconds
+# recode experiment as 1, 2, 3 and 4 
+# remove outlier RTs
+d <- our_changes_to_data(d)
+
+
 m_exp1_sft <- readRDS("models/exp_1_sft.models")
 m_exp2_sft <- readRDS("models/exp_2_sft.models")
 m_exp3_sft <- readRDS("models/exp_3_sft.models")
@@ -114,16 +120,14 @@ slopes2 <- extract_fixed_slopes_from_model(m_exp2_sft)
 slopes3 <- extract_fixed_slopes_from_model(m_exp3_sft)
 slopes4 <- extract_fixed_slopes_from_model(m_exp4_sft)
 
-ggplot(slopes1, aes(x= D, fill = d_feature, colour = d_feature)) + 
+ggplot(slopes1, aes(x= D, fill = d_feature)) + 
   geom_density( alpha = 0.33) +
   scale_fill_manual("feature", values = c("orange1", "royalblue1", "gold1", "gray0", "gray40", "gray90")) +
-  scale_colour_manual("feature", values = c("orange1", "royalblue1", "gold1", "gray0", "gray40", "gray90")) +
-  scale_x_continuous(TeX("posterior distributions for $D_c$ and $D_s$")) + 
+   scale_x_continuous(TeX("posterior distributions for $D_c$ and $D_s$")) + 
   scale_y_continuous(expand = c(0,0)) +
   theme(legend.title = element_blank())-> plt_Di
 
- 
-Dp_samples <- bind_rows(
+ Dp_samples <- bind_rows(
   get_Dp_samples(2, d, slopes1, slopes2),
   get_Dp_samples(4, d, slopes3, slopes4))
   

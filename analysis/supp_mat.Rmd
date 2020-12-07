@@ -332,7 +332,7 @@ Dp_samples <- bind_rows(
 
 
 Dp_lines <- get_Dp_lines(Dp_samples)
-knitr::kable(Dp_lines, digits = 2)
+
 plot_Dp_lines(Dp_lines)
 
 rm(slopes1, slopes2, slopes3, slopes4)
@@ -532,14 +532,14 @@ plt_no_shuffle + plt_shuffle
 We now calculate our assumed "groundtruth"
 
 ```{r, message=FALSE, cache=TRUE}
-
-
-bayes_corr_subsample(dr_no_shuffle) 
-bayes_corr_subsample(dr_no_shuffle, 6) 
-
-
-bayes_corr_subsample(dr_shuffle) 
-bayes_corr_subsample(dr_shuffle, 6) 
+# 
+# 
+# bayes_corr_subsample(dr_no_shuffle) 
+# bayes_corr_subsample(dr_no_shuffle, 6) 
+# 
+# 
+# bayes_corr_subsample(dr_shuffle) 
+# bayes_corr_subsample(dr_shuffle, 6) 
 
 # save the subsampled version:
 
