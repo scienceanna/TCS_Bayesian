@@ -282,17 +282,32 @@ As these models can be quite challenging to fit, we're making some excuses. But 
 \subsection{Sample Size: Participants and Trials}
 
 Based on the power analysis \ref{sec:power}, we will recruit 20 participants, who will each
-complete 570 trials (15 distractor types x 6 levels of numbers of distractors, each repeated 6 times, alongside 30 'zero distractor' trials).
+complete 570 trials (15 distractor types x 6 set sizes, each repeated 6 times, alongside 30 'zero distractor' trials).
 
-In the original paper, there were inclusion criteria: search accuracy over 90\% and individual average response times smaller than two standard deviations from the group average response time. Even in a lab set up, this normally led to at least one or two participants being excluded. Do we need something similar? More stringent?
+Ethics?
 
 \subsection{Stimuli}
 
-The targets and distractors were randomly assigned to the display based on an invisible 
+The targets and distractors were randomly assigned to the display based on an invisible grid. Within each quadrant of the screen, there were three 'spokes' each with four possible target positions (starting from the centre of the screen and moving outwards), creating 48 different target positions in total, in four concentric circles. A small amount of jitter was added to each possible position to make the target locations less predictable.
+
+\textbf{Distractor and target types:} we replicated the distractor types used in \cite{buetti2019predicting}, apart from that we changed one distractor colour (from orange to green) to allow us to discriminate better between different models of the data (see above). There were six single-feature conditions (yellow, green and blue distractors and triangle, circle and diamond distractors) and nine double-feature conditions (all possible pairings of the single-feature conditions). The target was always a light blue semicircle, except in the trials where the distractors were single-feature shapes (triangles, circles and diamonds) in which case the target was a white semicircle.
+
+\textbf{Set sizes:} we ran all the distractor set sizes used in \cite{buetti2019predicting} (1, 4, 9, 19 and 31) along with an extra condition with more distractors (43). We also ran target-only 'zero distractor' trials (30 in total, with 6 being the white semicircle target and the remainder the light blue semicircle target).
+
+The experiments were programmed in PsychoPy and Pavlovia \cite{peirce2019psychopy2}. Stimuli were pre-made offline to generate search array images with 1920 x 1080 resolution. [Need to add something here about target/distractor sizes at this resolution? Obviously potentially not really that useful for online experiments though...]
 
 \subsection{Procedure}
 
+[We don't currently have a fixation cross before the search array. Is that something we want? Also, do we need an inter-trial interval?]
+
+Participants were told to search for the target among distractors and report if the semicircle target pointed to the left or right, by pressing either the '1' or '2' key respectively on their keyboard. They first completed 10 practice trials [we should actually maybe make some separate images for this] where they received feedback immediately after completing each trial. In the real experimental trials, participants received feedback on their average accuracy and reaction time after each block of 30 trials. Participants  completed 19 blocks of trials (570 trials overall) with the order of the stimuli being fully randomised.
+ 
+In both the practice and experimental trials, the search display always remained on screen until a response was made, or until 5 seconds had passed. 
+
 \subsection{Data Pre-processing}
+
+In the original paper, there were inclusion criteria: search accuracy over 90\% and individual average response times smaller than two standard deviations from the group average response time. Even in a lab set up, this normally led to at least one or two participants being excluded. Do we need something similar? More stringent?
+
 
 incorrect trials? Poorly behaved participants? RTs that are far too short? Or far too long?
 
