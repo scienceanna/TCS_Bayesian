@@ -83,7 +83,7 @@ predict_rt <- function(e_id) {
   
   a <- extract_a_value(e_id)
   D <- extract_D(e_id)	
-  N_T <- c(1,4,9,19,31)
+  N_T <- c(0, 1,4,9,19,31)
   rt <- a +  log(N_T + 1) %*% t(D$collinear)
   colnames(rt) <- unique(D$d_feature)
   d_out <- as_tibble(rt )
