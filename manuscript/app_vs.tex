@@ -147,7 +147,7 @@ Finally, the collinear contrast integration model also assumes independence of f
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{../plots/computational_replication.pdf}
-\caption{(left) The collinear method for calculating $D$ offers a good prediction. (centre) Using the TSC to predict reaction times. (right) Each dot now represents a randomly sampled reaction time from an observer.}
+\caption{(left) The collinear method for calculating $D$ offers a good prediction. (centre) Using the TCS to predict reaction times. (right) Each dot now represents a randomly sampled reaction time from an observer.}
 \label{fig:comp_rep}
 \end{figure}
 
@@ -204,7 +204,7 @@ We then extracted the posterior distributions for the logarithmic slope paramete
 
 \subsubsection{Estimating $D_{c,s}$, the logarithmic slope parameter for compound features}
 
-We predict $D_{c,s}$ from $D_c$ and $D_c$ in the same way as the original TCS, except this time we use 1000\footnote{check!} samples from the posterior distributions, rather than just the maximum likelihood fit. These predictions are shown in Figure \ref{fig:buetti2019_D} (bottom). We can see that as with the original model, we still find the \textit{best feature} is the worst of the three methods. We additionally calculated a fourth prediction method, the \textit{mean method} which simply takes the averages of the \textit{collinear contrast} and \textit{orthogonal contrast} models.
+We predict $D_{c,s}$ from $D_c$ and $D_c$ in the same way as the original TCS, except this time we use 1000\footnote{check!} samples from the posterior distributions, rather than just the maximum likelihood fit. These predictions are shown in Figure \ref{fig:buetti2019_D} (bottom), and the $R^2$ values are shown in Table \ref{tab:reimp_D_r2}. We can see that as with the original model, we still find the \textit{best feature} is the worst of the three methods. 
 
 \subsubsection{Estimating other parameters and predicting reaction times}
 
@@ -226,7 +226,7 @@ For the implementation presented here, in order to predict the data from Experim
 \label{fig:buetti2019_rt}
 \end{figure}
 
-We can summarise how well the model predicts the mean reaction times (Figure \ref{fig:buetti2019_rt}(left) by repeatedly i) sampling from the posterior, ii) computing the predicted mean reaction times, and iii) computing the $R^2$ statistic for the correlation between predicted and empirical mean reaction times. Doing this gives us a HPDI of $[0.75, 0.80]$, which compares with the value of $R^2 = 0.93$ obtained for the original TCS. While our new model is slightly lower than the original method, as discussed above, it offers substantial improvements over the original model in terms of predicting the full distribution of reaction times over multiple trials and participants. 
+We can summarise how well the model predicts the mean reaction times (Figure \ref{fig:buetti2019_rt}, left) by repeatedly i) sampling from the posterior, ii) computing the predicted mean reaction times, and iii) computing the $R^2$ statistic for the correlation between predicted and empirical mean reaction times. Doing this gives us a HPDI of $[0.75, 0.80]$, which compares with the value of $R^2 = 0.93$ obtained for the original TCS. While our new model is slightly lower than the original method, as discussed above, it offers substantial improvements over the original model in terms of predicting the full distribution of reaction times over multiple trials and participants. 
 
 \subsubsection{Discussion}
 
