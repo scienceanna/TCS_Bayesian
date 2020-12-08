@@ -93,40 +93,54 @@ We first run a replication of \cite{buetti2019predicting}, in an online, within-
 \section{The Target Contrast Model}
 \label{sec:reansalysis}
 
-We first describe the original Target Contrast Model (and verify that we can replicate the original analysis - see Supplementary Materials). This is followed by our proposed extension.
+We first describe the original Target Contrast Model (and verify that we can replicate the original analysis - see Supplementary Materials). This is followed by our proposed modifications.
 
 \subsection{TCS modelling overview} 
 
 In Experiment 1a of \cite{buetti2019predicting}, participants searched for a cyan semicircle target among blue, yellow or orange semicircular distractors i.e. they searched for a target that differed from the distractors by a \textit{single feature} (colour). The experiment was then repeated (1b) using a different single feature (shape, with participants searching for the semicircular target within triangle, circle or diamond distractors). In Experiments 2a, 2b and 2c, participants again searched for a cyan semicircle, but this time, the distractors differed in both shape and colour. We will refer to these conditions as \textit{double features}. Note, unlike in standard conjunction searches, in this paradigm, the distractors are all identical with respect to these features (i.e, orange triangles). 
 
-The \textit{Target Signal Contrast} theory allows us to predict the value of the logarithmic slope, $D_\text{c,s}$, in this condition based on the  corresponding $D_j$ in the single feature seach experiments. 
-
-
-
-\subsubsection{Calculating the intercept, $a$, and the logarithmic slope parameter, $D_i$}
-\label{sec:fitting_D}
-
-Experiments 1a and 1b (referred to jointly as Experiment 1) were used to calculate the logarithmic slope parameter $D_i$. In both experiments, the number of distractors varied, allowing the data to be used to fit a log-linear model for reaction times, where reaction times increase linearly with $\log(N_T)$ (the log of the number of distractors) \ref{eq:loglin}. In the original model the error distribution was assumed to be normal. 
+The \textit{Target Signal Contrast} theory is built around a linear model for predicting mean reaction times from the logarithm of the number of distracters: 
 
 \begin{equation}
 \hat{RT} = D_i\log(N_T+1) + a
 \label{eq:loglin}
 \end{equation}
 
-Thus the results of Experiment 1 were used to calculate the logarithmic slope, for each type of distractor. When colour varied, we will refer to $D_c$, for $c=1,2,3$. Similarly for shape we will denote this ($D_s$), and the compound features are denoted as ($D_{c,s}$). As $a$ represented the intercept in our model, it is independent of both shape and colour, as it represents how long observers take to find a target when $N_T = 0$, i.e., there are no distractors. However, this leads to some ambiguity in how $a$ should be defined; in \cite{buetti2019predicting}, $a$ was calculated for each feature in each sub-experiment (e.g. experiments 1a, 1b, 2a, 2b, 2c). Here, we follow that method in order to replicate their results exactly. However, it is also possible to calculate $a$ at the level of an experiment (e.g. experiments 1 and 2), and this is the approach we take in our replication.
+In particular, the TCS theory allows us to predict the value of the logarithmic slope, $D_\text{c,s}$, in this condition based on the corresponding $D_j$ in the single feature search experiments. 
+
+
+\subsubsection{Calculating the intercept, $a$, and the logarithmic slope parameter, $D_i$}
+\label{sec:fitting_D}
+
+Experiments 1a and 1b (referred to jointly as Experiment 1) were used to calculate the logarithmic slope parameter $D_i$. In both experiments, the number of distractors varied, allowing the data to be used to fit a log-linear model for reaction times, where reaction times increase logarithmically with $N_T$, the number of distractors. (See Equation \ref{eq:loglin}.) In the original model the error distribution was assumed to be normal. Thus the results of Experiment 1 were used to calculate $D_i$, for each type of distractor. When colour varied, we will refer to $D_c$, for $c=1,2,3$. Similarly for shape we will denote this ($D_s$), and the compound features are denoted as ($D_{c,s}$). 
+
+Fitting the model specified in Equation \ref{eq:loglin} to the data, we obtain the values for $D_c$ and $D_s$ given in Table \ref{tab:reimp_Dc_Ds}. As can be seen, the more similar the distractors are to the target, the steeper the slope parameter is. 
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ cc|cc } 
+feature & $D_c$ & feature & $D_s$\\
+ \hline 
+blue & 76.8  & triangle & 141.1 \\
+yellow & 16.0 & diamond & 77.2 \\
+orange & 9.8 & circle & 62.1\\
+\end{tabular}
+\caption{A table of $D_i$ values for Experiment 1a and 1b}
+\label{tab:reimp_Dc_Ds}
+\end{table}
+
+As $a$ is the intercept in our model, it represents how long observers take to find a target when $N_T = 0$, i.e., there are no distractors. As such, it should be independent of both shape and colour. However, this leads to some ambiguity in how $a$ should be defined; in \cite{buetti2019predicting}, $a$ was calculated for each feature in each sub-experiment (e.g. Experiments 1a, 1b, 2a, 2b, 2c). Here, we follow that method in order to replicate their results exactly. Unfortunately, this leads to a situation in which the model's prediction of how long participants take to find a target when $N_T$ depends on the features of distracters that are not present in the stimulus! As such, in our proposed new version of the TCS theory, we will estimate $a$ at the level of an experiment (e.g. Experiments 1 and 2).
 
 \subsubsection{Estimating $D_{c,s}$, the logarithmic slope parameter for compound features}
 
-In the context of the current experiments, the core idea of TCS theory is that we can estimate the logarithmic slope parameter for a double feature visual search from the slopes parameters in the two independent single feature searches. I.e., $D_{c,s} = f(D_c, D_s)$.
-
-\cite{buetti2019predicting} tested three different models for predicting $D$ for compound colour-shape stimuli. The best feature guidance model (Equation \ref{eq:bestfeature}) suggests that when the target and lures differ in two dimensions, participants will choose to attend to whichever feature dimension is the most discriminable (i.e. has the smallest $D$ value):
+In the context of the current experiments, the core idea of TCS theory is that we can estimate the logarithmic slope parameter for a double feature visual search from the slopes parameters in the two independent single feature searches. I.e., $D_{c,s} = f(D_c, D_s)$. \cite{buetti2019predicting} tested three different models for predicting $D$ for compound colour-shape stimuli. The best feature guidance model (Equation \ref{eq:bestfeature}) suggests that when the target and lures differ in two dimensions, participants will choose to attend to whichever feature dimension is the most discriminable (i.e. has the smallest $D$ value):
 
 \begin{equation}
 D_\text{c,s} = \text{min}\left(D_\text{c}, D_\text{s}\right)
 \label{eq:bestfeature}
 \end{equation}
 
-The orthogonal contrast combination model instead suggests that independent feature dimensions comprise a multidimensional space, where an object can be described by the overall vector in this space, and thus $\mathrm{D_{overall}}$ can be represented as:
+The orthogonal contrast combination model instead suggests that independent feature dimensions comprise a multidimensional space, where an object can be described by the overall vector in this space, and thus $\mathrm{D_{c,s}}$ can be represented as:
 
 \begin{equation}
 D_\text{c,s} = \frac{1}{\sqrt{\frac{1}{(D_\text{c})^2 + (D_\text{s})^2}}}
@@ -142,7 +156,7 @@ Finally, the collinear contrast integration model also assumes independence of f
 \label{eq:collinearcontrast}
 \end{equation}
 
-\cite{buetti2019predicting} found that with their dataset, the collinear contrast integration model was best able to predict $D_{c,s}$ from $D_c$ and $D_s$, with $R^2 = 0.915 $ . We verified we were able to replicate the results of \cite{buetti2019predicting} using the dataset available on OSF (https://osf.io/f3m24/)\footnote{downloaded on 28th August 2020} and using the exclusion criteria originally applied\footnote{We also applied some additional exlusion crit!}; see Figure \ref{fig:comp_rep} (left panel) and \textit{Supplementary Materials} for details.
+\cite{buetti2019predicting} found that with their dataset, the collinear contrast integration model was best able to predict $D_{c,s}$ from $D_c$ and $D_s$, with $R^2 = 0.915$. We verified we were able to replicate this result using the dataset available on OSF (https://osf.io/f3m24/)\footnote{downloaded on 28th August 2020} and using the exclusion criteria originally applied; see Figure \ref{fig:comp_rep} (left panel) and \textit{Supplementary Materials} for details.
 
 \begin{figure}
 \centering
@@ -153,27 +167,23 @@ Finally, the collinear contrast integration model also assumes independence of f
 
 \subsubsection{Estimating mean reaction times}
 
-The TCS theory now allows us to predict mean reaction times:
+Finally, we can use Equation \ref{eq:loglin} to predict mean reaction times. As can be seen in  Figure \ref{fig:comp_rep} (centre panel), these predictions are essentially identical to the empirical RT results with an $R^2 = 0.933\%$. 
 
-\begin{equation}
-RT = D{c,s}\log(N_T+1) + a
-\end{equation}
 
-As can be seen in  Figure \ref{fig:comp_rep} (centre panel), these predictions are essentially identical to their empirical RT results with an $R^2 = 93.27\%$. 
+\subsubsection{Discussion}
+
+While TCS theory mostly offers a good prediction of search slopes and corresponding mean reaction times for double feature search, there are two related limitations. Firstly, it is unable to account for individual differences between observers, only the changes to the sample average. Secondly, it cannot account for the distribution of reaction times over multiple trials. Figure \ref{fig:comp_rep} (right panel) shows clearly that these factors generate high levels of variability within the individual trial-level data. To address these issues, we propose a second version of the TCS that make use of multi-level modelling techniques.
+
+It is also worth noting that relying simply on $R^2$ values may give a misleading view of the accuracy of the TCS model. Figure \ref{fig:comp_rep_conditions} shows the predicted RTs (pink line) for three conditions from Experiment 2 (a, b and c) of \citep{buetti2019predicting}, plotted next to the mean of means for each condition. It is clear that for at least some conditions, the TCS model is doing a poor job of predicting the empirical data, even when allowing quite rigid constraints on the model; for example, the intercept ($a$) is set at the level of each sub-experiment and thus would be expected to be perfect. To some extent, this could reflect the fact that the $R^2$ measure of goodness-of-fit simply measures how tightly clustered the points are around a line with arbitrary intercept and slope. It is possible therefore for the $R^2$ value to be high, but for the line to deviate significantly from an intercept of 0 and a slope of 1, which is the unity line required for the predictions to be a good match to the empirical data.
 
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{../plots/computational_replication_rt.pdf}
 \caption{Three conditions from Experiment 2. Blue dots represent the mean of means for each condition, while the line shows the prediction of the TCS theory.}
-\label{fig:comp_rep}
+\label{fig:comp_rep_conditions}
 \end{figure}
 
 
-\subsubsection{Discussion}
-
-While TCS theory mostly offers a good prediction of search slopes and corresponding mean reaction times for double feature search, there are two related limitations. Firstly, it is unable to account for individual differences between observers, only the changes to the sample average. Secondly, it cannot account for the distribution of reaction times over multiple trials. Figure \ref{fig:comp_rep} (right panel) shows clearly that these factors generate high levels of variability within the individual trial-level data. To address these issues, we propose a second version of the TCS that makes use of multi-level modelling techniques.
-
-It is also worth noting that relying simply on $R^2$ values may give a misleading view of the accuracy of the TCS model. Figure \ref{fig:comp_rep} shows the predicted RTs (pink line) for three conditions from Experiment 2 (a, b and c) of \citep{buetti2019predicting}, plotted next to the mean of means for each condition. It is clear that for at least some conditions, the TCS model is doing a poor job of predicting the empirical data, even when allowing quite rigid constraints on the model; for example, the intercept ($a$) is set at the level of each sub-experiment and thus would be expected to be perfect. To some extent, this could reflect the fact that the $R^2$ measure of goodness-of-fit simply measures how tightly clustered the points are around a line with arbitrary intercept and slope. It is possible therefore for the $R^2$ value to be high, but for the line to deviate significantly from an intercept of 0 and a slope of 1, which is the unity line required for the predictions to be a good match to the empirical data.
 
 
 \subsection{A multi-level TCS}
