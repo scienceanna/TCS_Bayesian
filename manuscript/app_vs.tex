@@ -210,7 +210,7 @@ We predict $D_{c,s}$ from $D_c$ and $D_c$ in the same way as the original TCS, e
 
 \subsubsection{Estimating other parameters and predicting reaction times}
 
-Unlike the origianl TCS, before we can use the predicted values of $D_{c,s}$ to generate reaction times, we first have to estimate some additional parameters: 
+Unlike the original TCS, before we can use the predicted values of $D_{c,s}$ to generate reaction times, we first have to estimate some additional parameters: 
 
 \begin{itemize}	
 \item $\alpha$ - the intercept for the shift\footnote{ndt} parameter.
@@ -224,7 +224,7 @@ For the implementation presented here, in order to predict the data from Experim
 \begin{figure}
 \centering
 \subfigure{\includegraphics[width=\textwidth]{../plots/bayes_buetti_rt.pdf}}
-\caption{(\textit{left}) HDPI and empirical mean reaction times for each condition in Experiment 2. (\textit{right}) Similar, for the full distribution of reaction times over trials. }
+\caption{(\textit{left}) HDPI and empirical mean reaction times for each condition in Experiment 2. At first glance, our model appears to be offering a poorer fit with the the data than the original TCS. This is due to our decision to estimate $a$ (the intercept) from the Experiment 1 data, where as \cite{buetti2019predicting} estimated three values for $a$, one for each sub-experiment, and these values were estimating from the Experiment 2 empirical data. (\textit{right}) Similar, for the full distribution of reaction times over trials. }
 \label{fig:buetti2019_rt}
 \end{figure}
 
