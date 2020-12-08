@@ -140,14 +140,12 @@ D_\text{c,s} = \text{min}\left(D_\text{c}, D_\text{s}\right)
 \label{eq:bestfeature}
 \end{equation}
 
-The orthogonal contrast combination model instead suggests that independent feature dimensions comprise a multidimensional space, where an object can be described by the overall vector in this space, and thus $\mathrm{D_{c,s}}$ can be represented as:
+The orthogonal contrast combination model instead suggests that independent feature dimensions comprise a multidimensional space, where an object can be described by the overall vector in this space, and thus $\mathrm{D_{c,s}}$ can be represented as\footnote{Note: there is a small mistake in Equation 4 in \cite{buetti2019predicting}. The version given here is correct.}:
 
 \begin{equation}
 D_\text{c,s} = \frac{1}{\sqrt{\frac{1}{(D_\text{c})^2 + (D_\text{s})^2}}}
 \label{eq:orthogonalcontrast}
 \end{equation}
-
-Note: we had to change this a little to make it match! !!!! *******
 
 Finally, the collinear contrast integration model also assumes independence of feature dimensions, but assumes that while the visual features create a multidimensional space, the contrast between them is unidimensional. As $D$ is assumed to be inversely proportional to contrast, the equation can be written as follows:
 
@@ -169,7 +167,6 @@ Finally, the collinear contrast integration model also assumes independence of f
 
 Finally, we can use Equation \ref{eq:loglin} to predict mean reaction times. As can be seen in  Figure \ref{fig:comp_rep} (centre panel), these predictions are essentially identical to the empirical RT results with an $R^2 = 0.933\%$. 
 
-
 \subsubsection{Discussion}
 
 While TCS theory offers a good prediction of search slopes and corresponding mean reaction times for double feature search, there are two related limitations. Firstly, it is unable to account for individual differences between observers, only the changes to the sample average. Secondly, it cannot account for the distribution of reaction times over multiple trials. Figure \ref{fig:comp_rep} (right panel) shows clearly that these factors generate high levels of variability within the individual trial-level data. To address these issues, we propose a second version of the TCS that make use of multi-level modelling techniques.
@@ -182,9 +179,6 @@ It is also worth noting that relying simply on $R^2$ values may give a misleadin
 \caption{Three conditions from Experiment 2. Blue dots represent the mean of means for each condition, while the line shows the prediction of the TCS theory.}
 \label{fig:comp_rep_conditions}
 \end{figure}
-
-
-
 
 \subsection{A multi-level TCS}
 
@@ -287,11 +281,17 @@ We plan an experiment to test the extent to which the original results in \cite{
 \item \textbf{Replication of Buetti et al (2019) with online data collection.} Specifically, that the \textit{collinear contrast ingratiation model} outperforms the \textit{best feature guidance}, and \textit{orthogonal contrast combination models}.  Furthermore, the $R^2 = $ ($99\%$ HPDI = $[, ]$) between predicted and observer reaction times.\\
 \item \textbf{Larger number of distractors (or targets further in periphery?)} Add an extra ring. Say something about moving from parallel to serial search (although don't use these terms?!!) \\ 
 \item \textbf{Individual differences} To what extent do the individual differences in the single-feature task explain the differences in the double-feature task?
-
 \end{enumerate}
 
-Add something about wanting to test features that allow us to distinguish between the models?
+\subsection{Proposed Modifications}
 
+In order to better test the above, and increases sensitivity, we propose to make the following changes to the experiment described in \cite{buetti2019predicting}:
+
+\begin{enumerate}
+\item Add something about wanting to test features that allow us to distinguish between the models?
+\\
+\item \textbf{Larger number of distractors (or targets further in periphery?)} Add an extra ring. Say something about moving from parallel to serial search (although don't use these terms?!!) \\ 
+\end{enumerate}
 
 \subsection{Planned Explorations!}
 
