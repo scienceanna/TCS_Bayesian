@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2019.10.9)  8 DEC 2020 11:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2019.10.9)  8 DEC 2020 15:53
 entering extended mode
 **./app_vs.tex
 (app_vs.tex
@@ -429,26 +429,23 @@ File: ../plots/D_sensitivity.pdf Graphic file (type pdf)
 <use ../plots/D_sensitivity.pdf>
 Package pdftex.def Info: ../plots/D_sensitivity.pdf  used on input line 260.
 (pdftex.def)             Requested size: 338.0pt x 168.99863pt.
-
-Underfull \vbox (badness 4013) has occurred while \output is active []
-
  [11 <../plots/D_sensitivity.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 276--277
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 277--278
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 278--279
-
- []
-
-
-LaTeX Warning: Reference `sec:power' on page 12 undefined on input line 294.
+LaTeX Warning: Reference `sec:power' on page 12 undefined on input line 293.
 
 [12] [13]
 
 LaTeX Warning: Reference `sec:reanalysis' on page 14 undefined on input line 32
-6.
+5.
 
 (app_vs.bbl [14]) [15] (app_vs.aux)
 
@@ -476,7 +473,7 @@ grams/MiKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/Anna/AppData/Local/P
 rograms/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Anna/AppData/Loca
 l/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Users/Anna/AppData/L
 ocal/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on app_vs.pdf (15 pages, 683114 bytes).
+Output written on app_vs.pdf (15 pages, 717550 bytes).
 PDF statistics:
  155 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
