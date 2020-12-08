@@ -429,7 +429,7 @@ meth = "collinear"
 # now define and run new model! 
 
 
-model_params <- set_up_predict_model(2, "shifted_lognormal", meth, Dp_summary, m_exp1_sft, m_exp2_sft)
+model_params <- set_up_predict_model("2", "shifted_lognormal", meth, Dp_summary, m_exp1_sft, m_exp2_sft)
 m_prt <- run_model(model_params, ppc = "only")
 
 ```
@@ -438,6 +438,21 @@ Note, this plot is for how we expect the average person to perform in experiment
 
 ```{r plot-exp2-predictions, fig.height = 6, fig.cap="reaction time predictions."}
 plot_model_fits_rt(2, m_prt, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
+```
+
+Show how intercept varies in sub-experiment
+
+```{r}
+
+d %>% filter(N_T == 0, exp_id == 2) %>%
+  separate(p_id, into = c("sub_exp", "person")) %>%
+  group_by(sub_exp, person) %>%
+  summarise(mean_rt = exp(mean(log(rt)))) %>%
+  ggplot(aes(x = sub_exp, y= mean_rt)) + geom_boxplot()
+  
+
+
+
 ```
 
 Do an R2 for this!

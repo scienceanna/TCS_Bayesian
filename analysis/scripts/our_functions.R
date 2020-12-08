@@ -311,7 +311,6 @@ convert_d_feature_to_coef_name <- function(Dp) {
   
 }
 
-
 set_up_predict_model <- function(e_id, fam = "shifted_lognormal", meth, Dp_summary, one_feature_model, two_feature_model) {
   
   # this function get's everything ready for running our model
