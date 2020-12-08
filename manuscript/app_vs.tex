@@ -118,12 +118,12 @@ Fitting the model specified in Equation \ref{eq:loglin} to the data, we obtain t
 
 \begin{table}[h]
 \centering
-\begin{tabular}{ cc|cc } 
-feature & $D_c$ & feature & $D_s$\\
+\begin{tabular}{ ccc|ccc } 
+feature & $D_c$ & $a$ & feature & $D_s$ & $a$\\
  \hline 
-blue & 76.8  & triangle & 141.1 \\
-yellow & 16.0 & diamond & 77.2 \\
-orange & 9.8 & circle & 62.1\\
+blue & 76.8 & & triangle & 141.1 &\\
+yellow & 16.0 && diamond & 77.2 &\\
+orange & 9.8 & &circle & 62.1&\\
 \end{tabular}
 \caption{A table of $D_i$ values for Experiment 1a and 1b}
 \label{tab:reimp_Dc_Ds}
@@ -172,7 +172,7 @@ Finally, we can use Equation \ref{eq:loglin} to predict mean reaction times. As 
 
 \subsubsection{Discussion}
 
-While TCS theory mostly offers a good prediction of search slopes and corresponding mean reaction times for double feature search, there are two related limitations. Firstly, it is unable to account for individual differences between observers, only the changes to the sample average. Secondly, it cannot account for the distribution of reaction times over multiple trials. Figure \ref{fig:comp_rep} (right panel) shows clearly that these factors generate high levels of variability within the individual trial-level data. To address these issues, we propose a second version of the TCS that make use of multi-level modelling techniques.
+While TCS theory offers a good prediction of search slopes and corresponding mean reaction times for double feature search, there are two related limitations. Firstly, it is unable to account for individual differences between observers, only the changes to the sample average. Secondly, it cannot account for the distribution of reaction times over multiple trials. Figure \ref{fig:comp_rep} (right panel) shows clearly that these factors generate high levels of variability within the individual trial-level data. To address these issues, we propose a second version of the TCS that make use of multi-level modelling techniques.
 
 It is also worth noting that relying simply on $R^2$ values may give a misleading view of the accuracy of the TCS model. Figure \ref{fig:comp_rep_conditions} shows the predicted RTs (pink line) for three conditions from Experiment 2 (a, b and c) of \citep{buetti2019predicting}, plotted next to the mean of means for each condition. It is clear that for at least some conditions, the TCS model is doing a poor job of predicting the empirical data, even when allowing quite rigid constraints on the model; for example, the intercept ($a$) is set at the level of each sub-experiment and thus would be expected to be perfect. To some extent, this could reflect the fact that the $R^2$ measure of goodness-of-fit simply measures how tightly clustered the points are around a line with arbitrary intercept and slope. It is possible therefore for the $R^2$ value to be high, but for the line to deviate significantly from an intercept of 0 and a slope of 1, which is the unity line required for the predictions to be a good match to the empirical data.
 
@@ -218,6 +218,20 @@ We then extracted the posterior distributions for the logarithmic slope paramete
 
 We predict $D_{c,s}$ from $D_c$ and $D_c$ in the same way as the original TCS, except this time we use 1000\footnote{check!} samples from the posterior distributions, rather than just the maximum likelihood fit. These predictions are shown in Figure \ref{fig:buetti2019_D} (bottom), and the $R^2$ values are shown in Table \ref{tab:reimp_D_r2}. We can see that as with the original model, we still find the \textit{best feature} is the worst of the three methods, at least in terms of the raw $R^2$ value.
 
+\begin{table}[h]
+\centering
+\begin{tabular}{ c|c|c|c|c|c } 
+Method & Intercept & Slope & $R^2$ & $R^2$ Lower & $R^2$ Upper \\
+ \hline 
+best feature & 0.003 & 0.831 & 0.752 & 0.545 & 0.927\\ 
+ orthogonal contrast & -0.019 & 1.206 & 0.856 & 0.739 & 0.944\\ 
+ collinear & -0.034 & 1.814	& 0.901 & 0.824 & 0.963\\
+\end{tabular}
+\caption{A table of $R^2$ values}
+\label{tab:reimp_D_r2}
+\end{table}
+
+
 \subsubsection{Estimating other parameters and predicting reaction times}
 
 Unlike the original TCS, before we can use the predicted values of $D_{c,s}$ to generate reaction times, we first have to estimate some additional parameters: 
@@ -249,19 +263,6 @@ Overall, while our new model appears to fit slightly more poorly than the than t
 \cite{buetti2019predicting} concluded that the \textit{collinear} contrast integration model offered the best fit to their data. They reasoned that this was due to the independence of the two features in their study, and they would not expect this result to generalize to integral dimensions\footnote{cite Garner for odd terminology?}, in which case they expect the \textit{orthogonal} contrast combination model to offer the best predictions.
 
 However, a closer look at the original data suggests that the superiority of the collinear contrast model to be, at best, marginal. As we can see in Table \ref{tab:reimp_D_r2}, the $R^2$ values are very similar across methods. 
-
-\begin{table}
-\centering
-\begin{tabular}{ c|c|c|c|c|c } 
-Method & Intercept & Slope & $R^2$ & $R^2$ Lower & $R^2$ Upper \\
- \hline 
-best feature & 0.003 & 0.831 & 0.752 & 0.545 & 0.927\\ 
- orthogonal contrast & -0.019 & 1.206 & 0.856 & 0.739 & 0.944\\ 
- collinear & -0.034 & 1.814	& 0.901 & 0.824 & 0.963\\
-\end{tabular}
-\caption{A table of $R^2$ values}
-\label{tab:reimp_D_r2}
-\end{table}
 
 If we look at the different predictions made by the three proposed feature combination models, we can see that in most of the parameter space explored in \citep{buetti2019predicting}, the models all make very similar predictions (Figure \ref{fig:buetti2019_D_issue}). In Experiment 2, we are only able to discriminate between models in the \textit{blue} conditions, whereas in the \textit{yellow} and \textit{orange} conditions, they make essentially identical predictions. As such, if we want to distinguish between these three models, we will have to combinations of features that lead to larger target-distractor combinations. We will therefore use yellow, green and blue distractors in our replication study where participants are required to find a cyan target, hopefully generating a wider range of target-distractor differences.
 

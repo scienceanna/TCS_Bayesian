@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.6)  8 DEC 2020 17:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.6)  8 DEC 2020 17:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -353,21 +353,21 @@ Package pdftex.def Info: ../plots/bayes_buetti_D.pdf  used on input line 212.
 <../plots/bayes_buetti_rt.pdf, id=91, 578.16pt x 289.08pt>
 File: ../plots/bayes_buetti_rt.pdf Graphic file (type pdf)
 <use ../plots/bayes_buetti_rt.pdf>
-Package pdftex.def Info: ../plots/bayes_buetti_rt.pdf  used on input line 236.
+Package pdftex.def Info: ../plots/bayes_buetti_rt.pdf  used on input line 250.
 (pdftex.def)             Requested size: 338.0pt x 168.99863pt.
  [10 <../plots/bayes_buetti_rt.pdf>]
 <../plots/D_sensitivity.pdf, id=106, 578.16pt x 289.08pt>
 File: ../plots/D_sensitivity.pdf Graphic file (type pdf)
 <use ../plots/D_sensitivity.pdf>
-Package pdftex.def Info: ../plots/D_sensitivity.pdf  used on input line 270.
+Package pdftex.def Info: ../plots/D_sensitivity.pdf  used on input line 271.
 (pdftex.def)             Requested size: 338.0pt x 168.99863pt.
  [11]
-Underfull \hbox (badness 10000) in paragraph at lines 286--287
+Underfull \hbox (badness 10000) in paragraph at lines 287--288
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 287--288
+Underfull \hbox (badness 10000) in paragraph at lines 288--289
 
  []
 
@@ -376,12 +376,12 @@ Underfull \vbox (badness 1490) has occurred while \output is active []
 
  [12 <../plots/D_sensitivity.pdf>]
 
-LaTeX Warning: Reference `sec:power' on page 13 undefined on input line 303.
+LaTeX Warning: Reference `sec:power' on page 13 undefined on input line 304.
 
 [13]
 
 LaTeX Warning: Reference `sec:reanalysis' on page 14 undefined on input line 33
-5.
+6.
 
 (./app_vs.bbl [14]) [15] (./app_vs.aux)
 
@@ -391,7 +391,7 @@ LaTeX Warning: There were undefined references.
 Here is how much of TeX's memory you used:
  2900 strings out of 479383
  40183 string characters out of 5873326
- 328636 words of memory out of 5000000
+ 328635 words of memory out of 5000000
  19969 multiletter control sequences out of 15000+600000
  439836 words of font info for 94 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -404,7 +404,7 @@ sfonts/cm/cmsy10.pfb><c:/texlive/2020/texmf-dist/fonts/type1/urw/symbol/usyr.pf
 b><c:/texlive/2020/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2020
 /texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2020/texmf-dist/fonts/
 type1/urw/times/utmri8a.pfb>
-Output written on app_vs.pdf (15 pages, 704185 bytes).
+Output written on app_vs.pdf (15 pages, 704160 bytes).
 PDF statistics:
  158 PDF objects out of 1000 (max. 8388607)
  113 compressed objects within 2 object streams
