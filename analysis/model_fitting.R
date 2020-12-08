@@ -76,9 +76,9 @@ rm(m_exp1_nrl,
 #### Fit models for Expts 2, 3, and 4 ####
 
 # Experiment 2
-#mdl_inputs_nrl <- set_up_model(2, "normal")
-#m_exp2_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
-#saveRDS(m_exp2_nrl, "models/exp_2_nrl.models")
+mdl_inputs_nrl <- set_up_model(2, "normal")
+m_exp2_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
+saveRDS(m_exp2_nrl, "models/exp_2_nrl.models")
 
 #mdl_inputs_log <- set_up_model(2, "lognormal")
 #m_exp2_log <- run_model(mdl_inputs_log, ppc = "no")
@@ -124,6 +124,16 @@ rm(m_exp2_nrl,
    m_exp4_log,
    m_exp4_sft)
 
+#### Power analysis model ####
+d <- read_csv('models/ss_data.csv')
+
+# switch from ms to seconds
+# Recode experiment as 1, 2, 3 and 4 
+d <- our_changes_to_data(d)
+
+mdl_inputs_sft_p <- set_up_model(1, "shifted_lognormal")
+m_exp1p_sft <- run_model(mdl_inputs_sft_p, ppc = "no") 
+saveRDS(m_exp1p_sft, "models/exp_1p_sft.models")
 
 
 
