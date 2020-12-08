@@ -122,7 +122,7 @@ slopes4 <- extract_fixed_slopes_from_model(m_exp4_sft)
 
 ggplot(slopes1, aes(x= D, fill = d_feature)) + 
   geom_density( alpha = 0.33) +
-  scale_fill_manual("feature", values = c("orange1", "royalblue1", "gold1", "gray0", "gray40", "gray90")) +
+  scale_fill_manual("feature", values = c("royalblue1", "orange1", "gold1", "gray0", "gray40", "gray90")) +
    scale_x_continuous(TeX("posterior distributions for $D_c$ and $D_s$")) + 
   scale_y_continuous(expand = c(0,0)) +
   theme(legend.title = element_blank())-> plt_Di
@@ -149,7 +149,7 @@ Dp_samples %>%
   mutate(d_feature = as_factor(d_feature)) -> Dp_summary
 
 # now define and run new model! 
-meth = "orthog_contrast"
+meth = "collinear"
 
 model_params <- set_up_predict_model(2, "shifted_lognormal", meth, Dp_summary, m_exp1_sft, m_exp2_sft)
 m_prt <- run_model(model_params, ppc = "only")
