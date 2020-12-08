@@ -3,13 +3,15 @@ SUPP MAT
 - Make priors a bit broader in Fig 3.1 ANNA H
 - Go do something with power models ALASDAIR
 - What model diagnostics to report in supp mat? Print summary? ANNA H
-- Reimplementation: calculate better R^2 values D ~ 1*Dp+0
+- add a values to tables?
+
 
 MANUSCRIPT
 
-- Talk to Alejandro about OC model ALASDAIR
 - Sft model where sigma can vary with log(NT + 1). Try to fit models? ANNA H - PAUSE FOR NOW
 - Add a bit more text about the reasoning behind hypothesis 2
+- Fig 7 make nice
+- R^2 measure - what's better?
 
 EXPERIMENT NOTES
 
