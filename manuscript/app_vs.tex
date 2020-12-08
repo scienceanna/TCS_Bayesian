@@ -181,6 +181,7 @@ It is also worth noting that relying simply on $R^2$ values may give a misleadin
 \end{figure}
 
 \subsection{A multi-level TCS}
+\label{sec:reanalysis}
 
 Switching from a linear regression model to a multi-level model will allow us to compute $D$ for each participant, while simultaneously estimating the trial-to-trial variance. We also switch from a frequentist to Bayesian framework, as this allows us to naturally account for the uncertainty in the model's predictions.
 
@@ -224,7 +225,6 @@ best feature & 0.003 & 0.831 & 0.752 & 0.545 & 0.927\\
 \caption{A table of $R^2$ values}
 \label{tab:reimp_D_r2}
 \end{table}
-
 
 \subsubsection{Estimating other parameters and predicting reaction times}
 
@@ -278,8 +278,9 @@ We plan an experiment to test the extent to which the original results in \cite{
 \subsection{Registered Hypothesis}
 
 \begin{enumerate}
+\item \textbf{Log-linear effect of $N_T$.} Verify that \ldots Use loo? \\
 \item \textbf{Replication of Buetti et al (2019) with online data collection.} Specifically, that the \textit{collinear contrast ingratiation model} outperforms the \textit{best feature guidance}, and \textit{orthogonal contrast combination models}.  Furthermore, the $R^2 = $ ($99\%$ HPDI = $[, ]$) between predicted and observer reaction times.\\
-\item \textbf{Larger number of distractors (or targets further in periphery?)} Add an extra ring. Say something about moving from parallel to serial search (although don't use these terms?!!) \\ 
+ 
 \item \textbf{Individual differences} To what extent do the individual differences in the single-feature task explain the differences in the double-feature task?
 \end{enumerate}
 
