@@ -149,7 +149,7 @@ Dp_samples %>%
   mutate(d_feature = as_factor(d_feature)) -> Dp_summary
 
 # now define and run new model! 
-meth = "orthog_contrast"
+meth = "collinear"
 
 model_params <- set_up_predict_model(2, "shifted_lognormal", meth, Dp_summary, m_exp1_sft, m_exp2_sft)
 m_prt <- run_model(model_params, ppc = "only")
