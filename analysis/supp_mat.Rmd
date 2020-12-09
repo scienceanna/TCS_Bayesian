@@ -424,7 +424,6 @@ meth = "collinear"
  Dp_samples %>%
    filter(method == meth)%>%
    group_by(exp_id, d_feature) %>%
-   mutate(Dp = 1.8*Dp -0.03) %>%
   summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop") %>%
   mutate(
     d_feature = as_factor(d_feature),
@@ -432,9 +431,26 @@ meth = "collinear"
 
 # now define and run new model! 
 
+model_params <- set_up_predict_model("2", "shifted_lognormal", meth, Dp_summary, m_exp1_sft, m_exp2_sft)
+m_prt_collinear <- run_model(model_params, ppc = "only")
+
+meth = "orthog_contrast"
+
+Dp_samples %>%
+   filter(method == meth)%>%
+   group_by(exp_id, d_feature) %>%
+  summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop") %>%
+  mutate(
+    d_feature = as_factor(d_feature),
+    method = meth) -> Dp_summary
 
 model_params <- set_up_predict_model("2", "shifted_lognormal", meth, Dp_summary, m_exp1_sft, m_exp2_sft)
-m_prt <- run_model(model_params, ppc = "only")
+m_prt_orthog_contrast <- run_model(model_params, ppc = "only")
+
+model_weights(m_prt_collinear, m_prt_orthog_contrast)
+
+loo_collinear <- loo(m_prt_collinear, nsamples=500)
+loo_orthog_contrast <- loo(m_prt_orthog_contrast, nsamples=500)
 
 ```
 
@@ -581,7 +597,7 @@ If we now rerun the shifted-lognormal model on this dataset (Experiment 1 only) 
 ## Sample 6 trials per condition
 
 
-```{r, fig.height = 10}
+```{r, fig.height = 4}
 # summary(d)
 # 
 # d %>% group_by(p_id, d_feature, N_T) %>%
@@ -606,6 +622,16 @@ If we now rerun the shifted-lognormal model on this dataset (Experiment 1 only) 
 mp <- readRDS("models/exp_1p_sft.models")
 d<- dr_shuffle 
 plot_model_fits_rt(1, mp, plot_type = "fitted")
+
+slopes1 <- extract_fixed_slopes_from_model(mp)
+
+
+
+  slopes1 %>% mutate(exp = "Experiment 1") %>%
+  ggplot(aes(x= D, fill = d_feature)) + 
+  geom_density(alpha = 0.5) +
+  facet_wrap(~exp, nrow = 2)
+  
 
 ```
 
