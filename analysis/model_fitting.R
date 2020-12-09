@@ -61,7 +61,8 @@ saveRDS(loo_m_exp1_nrl, "models/loo_m_exp1_nrl.rds")
 loo_m_exp1_log <- loo(m_exp1_log, nsamples=4500, moment_match = TRUE)
 saveRDS(loo_m_exp1_log, "models/loo_m_exp1_log.rds")
 loo_m_exp1_sft <- loo(m_exp1_sft, nsamples=4500, moment_match = TRUE)
-saveRDS(loo_m_exp1_sft, "models/loo_m_exp1_sft.rds")
+#saveRDS(loo_m_exp1_sft, "models/loo_m_exp1_sft.rds")
+#loo_m_exp1_sft_nolog <- loo(m_exp1_sft, nsamples=4500, moment_match = TRUE) # The 'no log' model is not preferred
 
 loo_list <- list(loo_m_exp1_nrl, loo_m_exp1_log, loo_m_exp1_sft)
 loo_model_weights(loo_list)
