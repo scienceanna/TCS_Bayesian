@@ -1,7 +1,6 @@
 SUPP MAT
 
 - Make priors a bit broader in Fig 3.1 ANNA H
-- Go do something with power models ALASDAIR
 - What model diagnostics to report in supp mat? Print summary? ANNA H
 - add a values to tables?
 
@@ -11,10 +10,15 @@ MANUSCRIPT
 - Sft model where sigma can vary with log(NT + 1). Try to fit models? ANNA H - PAUSE FOR NOW
 - Add a bit more text about the reasoning behind hypothesis 2
 - Fig 7 make nice
-- R^2 measure - what's better?
+- R^2 measure - what's better? What gives best LOO (rotated collinear, orthogonal contrast)
+- Add power section - base it on blue condition? Add something like top row of Fig 5 for power analysis?
 
 EXPERIMENT NOTES
 
 - Hypotheses - 1. increase distractors, 2. within subj - individual differences, 3. distributional predictive model. Individual differences (and more sophisticated RE structures) as exploratory analysis
 - Change features?
 - Draft up an R script to turn Pavlovia data into useful input for models
+- Update psychopy with new stimuli - ANNA N
+- Add fixation cross - ANNA N
+- Ethics - ANNA N
+- Make 10 new images for practice trials - ANNA H
