@@ -449,9 +449,6 @@ d %>% filter(N_T == 0, exp_id == 2) %>%
   group_by(sub_exp, person) %>%
   summarise(mean_rt = exp(mean(log(rt)))) %>%
   ggplot(aes(x = sub_exp, y= mean_rt)) + geom_boxplot()
-  
-
-
 
 ```
 
@@ -601,6 +598,11 @@ If we now rerun the shifted-lognormal model on this dataset (Experiment 1 only) 
 # 
 # mdl_inputs_log <- set_up_model(4, "lognormal")
 # power_mdl4_log <- run_model(mdl_inputs_log, ppc = "no")
+
+mp <- readRDS("models/exp_1p_sft.models")
+d<- dr_shuffle 
+plot_model_fits_rt(1, mp, plot_type = "fitted")
+
 ```
 
 
