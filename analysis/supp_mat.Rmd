@@ -241,10 +241,13 @@ rm(
 m_exp1_nrl <- readRDS("models/exp_1_nrl.models")
 m_exp1_log <- readRDS("models/exp_1_log.models")
 m_exp1_sft <- readRDS("models/exp_1_sft.models")
+m_exp1_sft_nolog <- readRDS("models/exp_1_sft_nolog.models")
 
 ```
 
 Calculate model weights to decide on best model...
+
+(There's an additional model here for the shifted lognormal, using the model formula d_feature:(N_T + 1) rather than d_feature:log(N_T + 1))
 
 
 ```{r model-weights, cache = TRUE}
@@ -252,8 +255,9 @@ Calculate model weights to decide on best model...
 loo_m_exp1_nrl <- readRDS("models/loo_m_exp1_nrl.rds")
 loo_m_exp1_log <- readRDS("models/loo_m_exp1_log.rds")
 loo_m_exp1_sft <- readRDS("models/loo_m_exp1_sft.rds")
+loo_m_exp1_sft_nolog <- readRDS("models/loo_m_exp1_sft_nolog.rds")
 
-loo_list <- list(loo_m_exp1_nrl, loo_m_exp1_log, loo_m_exp1_sft)
+loo_list <- list(loo_m_exp1_nrl, loo_m_exp1_log, loo_m_exp1_sft, loo_m_exp1_sft_nolog)
 loo_model_weights(loo_list)
 
 ```
