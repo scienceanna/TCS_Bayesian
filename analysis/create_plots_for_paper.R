@@ -54,9 +54,9 @@ d %>%
   geom_point(color = "darkblue", alpha = 0.5) + 
   geom_abline(linetype = 2) +
   geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
-  scale_x_continuous("predicted reaction time (sec)") +
-  scale_y_continuous("empirical mean reaction time (sec)") + 
-  coord_fixed() -> plt_mean_rt
+  scale_x_continuous("predicted rt (sec)") +
+  scale_y_continuous("empirical mean rt (sec)") -> plt_mean_rt
+  #coord_fixed() -> plt_mean_rt
 
 
 d %>%
