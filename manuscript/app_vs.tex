@@ -121,15 +121,15 @@ Fitting the model specified in Equation \ref{eq:loglin} to the data, we obtain t
 \begin{tabular}{ ccc|ccc } 
 feature & $D_c$ & $a$ & feature & $D_s$ & $a$\\
  \hline 
-blue & 76.8 & & triangle & 141.1 &\\
-yellow & 16.0 && diamond & 77.2 &\\
-orange & 9.8 & &circle & 62.1&\\
+blue & 76.8 & 575.1 & triangle & 141.1 & 551.6\\
+yellow & 16.0 & 575.1 & diamond & 77.2 & 537.7\\
+orange & 9.8 & 575.1 & circle & 62.1& 555.8\\
 \end{tabular}
 \caption{A table of $D_i$ values for Experiment 1a and 1b}
 \label{tab:reimp_Dc_Ds}
 \end{table}
 
-As $a$ is the intercept in our model, it represents how long observers take to find a target when $N_T = 0$, i.e., there are no distractors. As such, it should be independent of both shape and colour. However, this leads to some ambiguity in how $a$ should be defined; in \cite{buetti2019predicting}, $a$ was calculated for each feature in each sub-experiment (e.g. Experiments 1a, 1b, 2a, 2b, 2c). Here, we follow that method in order to replicate their results exactly. Unfortunately, this leads to a situation in which the model's prediction of how long participants take to find a target when $N_T$ depends on the features of distracters that are not present in the stimulus! As such, in our proposed new version of the TCS theory, we will estimate $a$ at the level of an experiment (e.g. Experiments 1 and 2).
+As $a$ is the intercept in our model, it represents how long observers take to find a target when $N_T = 0$, i.e., there are no distractors. As such, it should be independent of both shape and colour. However, this leads to some ambiguity in how $a$ should be defined; in \cite{buetti2019predicting}, $a$ was calculated for each feature in each sub-experiment (e.g. Experiments 1a, 1b, 2a, 2b, 2c; see Table \ref{tab:reimp_Dc_Ds}). Here, we follow that method in order to replicate their results exactly. Unfortunately, this leads to a situation in which the model's prediction of how long participants take to find a target when $N_T$ depends on the features of distractors that are not present in the stimulus! As such, in our proposed new version of the TCS theory, we will estimate $a$ at the level of an experiment (e.g. Experiments 1 and 2).
 
 \subsubsection{Estimating $D_{c,s}$, the logarithmic slope parameter for compound features}
 

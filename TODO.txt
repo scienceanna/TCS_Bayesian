@@ -2,8 +2,6 @@ SUPP MAT
 
 - Make priors a bit broader in Fig 3.1 ANNA H
 - What model diagnostics to report in supp mat? Print summary? ANNA H
-- add a values to tables?
-
 
 MANUSCRIPT
 
@@ -16,7 +14,6 @@ MANUSCRIPT
 EXPERIMENT NOTES
 
 - Hypotheses - 1. increase distractors, 2. within subj - individual differences, 3. distributional predictive model. Individual differences (and more sophisticated RE structures) as exploratory analysis
-- Change features?
 - Draft up an R script to turn Pavlovia data into useful input for models
 - Update psychopy with new stimuli - ANNA N
 - Add fixation cross - ANNA N
