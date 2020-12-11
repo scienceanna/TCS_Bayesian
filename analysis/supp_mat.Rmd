@@ -260,6 +260,14 @@ loo_m_exp1_sft_nolog <- readRDS("models/loo_m_exp1_sft_nolog.rds")
 loo_list <- list(loo_m_exp1_nrl, loo_m_exp1_log, loo_m_exp1_sft, loo_m_exp1_sft_nolog)
 loo_model_weights(loo_list)
 
+bs_exp1_nrl <- bridge_sampler(m_exp1_nrl)
+bs_exp1_log <- bridge_sampler(m_exp1_log)
+bs_exp1_sft <- bridge_sampler(m_exp1_sft)
+bs_exp1_sft_nolog <- bridge_sampler(m_exp1_sft_nolog)
+
+post_prob(bs_exp1_nrl, bs_exp1_log, bs_exp1_sft, bs_exp1_sft_nolog)
+
+
 ```
 
 The plots before show our estimates for average participant to lie. The regions illustrate the distribution of reaction times estimated by our model. 
