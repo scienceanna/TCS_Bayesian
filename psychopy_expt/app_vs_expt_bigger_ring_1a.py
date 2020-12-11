@@ -307,10 +307,10 @@ for itrial in range(T_trials):
                 C, whichring, cx, cy = grid_nc(i)
                 randnum = random.random()
                 if randnum < 0.5:
-                        target = visual.ImageStim(win, image='stimuli/locircle.jpg', pos = [cx,cy])
+                        target = visual.ImageStim(win, image='stimuli/lgcircle.png', pos = [cx,cy])
                         target.draw()
                 else:
-                        target = visual.ImageStim(win, image='stimuli/rocircle.jpg', pos = [cx,cy])
+                        target = visual.ImageStim(win, image='stimuli/rgcircle.png', pos = [cx,cy])
                         target.draw()
                 
         
