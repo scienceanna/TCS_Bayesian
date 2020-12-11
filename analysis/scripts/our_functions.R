@@ -95,8 +95,8 @@ run_model <- function(my_inputs, ppc) {
 
   if (ppc == "only") {
     
-    n_chains = 2
-    n_itr = 1000
+    n_chains = 4
+    n_itr = 5000
     
   } else {
     

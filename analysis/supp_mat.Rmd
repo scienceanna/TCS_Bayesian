@@ -334,7 +334,6 @@ Dp_samples <- bind_rows(
    get_Dp_samples(2, d, slopes1, slopes2),
    get_Dp_samples(4, d, slopes3, slopes4))
 
-
 Dp_lines <- get_Dp_lines(Dp_samples)
 
 plot_Dp_lines(Dp_lines)
@@ -358,7 +357,6 @@ get_D_R2 <- function(ii) {
    
   return(tibble(r2 = r2, c = intercept, m = slope))
 }
-
 
 d_r2 <- tibble(method = as.character(),
                stat = as.character(),
@@ -446,18 +444,26 @@ Dp_samples %>%
 
 model_params <- set_up_predict_model("2", "shifted_lognormal", meth, Dp_summary, m_exp1_sft, m_exp2_sft)
 m_prt_orthog_contrast <- run_model(model_params, ppc = "only")
+# 
+# model_weights(m_prt_collinear, m_prt_orthog_contrast)
+# 
+# loo_collinear <- loo(m_prt_collinear, nsamples=500)
+# loo_orthog_contrast <- loo(m_prt_orthog_contrast, nsamples=500)
 
-model_weights(m_prt_collinear, m_prt_orthog_contrast)
+bs_orth <- bridge_sampler(m_prt_orthog_contrast)
+bs_col <- bridge_sampler(m_prt_collinear)
+post_prob(bs_col, bs_orth)
 
-loo_collinear <- loo(m_prt_collinear, nsamples=500)
-loo_orthog_contrast <- loo(m_prt_orthog_contrast, nsamples=500)
+
 
 ```
 
 Note, this plot is for how we expect the average person to perform in experiment 2. 
 
 ```{r plot-exp2-predictions, fig.height = 6, fig.cap="reaction time predictions."}
-plot_model_fits_rt(2, m_prt, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
+
+m_prt <- m_prt_orthog_contrast
+plot_model_fits_rt(2, m_prt_orthog_contrast, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
 ```
 
 Show how intercept varies in sub-experiment

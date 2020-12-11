@@ -17,7 +17,7 @@ m <- brm(
   data = d,
   prior = my_prior,
   sample_prior = "only",
-  save_all_pars = TRUE)
+  save_pars("all"))
 
 
-loo(m, moment_match = TRUE)
+loo(m)
