@@ -7,14 +7,14 @@ MANUSCRIPT
 
 - Sft model where sigma can vary with log(NT + 1). Try to fit models? ANNA H - PAUSE FOR NOW
 - Add a bit more text about the reasoning behind hypothesis 2
-- Fig 7 make nice
-- R^2 measure - what's better? What gives best LOO (rotated collinear, orthogonal contrast)
+- Fig 7 make nice (also, should probably only be top row, as that's expt 1 and 2)
 - Add power section - base it on blue condition? Add something like top row of Fig 5 for power analysis?
 
 EXPERIMENT NOTES
 
 - Hypotheses - 1. increase distractors, 2. within subj - individual differences, 3. distributional predictive model. Individual differences (and more sophisticated RE structures) as exploratory analysis
 - Draft up an R script to turn Pavlovia data into useful input for models
+- Change the distractor colour - ANNA H
 - Update psychopy with new stimuli - ANNA N
 - Add fixation cross - ANNA N
 - Ethics - ANNA N
