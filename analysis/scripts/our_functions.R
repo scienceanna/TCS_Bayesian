@@ -393,17 +393,20 @@ set_up_predict_model <- function(e_id, fam = "shifted_lognormal", meth, Dp_summa
 
 lm_D <- function(df) {
   
+  nl <- length( levels(df$method) )
+  
   my_lm = lm(De ~ 0 + method + Dp:method, df)
   
   return(tibble(method = levels(df$method),
-                intercept = summary(my_lm)$coefficients[1:3,1],
-                slope = summary(my_lm)$coefficients[4:6,1]))
+                intercept = summary(my_lm)$coefficients[1:nl, 1],
+                slope = summary(my_lm)$coefficients[(nl+1):(2*nl), 1]))
   
 }
 
 get_Dp_lines <- function(Dp_s) {
   
   Dp_s %>% 
+    mutate(method = as_factor(method)) %>%
     group_split(iter) %>%
     map_dfr(lm_D) %>%
     group_by(method) %>%

@@ -342,8 +342,22 @@ Dp_samples <- bind_rows(
    get_Dp_samples(2, d, slopes1, slopes2),
    get_Dp_samples(4, d, slopes3, slopes4))
 
-Dp_lines <- get_Dp_lines(Dp_samples)
 
+# get best possible linear fit of the various methods!
+
+Dp_samples %>% pivot_wider(c(exp_id, d_feature, iter, De), names_from = method, values_from = Dp) -> d_lmer
+
+m_lmer <- lme4::lmer(data = d_lmer, De ~ best_feature + orthog_contrast + collinear + (1|iter))
+d_lmer %>% 
+  mutate(linear_transform = predict(m_lmer)) %>%
+  pivot_longer(
+    c(best_feature, orthog_contrast, collinear, linear_transform), 
+    names_to = "method", 
+    values_to = "Dp") -> Dp_samples
+
+rm(d_lmer, m_lmer)
+
+Dp_lines <- get_Dp_lines(Dp_samples)
 plot_Dp_lines(Dp_lines)
 
 rm(slopes1, slopes2, slopes3, slopes4)
@@ -425,9 +439,8 @@ Seems legit for now to model Exp2 using the variances from Exp1 :)
 
 # first, summarise our Dp samples to give mu and sigma.
 
-meth = "collinear"
-
- Dp_samples %>%
+compute_rt_predictions <- function(meth) {
+  Dp_samples %>%
    filter(method == meth)%>%
    group_by(exp_id, d_feature) %>%
   summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop") %>%
@@ -435,34 +448,34 @@ meth = "collinear"
     d_feature = as_factor(d_feature),
     method = meth) -> Dp_summary
 
-# now define and run new model! 
+  # now define and run new model! 
+  
+  model_params <- set_up_predict_model("2", "shifted_lognormal", meth, Dp_summary, m_exp1_sft, m_exp2_sft)
+  m_prt <- run_model(model_params, ppc = "only")
+    
+  return(m_prt)
+  
+}
 
-model_params <- set_up_predict_model("2", "shifted_lognormal", meth, Dp_summary, m_exp1_sft, m_exp2_sft)
-m_prt_collinear <- run_model(model_params, ppc = "only")
+m_prt_best_feature <- compute_rt_predictions(meth = "best_feature")
+m_prt_collinear <- compute_rt_predictions(meth = "collinear")
+m_prt_orthog_contrast <- compute_rt_predictions(meth = "orthog_contrast")
 
-meth = "orthog_contrast"
-
-Dp_samples %>%
-   filter(method == meth)%>%
-   group_by(exp_id, d_feature) %>%
-  summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop") %>%
-  mutate(
-    d_feature = as_factor(d_feature),
-    method = meth) -> Dp_summary
-
-model_params <- set_up_predict_model("2", "shifted_lognormal", meth, Dp_summary, m_exp1_sft, m_exp2_sft)
-m_prt_orthog_contrast <- run_model(model_params, ppc = "only")
-# 
-# model_weights(m_prt_collinear, m_prt_orthog_contrast)
-# 
-# loo_collinear <- loo(m_prt_collinear, nsamples=500)
-# loo_orthog_contrast <- loo(m_prt_orthog_contrast, nsamples=500)
-
+bs_bfeat <- bridge_sampler(m_prt_best_feature)
 bs_orth <- bridge_sampler(m_prt_orthog_contrast)
 bs_col <- bridge_sampler(m_prt_collinear)
-post_prob(bs_col, bs_orth)
+
+post_prob(bs_bfeat,bs_col, bs_orth)
 
 
+
+
+```
+
+```{r}
+
+bs_fit <- bridge_sampler(m_exp2_sft)
+post_prob(bs_fit, bs_bfeat,bs_col, bs_orth)
 
 ```
 
