@@ -175,10 +175,18 @@ It is also worth noting that relying simply on $R^2$ values may give a misleadin
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{../plots/computational_replication_rt.pdf}
-\caption{Three conditions from Experiment 2. Blue dots represent the mean of means for each condition, while the line shows the prediction of the TCS theory.}
+\includegraphics[width=\textwidth]{../plots/computational_replication_issues.pdf}
+\caption{(top) Three conditions from Experiment 2. Blue dots represent the mean of means for each condition, while the line shows the prediction of the TCS theory. (bottom) Estimates of $D_{c,s}$ for the different colours and shape from \cite{buetti2019predicting}. As can be seen, is two of the three colour conditions, we are unable to distinguish between best feature, collinear or orthogonal contrast models.}
 \label{fig:comp_rep_conditions}
 \end{figure}
+
+
+\subsection{Sensitivity to different $D$ methods}
+
+\cite{buetti2019predicting} concluded that the \textit{collinear} contrast integration model offered the best fit to their data. They reasoned that this was due to the independence of the two features in their study, and they would not expect this result to generalize to integral dimensions\footnote{cite Garner for odd terminology?}, in which case they expect the \textit{orthogonal} contrast combination model to offer the best predictions. However, our analysis suggests that there is no strong evidence that any of the models tested is superior to the others. As we can see in Table \ref{tab:reimp_D_r2}, the $R^2$ values are very similar across methods. 
+
+If we look at the different predictions made by the three proposed feature combination models, we can see that in most of the parameter space explored in \citep{buetti2019predicting}, the models all make very similar predictions (Figure \ref{fig:buetti2019_D_issue}). In Experiment 2, we are only able to discriminate between models in the \textit{blue} conditions, whereas in the \textit{yellow} and \textit{orange} conditions, they make essentially identical predictions. As such, if we want to distinguish between these three models, we will have to combinations of features that lead to larger target-distractor combinations. We will therefore use yellow, green and blue distractors in our replication study where participants are required to find a cyan target, hopefully generating a wider range of target-distractor differences.
+
 
 \subsection{A multi-level TCS}
 \label{sec:reanalysis}
@@ -256,18 +264,7 @@ However, our goodness-of-fit measures showed that there was little difference be
 
 Overall, while our new model appears to fit slightly more poorly than the than the original method, as discussed above, it offers substantial improvements over the original model in terms of predicting the full distribution of reaction times over multiple trials and participants. In addition, as we discuss previously, the $R^2$ value may not capture goodness-of-fit optimally, and more sensitive goodness-of-fit metrics suggest that the models have equivalent predictive value.
 
-\subsection{Sensitivity to different $D$ methods}
 
-\cite{buetti2019predicting} concluded that the \textit{collinear} contrast integration model offered the best fit to their data. They reasoned that this was due to the independence of the two features in their study, and they would not expect this result to generalize to integral dimensions\footnote{cite Garner for odd terminology?}, in which case they expect the \textit{orthogonal} contrast combination model to offer the best predictions. However, our analysis suggests that there is no strong evidence that any of the models tested is superior to the others. As we can see in Table \ref{tab:reimp_D_r2}, the $R^2$ values are very similar across methods. 
-
-If we look at the different predictions made by the three proposed feature combination models, we can see that in most of the parameter space explored in \citep{buetti2019predicting}, the models all make very similar predictions (Figure \ref{fig:buetti2019_D_issue}). In Experiment 2, we are only able to discriminate between models in the \textit{blue} conditions, whereas in the \textit{yellow} and \textit{orange} conditions, they make essentially identical predictions. As such, if we want to distinguish between these three models, we will have to combinations of features that lead to larger target-distractor combinations. We will therefore use yellow, green and blue distractors in our replication study where participants are required to find a cyan target, hopefully generating a wider range of target-distractor differences.
-
-\begin{figure}
-\centering
-\subfigure{\includegraphics[width=\textwidth]{../plots/D_sensitivity.pdf}}
-\caption{(Some of our conditions aren't all that sensitive!}
-\label{fig:buetti2019_D_issue}
-\end{figure}
 
 \subsection{Discussion}
 

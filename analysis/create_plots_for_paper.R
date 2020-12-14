@@ -91,7 +91,63 @@ rt_pred %>%
   scale_y_continuous("predicted rt (sec)") + 
   scale_x_continuous(TeX("$N_T")) -> plt_rt
 
-ggsave("../plots/computational_replication_rt.pdf", plt_rt, width = 8, height = 3)
+
+calc_D_plot <- function(e_id) {
+  
+  df <- tibble()
+  
+  for (col in cs){
+    
+    Dc = filter(De, d_feature == col, parse_number(exp_id) == e_id)$D
+    
+    Dss = c(
+      filter(De, d_feature == ss[1], parse_number(exp_id) == e_id)$D,
+      filter(De, d_feature == ss[2], parse_number(exp_id) == e_id)$D,
+      filter(De, d_feature == ss[3], parse_number(exp_id) == e_id)$D)
+    
+    df <- bind_rows(df, tibble(
+      colour = col,
+      shape = ss,
+      collinear = 1/((1/Dc) + (1/Dss)),
+      best_feature = pmin(Dc, Dss),
+      orth_contrast =  sqrt(1/((1/Dc^2) + (1/Dss^2)))) %>% 
+        mutate(Dc = Dc, Ds = Dss) %>%
+        pivot_longer(-c(colour, shape, Ds, Dc), names_to = "method", values_to = "Dp") )
+    
+  }
+  
+  # get empirical values for Dcs
+  
+  d2 <- filter(De, exp_id == e_id+1) %>% separate(d_feature, into = c("colour", "shape")) %>%
+    rename(Dcs = "D") %>%
+    select(-exp_id) %>% full_join(df)
+  
+  ggplot(d2, aes(x  = Ds, y = Dp, colour = method)) + 
+    geom_line() + geom_point() + 
+    geom_point(aes(y = Dcs), shape = 3, size = 3, colour = "black") + facet_wrap(~ colour) + 
+    scale_x_continuous(TeX("D_s"), breaks = unique(d2$Ds), label = ss) +
+    scale_y_continuous(TeX("D_{c,s}")) +
+    ggthemes::scale_colour_ptol(labels = c("best feature", "collinear", "orthogonal")) + 
+    theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1))-> plt
+  
+  return(plt)
+}
+
+###################################################
+## Computational Replication of Buetti et al (2019)
+###################################################
+De <- map_dfr(unique(d$exp_id), calc_D_per_feature)
+
+
+# experiment 1 features
+cs <- c("orange", "yellow", "blue")
+ss <- c("circle", "diamond", "triangle")
+
+plt1 <- calc_D_plot(1)
+
+
+
+ggsave("../plots/computational_replication_issues.pdf", plt_rt / plt1, width = 8, height = 4)
 
 
 ###################################################
