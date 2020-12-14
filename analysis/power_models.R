@@ -14,8 +14,28 @@ source("scripts/reimplementation.R")
 # functions used for our Bayesian re-analysis
 source("scripts/our_functions.R")
 
-d <- read_csv('models/ss_data.csv')
+# import
+source("scripts/import_and_tidy.R")
+d <- our_changes_to_data(d) 
+d <- filter(d, exp_id == 1, d_feature == "blue")
 
-mdl_inputs_sft <- set_up_model(1, "shifted_lognormal")
-m_exp1_sft <- run_model(mdl_inputs_sft, ppc = "no") 
-saveRDS(m_exp1_sft, "models/exp_1p_sft.models")
+
+my_f <- bf(rt ~ 1 + log(N_T+1) + (1|p_id), 
+           ndt ~ 1 + (1|p_id))
+
+
+get_hdpi_for_subsample <- function(n_trials) {
+  
+  d %>% group_by(p_id,  N_T) %>%
+    slice_sample(n = 6) -> d_ss
+
+  model_params <- set_up_model(1, "shifted_lognormal")
+  model_params$my_formula <- my_f
+  m <- run_model(model_params, ppc = "no")
+  h <- hdci(posterior_samples(m, "logN_TP1"), 0.97)
+  w <- h[2] - h[1]
+  return(w)
+  
+}
+
+w <- map_dbl(c(6, 8, 12, 16, 40), get_hdpi_for_subsample)
