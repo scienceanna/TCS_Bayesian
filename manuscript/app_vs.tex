@@ -78,7 +78,7 @@ The original version of the TCS theory is given below:
 \label{eq:tcs}
 \end{equation}
 
-This is essentially log-linear model in the number of distractors. The intercept, $a$, corresponds to stimuli in which only the target is present and there are no distractors. $L$ represents the number of different types of distractors present in the display, while $N_i$ represents the number of individual distractors present of type $i$. $N_T$ is the total number of distractors, i.e., $N_T = \sum_{i=1}^{L}N_i$. Finally, $I_{[2, \infty]}$ is an index function that equals 0 when there $L<2$, and 1 otherwise. In our paper, we will follow \ref{fig:buetti2019_rt} and only consider the specific case of $L=1$, of a target among a homogeneous set of distractors  As such, the Equation \ref{eq:tcs} simplifies to:
+This is essentially log-linear model in the number of distractors. The intercept, $a$, corresponds to stimuli in which only the target is present and there are no distractors. $L$ represents the number of different types of distractors present in the display, while $N_i$ represents the number of individual distractors present of type $i$. $N_T$ is the total number of distractors, i.e., $N_T = \sum_{i=1}^{L}N_i$. Finally, $I_{[2, \infty]}$ is an index function that equals 0 when there $L<2$, and 1 otherwise\footnote{Note: Equation 1 in \cite{lleras2020target} had $j$ here rather than $L$. The current version is correct.}. In our paper, we will follow \ref{fig:buetti2019_rt} and only consider the specific case of $L=1$, of a target among a homogeneous set of distractors  As such, the Equation \ref{eq:tcs} simplifies to:
 
 \begin{equation}
 \hat{RT} = a + D\log(N_T+1)
