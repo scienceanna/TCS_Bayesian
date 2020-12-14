@@ -660,13 +660,15 @@ slopes1 <- extract_fixed_slopes_from_model(mp)
   facet_wrap(~exp, nrow = 2)
   
 
+  bs_exp1p_sft <- bridge_sampler(mp)  
+    post_prob(bs_exp1_sft, bs_exp1p_sft)
+
+
+  
+  
 ```
 
 
-```{r}
-
-# plot_model_fits_rt(1, power_mdl1_log, plot_type = "fitted")
-```
 
 
 ```{r compute-D-1-power, fig.cap="Posterior estimates for $D$."}
