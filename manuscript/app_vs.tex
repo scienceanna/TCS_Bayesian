@@ -284,13 +284,17 @@ In order to better test the above, and increases sensitivity, we propose to make
 \\
 \item \textbf{Change to distractor colours} Our reanalysis of \citep{buetti2019predicting} indicates that the orange distractor condition does not distinguish well between different contrast models. We will therefore replace the orange distractor condition with a green distractor condition, which is more similar to the light blue target.
 \\
-\item \textbf{Larger number of distractors, and more peripheral distractors} The TCS model, if it is to be a useful predictor of human behaviour, should generalise beyond the conditions originally tested. We therefore will add an extra condition, with 43 distractors. This requires the addition of another ring of possible distractor positions compared to \citep{buetti2019predicting}, allowing the distractors in all conditions to be placed in more peripheral locations. \\ 
+\item \textbf{Larger number of distractors, and more peripheral distractors} The TCS model, if it is to be a useful predictor of human behaviour, should generalise beyond the conditions originally tested. We therefore will add an extra condition, with 43 distractors. This requires the addition of another ring of possible distractor positions compared to \citep{buetti2019predicting}, allowing the distractors in all conditions to be placed in more peripheral locations. 
+\\
+\item \textbf{Online data collection} This again tests the generalisability of the results obtained so far in laboratory conditions.
 \end{enumerate}
 
 \subsection{Registered Hypothesis}
 
 \begin{enumerate}
-\item \textbf{Log-linear effect of $N_T$.} Verify that \ldots Use loo? \\
+\item \textbf{Shifted lognormal model} We hypothesise that a shifted lognormal model will give the best fit to our single-feature data, when compared to a lognormal and a normal model. We will test this using bridge sampling to calculate the log marginal likelihoods of the models. We will consider there to be evidence for one model over the others if a given model has a posterior probability above 90\%. We will consider there to be strong evidence for one model over the others if that model has a posterior probability above 99\%.
+\item \textbf{Log-linear effect of $N_T$.} We will test the TCS model assumption that $N_T$ has a log-linear effect by testing models with and without the log of this term. As above, we will use bridge sampling, and use the same evidence criteria.
+
 \item \textbf{Replication of Buetti et al (2019) with online data collection.} Specifically, that the \textit{collinear contrast ingratiation model} outperforms the \textit{best feature guidance}, and \textit{orthogonal contrast combination models}.  Furthermore, the $R^2 = $ ($99\%$ HPDI = $[, ]$) between predicted and observer reaction times.\\
  
 \item \textbf{Individual differences} To what extent do the individual differences in the single-feature task explain the differences in the double-feature task?
