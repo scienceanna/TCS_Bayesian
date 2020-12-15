@@ -27,7 +27,7 @@ my_f <- bf(rt ~ 1 + log(N_T+1) + (1|p_id),
 
 orig_model <- readRDS("models/exp_1_sft.models")
 
-n <- list(peeps = 100, trials = 6)
+#n <- list(peeps = 100, trials = 6)
 
 
 
@@ -54,14 +54,23 @@ get_hdpi_for_subsample <- function(n) {
 }
 
 samples <- modelr::data_grid(d, 
-                             trials = c(6, 12, 40), 
-                             peeps= c(20, 40, 80))
+                             trials = c(2,4,6,8,10,12,14,16,20,24,32,40), 
+                             peeps= c(20, 40, 80, 160))
 
 w <- map_dbl(1:nrow(samples), get_hdpi_for_subsample)
 
+samples$w <- w
 
-plt_data <- tibble(
-  samples = samples,
-  w = w)
+d_mean <- 0.18
 
-ggplot(plt_data, aes(samples, w)) + geom_point() + geom_line() + theme_bw()
+samples$w_prop <- w/d_mean
+samples$peeps <- factor(samples$peeps)
+
+samples <- samples %>%
+  filter(w_prop < 1)
+
+plt_power <- ggplot(samples, aes(trials, w_prop, colour = peeps)) + geom_point() + geom_line() + theme_bw() + xlab("Number of samples") + 
+  ylab("HDPI width as a proportion of slope")
+
+ggsave("../plots/power_plot.pdf", plt_power, width = 8, height = 8)
+
