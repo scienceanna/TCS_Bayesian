@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2019.10.9)  15 DEC 2020 15:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2019.10.9)  15 DEC 2020 16:14
 entering extended mode
 **./app_vs.tex
 (app_vs.tex
@@ -435,17 +435,22 @@ Underfull \hbox (badness 10000) in paragraph at lines 285--287
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 287--288
+Underfull \hbox (badness 10000) in paragraph at lines 287--289
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 293--294
+Underfull \hbox (badness 10000) in paragraph at lines 295--297
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 294--295
+Underfull \hbox (badness 10000) in paragraph at lines 297--299
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 299--300
 
  []
 
@@ -453,36 +458,30 @@ Underfull \hbox (badness 10000) in paragraph at lines 294--295
 <../plots/power_plot.pdf, id=116, 578.16pt x 578.16pt>
 File: ../plots/power_plot.pdf Graphic file (type pdf)
 <use ../plots/power_plot.pdf>
-Package pdftex.def Info: ../plots/power_plot.pdf  used on input line 315.
+Package pdftex.def Info: ../plots/power_plot.pdf  used on input line 318.
 (pdftex.def)             Requested size: 338.0pt x 337.99727pt.
- [14]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [15 <../plots/power_plot.pdf>] (app_vs.bbl [16]) [17] (app_vs.aux)
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+ [14] [15 <../plots/power_plot.pdf>] (app_vs.bbl [16]) [17] (app_vs.aux) ) 
 Here is how much of TeX's memory you used:
  3096 strings out of 492973
  43510 string characters out of 3127135
- 112891 words of memory out of 3000000
+ 113891 words of memory out of 3000000
  6896 multiletter control sequences out of 15000+200000
  40468 words of font info for 83 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,8n,27p,1359b,328s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}
-<C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
-/cmex10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmmi10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/
-type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX
- 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Anna/AppData/Local/Pro
-grams/MiKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/Anna/AppData/Local/P
-rograms/MiKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/Anna/AppData/Local
-/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Anna/AppData/Lo
-cal/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Users/Anna/AppData
-/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on app_vs.pdf (17 pages, 727540 bytes).
+ 41i,8n,27p,1359b,320s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/U
+sers/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Use
+rs/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10
+.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfon
+ts/cm/cmmi10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/p
+ublic/amsfonts/cm/cmr10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fo
+nts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Anna/AppData/Local/Programs/M
+iKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/Anna/AppData/Local/Programs
+/MiKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/Anna/AppData/Local/Progra
+ms/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Anna/AppData/Local/Pro
+grams/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Users/Anna/AppData/Local/
+Programs/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
+Output written on app_vs.pdf (17 pages, 727056 bytes).
 PDF statistics:
  164 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
