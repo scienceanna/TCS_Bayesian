@@ -72,6 +72,21 @@ However, more recent work has taken a different approach, focusing solely on rep
 \paragraph{Theoretical intro to TCS}
 TCS proposes that behaviour is determined by comparing the target template (held in memory) with every element present in the scene in parallel. This allows the visual system to reject peripheral non-targets quickly; the speed at which items are evaluated is determined by how different the item is from the template through an evidence accumulation process (formally, the slope of the logarithmic function is assumed to be inversely proportional to the overall magnitude of the contrast signal between the target and distractor). The model thus focuses on an initial, efficient processing stage of search; if sufficient evidence is not accumulated during this process, the model posits that a second stage is entered, where attention is deployed serially. TCS has been successful in predicting a number of empirical results, including search performance in heterogeneous scenes based on parameters estimated in homogeneous scenes, both with artificial stimuli \cite{buetti2016towards,lleras2019predicting} and with real-world objects visualised on a computer display \cite{wang2017predicting}. 
  
+The original version of the TCS theory is given below:
+\begin{equation}
+\hat{RT} = a + \sum_{j=1}^{L}(D_j-D_{j-1})\log{\left( N_T-\left(\sum_{i=1}^{j-1}N_i\right)I_{[2,\infty]}(L)+1\right)}
+\label{eq:tcs}
+\end{equation}
+
+This is essentially log-linear model in the number of distractors. The intercept, $a$, corresponds to stimuli in which only the target is present and there are no distractors. $L$ represents the number of different types of distractors present in the display, while $N_i$ represents the number of individual distractors present of type $i$. $N_T$ is the total number of distractors, i.e., $N_T = \sum_{i=1}^{L}N_i$. Finally, $I_{[2, \infty]}$ is an index function that equals 0 when there $L<2$, and 1 otherwise\footnote{Note: Equation 1 in \cite{lleras2020target} had $j$ here rather than $L$. The current version is correct.}. In our paper, we will follow \ref{fig:buetti2019_rt} and only consider the specific case of $L=1$, of a target among a homogeneous set of distractors  As such, the Equation \ref{eq:tcs} simplifies to:
+
+\begin{equation}
+\hat{RT} = a + D\log(N_T+1)
+\label{eq:loglin}
+\end{equation}
+
+The core idea in \cite{buetti2019predicting} was \ldots
+
 \paragraph{Limitations, and extending basic stimuli} While results to date for TCS appear promising, they remain relatively preliminary, being tested by only one research group so far. There remains a great deal of scope for extending beyond the parameters tested to date (such as the number of distractors) in order to test the robustness and generalisability of the model. In addition, there are some predictions of the model, including its ability to explain search asymmetries, that have yet to be empirically confirmed \cite{lleras2020target}.
 
 \paragraph{Within subjects}
@@ -99,15 +114,7 @@ We first describe the original Target Contrast Model (and verify that we can rep
 
 In Experiment 1a of \cite{buetti2019predicting}, participants searched for a cyan semicircle target among blue, yellow or orange semicircular distractors i.e. they searched for a target that differed from the distractors by a \textit{single feature} (colour). The experiment was then repeated (1b) using a different single feature (shape, with participants searching for the semicircular target within triangle, circle or diamond distractors). In Experiments 2a, 2b and 2c, participants again searched for a cyan semicircle, but this time, the distractors differed in both shape and colour. We will refer to these conditions as \textit{double features}. Note, unlike in standard conjunction searches, in this paradigm, the distractors are all identical with respect to these features (i.e, orange triangles). 
 
-The \textit{Target Signal Contrast} theory is built around a linear model for predicting mean reaction times from the logarithm of the number of distracters: 
-
-\begin{equation}
-\hat{RT} = D_i\log(N_T+1) + a
-\label{eq:loglin}
-\end{equation}
-
-In particular, the TCS theory allows us to predict the value of the logarithmic slope, $D_\text{c,s}$, in this condition based on the corresponding $D_j$ in the single feature search experiments. 
-
+The \textit{Target Signal Contrast} theory is built around a linear model for predicting mean reaction times from the logarithm of the number of distractors (see Equation \ref{eq:loglin}). In particular, the TCS theory allows us to predict the value of the logarithmic slope, $D_\text{c,s}$, in this condition based on the corresponding $D_j$ in the single feature search experiments. 
 
 \subsubsection{Calculating the intercept, $a$, and the logarithmic slope parameter, $D_i$}
 \label{sec:fitting_D}
@@ -181,7 +188,6 @@ Finally, if we look at the different predictions made by the three proposed feat
 \caption{(top) Three conditions from Experiment 2. Blue dots represent the mean of means for each condition, while the line shows the prediction of the TCS theory. (bottom) Estimates of $D_{c,s}$ for the different colours and shape from \cite{buetti2019predicting}. As can be seen, in two of the three colour conditions, we are unable to distinguish between best feature, collinear or orthogonal contrast models.}
 \label{fig:comp_rep_conditions}
 \end{figure}
-
 
 \subsection{A multi-level TCS}
 \label{sec:reanalysis}
