@@ -292,18 +292,16 @@ In order to better test the above, and increases sensitivity, we propose to make
 \subsection{Registered Hypothesis}
 
 \begin{enumerate}
-\item \textbf{Shifted lognormal model} We hypothesise that a shifted lognormal model will give the best fit to our single-feature data, when compared to a lognormal and a normal model. We will test this using bridge sampling to calculate the log marginal likelihoods of the models. We will consider there to be evidence for one model over the others if a given model has a posterior probability above 90\%. We will consider there to be strong evidence for one model over the others if that model has a posterior probability above 99\%.
-\\
-\item \textbf{Log-linear effect of $N_T$.} We will test the TCS model assumption that $N_T$ has a log-linear effect by testing models with and without the log of this term. As above, we will use bridge sampling, and use the same evidence criteria.
-\\
-\item \textbf{Contrast model comparisons} We will test the hypothesis proposed by \citep{buetti2019predicting}: specifically, that the \textit{collinear contrast ingratiation model} outperforms the \textit{best feature guidance}, and \textit{orthogonal contrast combination models}. Again, we will use bridge sampling and the same evidence criteria as above.\\
+\item \textbf{Shifted lognormal model} We hypothesise that a shifted lognormal model will give the best fit to our single-feature data, when compared to a lognormal and a normal model. \\
+\item \textbf{Log-linear effect of $N_T$.} We will test the TCS model assumption that $N_T$ has a log-linear effect by testing models with and without the log of this term.\\ 
+\item \textbf{Contrast model comparisons} We will test the hypothesis proposed by \citep{buetti2019predicting}: specifically, that the \textit{collinear contrast ingratiation model} outperforms the \textit{best feature guidance}, and \textit{orthogonal contrast combination models}.\\
 \end{enumerate}
 
+We will test each of these hypotheses by calculating the marginal likelihood of the relevant models, and then calculating the poster probabilities. This will give us a probability for each model that represents the likelihood that the model gives the best prediction. We will consider there to be evidence for one model over the others if a given model has a probability above 90\%. We will consider there to be strong evidence for one model over the others if that model has a posterior probability above 99\%.
 
 \subsection{Planned Explorations}
 
-We plan to investigate the effect of individual differences in this paradigm: to what extent performance in the single-feature task can predict performance in the double-feature task for a given individual (\citep{buetti2019predicting} were not able to investigate this due to the between-subjects design of their study). We plan to do this by specifying a more complex random effects structure for the model. However, given these models can be challenging to fit, we will do this in an exploratory manner during this study.
-
+We plan to investigate the effect of individual differences in this paradigm: to what extent performance in the single-feature task can predict performance in the double-feature task for a given individual (\citep{buetti2019predicting} were not able to investigate this due to the between-subjects design of their study). We plan to do this by specifying a more complex random effects structure for the model, that allows for individual differences across different slopes for different features. This allows us to then study the random effect correlation structure.  However, given these models can be challenging to fit, we will do this in an exploratory manner after carrying out our formally registered analysis.
 
 \section{General Methods}
 
