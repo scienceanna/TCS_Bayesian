@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.6)  14 DEC 2020 17:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.12.6)  15 DEC 2020 15:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -342,65 +342,61 @@ Package pdftex.def Info: ../plots/computational_replication_issues.pdf  used on
 File: ../plots/bayes_buetti_refit.pdf Graphic file (type pdf)
 <use ../plots/bayes_buetti_refit.pdf>
 Package pdftex.def Info: ../plots/bayes_buetti_refit.pdf  used on input line 20
-7.
+9.
 (pdftex.def)             Requested size: 338.0pt x 211.24829pt.
 <../plots/bayes_buetti_D.pdf, id=67, 578.16pt x 433.62pt>
 File: ../plots/bayes_buetti_D.pdf Graphic file (type pdf)
 <use ../plots/bayes_buetti_D.pdf>
-Package pdftex.def Info: ../plots/bayes_buetti_D.pdf  used on input line 216.
+Package pdftex.def Info: ../plots/bayes_buetti_D.pdf  used on input line 218.
 (pdftex.def)             Requested size: 338.0pt x 253.49796pt.
- [9 <../plots/bayes_buetti_refit.pdf>] [10 <../plots/bayes_buetti_D.pdf>]
+ [9 <../plots/bayes_buetti_refit.pdf>]
+Underfull \vbox (badness 3815) has occurred while \output is active []
+
+ [10 <../plots/bayes_buetti_D.pdf>]
 <../plots/bayes_buetti_rt.pdf, id=95, 578.16pt x 289.08pt>
 File: ../plots/bayes_buetti_rt.pdf Graphic file (type pdf)
 <use ../plots/bayes_buetti_rt.pdf>
-Package pdftex.def Info: ../plots/bayes_buetti_rt.pdf  used on input line 253.
+Package pdftex.def Info: ../plots/bayes_buetti_rt.pdf  used on input line 255.
 (pdftex.def)             Requested size: 338.0pt x 168.99863pt.
  [11 <../plots/bayes_buetti_rt.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 279--280
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 280--281
+Underfull \hbox (badness 10000) in paragraph at lines 281--282
 
  []
 
 [12]
-Underfull \hbox (badness 10000) in paragraph at lines 290--292
+Underfull \hbox (badness 10000) in paragraph at lines 282--283
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 292--293
+Underfull \hbox (badness 10000) in paragraph at lines 292--294
 
  []
 
 
-LaTeX Warning: Reference `sec:power' on page 13 undefined on input line 303.
+Underfull \hbox (badness 10000) in paragraph at lines 294--295
 
-[13] [14] (./app_vs.bbl [15]) [16] (./app_vs.aux)
+ []
 
-LaTeX Warning: There were undefined references.
-
- ) 
+[13] [14] (./app_vs.bbl [15]) [16] (./app_vs.aux) ) 
 Here is how much of TeX's memory you used:
- 2896 strings out of 479383
- 40013 string characters out of 5873326
+ 2895 strings out of 479383
+ 40002 string characters out of 5873326
  326647 words of memory out of 5000000
- 19964 multiletter control sequences out of 15000+600000
+ 19963 multiletter control sequences out of 15000+600000
  440258 words of font info for 96 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 66i,8n,72p,1357b,341s stack positions out of 5000i,500n,10000p,200000b,80000s
-{c:/texlive/2020/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2020/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2020/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2020/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmr10.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmsy10.pfb><c:/texlive/2020/texmf-dist/fonts/type1/urw/symbol/usyr.pf
-b><c:/texlive/2020/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2020/
-texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2020/texmf-dist/fonts/t
-ype1/urw/times/utmr8a.pfb><c:/texlive/2020/texmf-dist/fonts/type1/urw/times/utm
-ri8a.pfb>
-Output written on app_vs.pdf (16 pages, 703185 bytes).
+ 66i,8n,72p,1357b,327s stack positions out of 5000i,500n,10000p,200000b,80000s
+{c:/texlive/2020/texmf-dist/
+fonts/enc/dvips/base/8r.enc}<c:/texlive/2020/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmex10.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mmi10.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
+<c:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texli
+ve/2020/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2020/texmf-dist/
+fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2020/texmf-dist/fonts/type1/urw/tim
+es/utmb8a.pfb><c:/texlive/2020/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/
+texlive/2020/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on app_vs.pdf (16 pages, 704223 bytes).
 PDF statistics:
  158 PDF objects out of 1000 (max. 8388607)
  113 compressed objects within 2 object streams

@@ -196,6 +196,8 @@ Switching from a linear regression model to a multi-level model will allow us to
 
 However, switching from linear regression to a multi-level model raises the problem of which distribution to use for modelling reaction times. Using a normal distribution is unlikely to be satisfactory, as it is unable to account for the skew frequently seen in reaction time distributions, and also allows the possibility of negative reaction times. We can account for both of these problems by using a log-normal distribution, $\text{rt} ~ \text{lognormal}(\mu, \sigma))$. We will also test whether a slightly more complex extension of this model, the \textit{shifted lognormal} model (which allows the distribution to be offset to the right i.e. mimicking the patterns seen in reaction time data, where valid responses begin at around 100ms) offers any improvement in model fit.
 
+Throughout the paper, we will make use of the $53\%$ and $97\%$ \textit{highest posterior density intervals} (HPDI) to summarise probability distributions. These can be thought of as the smallest interval that, given our data and assumptions, contain $53\%$ and $97\%$ of the probability mass. 
+
 Finally, when comparing models, we discuss that $R^2$ value on its own is not an adequate measure of the goodness-of-fit of the model, and that the match to the unity line also needs to be considered. We suggest adjustments to the original models proposed by \citep{buetti2019predicting} to improve the predictive power of the TCS model: namely that we should assess goodness-of-fit of the model, using bridge sampling to calculate the log marginal likelihoods.
 
 \subsubsection{Calculating the logarithmic slope parameter, $D_i$}
@@ -214,7 +216,7 @@ We then extracted the posterior distributions for the logarithmic slope paramete
 \begin{figure}
 \centering
 \subfigure{\includegraphics[width=\textwidth]{../plots/bayes_buetti_D.pdf}}
-\caption{(\textit{top}) Posterior probability density functions for each $D_c$ and $D_s$ in Experiment 1. As with the original TCS model, when searching for a blue semicircle, triangular distractors are the hardest, while yellow and orange distractors are the eaiest.) (\textit{bottom}) Predicting $D_{c,s}$ from $D_c$ and $D_s$. Crosshairs indicate $97.5$ HPDI for estimates and predictions, while the pink region shows the HDPI for the best fit line. }
+\caption{(\textit{top}) Posterior probability density functions for each $D_c$ and $D_s$ in Experiment 1. As with the original TCS model, when searching for a blue semicircle, triangular distractors are the hardest, while yellow and orange distractors are the eaiest.) (\textit{bottom}) Predicting $D_{c,s}$ from $D_c$ and $D_s$. Crosshairs indicate $97.5$ HPDI for estimates and predictions, while the pink region shows the HPDI for the best fit line. }
 \label{fig:buetti2019_D}
 \end{figure}
 
@@ -246,12 +248,12 @@ Unlike the original TCS, before we can use the predicted values of $D_{c,s}$ to 
 \item $\sigma$ - the residual (trial-to-trial) variance. 
 \end{itemize}
 
-For the implementation presented here, in order to predict the data from Experiment 2 we will simply use the values for the above parameters obtained from Experiment 1. Once these have been set, we can use the specified model to generate the HDPI intervals for the expected average performance and the full distribution of reaction times over a number of simulated new observers (Figure \ref{fig:buetti2019_rt}).
+For the implementation presented here, in order to predict the data from Experiment 2 we will simply use the values for the above parameters obtained from Experiment 1. Once these have been set, we can use the specified model to generate the HPDI intervals for the expected average performance and the full distribution of reaction times over a number of simulated new observers (Figure \ref{fig:buetti2019_rt}).
 
 \begin{figure}
 \centering
 \subfigure{\includegraphics[width=\textwidth]{../plots/bayes_buetti_rt.pdf}}
-\caption{(\textit{left}) HDPI and empirical mean reaction times for each condition in Experiment 2, using the collinear contrast integration model to predict D values. (\textit{right}) Similar, for the full distribution of reaction times over trials. }
+\caption{(\textit{left}) HPDI and empirical mean reaction times for each condition in Experiment 2, using the collinear contrast integration model to predict D values. (\textit{right}) Similar, for the full distribution of reaction times over trials. }
 \label{fig:buetti2019_rt}
 \end{figure}
 
@@ -300,8 +302,10 @@ As these models can be quite challenging to fit, we're making some excuses. But 
 
 \subsection{Sample Size: Participants and Trials}
 
-Based on the power analysis \ref{sec:power}, we will recruit 20 participants, who will each
-complete 570 trials (15 distractor types x 6 set sizes, each repeated 6 times, alongside 30 'zero distractor' trials).
+To determine our sample size, we carried out a simulation study to estimate the effect of reducing the number of trials and increasing the number of participants on our ability to accurate measure the $D_i$. While our reanalysis of \cite{buetti2019predicting}'s data is unable to distinguish between the three models of contrast combination, we believe that this is due to the feature values used in their study, rather than low statistical power from sampling (see above and below). Therefore, we will base our sensitivity analysis around the width of the $97\%$ HPDI when estimating $D_{c=\text{blue}}$. (We have chosen to look at this single feature level as it is clear from above that the blue trials offer greater discrimination between the three contrast models.)
+
+We carried out our simulation sensitivity analysis by generating synthetic data from the shifted lognormal model outlined in Section \ref{sec:reanalysis}, Figure \ref{fig:buetti2019_a1}, for the blue distractor conditions. This was done for several different sample sizes, both in terms of number of trials and number of participants. For each synthetic dataset, we then refit the model and calculated the width of the $97\%$ HPDI
+
 
 Ethics?
 
