@@ -273,7 +273,19 @@ Our extension to a multi-level TCS model allows us to go beyond the original ver
 
 \section{Hypotheses}
 
-We plan an experiment to test the extent to which the original results in \cite{buetti2019predicting} replicate and generalise. As well as following the original, between-subjects, experiment design, in which data from one group of observers in one task is used to predict behaviour of a second group of participants in a different task, we will allow for within-subject comparisons. We will also extend the original experiment to include a larger number of distractors. 
+We plan an experiment to test the extent to which the original results in \cite{buetti2019predicting} replicate and generalise.
+
+\subsection{Proposed Modifications to Experimental Design}
+
+In order to better test the above, and increases sensitivity, we propose to make the following changes to the experiment described in \cite{buetti2019predicting}:
+
+\begin{enumerate}
+\item \textbf{Within-subjects design} This modification will give us greater power to detect differences between different models, as well as allowing us to investigate how individual differences in the single-feature task might explain differences in the double-feature task.
+\\
+\item \textbf{Change to distractor colours} Our reanalysis of \citep{buetti2019predicting} indicates that the orange distractor condition does not distinguish well between different contrast models. We will therefore replace the orange distractor condition with a green distractor condition, which is more similar to the light blue target.
+\\
+\item \textbf{Larger number of distractors, and more peripheral distractors} The TCS model, if it is to be a useful predictor of human behaviour, should generalise beyond the conditions originally tested. We therefore will add an extra condition, with 43 distractors. This requires the addition of another ring of possible distractor positions compared to \citep{buetti2019predicting}, allowing the distractors in all conditions to be placed in more peripheral locations. \\ 
+\end{enumerate}
 
 \subsection{Registered Hypothesis}
 
@@ -284,15 +296,7 @@ We plan an experiment to test the extent to which the original results in \cite{
 \item \textbf{Individual differences} To what extent do the individual differences in the single-feature task explain the differences in the double-feature task?
 \end{enumerate}
 
-\subsection{Proposed Modifications}
 
-In order to better test the above, and increases sensitivity, we propose to make the following changes to the experiment described in \cite{buetti2019predicting}:
-
-\begin{enumerate}
-\item Add something about wanting to test features that allow us to distinguish between the models?
-\\
-\item \textbf{Larger number of distractors (or targets further in periphery?)} Add an extra ring. Say something about moving from parallel to serial search (although don't use these terms?!!) \\ 
-\end{enumerate}
 
 \subsection{Planned Explorations!}
 
@@ -302,9 +306,16 @@ As these models can be quite challenging to fit, we're making some excuses. But 
 
 \subsection{Sample Size: Participants and Trials}
 
-To determine our sample size, we carried out a simulation study to estimate the effect of reducing the number of trials and increasing the number of participants on our ability to accurate measure the $D_i$. While our reanalysis of \cite{buetti2019predicting}'s data is unable to distinguish between the three models of contrast combination, we believe that this is due to the feature values used in their study, rather than low statistical power from sampling (see above and below). Therefore, we will base our sensitivity analysis around the width of the $97\%$ HPDI when estimating $D_{c=\text{blue}}$. (We have chosen to look at this single feature level as it is clear from above that the blue trials offer greater discrimination between the three contrast models.)
+To determine our sample size, we carried out a simulation study to estimate the effect of reducing the number of trials and increasing the number of participants on our ability to accurately measure the $D_i$. While our reanalysis of \cite{buetti2019predicting}'s data is unable to distinguish between the three models of contrast combination, we believe that this is due to the feature values used in their study, rather than low statistical power from sampling (see above and Figure \ref{fig:power_plot}). Therefore, we will base our sensitivity analysis around the width of the $97\%$ HPDI when estimating $D_{c=\text{blue}}$. We have chosen to look at this single feature level as it is clear from above that the blue distractor trials offer greater discrimination between the three contrast models.
 
-We carried out our simulation sensitivity analysis by generating synthetic data from the shifted lognormal model outlined in Section \ref{sec:reanalysis}, Figure \ref{fig:buetti2019_a1}, for the blue distractor conditions. This was done for several different sample sizes, both in terms of number of trials and number of participants. For each synthetic dataset, we then refit the model and calculated the width of the $97\%$ HPDI
+We carried out our simulation sensitivity analysis by generating synthetic data from the shifted lognormal model outlined in Section \ref{sec:reanalysis}, Figure \ref{fig:buetti2019_a1}, for the blue distractor conditions. This was done for several different sample sizes, both in terms of number of trials and number of participants. For each synthetic dataset, we then refit the model and calculated the width of the $97\%$ HPDI.
+
+\begin{figure}
+\centering
+\subfigure{\includegraphics[width=\textwidth]{../plots/power_plot.pdf}}
+\caption{Simulation sensitivity analysis, showing the 97\% HPDI width for the blue distractor condition in a shifted lognormal model, across different numbers of trials and participants. }
+\label{fig:power_plot}
+\end{figure}
 
 
 Ethics?
