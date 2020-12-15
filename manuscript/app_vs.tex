@@ -309,9 +309,9 @@ We plan to investigate the effect of individual differences in this paradigm: to
 
 \subsection{Sample Size: Participants and Trials}
 
-To determine our sample size, we carried out a simulation study to estimate the effect of reducing the number of trials and increasing the number of participants on our ability to accurately measure the $D_i$. While our reanalysis of \cite{buetti2019predicting}'s data is unable to distinguish between the three models of contrast combination, we believe that this is due to the feature values used in their study, rather than low statistical power from sampling (see above and Figure \ref{fig:power_plot}). Therefore, we will base our sensitivity analysis around the width of the $97\%$ HPDI when estimating $D_{c=\text{blue}}$. We have chosen to look at this single feature level as it is clear from above that the blue distractor trials offer greater discrimination between the three contrast models.
+To determine our sample size, we carried out a simulation study to estimate the effect of reducing the number of trials and increasing the number of participants on our ability to accurately measure the $D_i$. While our reanalysis of \cite{buetti2019predicting}'s data is unable to distinguish between the three models of contrast combination, we believe that this is due to the feature values used in their study, rather than low statistical power from sampling (see above and Figure \ref{fig:comp_rep_conditions}). Therefore, we will base our sensitivity analysis around the width of the $97\%$ HPDI when estimating $D_{\text{blue}}$. We have chosen to look at this single feature level as it is clear from above that the blue distractor trials offer greater discrimination between the three contrast models.
 
-We carried out our simulation sensitivity analysis by generating synthetic data from the shifted lognormal model outlined in Section \ref{sec:reanalysis}, Figure \ref{fig:buetti2019_a1}, for the blue distractor conditions. This was done for several different sample sizes, both in terms of number of trials and number of participants. For each synthetic dataset, we then refit the model and calculated the width of the $97\%$ HPDI.
+We carried out our simulation sensitivity analysis by generating synthetic data from the shifted lognormal model outlined in Section \ref{sec:reanalysis}, Figure \ref{fig:buetti2019_a1}, for the blue distractor conditions. This was done for several different sample sizes, both in terms of number of trials and number of participants. For each synthetic dataset, we then refit the model and calculated the width of the $97\%$ HPDI (see Figure \ref{fig:power_plot}). F
 
 \begin{figure}
 \centering
@@ -320,6 +320,7 @@ We carried out our simulation sensitivity analysis by generating synthetic data 
 \label{fig:power_plot}
 \end{figure}
 
+As we are moving from the within-subjects design used by \cite{buetti2019predicting} to a within-subjects design in which each participant sees all combinations of features, we prefer to decrease the number of trials per person $\times$ condition from 40 to six. Increasing the number of participants from 20 to 80 will allow us to maintain sufficient accurcay in the estimating of logarithmic search slopes. 
 
 Ethics?
 
