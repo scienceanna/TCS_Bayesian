@@ -293,18 +293,17 @@ In order to better test the above, and increases sensitivity, we propose to make
 
 \begin{enumerate}
 \item \textbf{Shifted lognormal model} We hypothesise that a shifted lognormal model will give the best fit to our single-feature data, when compared to a lognormal and a normal model. We will test this using bridge sampling to calculate the log marginal likelihoods of the models. We will consider there to be evidence for one model over the others if a given model has a posterior probability above 90\%. We will consider there to be strong evidence for one model over the others if that model has a posterior probability above 99\%.
+\\
 \item \textbf{Log-linear effect of $N_T$.} We will test the TCS model assumption that $N_T$ has a log-linear effect by testing models with and without the log of this term. As above, we will use bridge sampling, and use the same evidence criteria.
-
-\item \textbf{Replication of Buetti et al (2019) with online data collection.} Specifically, that the \textit{collinear contrast ingratiation model} outperforms the \textit{best feature guidance}, and \textit{orthogonal contrast combination models}.  Furthermore, the $R^2 = $ ($99\%$ HPDI = $[, ]$) between predicted and observer reaction times.\\
- 
-\item \textbf{Individual differences} To what extent do the individual differences in the single-feature task explain the differences in the double-feature task?
+\\
+\item \textbf{Contrast model comparisons} We will test the hypothesis proposed by \citep{buetti2019predicting}: specifically, that the \textit{collinear contrast ingratiation model} outperforms the \textit{best feature guidance}, and \textit{orthogonal contrast combination models}. Again, we will use bridge sampling and the same evidence criteria as above.\\
 \end{enumerate}
 
 
+\subsection{Planned Explorations}
 
-\subsection{Planned Explorations!}
+We plan to investigate the effect of individual differences in this paradigm: to what extent performance in the single-feature task can predict performance in the double-feature task for a given individual (\citep{buetti2019predicting} were not able to investigate this due to the between-subjects design of their study). We plan to do this by specifying a more complex random effects structure for the model. However, given these models can be challenging to fit, we will do this in an exploratory manner during this study.
 
-As these models can be quite challenging to fit, we're making some excuses. But we do plan to use the methods and framework outlined above (and in suppmat) to more formally investigate the individual differences. We plan to do this by specifying a more complex random effect structure, and investigating \ldots
 
 \section{General Methods}
 
