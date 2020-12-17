@@ -1,8 +1,13 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
+<<<<<<< HEAD:psychopy_expt/searchDiscPavlovia/searchDisc3_lastrun.py
 This experiment was created using PsychoPy3 Experiment Builder (v2020.2.2),
     on October 20, 2020, at 08:00
+=======
+This experiment was created using PsychoPy3 Experiment Builder (v2020.2.4),
+    on December 03, 2020, at 11:12
+>>>>>>> b15aa12c7bbb6b4e3606791d39b5cec7e02e0990:psychopy_expt/searchDisc/searchDisc3_lastrun.py
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -35,7 +40,7 @@ _thisDir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(_thisDir)
 
 # Store info about the experiment session
-psychopyVersion = '2020.2.2'
+psychopyVersion = '2020.2.4'
 expName = 'searchDisc3'  # from the Builder filename that created this script
 expInfo = {'participant': '', 'session': '001'}
 dlg = gui.DlgFromDict(dictionary=expInfo, sort_keys=False, title=expName)
@@ -51,7 +56,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='C:\\Users\\Marcin\\Documents\\GitHub\\APP_VS\\psychopy_expt\\searchDisc\\searchDisc3_lastrun.py',
+    originPath='C:\\Users\\s03an7\\Documents\\GitHub\\APP_VS\\psychopy_expt\\searchDisc\\searchDisc3_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -83,7 +88,7 @@ defaultKeyboard = keyboard.Keyboard()
 # Initialize components for Routine "WelcomePractice"
 WelcomePracticeClock = core.Clock()
 text_2 = visual.TextStim(win=win, name='text_2',
-    text="Welcome to our experiment.\nYour task is to look for a semicircle and indicate if it faces to the left or to the right.\nPress '1' to indicate that the semicircle is facing left.\nPress '2' to indicate that the semicircle is facing right.\nYou will first complete 20 practice trials.\nPress SPACE bar when you are ready to start.\n",
+    text="Welcome! Your task is to find\nwhite or blue semicircle and indicate \nif it is facing left or right.\nPress '1' for semicircle facing left.\nPress '2' for semicircle facing right.\nYou will first complete 20 practice trials.\nPress SPACE bar when you are ready to start.\n",
     font='Arial',
     pos=(0, 0), height=0.07, wrapWidth=None, ori=0, 
     color='white', colorSpace='rgb', opacity=1, 
@@ -103,7 +108,11 @@ image_2 = visual.ImageStim(
     texRes=128, interpolate=True, depth=0.0)
 key_resp_6 = keyboard.Keyboard()
 text_3 = visual.TextStim(win=win, name='text_3',
+<<<<<<< HEAD:psychopy_expt/searchDiscPavlovia/searchDisc3_lastrun.py
     text='Press 1 if you see left semicircle\n\n\n\nPress 2 if you see right semicircle\n\n\nPress SPACE to start',
+=======
+    text='Press 1 if you see left semicircle\n\n\nPress 2 if you see right semicircle\n\n\nPress SPACE to start',
+>>>>>>> b15aa12c7bbb6b4e3606791d39b5cec7e02e0990:psychopy_expt/searchDisc/searchDisc3_lastrun.py
     font='Arial',
     pos=(0, 0), height=0.08, wrapWidth=None, ori=0, 
     color='white', colorSpace='rgb', opacity=1, 
@@ -144,7 +153,7 @@ text_4 = visual.TextStim(win=win, name='text_4',
 # Initialize components for Routine "WelcomeScreen"
 WelcomeScreenClock = core.Clock()
 text = visual.TextStim(win=win, name='text',
-    text='Welcome to the experimental trials.\nBe reminded that your task is to look for a semicircle.\nIf semicircle is facing left press 1.\nIf semicircle is facing right press 2.\nPress SPACE bar to continue\n',
+    text="Welcome to the experimental trials.\nBe reminded that your task is to look for \na white or a blue semicircle.\nIf semicircle is facing left press '1'.\nIf semicircle is facing right press '2'.\nPress SPACE bar to continue\n",
     font='Arial',
     pos=(0, 0), height=0.07, wrapWidth=None, ori=0, 
     color='white', colorSpace='rgb', opacity=1, 
@@ -166,9 +175,10 @@ key_resp_2 = keyboard.Keyboard()
 
 # Initialize components for Routine "break_2"
 break_2Clock = core.Clock()
-#msg variable just needs some value at start
 msg='doh'
-trialCounter=0;
+trialCounter=0
+accuracySum=0
+totRT=0
 breakMessage = visual.TextStim(win=win, name='breakMessage',
     text='default text',
     font='Arial',
@@ -542,6 +552,7 @@ for thisTrial_2 in trials_2:
     continueRoutine = True
     routineTimer.add(1.000000)
     # update component parameters for each repeat
+<<<<<<< HEAD:psychopy_expt/searchDiscPavlovia/searchDisc3_lastrun.py
     if trials_2.thisTrialN == 0 or trials_2.thisTrialN % 19 != 0:
         continueRoutine = False
         
@@ -549,6 +560,20 @@ for thisTrial_2 in trials_2:
     nCorr = trials_2.data['key_resp_4.corr'].sum() #.std(), .mean() also available
     meanRt = trials_2.data['key_resp_4.rt'].mean()
     msg = "You have completed 20 practice trials. You got %i trials correct (rt=%.2f). Press space bar to continue to main experiment." %(nCorr+1,meanRt)
+=======
+    if key_resp_4.corr:
+        msg = "Correct!"
+    else:
+        msg = "Oops, incorrect"
+    
+    #if trials_2.thisTrialN == 0 or trials_2.thisTrialN % 19 != 0:
+    #    continueRoutine = False
+    
+    
+    #nCorr = trials_2.data['key_resp_4.corr'].sum() #.std(), .mean() also available
+    #meanRt = trials_2.data['key_resp_4.rt'].mean()
+    #msg = "You have completed 20 practice trials. You got %i trials correct (rt=%.2f). Press space bar to continue to main experiment." %(nCorr+1,meanRt)
+>>>>>>> b15aa12c7bbb6b4e3606791d39b5cec7e02e0990:psychopy_expt/searchDisc/searchDisc3_lastrun.py
     text_4.setText(msg)
     # keep track of which components have finished
     practiceFeedbackComponents = [text_4]
@@ -872,13 +897,20 @@ for thisTrial in trials:
     # ------Prepare to start Routine "break_2"-------
     continueRoutine = True
     # update component parameters for each repeat
-    if trials.thisTrialN == 0 or trials.thisTrialN % 20 != 0:
-        continueRoutine = False
-    trialCounter=trialCounter+1;  
+    trialCounter = trialCounter + 1
     
-    nCorr = trials.data['key_resp_2.corr'].sum() #.std(), .mean() also available
-    meanRt = trials.data['key_resp_2.rt'].mean()
-    msg = "You have completed %i out of 480 trials. You got %i trials correct (rt=%.2f). Press space bar to continue." %(trialCounter-1,nCorr,meanRt)
+    if key_resp_2.corr:
+        accuracySum = accuracySum + 1
+        totRT = totRT + key_resp_2.rt
+    
+    percentAccurate = accuracySum/trialCounter * 100
+    percentAccurate = round(percentAccurate, 3)
+    meanRT = totRT/trialCounter
+    meanRT = round(meanRT, 3)
+    
+    #msg = "You have completed " + trialCounter + " trials. You are " + percentAccurate + "% accurate so far, with an average reaction time of " + meanRT + "s. Press space bar to continue"
+    
+    msg = "You have completed %i out of 480 trials. You are %i %% accurate so far, with an average reaction time of %.2f sec. Press space bar to continue." %(trialCounter,percentAccurate,meanRT)
     breakMessage.setText(msg)
     key_resp.keys = []
     key_resp.rt = []
@@ -906,6 +938,11 @@ for thisTrial in trials:
         tThisFlipGlobal = win.getFutureFlipTime(clock=None)
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
         # update/draw components on each frame
+        if trialCounter != 60 and trialCounter != 120 and trialCounter !=180 and trialCounter !=240 and trialCounter !=300 and trialCounter !=360 and trialCounter !=420:
+            continueRoutine = False
+        
+            
+        
         
         # *breakMessage* updates
         if breakMessage.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:

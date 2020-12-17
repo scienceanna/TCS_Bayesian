@@ -1,78 +1,148 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{21}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem{buetti2016towards}
+\bibitem[Buetti et~al.(2016)Buetti, Cronin, Madison, Wang, and
+  Lleras]{buetti2016towards}
 Simona Buetti, Deborah~A Cronin, Anna~M Madison, Zhiyuan Wang, and Alejandro
   Lleras.
 \newblock Towards a better understanding of parallel visual processing in human
   vision: Evidence for exhaustive analysis of visual information.
-\newblock {\em Journal of Experimental Psychology: General}, 145(6):672, 2016.
+\newblock \emph{Journal of Experimental Psychology: General}, 145\penalty0
+  (6):\penalty0 672, 2016.
 
-\bibitem{buetti2019predicting}
+\bibitem[Buetti et~al.(2019)Buetti, Xu, and Lleras]{buetti2019predicting}
 Simona Buetti, Jing Xu, and Alejandro Lleras.
 \newblock Predicting how color and shape combine in the human visual system to
   direct attention.
-\newblock {\em Scientific reports}, 9(1):1--11, 2019.
+\newblock \emph{Scientific reports}, 9\penalty0 (1):\penalty0 1--11, 2019.
 
-\bibitem{hulleman2017brink}
+\bibitem[Hulleman and Olivers(2017)]{hulleman2017brink}
 Johan Hulleman and Christian~NL Olivers.
 \newblock On the brink: The demise of the item in visual search moves closer.
-\newblock {\em Behavioral and Brain Sciences}, 40, 2017.
+\newblock \emph{Behavioral and Brain Sciences}, 40, 2017.
 
-\bibitem{irons2016choosing}
+\bibitem[Irons and Leber(2016)]{irons2016choosing}
 Jessica~L Irons and Andrew~B Leber.
 \newblock Choosing attentional control settings in a dynamically changing
   environment.
-\newblock {\em Attention, Perception, \& Psychophysics}, 78(7):2031--2048,
-  2016.
+\newblock \emph{Attention, Perception, \& Psychophysics}, 78\penalty0
+  (7):\penalty0 2031--2048, 2016.
 
-\bibitem{irons2018characterizing}
+\bibitem[Irons and Leber(2018)]{irons2018characterizing}
 Jessica~L Irons and Andrew~B Leber.
 \newblock Characterizing individual variation in the strategic use of
   attentional control.
-\newblock {\em Journal of Experimental Psychology: Human Perception and
-  Performance}, 44(10):1637, 2018.
+\newblock \emph{Journal of Experimental Psychology: Human Perception and
+  Performance}, 44\penalty0 (10):\penalty0 1637, 2018.
 
-\bibitem{lleras2019predicting}
+\bibitem[Itti and Koch(2000)]{itti2000saliency}
+Laurent Itti and Christof Koch.
+\newblock A saliency-based search mechanism for overt and covert shifts of
+  visual attention.
+\newblock \emph{Vision research}, 40\penalty0 (10-12):\penalty0 1489--1506,
+  2000.
+
+\bibitem[Itti et~al.(1998)Itti, Koch, and Niebur]{itti1998model}
+Laurent Itti, Christof Koch, and Ernst Niebur.
+\newblock A model of saliency-based visual attention for rapid scene analysis.
+\newblock \emph{IEEE Transactions on pattern analysis and machine
+  intelligence}, 20\penalty0 (11):\penalty0 1254--1259, 1998.
+
+\bibitem[Koch and Ullman(1987)]{koch1987shifts}
+Christof Koch and Shimon Ullman.
+\newblock Shifts in selective visual attention: towards the underlying neural
+  circuitry.
+\newblock In \emph{Matters of intelligence}, pages 115--141. Springer, 1987.
+
+\bibitem[Koehler et~al.(2014)Koehler, Guo, Zhang, and
+  Eckstein]{koehler2014saliency}
+Kathryn Koehler, Fei Guo, Sheng Zhang, and Miguel~P Eckstein.
+\newblock What do saliency models predict?
+\newblock \emph{Journal of vision}, 14\penalty0 (3):\penalty0 14--14, 2014.
+
+\bibitem[Lleras et~al.(2019)Lleras, Wang, Madison, and
+  Buetti]{lleras2019predicting}
 Alejandro Lleras, Zhiyuan Wang, Anna Madison, and Simona Buetti.
 \newblock Predicting search performance in heterogeneous scenes: Quantifying
   the impact of homogeneity effects in efficient search.
-\newblock {\em Collabra: Psychology}, 5(1), 2019.
+\newblock \emph{Collabra: Psychology}, 5\penalty0 (1), 2019.
 
-\bibitem{lleras2020target}
+\bibitem[Lleras et~al.(2020)Lleras, Wang, Ng, Ballew, Xu, and
+  Buetti]{lleras2020target}
 Alejandro Lleras, Zhiyuan Wang, Gavin Jun~Peng Ng, Kirk Ballew, Jing Xu, and
   Simona Buetti.
 \newblock A target contrast signal theory of parallel processing in
   goal-directed search.
-\newblock {\em Attention, Perception, \& Psychophysics}, pages 1--32, 2020.
+\newblock \emph{Attention, Perception, \& Psychophysics}, pages 1--32, 2020.
 
-\bibitem{nowakowska2017human}
+\bibitem[Nowakowska et~al.(2017)Nowakowska, Clarke, and
+  Hunt]{nowakowska2017human}
 Anna Nowakowska, Alasdair~DF Clarke, and Amelia~R Hunt.
 \newblock Human visual search behaviour is far from ideal.
-\newblock {\em Proceedings of the Royal Society B: Biological Sciences},
-  284(1849):20162767, 2017.
+\newblock \emph{Proceedings of the Royal Society B: Biological Sciences},
+  284\penalty0 (1849):\penalty0 20162767, 2017.
 
-\bibitem{treisman1980feature}
+\bibitem[Parkhurst et~al.(2002)Parkhurst, Law, and
+  Niebur]{parkhurst2002modeling}
+Derrick Parkhurst, Klinton Law, and Ernst Niebur.
+\newblock Modeling the role of salience in the allocation of overt visual
+  attention.
+\newblock \emph{Vision research}, 42\penalty0 (1):\penalty0 107--123, 2002.
+
+\bibitem[Peirce et~al.(2019)Peirce, Gray, Simpson, MacAskill, H{\"o}chenberger,
+  Sogo, Kastman, and Lindel{\o}v]{peirce2019psychopy2}
+Jonathan Peirce, Jeremy~R Gray, Sol Simpson, Michael MacAskill, Richard
+  H{\"o}chenberger, Hiroyuki Sogo, Erik Kastman, and Jonas~Kristoffer
+  Lindel{\o}v.
+\newblock Psychopy2: Experiments in behavior made easy.
+\newblock \emph{Behavior research methods}, 51\penalty0 (1):\penalty0 195--203,
+  2019.
+
+\bibitem[Tatler(2007)]{tatler2007central}
+Benjamin~W Tatler.
+\newblock The central fixation bias in scene viewing: Selecting an optimal
+  viewing position independently of motor biases and image feature
+  distributions.
+\newblock \emph{Journal of vision}, 7\penalty0 (14):\penalty0 4--4, 2007.
+
+\bibitem[Tatler et~al.(2011)Tatler, Hayhoe, Land, and Ballard]{tatler2011eye}
+Benjamin~W Tatler, Mary~M Hayhoe, Michael~F Land, and Dana~H Ballard.
+\newblock Eye guidance in natural vision: Reinterpreting salience.
+\newblock \emph{Journal of vision}, 11\penalty0 (5):\penalty0 5--5, 2011.
+
+\bibitem[Treisman and Gelade(1980)]{treisman1980feature}
 Anne~M Treisman and Garry Gelade.
 \newblock A feature-integration theory of attention.
-\newblock {\em Cognitive psychology}, 12(1):97--136, 1980.
+\newblock \emph{Cognitive psychology}, 12\penalty0 (1):\penalty0 97--136, 1980.
 
-\bibitem{wang2017predicting}
+\bibitem[Wang et~al.(2017)Wang, Buetti, and Lleras]{wang2017predicting}
 Zhiyuan Wang, Simona Buetti, and Alejandro Lleras.
 \newblock Predicting search performance in heterogeneous visual search scenes
   with real-world objects.
-\newblock {\em Collabra: Psychology}, 3(1), 2017.
+\newblock \emph{Collabra: Psychology}, 3\penalty0 (1), 2017.
 
-\bibitem{wolfe2014approaches}
+\bibitem[Wolfe(2014)]{wolfe2014approaches}
 Jeremy~M Wolfe.
 \newblock Approaches to visual search: Feature integration theory and guided
   search.
-\newblock {\em Oxford handbook of attention}, pages 11--55, 2014.
+\newblock \emph{Oxford handbook of attention}, pages 11--55, 2014.
 
-\bibitem{wolfe1989guided}
+\bibitem[Wolfe et~al.(1989)Wolfe, Cave, and Franzel]{wolfe1989guided}
 Jeremy~M Wolfe, Kyle~R Cave, and Susan~L Franzel.
 \newblock Guided search: an alternative to the feature integration model for
   visual search.
-\newblock {\em Journal of Experimental Psychology: Human perception and
-  performance}, 15(3):419, 1989.
+\newblock \emph{Journal of Experimental Psychology: Human perception and
+  performance}, 15\penalty0 (3):\penalty0 419, 1989.
+
+\bibitem[Zhang et~al.(2008)Zhang, Tong, Marks, Shan, and
+  Cottrell]{zhang2008sun}
+Lingyun Zhang, Matthew~H Tong, Tim~K Marks, Honghao Shan, and Garrison~W
+  Cottrell.
+\newblock Sun: A bayesian framework for saliency using natural statistics.
+\newblock \emph{Journal of vision}, 8\penalty0 (7):\penalty0 32--32, 2008.
 
 \end{thebibliography}

@@ -1,3 +1,5 @@
 Expts have rl = 115 
 This is different from the original Alejandro paper, but their value of 85 causes everything to be on top of each other at my screen res.
 I think 1a had 105, but setting them all to 115 for now for consistency.
+
+Big ring: rl = 110, drl = 2?

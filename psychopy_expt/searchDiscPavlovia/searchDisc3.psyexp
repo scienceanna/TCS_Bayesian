@@ -82,12 +82,12 @@
       <CodeComponent name="code">
         <Param name="Before Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
-        <Param name="Begin Experiment" updates="constant" val="#msg variable just needs some value at start&amp;#10;msg='doh'&amp;#10;trialCounter=0;" valType="extendedCode"/>
+        <Param name="Begin Experiment" updates="constant" val="msg='doh'&amp;#10;trialCounter=0&amp;#10;accuracySum=0&amp;#10;totRT=0" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="msg = &quot;&quot;;&amp;#10;trialCounter=0;&amp;#10;accuracySum=0;&amp;#10;totRT=0;&amp;#10;&amp;#10;round = function(num, n=0) {    &amp;#10;   return +(Math.round(num + (&quot;e+&quot; + n))  + (&quot;e-&quot; + n));&amp;#10;}&amp;#10;" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="trialCounter=trialCounter+1;  &amp;#10;&amp;#10;if(key_resp_2.corr) {&amp;#10;    accuracySum = accuracySum + 1;&amp;#10;    totRT = totRT + key_resp_2.rt;&amp;#10;}&amp;#10;&amp;#10;percentAccurate = accuracySum/trialCounter * 100;&amp;#10;percentAccurate = round(percentAccurate, 3);&amp;#10;meanRT = totRT/trialCounter;&amp;#10;meanRT = round(meanRT, 3);&amp;#10;&amp;#10;msg = &quot;You have completed &quot; + trialCounter + &quot; trials. You are &quot; + percentAccurate + &quot;% accurate so far, with an average reaction time of &quot; + meanRT + &quot;s. Press space bar to continue&quot;;" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="if trials.thisTrialN == 0 or trials.thisTrialN % 20 != 0:&amp;#10;    continueRoutine = False&amp;#10;trialCounter=trialCounter+1;  &amp;#10;&amp;#10;nCorr = trials.data['key_resp_2.corr'].sum() #.std(), .mean() also available&amp;#10;meanRt = trials.data['key_resp_2.rt'].mean()&amp;#10;msg = &quot;You have completed %i out of 480 trials. You got %i trials correct (rt=%.2f). Press space bar to continue.&quot; %(trialCounter-1,nCorr,meanRt)" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="trialCounter = trialCounter + 1&amp;#10;&amp;#10;if key_resp_2.corr:&amp;#10;    accuracySum = accuracySum + 1&amp;#10;    totRT = totRT + key_resp_2.rt&amp;#10;&amp;#10;percentAccurate = accuracySum/trialCounter * 100&amp;#10;percentAccurate = round(percentAccurate, 3)&amp;#10;meanRT = totRT/trialCounter&amp;#10;meanRT = round(meanRT, 3)&amp;#10;&amp;#10;#msg = &quot;You have completed &quot; + trialCounter + &quot; trials. You are &quot; + percentAccurate + &quot;% accurate so far, with an average reaction time of &quot; + meanRT + &quot;s. Press space bar to continue&quot;&amp;#10;&amp;#10;msg = &quot;You have completed %i out of 480 trials. You are %i %% accurate so far, with an average reaction time of %.2f sec. Press space bar to continue.&quot; %(trialCounter,percentAccurate,meanRT)" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Both" valType="str"/>
-        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each Frame" updates="constant" val="if trialCounter != 60 and trialCounter != 120 and trialCounter !=180 and trialCounter !=240 and trialCounter !=300 and trialCounter !=360 and trialCounter !=420:&amp;#10;    continueRoutine = False&amp;#10;&amp;#10;    &amp;#10;" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="if ((trialCounter !== 60 &amp;&amp; trialCounter !== 120 &amp;&amp; trialCounter !== 180 &amp;&amp; trialCounter !== 240 &amp;&amp; trialCounter !== 300 &amp;&amp; trialCounter !== 360 &amp;&amp; trialCounter !== 420)) {&amp;#10;    continueRoutine = false;&amp;#10;}&amp;#10;&amp;#10;&amp;#10;" valType="extendedCode"/>
         <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="End JS Experiment" updates="constant" val="" valType="extendedCode"/>
@@ -160,7 +160,7 @@
         <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
         <Param name="stopVal" updates="constant" val="" valType="code"/>
         <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
-        <Param name="text" updates="constant" val="Welcome to the experimental trials.&amp;#10;Be reminded that your task is to look for a semicircle.&amp;#10;If semicircle is facing left press 1.&amp;#10;If semicircle is facing right press 2.&amp;#10;Press SPACE bar to continue&amp;#10;" valType="extendedStr"/>
+        <Param name="text" updates="constant" val="Welcome to the experimental trials.&amp;#10;Be reminded that your task is to look for &amp;#10;a white or a blue semicircle.&amp;#10;If semicircle is facing left press '1'.&amp;#10;If semicircle is facing right press '2'.&amp;#10;Press SPACE bar to continue&amp;#10;" valType="extendedStr"/>
         <Param name="units" updates="None" val="from exp settings" valType="str"/>
         <Param name="wrapWidth" updates="constant" val="" valType="code"/>
       </TextComponent>
@@ -204,7 +204,7 @@
         <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
         <Param name="stopVal" updates="constant" val="" valType="code"/>
         <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
-        <Param name="text" updates="constant" val="Welcome to our experiment.&amp;#10;Your task is to look for a semicircle and indicate if it faces to the left or to the right.&amp;#10;Press '1' to indicate that the semicircle is facing left.&amp;#10;Press '2' to indicate that the semicircle is facing right.&amp;#10;You will first complete 20 practice trials.&amp;#10;Press SPACE bar when you are ready to start.&amp;#10;" valType="extendedStr"/>
+        <Param name="text" updates="constant" val="Welcome! Your task is to find&amp;#10;white or blue semicircle and indicate &amp;#10;if it is facing left or right.&amp;#10;Press '1' for semicircle facing left.&amp;#10;Press '2' for semicircle facing right.&amp;#10;You will first complete 20 practice trials.&amp;#10;Press SPACE bar when you are ready to start.&amp;#10;" valType="extendedStr"/>
         <Param name="units" updates="None" val="from exp settings" valType="str"/>
         <Param name="wrapWidth" updates="constant" val="" valType="code"/>
       </TextComponent>
@@ -336,7 +336,7 @@
         <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
         <Param name="stopVal" updates="constant" val="" valType="code"/>
         <Param name="syncScreenRefresh" updates="None" val="True" valType="bool"/>
-        <Param name="text" updates="constant" val="Press 1 if you see left semicircle&amp;#10;&amp;#10;&amp;#10;&amp;#10;Press 2 if you see right semicircle&amp;#10;&amp;#10;&amp;#10;Press SPACE to start" valType="extendedStr"/>
+        <Param name="text" updates="constant" val="Press 1 if you see left semicircle&amp;#10;&amp;#10;&amp;#10;Press 2 if you see right semicircle&amp;#10;&amp;#10;&amp;#10;Press SPACE to start" valType="extendedStr"/>
         <Param name="units" updates="None" val="from exp settings" valType="str"/>
         <Param name="wrapWidth" updates="constant" val="" valType="code"/>
       </TextComponent>
@@ -373,8 +373,8 @@
         <Param name="Before JS Experiment" updates="constant" val="" valType="extendedCode"/>
         <Param name="Begin Experiment" updates="constant" val="msg='doh'" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="msg = &quot;doh&quot;;&amp;#10;//manual_loop = 0;&amp;#10;&amp;#10;" valType="extendedCode"/>
-        <Param name="Begin JS Routine" updates="constant" val="//manual_loop = manual_loop + 1;&amp;#10;&amp;#10;//msg = &quot;You have completed 20 practice trials. You got &quot; + nCorr + &quot; trials correct (rt = &quot; + meanRT + &quot;). Press space bar to continue to main experiment.&quot; //%(nCorr+1,meanRt)&amp;#10;&amp;#10;console.log(key_resp_4.corr);&amp;#10;&amp;#10;if(key_resp_4.corr) {&amp;#10;    msg = &quot;Correct!&quot;;&amp;#10;} else {&amp;#10;    msg = &quot;Oops, incorrect&quot;;&amp;#10;}&amp;#10;        " valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="if trials_2.thisTrialN == 0 or trials_2.thisTrialN % 19 != 0:&amp;#10;    continueRoutine = False&amp;#10;    &amp;#10;&amp;#10;nCorr = trials_2.data['key_resp_4.corr'].sum() #.std(), .mean() also available&amp;#10;meanRt = trials_2.data['key_resp_4.rt'].mean()&amp;#10;msg = &quot;You have completed 20 practice trials. You got %i trials correct (rt=%.2f). Press space bar to continue to main experiment.&quot; %(nCorr+1,meanRt)" valType="extendedCode"/>
+        <Param name="Begin JS Routine" updates="constant" val="console.log(key_resp_4.corr);&amp;#10;&amp;#10;if(key_resp_4.corr) {&amp;#10;    msg = &quot;Correct!&quot;;&amp;#10;} else {&amp;#10;    msg = &quot;Oops, incorrect&quot;;&amp;#10;}&amp;#10;        " valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="if key_resp_4.corr:&amp;#10;    msg = &quot;Correct!&quot;&amp;#10;else:&amp;#10;    msg = &quot;Oops, incorrect&quot;&amp;#10;&amp;#10;#if trials_2.thisTrialN == 0 or trials_2.thisTrialN % 19 != 0:&amp;#10;#    continueRoutine = False&amp;#10;&amp;#10;&amp;#10;#nCorr = trials_2.data['key_resp_4.corr'].sum() #.std(), .mean() also available&amp;#10;#meanRt = trials_2.data['key_resp_4.rt'].mean()&amp;#10;#msg = &quot;You have completed 20 practice trials. You got %i trials correct (rt=%.2f). Press space bar to continue to main experiment.&quot; %(nCorr+1,meanRt)" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Both" valType="str"/>
         <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="//if ((manual_loop !== 20)) {&amp;#10;//    continueRoutine = false;&amp;#10;//}&amp;#10;&amp;#10;//responses = psychoJS.experiment._trialsData  // get list of responses&amp;#10;//nCorr = responses.reduce((a, b) =&gt; a + b['key_resp_4.corr'], 0)  // get sum&amp;#10;//meanRT = responses.reduce((a, b) =&gt; a + b['key_resp_4.rt'], 0) / responses.length  // get mean&amp;#10;&amp;#10;//meanRT = round(meanRT, 3);&amp;#10;" valType="extendedCode"/>

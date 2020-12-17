@@ -1,32 +1,14 @@
 # These functions are for the direct computational replication
 
-account_for_zero_distracters <- function(df)
-{
-  # Little helper function to sort out the quirk with N_T = 0
-  # i.e, in this case, d_feature is undefined
-  # So, well, copy this row three times - once for each value of d_feature
-  bind_rows(
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[2]),
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[3]),
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[4]),
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[5]),
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[6]),
-    filter(df, N_T==0) %>% mutate(d_feature = levels(df$d_feature)[7]),
-    filter(df, N_T>0)) %>%
-    mutate(d_feature = as_factor(d_feature)) -> df
+calc_D_per_feature <- function(experiment) {
   
-  return(df)
-}
-
-calc_D_per_feature <- function(experiment, df) {
-  
-  df %>%
+  d %>%
     filter(exp_id == experiment) %>%
     group_by(exp_id, p_id, d_feature, N_T) %>%
     summarise(mean_rt = mean(rt), .groups = "drop") %>%
     mutate(d_feature = fct_drop(d_feature)) -> df
   
-  df <- account_for_zero_distracters(df)
+  n_feat <- length(levels(df$d_feature))
   
   m <- lm(mean_rt ~  0 + d_feature + log(N_T+1):d_feature, df)
   coef_tab <- summary(m)$coefficients
@@ -34,7 +16,7 @@ calc_D_per_feature <- function(experiment, df) {
   d_out <- tibble(
     exp_id = experiment,
     d_feature = levels(df$d_feature),
-    D = c(coef_tab[4:6,1]))
+    D = c(coef_tab[(n_feat+1):(2*n_feat),1]))
   
   return(d_out)
 }
@@ -59,20 +41,24 @@ predict_D_overall <- function(f, D)
     "collinear" = D_collinear))
 }
 
-gen_exp_predictions <- function(e_id, De) 
+gen_exp_predictions <- function(experiment, De) 
 {
   # Predict values of D for composite features
   
-  df <- filter(d, exp_id == e_id) %>%
+  df <- filter(d, exp_id == experiment) %>%
     mutate(d_feature = fct_drop(d_feature))
   
-  e_n = parse_number(e_id)
-  D <- filter(De, parse_number(exp_id) == e_n - 1)
+  prev_exp_number <- parse_number(experiment) - 1
+  prev_exps <- c(
+    paste(prev_exp_number, "a", sep = ""),
+    paste(prev_exp_number, "b", sep = ""))
+
+  D <- filter(De, exp_id %in% prev_exps)
   
   d_out <- tibble(
-    exp_id = e_id,
-    d_feature = levels(df$d_feature)[2:4], 
-    map_dfr(levels(df$d_feature)[2:4], predict_D_overall, D))
+    exp_id = experiment,
+    d_feature = levels(df$d_feature), 
+    map_dfr(levels(df$d_feature), predict_D_overall, D))
   
   return(d_out)
 }
@@ -89,7 +75,7 @@ extract_a_value <- function(e_id) {
 
 extract_D <- function(e_id) {
   
-  D <- filter(Dp, exp_id == e_id) %>% arrange(collinear)
+  D <- filter(Dp, exp_id == e_id)# %>% arrange(collinear)
   return(D)
 }
 
@@ -97,7 +83,7 @@ predict_rt <- function(e_id) {
   
   a <- extract_a_value(e_id)
   D <- extract_D(e_id)	
-  N_T <- c(1,4,9,19,31)
+  N_T <- c(0, 1,4,9,19,31)
   rt <- a +  log(N_T + 1) %*% t(D$collinear)
   colnames(rt) <- unique(D$d_feature)
   d_out <- as_tibble(rt )

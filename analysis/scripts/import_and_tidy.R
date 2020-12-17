@@ -46,3 +46,34 @@ d$e4b <- import_experiment(18, c(`orange circle` = "1", `yellow diamond` = "2", 
 d$e4c <- import_experiment(20, c(`blue diamond` = "1", `yellow circle` = "2", `orange semicircle` = "3"), 4, "c")
 
 d <- bind_rows(d)
+
+# # remove error trials 
+# print(dim(d))
+ d <- d %>%
+   filter(error == 0) 
+
+account_for_zero_distracters <- function(experiment)
+{
+  # Little helper function to sort out the quirk with N_T = 0
+  # i.e, in this case, d_feature is undefined
+  # So, well, copy this row once for each value of d_feature
+  
+  d %>% filter(exp_id == experiment) %>%
+    mutate(d_feature = as.character(d_feature)) -> df
+  
+  df_no_distarcors <- filter(df, N_T == 0)
+  df <- filter(df, N_T > 0)
+  
+  for (lvl in unique(df$d_feature))
+  { 
+    no_dist_lvl <- df_no_distarcors %>% mutate(d_feature = lvl)
+    df <- bind_rows(df, no_dist_lvl)
+  }
+  
+  return(df)
+}
+
+d <- map_dfr(unique(d$exp_id), account_for_zero_distracters)
+
+rm(account_for_zero_distracters, import_experiment)
+
