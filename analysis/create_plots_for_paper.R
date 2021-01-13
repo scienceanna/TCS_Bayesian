@@ -147,7 +147,7 @@ plt1 <- calc_D_plot(1)
 
 
 
-ggsave("../plots/computational_replication_issues.pdf", plt_rt / plt1, width = 8, height = 4)
+ggsave("../plots/computational_replication_issues.pdf", plt_rt / plt1, width = 8, height = 5)
 
 
 ###################################################

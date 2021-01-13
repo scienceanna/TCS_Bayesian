@@ -53,8 +53,7 @@
 Performance in visual search tasks is frequently summarised by ``search slopes'' - the additional cost in reaction time for each additional distractor. While search tasks with a  shallow search slopes are termed efficient (pop-out, parallel, feature), there is no clear dichotomy between efficient and inefficient (serial, conjunction) search. Indeed, a range of search slopes are observed in empirical data. The Target Contrast Signal (TCS) Theory is a rare example of quantitative model that attempts to predict search slopes for efficient visual search. In particular, the search slope in a double-feature search (where the target differs in both colour and shape from the distractors) can be estimated from the slopes of the associated single-feature searches. This estimating is done be using a contrast combination model, and previous work shows that a collinear contrast integration model outperformed other options. In our work, we extend the TCS to a Bayesian multi-level framework. We demonstrate that moving from using a normal distribution to a shifted-lognormal allows for a better fit of previously published data, and in doing so, we show that previous datasets are not sufficient to distinguish between the various contrast combination models that had been considered. We will conduct experiments that attempt to replicate the key original findings, with some changes to help distinguish between theories. 
 
 \keywords{Visual search \and  Efficient search \and Parallel processing}
-% \PACS{PACS code1 \and PACS code2 \and more}
-% \subclass{MSC code1 \and MSC code2 \and more}
+
 \end{abstract}
 
 \section{Introduction}
@@ -120,11 +119,11 @@ We first run a replication of \cite{buetti2019predicting}, in an online, within-
 \section{The Target Contrast Model}
 \label{sec:reansalysis}
 
-We first describe the original Target Contrast Model (and verify that we can replicate the original analysis - see Supplementary Materials). This is followed by our proposed modifications.
+We first describe the original Target Contrast Model, as presented in \cite{buetti2019predicting} and verify that we can succesfully replicate the original analysis (see Supplementary Materials). This is followed by Section \ref{sec:reanalysis} in which we detail our proposed modifications and show how they change the interpretation of the data collected by \cite{buetti2019predicting}.
 
 \subsection{TCS modelling overview} 
 
-In Experiment 1a of \cite{buetti2019predicting}, participants searched for a cyan semicircle target among blue, yellow or orange semicircular distractors i.e. they searched for a target that differed from the distractors by a \textit{single feature} (colour). The experiment was then repeated (1b) using a different single feature (shape, with participants searching for the semicircular target within triangle, circle or diamond distractors). In Experiments 2a, 2b and 2c, participants again searched for a cyan semicircle, but this time, the distractors differed in both shape and colour. We will refer to these conditions as \textit{double features}. Note, unlike in standard conjunction searches, in this paradigm, the distractors are all identical with respect to these features (i.e, orange triangles). 
+In Experiment 1a of \cite{buetti2019predicting}, participants searched for a cyan semicircle target among blue, yellow or orange semicircular distractors i.e. they searched for a target that differed from the distractors by a \textit{single feature} (colour). The experiment was then repeated (1b) using a different single feature (shape, with participants searching for the semicircular target within triangle, circle or diamond distractors). In Experiments 2a, 2b and 2c, participants again searched for a cyan semicircle, but this time, the distractors differed in both shape and colour. We will refer to these conditions as \textit{double features}. Note, unlike in standard conjunction searches, in this paradigm, the distractors are all identical with respect to these features (i.e, orange triangles). Examples of all these stimuli are shown in Figure \ref{fig:buetti2019_stimulus}.
 
 The \textit{Target Signal Contrast} theory is built around a linear model for predicting mean reaction times from the logarithm of the number of distractors (see Equation \ref{eq:loglin}). In particular, the TCS theory allows us to predict the value of the logarithmic slope, $D_\text{c,s}$, in this condition based on the corresponding $D_j$ in the single feature search experiments. 
 
@@ -184,7 +183,7 @@ Finally, the collinear contrast integration model also assumes independence of f
 
 \subsubsection{Estimating mean reaction times}
 
-Finally, we can use Equation \ref{eq:loglin} to predict mean reaction times. As can be seen in  Figure \ref{fig:comp_rep} (centre panel), these predictions are essentially identical to the empirical RT results with an $R^2 = 0.93\%$.
+Finally, we can use Equation \ref{eq:loglin} to predict mean reaction times. As can be seen in  Figure \ref{fig:comp_rep} (centre panel), these predictions are essentially identical to the empirical RT results: $R^2 = 0.93\%$.
 
 \subsubsection{Discussion}
 
@@ -214,7 +213,7 @@ Finally, when comparing models, we discuss that $R^2$ value on its own is not an
 
 \subsubsection{Calculating the logarithmic slope parameter, $D_i$}
 
-We began in a similar fashion to section \ref{sec:fitting_D}, although this time, we fitted each model three times using a (i) normal, (ii) lognormal, and (iii) shifted lognormal distribution (please see Supplementary Materials for full details of out modelling approach, including prior predictive checks and model fit diagnostics). The three models were compared using bridge sampling to calculate the log marginal likelihoods, and the results showed that the shifted-lognormal model (illustrated in Figure \ref{fig:buetti2019_a1}) was given $100\%$ of the weight \footnote{we also tested a version of the shifted lognormal model that did not use the logarithm of the number of distractors i.e. testing this assumption of the TCS model, but found no support for this model being better: see Supplementary Materials for further details.}. Therefore, we used only this model for the rest of the analysis. 
+We began in a similar fashion to section \ref{sec:fitting_D}, although this time, we fitted each model three times using a (i) normal, (ii) lognormal, and (iii) shifted lognormal distribution (please see Supplementary Materials for full details of out modelling approach, including prior predictive checks and model fit diagnostics). The three models were compared using bridge sampling to calculate the log marginal likelihoods, and the results showed that the shifted-lognormal model (illustrated in Figure \ref{fig:buetti2019_a1}) was given $100\%$ of the weight\footnote{we also tested a version of the shifted lognormal model that did not use the logarithm of the number of distractors i.e. testing this assumption of the TCS model, but found no support for this model being better: see Supplementary Materials for further details.}. Therefore, we used only this model for the rest of the analysis. 
 
 \begin{figure}
 \centering
@@ -223,7 +222,11 @@ We began in a similar fashion to section \ref{sec:fitting_D}, although this time
 \label{fig:buetti2019_a1}
 \end{figure}
 
-We then extracted the posterior distributions for the logarithmic slope parameters as before. The only differences were that i) this approach allowed us to obtain the full posterior distribution for each $D_c$ and $D_s$, rather than just the maximum likelihood fit, and ii) the units are now in $\frac{\log{rt}}{\log{N_T+1}}$ See Figure \ref{fig:buetti2019_D} (bottom).
+
+
+\subsubsection{Estimating $D_{c,s}$, the logarithmic slope parameter for compound features}
+
+The first step in predicting the values for $D_{c,s}$ is to extract the logarithmic slope parameters $D_c$ and $D_c$ from our model outlined above (Figure \ref{fig:buetti2019_D} (top)). This is the same as the original TCS, except this time we use 1000\footnote{check!} samples from the posterior distributions, rather than just the maximum likelihood fit. The then combine $D_c$ and $D_c$ using the best feature, orthogonal contrast, and collinear contrast integeration models to get three different predictions for $D_{c,s}$ . These are illustrated in Figure \ref{fig:buetti2019_D} (bottom).
 
 \begin{figure}
 \centering
@@ -232,9 +235,7 @@ We then extracted the posterior distributions for the logarithmic slope paramete
 \label{fig:buetti2019_D}
 \end{figure}
 
-\subsubsection{Estimating $D_{c,s}$, the logarithmic slope parameter for compound features}
-
-We predict $D_{c,s}$ from $D_c$ and $D_c$ in the same way as the original TCS, except this time we use 1000\footnote{check!} samples from the posterior distributions, rather than just the maximum likelihood fit. These predictions are shown in Figure \ref{fig:buetti2019_D} (bottom), and the $R^2$ values are shown in Table \ref{tab:reimp_D_r2}. We can see that as with the original model, we still find the \textit{best feature} is the worst of the three methods, at least in terms of the raw $R^2$ value.
+The $R^2$ values for the three approaches are shown in Table \ref{tab:reimp_D_r2}. We can see that as with the original model, we still find the \textit{best feature} is the worst of the three methods, at least in terms of the raw $R^2$ value. However, it is less clear which of the other two methods gives the best performance. While the collinear contrast approach offers the highest $R^2$ (0.824-0.963), it consistently predicts values that are too low. The orthogonal contrast method gives more accurate predictions, albiet with a slightly lower $R^2$ (0.739-0.944). As such, we propose a different method, (see below) to distiguish between these approaches. 
 
 \begin{table}[h]
 \centering
