@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2019.10.9)  13 JAN 2021 11:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2019.10.9)  13 JAN 2021 12:30
 entering extended mode
 **./app_vs.tex
 (app_vs.tex
@@ -422,7 +422,11 @@ e 115.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [5 <../plots/example_stimuli_figure.pdf>] [6]
+ [5 <../plots/example_stimuli_figure.pdf>]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[6]
 <../plots/computational_replication.pdf, id=37, 578.16pt x 216.81pt>
 File: ../plots/computational_replication.pdf Graphic file (type pdf)
 <use ../plots/computational_replication.pdf>
@@ -446,9 +450,13 @@ Package pdftex.def Info: ../plots/bayes_buetti_refit.pdf  used on input line 22
 <../plots/bayes_buetti_D.pdf, id=69, 578.16pt x 433.62pt>
 File: ../plots/bayes_buetti_D.pdf Graphic file (type pdf)
 <use ../plots/bayes_buetti_D.pdf>
-Package pdftex.def Info: ../plots/bayes_buetti_D.pdf  used on input line 233.
+Package pdftex.def Info: ../plots/bayes_buetti_D.pdf  used on input line 231.
 (pdftex.def)             Requested size: 338.0pt x 253.49796pt.
- [10]
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[10]
 <../plots/bayes_buetti_rt.pdf, id=73, 578.16pt x 289.08pt>
 File: ../plots/bayes_buetti_rt.pdf Graphic file (type pdf)
 <use ../plots/bayes_buetti_rt.pdf>
@@ -456,6 +464,11 @@ Package pdftex.def Info: ../plots/bayes_buetti_rt.pdf  used on input line 270.
 (pdftex.def)             Requested size: 338.0pt x 168.99863pt.
  [11 <../plots/bayes_buetti_refit.pdf>] [12 <../plots/bayes_buetti_D.pdf> <../p
 lots/bayes_buetti_rt.pdf>] [13]
+Underfull \hbox (badness 10000) in paragraph at lines 296--298
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 298--300
 
  []
@@ -466,7 +479,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 300--302
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 302--304
+Underfull \hbox (badness 10000) in paragraph at lines 308--309
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 309--310
 
  []
 
@@ -475,47 +493,40 @@ Underfull \hbox (badness 10000) in paragraph at lines 310--311
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 311--312
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 312--313
-
- []
-
 [14]
 <../plots/power_plot.pdf, id=119, 578.16pt x 578.16pt>
 File: ../plots/power_plot.pdf Graphic file (type pdf)
 <use ../plots/power_plot.pdf>
-Package pdftex.def Info: ../plots/power_plot.pdf  used on input line 331.
+Package pdftex.def Info: ../plots/power_plot.pdf  used on input line 329.
 (pdftex.def)             Requested size: 338.0pt x 337.99727pt.
  [15]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 1817) has occurred while \output is active []
 
- [16 <../plots/power_plot.pdf>] (app_vs.bbl [17] [18]) [19] (app_vs.aux) ) 
+ [16 <../plots/power_plot.pdf>] [17] (app_vs.bbl [18]) [19] (app_vs.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
  3205 strings out of 492973
  45043 string characters out of 3127135
- 120000 words of memory out of 3000000
+ 120002 words of memory out of 3000000
  6999 multiletter control sequences out of 15000+200000
  40468 words of font info for 83 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,9n,27p,1438b,360s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/U
-sers/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Use
-rs/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10
-.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfon
-ts/cm/cmmi10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/p
-ublic/amsfonts/cm/cmr10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fo
-nts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Anna/AppData/Local/Programs/M
-iKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/Anna/AppData/Local/Programs
-/MiKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/Anna/AppData/Local/Progra
-ms/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Anna/AppData/Local/Pro
-grams/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Users/Anna/AppData/Local/
-Programs/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on app_vs.pdf (19 pages, 732656 bytes).
+ 41i,9n,27p,1438b,350s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}
+<C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
+/cmex10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
+/amsfonts/cm/cmmi10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/
+type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX
+ 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Anna/AppData/Local/Pro
+grams/MiKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/Anna/AppData/Local/P
+rograms/MiKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/Anna/AppData/Local
+/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Anna/AppData/Lo
+cal/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Users/Anna/AppData
+/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
+Output written on app_vs.pdf (19 pages, 733181 bytes).
 PDF statistics:
  171 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
