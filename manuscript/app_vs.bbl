@@ -1,4 +1,4 @@
-\begin{thebibliography}{21}
+\begin{thebibliography}{24}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -78,6 +78,27 @@ Alejandro Lleras, Zhiyuan Wang, Gavin Jun~Peng Ng, Kirk Ballew, Jing Xu, and
 \newblock A target contrast signal theory of parallel processing in
   goal-directed search.
 \newblock \emph{Attention, Perception, \& Psychophysics}, pages 1--32, 2020.
+
+\bibitem[Madison et~al.(2018)Madison, Lleras, and Buetti]{madison2018role}
+Anna Madison, Alejandro Lleras, and Simona Buetti.
+\newblock The role of crowding in parallel search: Peripheral pooling is not
+  responsible for logarithmic efficiency in parallel search.
+\newblock \emph{Attention, Perception, \& Psychophysics}, 80\penalty0
+  (2):\penalty0 352--373, 2018.
+
+\bibitem[Ng et~al.(2020)Ng, Buetti, Patel, and Lleras]{ng2020prioritization}
+Gavin~JP Ng, Simona Buetti, Trisha~N Patel, and Alejandro Lleras.
+\newblock Prioritization in visual attention does not work the way you think it
+  does.
+\newblock \emph{Journal of Experimental Psychology: Human Perception and
+  Performance}, 2020.
+
+\bibitem[Ng et~al.(2018)Ng, Lleras, and Buetti]{ng2018fixed}
+Gavin Jun~Peng Ng, Alejandro Lleras, and Simona Buetti.
+\newblock Fixed-target efficient search has logarithmic efficiency with and
+  without eye movements.
+\newblock \emph{Attention, Perception, \& Psychophysics}, 80\penalty0
+  (7):\penalty0 1752--1762, 2018.
 
 \bibitem[Nowakowska et~al.(2017)Nowakowska, Clarke, and
   Hunt]{nowakowska2017human}

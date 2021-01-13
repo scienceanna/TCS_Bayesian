@@ -11,6 +11,7 @@
 \usepackage{mathptmx}  
 \usepackage{subfigure}    % use Times fonts if available on your TeX system
 %\usepackage{natbib}
+\usepackage{tabularx}
 %
 % insert here the call for the packages your document requires
 %\usepackage{latexsym}
@@ -68,7 +69,7 @@ Another class of models are based around Feature Integration Theory \citep{treis
  
 However, more recent work has taken a different approach, focusing solely on representing the difference between targets and distractors. For example, in work on eye movement patterns, it has been proposed that performance in inefficient (serial) visual search is mostly determined by the size of the `functional viewing field', whose size varies as a function of target-distractor similarity \citep{hulleman2017brink}. 
 
-The Target Contrast Signal (TCS) Theory \citep{lleras2020target} aims to provide a unifying, quantitative framework that can make behavioural predictions based on this general assumption. TCS proposes that behaviour is determined by comparing the target template (held in memory) with every element present in the scene in parallel. This allows the visual system to reject peripheral non-targets quickly; the speed at which items are evaluated is determined by how different the item is from the template through an evidence accumulation process (formally, the slope of the logarithmic function is assumed to be inversely proportional to the overall magnitude of the contrast signal between the target and distractor). The model thus focuses on an initial, efficient processing stage of search; if sufficient evidence is not accumulated during this process, the model posits that a second stage is entered, where attention is deployed serially. TCS has been successful in predicting a number of empirical results, including search performance in heterogeneous scenes based on parameters estimated in homogeneous scenes, both with artificial stimuli \citep{buetti2016towards,lleras2019predicting} and with real-world objects visualised on a computer display \citep{wang2017predicting}. 
+The Target Contrast Signal (TCS) Theory \citep{lleras2020target} aims to provide a unifying, quantitative framework that can make behavioural predictions based on this general assumption. TCS proposes that behaviour is determined by comparing the target template (held in memory) with every element present in the scene in parallel. This allows the visual system to reject peripheral non-targets quickly; the speed at which items are evaluated is determined by how different the item is from the template through an evidence accumulation process (formally, the slope of the logarithmic function is assumed to be inversely proportional to the overall magnitude of the contrast signal between the target and distractor). The model thus focuses on an initial, efficient processing stage of search; if sufficient evidence is not accumulated during this process, the model posits that a second stage is entered, where attention is deployed serially. TCS has been successful in predicting a number of empirical results, including search performance in heterogeneous scenes based on parameters estimated in homogeneous scenes, both with artificial stimuli \citep{buetti2016towards,lleras2019predicting} and with real-world objects visualised on a computer display \citep{wang2017predicting}. Table \ref{tab:tcs_overview} provides an overview of studies investigating the TCS framework to date.
  
 The original version of the TCS theory is given below:
 \begin{equation}
@@ -83,18 +84,20 @@ This is essentially log-linear model in the number of distractors. The intercept
 \label{eq:loglin}
 \end{equation}
 
-The core idea in \cite{buetti2019predicting} was \ldots
 
 \begin{table}[h]
 \centering
-\begin{tabular}{ r|ccc } 
-reference & overview\\
+\begin{tabularx}{\textwidth}{lX}
+Reference & Overview\\
  \hline 
-\cite{buetti2016towards} & \\
-\cite{wang2017predicting} & \\
-\cite{buetti2019predicting} & \\
-\cite{lleras2020target} & \\
-\end{tabular}
+\cite{buetti2016towards} & For efficient search with a specific target, there is a logarithmic relationship between distractor set size and reaction time. The steepness of this relationship is modulated by distractor-target similarity, with steeper slopes for more similar distractors.\\
+\cite{wang2017predicting} & Data from homogeneous search arrays can be used to predict search reaction times in heterogeneous displays, using an equation assuming parallel, unlimited capacity, exhaustive processing, and independence of inter-item processing. \\ 
+\cite{madison2018role} & Logarithmic efficiency in efficient search cannot be explained by crowding in peripheral vision. \\
+\cite{ng2018fixed} & Logarithmic efficiency in efficient search cannot be explained by eye movements. \\
+\cite{buetti2019predicting} & Data from search arrays where the distractors are distinguished from the target by one feature can be used to predict search reaction times in displays with compound stimuli, defined by two features. Reaction times can be predicted using a collinear contrast integration model, which assumes that the overall target-distractor contrast is the sum of the contrasts from the two feature vectors separately. \\
+\cite{lleras2020target} & Full proposal of the Target Contrast Signal Theory, proposing that the initial stage of processing computes a difference signal between each item in the scene and the target template, using this to determine which items are in the scene are unlikely to be the target. \\
+\cite{ng2020prioritization} & Attention works in a two stage process, first discarding target-dissimilar distractors in a distributed, parallel way. Focused spatial attention then visits target-similar items at random. \\
+\end{tabularx}
 \caption{An overview of work on the Target Contrast Signal Theory}
 \label{tab:tcs_overview}
 \end{table}
