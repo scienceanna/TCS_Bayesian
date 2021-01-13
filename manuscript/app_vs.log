@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2019.10.9)  13 JAN 2021 12:30
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2019.10.9)  13 JAN 2021 13:47
 entering extended mode
 **./app_vs.tex
 (app_vs.tex
@@ -396,10 +396,7 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
 
 Underfull \vbox (badness 2035) has occurred while \output is active []
 
- [1{C:/Users/Anna/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-Underfull \vbox (badness 5008) has occurred while \output is active []
-
- [2]
+ [1{C:/Users/Anna/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -502,31 +499,28 @@ Package pdftex.def Info: ../plots/power_plot.pdf  used on input line 329.
  [15]
 Underfull \vbox (badness 1817) has occurred while \output is active []
 
- [16 <../plots/power_plot.pdf>] [17] (app_vs.bbl [18]) [19] (app_vs.aux)
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+ [16 <../plots/power_plot.pdf>] [17] (app_vs.bbl [18]) [19] (app_vs.aux) ) 
 Here is how much of TeX's memory you used:
- 3205 strings out of 492973
- 45043 string characters out of 3127135
- 120002 words of memory out of 3000000
- 6999 multiletter control sequences out of 15000+200000
+ 3208 strings out of 492973
+ 45115 string characters out of 3127135
+ 120034 words of memory out of 3000000
+ 7002 multiletter control sequences out of 15000+200000
  40468 words of font info for 83 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,9n,27p,1438b,350s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}
-<C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
-/cmex10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmmi10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/
-type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX
- 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Anna/AppData/Local/Pro
-grams/MiKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/Anna/AppData/Local/P
-rograms/MiKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/Anna/AppData/Local
-/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Anna/AppData/Lo
-cal/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Users/Anna/AppData
-/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on app_vs.pdf (19 pages, 733181 bytes).
+ 41i,9n,27p,1437b,350s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/U
+sers/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Use
+rs/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10
+.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfon
+ts/cm/cmmi10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/p
+ublic/amsfonts/cm/cmr10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fo
+nts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Anna/AppData/Local/Programs/M
+iKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/Anna/AppData/Local/Programs
+/MiKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/Anna/AppData/Local/Progra
+ms/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Anna/AppData/Local/Pro
+grams/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Users/Anna/AppData/Local/
+Programs/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
+Output written on app_vs.pdf (19 pages, 733414 bytes).
 PDF statistics:
  171 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

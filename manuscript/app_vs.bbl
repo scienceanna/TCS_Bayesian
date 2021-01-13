@@ -1,4 +1,4 @@
-\begin{thebibliography}{24}
+\begin{thebibliography}{25}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -19,6 +19,12 @@ Simona Buetti, Jing Xu, and Alejandro Lleras.
 \newblock Predicting how color and shape combine in the human visual system to
   direct attention.
 \newblock \emph{Scientific reports}, 9\penalty0 (1):\penalty0 1--11, 2019.
+
+\bibitem[Cave and Wolfe(1990)]{cave1990modeling}
+Kyle~R Cave and Jeremy~M Wolfe.
+\newblock Modeling the role of parallel processing in visual search.
+\newblock \emph{Cognitive psychology}, 22\penalty0 (2):\penalty0 225--271,
+  1990.
 
 \bibitem[Hulleman and Olivers(2017)]{hulleman2017brink}
 Johan Hulleman and Christian~NL Olivers.
