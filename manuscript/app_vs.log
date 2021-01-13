@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/W32TeX) (preloaded format=pdflatex 2017.9.14)  13 JAN 2021 09:45
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/W32TeX) (preloaded format=pdflatex 2017.9.14)  13 JAN 2021 09:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -356,7 +356,7 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
 Underfull \vbox (badness 2035) has occurred while \output is active []
 
  [1{c:/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
-Overfull \hbox (0.73567pt too wide) in paragraph at lines 89--90
+Overfull \hbox (0.73567pt too wide) in paragraph at lines 88--89
  \OT1/ptm/m/it/10 Lim-i-ta-tions, and ex-tend-ing ba-sic stim-uli [] \OT1/ptm/m
 /n/10 While re-sults to date for TCS ap-pear promis-
  []
@@ -370,66 +370,77 @@ pt>
 File: ../plots/example_stimuli_figure.pdf Graphic file (type pdf)
 <use ../plots/example_stimuli_figure.pdf>
 Package pdftex.def Info: ../plots/example_stimuli_figure.pdf  used on input lin
-e 99. on input line 99.
-Package pdftex.def Info: Requested size: 338.0pt x 190.12512pt on input line 99
+e 98. on input line 98.
+Package pdftex.def Info: Requested size: 338.0pt x 190.12512pt on input line 98
 .
-[4] [5 <../plots/example_stimuli_figure.pdf>] [6]
+
+Underfull \vbox (badness 3690) has occurred while \output is active []
+
+ [4]
+[5 <../plots/example_stimuli_figure.pdf>] [6]
 <../plots/computational_replication.pdf, id=38, pagebox=cropbox, 578.16pt x 216
 .81pt>
 File: ../plots/computational_replication.pdf Graphic file (type pdf)
 <use ../plots/computational_replication.pdf>
 Package pdftex.def Info: ../plots/computational_replication.pdf  used on input 
-line 167. on input line 167.
+line 166. on input line 166.
 Package pdftex.def Info: Requested size: 338.0pt x 126.74896pt on input line 16
-7.
+6.
  [7 <../plots/computational_replication.pdf>]
 <../plots/computational_replication_issues.pdf, id=55, pagebox=cropbox, 578.16p
 t x 289.08pt>
 File: ../plots/computational_replication_issues.pdf Graphic file (type pdf)
 <use ../plots/computational_replication_issues.pdf>
 Package pdftex.def Info: ../plots/computational_replication_issues.pdf  used on
- input line 186. on input line 186.
+ input line 185. on input line 185.
 Package pdftex.def Info: Requested size: 338.0pt x 168.99863pt on input line 18
-6.
- [8 <../plots/computational_replication_issues.pdf>]
-<../plots/bayes_buetti_refit.pdf, id=65, pagebox=cropbox, 578.16pt x 361.35pt>
+5.
+ [8]
+<../plots/bayes_buetti_refit.pdf, id=59, pagebox=cropbox, 578.16pt x 361.35pt>
 File: ../plots/bayes_buetti_refit.pdf Graphic file (type pdf)
 <use ../plots/bayes_buetti_refit.pdf>
 Package pdftex.def Info: ../plots/bayes_buetti_refit.pdf  used on input line 20
-8. on input line 208.
+7. on input line 207.
 Package pdftex.def Info: Requested size: 338.0pt x 211.24829pt on input line 20
-8.
-<../plots/bayes_buetti_D.pdf, id=66, pagebox=cropbox, 578.16pt x 433.62pt>
+7.
+ [9 <../plots/computational_replication_issues.pdf>]
+<../plots/bayes_buetti_D.pdf, id=70, pagebox=cropbox, 578.16pt x 433.62pt>
 File: ../plots/bayes_buetti_D.pdf Graphic file (type pdf)
 <use ../plots/bayes_buetti_D.pdf>
-Package pdftex.def Info: ../plots/bayes_buetti_D.pdf  used on input line 217. o
-n input line 217.
+Package pdftex.def Info: ../plots/bayes_buetti_D.pdf  used on input line 216. o
+n input line 216.
 Package pdftex.def Info: Requested size: 338.0pt x 253.49796pt on input line 21
-7.
- [9]
+6.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 [10 <../plots/bayes_buetti_refit.pdf>]
 <../plots/bayes_buetti_rt.pdf, id=85, pagebox=cropbox, 578.16pt x 289.08pt>
 File: ../plots/bayes_buetti_rt.pdf Graphic file (type pdf)
 <use ../plots/bayes_buetti_rt.pdf>
-Package pdftex.def Info: ../plots/bayes_buetti_rt.pdf  used on input line 254. 
-on input line 254.
+Package pdftex.def Info: ../plots/bayes_buetti_rt.pdf  used on input line 253. 
+on input line 253.
 Package pdftex.def Info: Requested size: 338.0pt x 168.99863pt on input line 25
-4.
-
-Underfull \vbox (badness 2837) has occurred while \output is active []
-
- [11 <../plots/bayes_buetti_D.pdf>] [12 <../plots/bayes_buetti_rt.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 282--284
+3.
+ [11 <../plots/bayes_buetti_D.pdf>]
+[12 <../plots/bayes_buetti_rt.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 281--283
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 284--286
+Underfull \hbox (badness 10000) in paragraph at lines 283--285
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 286--288
+Underfull \hbox (badness 10000) in paragraph at lines 285--287
+
+ []
+
+[13]
+Underfull \hbox (badness 10000) in paragraph at lines 293--294
 
  []
 
@@ -443,38 +454,37 @@ Underfull \hbox (badness 10000) in paragraph at lines 295--296
 
  []
 
-[13]
-Underfull \hbox (badness 10000) in paragraph at lines 296--297
-
- []
-
-<../plots/power_plot.pdf, id=117, pagebox=cropbox, 578.16pt x 578.16pt>
+[14]
+<../plots/power_plot.pdf, id=120, pagebox=cropbox, 578.16pt x 578.16pt>
 File: ../plots/power_plot.pdf Graphic file (type pdf)
 <use ../plots/power_plot.pdf>
-Package pdftex.def Info: ../plots/power_plot.pdf  used on input line 315. on in
-put line 315.
+Package pdftex.def Info: ../plots/power_plot.pdf  used on input line 314. on in
+put line 314.
 Package pdftex.def Info: Requested size: 338.0pt x 337.99727pt on input line 31
-5.
-[14] [15 <../plots/power_plot.pdf>] [16] (./app_vs.bbl [17]) [18] (./app_vs.aux
-) ) 
+4.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [15 <../plots/power_plot.pdf>] [16] (./app_vs.bbl [17]) [18] (./app_vs.aux) ) 
 Here is how much of TeX's memory you used:
  3103 strings out of 492990
  41873 string characters out of 6136334
- 109033 words of memory out of 5000000
+ 108033 words of memory out of 5000000
  6588 multiletter control sequences out of 15000+600000
  40468 words of font info for 83 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,8n,27p,1463b,340s stack positions out of 5000i,500n,10000p,200000b,80000s
-{c:/texlive/2017/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2017/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2017/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2017/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2017/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmsy10.pfb><c:/texlive/2017/texmf-dist/fonts/type1/urw/symbol/usyr.p
-fb><c:/texlive/2017/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2017
-/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2017/texmf-dist/fonts/
-type1/urw/times/utmr8a.pfb><c:/texlive/2017/texmf-dist/fonts/type1/urw/times/ut
-mri8a.pfb>
-Output written on app_vs.pdf (18 pages, 714307 bytes).
+ 41i,8n,27p,1463b,330s stack positions out of 5000i,500n,10000p,200000b,80000s
+{
+c:/texlive/2017/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2017/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2017/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2017/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmr10.pfb><c:/texlive/2017/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmsy10.pfb><c:/texlive/2017/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><
+c:/texlive/2017/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2017/tex
+mf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2017/texmf-dist/fonts/type
+1/urw/times/utmr8a.pfb><c:/texlive/2017/texmf-dist/fonts/type1/urw/times/utmri8
+a.pfb>
+Output written on app_vs.pdf (18 pages, 714735 bytes).
 PDF statistics:
  170 PDF objects out of 1000 (max. 8388607)
  121 compressed objects within 2 object streams
