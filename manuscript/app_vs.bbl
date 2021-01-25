@@ -1,9 +1,22 @@
-\begin{thebibliography}{21}
+\begin{thebibliography}{28}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Becker(2010)]{becker2010role}
+Stefanie~I Becker.
+\newblock The role of target--distractor relationships in guiding attention and
+  the eyes in visual search.
+\newblock \emph{Journal of Experimental Psychology: General}, 139\penalty0
+  (2):\penalty0 247, 2010.
+
+\bibitem[Becker et~al.(2014)Becker, Valuch, and Ansorge]{becker2014color}
+Stefanie~I Becker, Christian Valuch, and Ulrich Ansorge.
+\newblock Color priming in pop-out search depends on the relative color of the
+  target.
+\newblock \emph{Frontiers in psychology}, 5:\penalty0 289, 2014.
 
 \bibitem[Buetti et~al.(2016)Buetti, Cronin, Madison, Wang, and
   Lleras]{buetti2016towards}
@@ -19,6 +32,19 @@ Simona Buetti, Jing Xu, and Alejandro Lleras.
 \newblock Predicting how color and shape combine in the human visual system to
   direct attention.
 \newblock \emph{Scientific reports}, 9\penalty0 (1):\penalty0 1--11, 2019.
+
+\bibitem[Cave and Wolfe(1990)]{cave1990modeling}
+Kyle~R Cave and Jeremy~M Wolfe.
+\newblock Modeling the role of parallel processing in visual search.
+\newblock \emph{Cognitive psychology}, 22\penalty0 (2):\penalty0 225--271,
+  1990.
+
+\bibitem[Clarke et~al.(2020)Clarke, Irons, James, Leber, and
+  Hunt]{clarke2020stable}
+Alasdair~DF Clarke, JL~Irons, Warren James, Andrew~B Leber, and Amelia~R Hunt.
+\newblock Stable individual differences in strategies within, but not between,
+  visual search tasks.
+\newblock \emph{Quarterly Journal of Experimental Psychology}, 2020.
 
 \bibitem[Hulleman and Olivers(2017)]{hulleman2017brink}
 Johan Hulleman and Christian~NL Olivers.
@@ -78,6 +104,27 @@ Alejandro Lleras, Zhiyuan Wang, Gavin Jun~Peng Ng, Kirk Ballew, Jing Xu, and
 \newblock A target contrast signal theory of parallel processing in
   goal-directed search.
 \newblock \emph{Attention, Perception, \& Psychophysics}, pages 1--32, 2020.
+
+\bibitem[Madison et~al.(2018)Madison, Lleras, and Buetti]{madison2018role}
+Anna Madison, Alejandro Lleras, and Simona Buetti.
+\newblock The role of crowding in parallel search: Peripheral pooling is not
+  responsible for logarithmic efficiency in parallel search.
+\newblock \emph{Attention, Perception, \& Psychophysics}, 80\penalty0
+  (2):\penalty0 352--373, 2018.
+
+\bibitem[Ng et~al.(2020)Ng, Buetti, Patel, and Lleras]{ng2020prioritization}
+Gavin~JP Ng, Simona Buetti, Trisha~N Patel, and Alejandro Lleras.
+\newblock Prioritization in visual attention does not work the way you think it
+  does.
+\newblock \emph{Journal of Experimental Psychology: Human Perception and
+  Performance}, 2020.
+
+\bibitem[Ng et~al.(2018)Ng, Lleras, and Buetti]{ng2018fixed}
+Gavin Jun~Peng Ng, Alejandro Lleras, and Simona Buetti.
+\newblock Fixed-target efficient search has logarithmic efficiency with and
+  without eye movements.
+\newblock \emph{Attention, Perception, \& Psychophysics}, 80\penalty0
+  (7):\penalty0 1752--1762, 2018.
 
 \bibitem[Nowakowska et~al.(2017)Nowakowska, Clarke, and
   Hunt]{nowakowska2017human}

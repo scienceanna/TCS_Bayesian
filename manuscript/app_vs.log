@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2019.10.9)  15 DEC 2020 17:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2019.10.9)  13 JAN 2021 17:27
 entering extended mode
 **./app_vs.tex
 (app_vs.tex
@@ -230,22 +230,43 @@ Package: subfigure 2002/07/30 v2.1.4 subfigure package
 .cfg")
 \subfig@top=\skip52
 \subfig@bottom=\skip53
-) (app_vs.aux)
+)
+("C:\Users\Anna\AppData\Local\Programs\MiKTeX 2.9\tex\latex\tools\tabularx.sty"
+Package: tabularx 2016/02/03 v2.11b `tabularx' package (DPC)
+("C:\Users\Anna\AppData\Local\Programs\MiKTeX 2.9\tex\latex\tools\array.sty"
+Package: array 2018/04/30 v2.4h Tabular extension package (FMi)
+\col@sep=\dimen127
+\ar@mcellbox=\box31
+\extrarowheight=\dimen128
+\NC@list=\toks22
+\extratabsurround=\skip54
+\backup@length=\skip55
+\ar@cellbox=\box32
+)
+\TX@col@width=\dimen129
+\TX@old@table=\dimen130
+\TX@old@col=\dimen131
+\TX@target=\dimen132
+\TX@delta=\dimen133
+\TX@cols=\count123
+\TX@ftn=\toks23
+)
+(app_vs.aux)
 \openout1 = `app_vs.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 24.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 25.
 
 ("C:\Users\Anna\AppData\Local\Programs\MiKTeX 2.9\tex\latex\psnfss\ot1ptm.fd"
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
@@ -256,17 +277,17 @@ Unknown journal: specify \journalname{<name of your journal>} in preambel
 ("C:\Users\Anna\AppData\Local\Programs\MiKTeX 2.9\tex\context\base\mkii\supp-pd
 f.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count123
-\scratchdimen=\dimen127
-\scratchbox=\box31
-\nofMPsegments=\count124
-\nofMParguments=\count125
-\everyMPshowfont=\toks22
-\MPscratchCnt=\count126
-\MPscratchDim=\dimen128
-\MPnumerator=\count127
-\makeMPintoPDFobject=\count128
-\everyMPtoPDFconversion=\toks23
+\scratchcounter=\count124
+\scratchdimen=\dimen134
+\scratchbox=\box33
+\nofMPsegments=\count125
+\nofMParguments=\count126
+\everyMPshowfont=\toks24
+\MPscratchCnt=\count127
+\MPscratchDim=\dimen135
+\MPnumerator=\count128
+\makeMPintoPDFobject=\count129
+\everyMPtoPDFconversion=\toks25
 )
 ("C:\Users\Anna\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-b
 ase.sty"
@@ -333,160 +354,167 @@ G,.JBIG2,.JB2,.eps]
 )
 SVJour3 warning: Missing \journalname
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 51.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <13> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 51.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 51.
 
-Package mathptmx Warning: There are no bold math fonts on input line 50.
+Package mathptmx Warning: There are no bold math fonts on input line 51.
 
-LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 50
+LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 51
 .
 ("C:\Users\Anna\AppData\Local\Programs\MiKTeX 2.9\tex\latex\psnfss\ot1ztmcm.fd"
 File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 50
+LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 51
 .
  ("C:\Users\Anna\AppData\Local\Programs\MiKTeX 2.9\tex\latex\psnfss\omlztmcm.fd
 "
 File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 50
+LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 51
 .
 
 ("C:\Users\Anna\AppData\Local\Programs\MiKTeX 2.9\tex\latex\psnfss\omsztmcm.fd"
 File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 50
+LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 51
 .
  ("C:\Users\Anna\AppData\Local\Programs\MiKTeX 2.9\tex\latex\psnfss\omxztmcm.fd
 "
 File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 51.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 51.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 51.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
- [1{C:/Users/Anna/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-[2]
-Overfull \hbox (0.73567pt too wide) in paragraph at lines 90--91
- \OT1/ptm/m/it/10 Lim-i-ta-tions, and ex-tend-ing ba-sic stim-uli [] \OT1/ptm/m
-/n/10 While re-sults to date for TCS ap-pear promis-
- []
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 51.
 
-[3]
+Underfull \vbox (badness 2035) has occurred while \output is active []
+
+ [1{C:/Users/Anna/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2] [3]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[4]
 
 pdfTeX warning: pdflatex (file ../plots/example_stimuli_figure.pdf): PDF inclus
 ion: found PDF version <1.7>, but at most version <1.5> allowed
-<../plots/example_stimuli_figure.pdf, id=19, 963.6pt x 542.025pt>
+<../plots/example_stimuli_figure.pdf, id=22, 963.6pt x 542.025pt>
 File: ../plots/example_stimuli_figure.pdf Graphic file (type pdf)
 <use ../plots/example_stimuli_figure.pdf>
 Package pdftex.def Info: ../plots/example_stimuli_figure.pdf  used on input lin
-e 100.
+e 118.
 (pdftex.def)             Requested size: 338.0pt x 190.12512pt.
-[4 <../plots/example_stimuli_figure.pdf>] [5]
-<../plots/computational_replication.pdf, id=34, 578.16pt x 216.81pt>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [5]
+[6 <../plots/example_stimuli_figure.pdf>] [7]
+<../plots/computational_replication.pdf, id=41, 578.16pt x 216.81pt>
 File: ../plots/computational_replication.pdf Graphic file (type pdf)
 <use ../plots/computational_replication.pdf>
 Package pdftex.def Info: ../plots/computational_replication.pdf  used on input 
-line 168.
+line 185.
 (pdftex.def)             Requested size: 338.0pt x 126.74896pt.
- [6] [7 <../plots/computational_replication.pdf>]
-<../plots/computational_replication_issues.pdf, id=54, 578.16pt x 289.08pt>
+ [8 <../plots/computational_replication.pdf>]
+<../plots/computational_replication_issues.pdf, id=57, 578.16pt x 289.08pt>
 File: ../plots/computational_replication_issues.pdf Graphic file (type pdf)
 <use ../plots/computational_replication_issues.pdf>
 Package pdftex.def Info: ../plots/computational_replication_issues.pdf  used on
- input line 187.
+ input line 204.
 (pdftex.def)             Requested size: 338.0pt x 168.99863pt.
- [8 <../plots/computational_replication_issues.pdf>]
-<../plots/bayes_buetti_refit.pdf, id=65, 578.16pt x 361.35pt>
+ [9]
+<../plots/bayes_buetti_refit.pdf, id=61, 578.16pt x 361.35pt>
 File: ../plots/bayes_buetti_refit.pdf Graphic file (type pdf)
 <use ../plots/bayes_buetti_refit.pdf>
-Package pdftex.def Info: ../plots/bayes_buetti_refit.pdf  used on input line 20
-9.
+Package pdftex.def Info: ../plots/bayes_buetti_refit.pdf  used on input line 22
+6.
 (pdftex.def)             Requested size: 338.0pt x 211.24829pt.
-<../plots/bayes_buetti_D.pdf, id=66, 578.16pt x 433.62pt>
+ [10 <../plots/computational_replication_issues.pdf>]
+<../plots/bayes_buetti_D.pdf, id=72, 578.16pt x 433.62pt>
 File: ../plots/bayes_buetti_D.pdf Graphic file (type pdf)
 <use ../plots/bayes_buetti_D.pdf>
-Package pdftex.def Info: ../plots/bayes_buetti_D.pdf  used on input line 218.
+Package pdftex.def Info: ../plots/bayes_buetti_D.pdf  used on input line 233.
 (pdftex.def)             Requested size: 338.0pt x 253.49796pt.
- [9 <../plots/bayes_buetti_refit.pdf>]
-Underfull \vbox (badness 3815) has occurred while \output is active []
 
- [10 <../plots/bayes_buetti_D.pdf>]
-<../plots/bayes_buetti_rt.pdf, id=94, 578.16pt x 289.08pt>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[11 <../plots/bayes_buetti_refit.pdf>]
+<../plots/bayes_buetti_rt.pdf, id=87, 578.16pt x 289.08pt>
 File: ../plots/bayes_buetti_rt.pdf Graphic file (type pdf)
 <use ../plots/bayes_buetti_rt.pdf>
-Package pdftex.def Info: ../plots/bayes_buetti_rt.pdf  used on input line 255.
+Package pdftex.def Info: ../plots/bayes_buetti_rt.pdf  used on input line 272.
 (pdftex.def)             Requested size: 338.0pt x 168.99863pt.
- [11 <../plots/bayes_buetti_rt.pdf>] [12]
-Underfull \hbox (badness 10000) in paragraph at lines 283--285
+ [12 <../plots/bayes_buetti_D.pdf>]
+[13 <../plots/bayes_buetti_rt.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 298--300
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 285--287
+Underfull \hbox (badness 10000) in paragraph at lines 300--302
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 287--289
+Underfull \hbox (badness 10000) in paragraph at lines 302--304
+
+ []
+
+[14]
+Underfull \hbox (badness 10000) in paragraph at lines 310--311
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 295--296
+Underfull \hbox (badness 10000) in paragraph at lines 311--312
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 296--297
+Underfull \hbox (badness 10000) in paragraph at lines 312--313
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 297--298
-
- []
-
-[13]
-<../plots/power_plot.pdf, id=116, 578.16pt x 578.16pt>
+[15]
+<../plots/power_plot.pdf, id=122, 578.16pt x 578.16pt>
 File: ../plots/power_plot.pdf Graphic file (type pdf)
 <use ../plots/power_plot.pdf>
-Package pdftex.def Info: ../plots/power_plot.pdf  used on input line 316.
+Package pdftex.def Info: ../plots/power_plot.pdf  used on input line 331.
 (pdftex.def)             Requested size: 338.0pt x 337.99727pt.
- [14]
+ [16] [17 <../plots/power_plot.pdf>] (app_vs.bbl [18]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [15 <../plots/power_plot.pdf>] (app_vs.bbl [16]) [17] (app_vs.aux) ) 
+ [19])
+[20] (app_vs.aux) ) 
 Here is how much of TeX's memory you used:
- 3096 strings out of 492973
- 43510 string characters out of 3127135
- 113891 words of memory out of 3000000
- 6896 multiletter control sequences out of 15000+200000
+ 3217 strings out of 492973
+ 45322 string characters out of 3127135
+ 119191 words of memory out of 3000000
+ 7011 multiletter control sequences out of 15000+200000
  40468 words of font info for 83 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,8n,27p,1358b,262s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Users/
-Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Users/An
-na/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb>
-<C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
-/cmmi10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmr10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/t
-ype1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX
- 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/Anna/AppData/Local/Programs/MiKT
-eX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/Anna/AppData/Local/Programs/Mi
-KTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Anna/AppData/Local/Programs
-/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Users/Anna/AppData/Local/Progr
-ams/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on app_vs.pdf (17 pages, 727577 bytes).
+ 41i,9n,27p,1519b,370s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/d
+vips/base/8r.enc}<C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/p
+ublic/amsfonts/cm/cmex10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Anna/AppData/Local/Programs/
+MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Anna/AppData/Loca
+l/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Anna/
+AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/Ann
+a/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/A
+nna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/User
+s/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/U
+sers/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
+Output written on app_vs.pdf (20 pages, 754512 bytes).
 PDF statistics:
- 164 PDF objects out of 1000 (max. 8388607)
+ 174 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  36 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,126 +1,144 @@
 \relax 
+\citation{cave1990modeling}
+\citation{buetti2016towards}
+\citation{lleras2020target}
+\citation{buetti2019predicting}
 \citation{itti2000saliency,itti1998model,koch1987shifts}
 \citation{parkhurst2002modeling}
 \citation{tatler2007central}
 \citation{zhang2008sun}
 \citation{tatler2011eye,koehler2014saliency}
-\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}}
-\newlabel{intro}{{1}{1}}
-\@writefile{toc}{\contentsline {paragraph}{Background}{1}}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{2}}
+\newlabel{intro}{{1}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Previous Work}{2}}
 \citation{treisman1980feature}
 \citation{wolfe1989guided,wolfe2014approaches}
 \citation{hulleman2017brink}
+\citation{becker2014color,becker2010role}
 \citation{lleras2020target}
 \citation{buetti2016towards,lleras2019predicting}
 \citation{wang2017predicting}
 \citation{lleras2020target}
-\@writefile{toc}{\contentsline {paragraph}{Theoretical intro to TCS}{2}}
-\newlabel{eq:tcs}{{1}{2}}
+\citation{buetti2019predicting}
+\citation{buetti2016towards}
+\citation{wang2017predicting}
+\citation{madison2018role}
+\citation{ng2018fixed}
+\citation{lleras2019predicting}
 \citation{buetti2019predicting}
 \citation{lleras2020target}
+\citation{ng2020prioritization}
 \citation{nowakowska2017human}
-\citation{irons2016choosing,irons2018characterizing}
+\citation{irons2016choosing,irons2018characterizing,clarke2020stable}
 \citation{buetti2019predicting}
-\newlabel{eq:loglin}{{2}{3}}
-\@writefile{toc}{\contentsline {paragraph}{Limitations, and extending basic stimuli}{3}}
-\@writefile{toc}{\contentsline {paragraph}{Within subjects}{3}}
-\@writefile{toc}{\contentsline {paragraph}{Conclusion to introduction}{3}}
-\citation{buetti2019predicting}
+\newlabel{eq:tcs}{{1}{4}}
+\newlabel{eq:loglin}{{2}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Rationale for proposed work}{4}}
 \citation{buetti2019predicting}
 \citation{buetti2019predicting}
 \citation{buetti2019predicting}
 \citation{buetti2019predicting}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Example stimuli from \cite  {buetti2019predicting} Top left: Expt 1A. Here, the target is a blue semicircle within a set of homogeneous (yellow semicircle) distractors. Top right: Expt 1B. The target is a grey semicircle in circular grey distractors. Bottom left: Expt 2A. The target is a blue semicircle in orange diamond distractors. Bottom middle: Expt 2B. The target is a blue semicircle in dark blue triangle distractors. Bottom right: Expt 2C. The target is a blue semicircle in yellow circular distractors.}}{4}}
-\newlabel{fig:buetti2019_stimulus}{{1}{4}}
-\@writefile{toc}{\contentsline {paragraph}{Overview of the current study}{4}}
-\@writefile{toc}{\contentsline {section}{\numberline {2}The Target Contrast Model}{4}}
-\newlabel{sec:reansalysis}{{2}{4}}
 \citation{buetti2019predicting}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}TCS modelling overview}{5}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.1}Calculating the intercept, $a$, and the logarithmic slope parameter, $D_i$}{5}}
-\newlabel{sec:fitting_D}{{2.1.1}{5}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces A table of $D_i$ values for Experiment 1a and 1b}}{5}}
-\newlabel{tab:reimp_Dc_Ds}{{1}{5}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces An overview of work on the Target Contrast Signal Theory. The key paper for our replication is highlighted.}}{5}}
+\newlabel{tab:tcs_overview}{{1}{5}}
+\citation{buetti2019predicting}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Example stimuli from \cite  {buetti2019predicting} Top left: Expt 1A. Here, the target is a blue semicircle within a set of homogeneous (yellow semicircle) distractors. Top right: Expt 1B. The target is a grey semicircle in circular grey distractors. Bottom left: Expt 2A. The target is a blue semicircle in orange diamond distractors. Bottom middle: Expt 2B. The target is a blue semicircle in dark blue triangle distractors. Bottom right: Expt 2C. The target is a blue semicircle in yellow circular distractors.}}{6}}
+\newlabel{fig:buetti2019_stimulus}{{1}{6}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}The Target Contrast Model}{6}}
+\newlabel{sec:reansalysis}{{2}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}TCS modelling overview}{6}}
 \citation{buetti2019predicting}
 \citation{buetti2019predicting}
-\citation{buetti2019predicting}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.2}Estimating $D_{c,s}$, the logarithmic slope parameter for compound features}{6}}
-\newlabel{eq:bestfeature}{{3}{6}}
-\newlabel{eq:orthogonalcontrast}{{4}{6}}
-\newlabel{eq:collinearcontrast}{{5}{6}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.3}Estimating mean reaction times}{6}}
-\citation{buetti2019predicting}
-\citation{buetti2019predicting}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces (left) The collinear method for calculating $D$ offers a good prediction. (centre) Using the TCS to predict reaction times. (right) Each dot now represents a randomly sampled reaction time from an observer.}}{7}}
-\newlabel{fig:comp_rep}{{2}{7}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.4}Discussion}{7}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.1}Calculating the intercept, $a$, and the logarithmic slope parameter, $D_i$}{7}}
+\newlabel{sec:fitting_D}{{2.1.1}{7}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces A table of $D_i$ values for Experiment 1a and 1b}}{7}}
+\newlabel{tab:reimp_Dc_Ds}{{2}{7}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.2}Estimating $D_{c,s}$, the logarithmic slope parameter for compound features}{7}}
 \citation{buetti2019predicting}
 \citation{buetti2019predicting}
-\citation{buetti2019predicting}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces (top) Three conditions from Experiment 2. Blue dots represent the mean of means for each condition, while the line shows the prediction of the TCS theory. (bottom) Estimates of $D_{c,s}$ for the different colours and shape from \cite  {buetti2019predicting}. As can be seen, in two of the three colour conditions, we are unable to distinguish between best feature, collinear or orthogonal contrast models.}}{8}}
-\newlabel{fig:comp_rep_conditions}{{3}{8}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}A multi-level TCS}{8}}
-\newlabel{sec:reanalysis}{{2.2}{8}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces (\textit  {top}) The shaded regions show the model's estimate ($53\%$ and $97\%$ intervals) of the average participant's mean reaction time, while the points show the empircal mean reaction time. (\textit  {bottom}): The shaded regions now indicate the distribution of reaction times (over a new simulated group of participants) generated by the model. The points now represent the 100 quantiles from the empirical data.}}{9}}
-\newlabel{fig:buetti2019_a1}{{4}{9}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Calculating the logarithmic slope parameter, $D_i$}{9}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces (\textit  {top}) Posterior probability density functions for each $D_c$ and $D_s$ in Experiment 1. As with the original TCS model, when searching for a blue semicircle, triangular distractors are the hardest, while yellow and orange distractors are the eaiest.) (\textit  {bottom}) Predicting $D_{c,s}$ from $D_c$ and $D_s$. Crosshairs indicate $97.5$ HPDI for estimates and predictions, while the pink region shows the HPDI for the best fit line. }}{10}}
-\newlabel{fig:buetti2019_D}{{5}{10}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}Estimating $D_{c,s}$, the logarithmic slope parameter for compound features}{10}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces A table of $R^2$ values}}{10}}
-\newlabel{tab:reimp_D_r2}{{2}{10}}
-\citation{buetti2019predicting}
-\citation{buetti2019predicting}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces (\textit  {left}) HPDI and empirical mean reaction times for each condition in Experiment 2, using the collinear contrast integration model to predict D values. (\textit  {right}) Similar, for the full distribution of reaction times over trials. }}{11}}
-\newlabel{fig:buetti2019_rt}{{6}{11}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.3}Estimating other parameters and predicting reaction times}{11}}
-\citation{buetti2019predicting}
-\citation{buetti2019predicting}
-\citation{buetti2019predicting}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Discussion}{12}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Hypotheses}{12}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces (left) The collinear method for calculating $D$ offers a good prediction. (centre) Using the TCS to predict reaction times. (right) Each dot now represents a randomly sampled reaction time from an observer.}}{8}}
+\newlabel{fig:comp_rep}{{2}{8}}
+\newlabel{eq:bestfeature}{{3}{8}}
+\newlabel{eq:orthogonalcontrast}{{4}{8}}
+\newlabel{eq:collinearcontrast}{{5}{8}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.3}Estimating mean reaction times}{8}}
 \citation{buetti2019predicting}
 \citation{buetti2019predicting}
 \citation{buetti2019predicting}
 \citation{buetti2019predicting}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Proposed Modifications to Experimental Design}{13}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Registered Hypothesis}{13}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.4}Discussion}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}A multi-level TCS}{9}}
+\newlabel{sec:reanalysis}{{2.2}{9}}
+\citation{buetti2019predicting}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces (top) Three conditions from Experiment 2. Blue dots represent the mean of means for each condition, while the line shows the prediction of the TCS theory. (bottom) Estimates of $D_{c,s}$ for the different colours and shape from \cite  {buetti2019predicting}. As can be seen, in two of the three colour conditions, we are unable to distinguish between best feature, collinear or orthogonal contrast models.}}{10}}
+\newlabel{fig:comp_rep_conditions}{{3}{10}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Calculating the logarithmic slope parameter, $D_i$}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces (\textit  {top}) The shaded regions show the model's estimate ($53\%$ and $97\%$ intervals) of the average participant's mean reaction time, while the points show the empircal mean reaction time. (\textit  {bottom}): The shaded regions now indicate the distribution of reaction times (over a new simulated group of participants) generated by the model. The points now represent the 100 quantiles from the empirical data.}}{11}}
+\newlabel{fig:buetti2019_a1}{{4}{11}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}Estimating $D_{c,s}$, the logarithmic slope parameter for compound features}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces (\textit  {top}) Posterior probability density functions for each $D_c$ and $D_s$ in Experiment 1. As with the original TCS model, when searching for a blue semicircle, triangular distractors are the hardest, while yellow and orange distractors are the eaiest.) (\textit  {bottom}) Predicting $D_{c,s}$ from $D_c$ and $D_s$. Crosshairs indicate $97.5$ HPDI for estimates and predictions, while the pink region shows the HPDI for the best fit line. }}{12}}
+\newlabel{fig:buetti2019_D}{{5}{12}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces A table of $R^2$ values}}{12}}
+\newlabel{tab:reimp_D_r2}{{3}{12}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.3}Estimating other parameters and predicting reaction times}{12}}
 \citation{buetti2019predicting}
 \citation{buetti2019predicting}
 \citation{buetti2019predicting}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Planned Explorations}{14}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}General Methods}{14}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Sample Size: Participants and Trials}{14}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Stimuli}{14}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces (\textit  {left}) HPDI and empirical mean reaction times for each condition in Experiment 2, using the collinear contrast integration model to predict D values. (\textit  {right}) Similar, for the full distribution of reaction times over trials. }}{13}}
+\newlabel{fig:buetti2019_rt}{{6}{13}}
+\citation{buetti2019predicting}
+\citation{buetti2019predicting}
+\citation{buetti2019predicting}
+\citation{buetti2019predicting}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Discussion}{14}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Hypotheses}{14}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Proposed Modifications to Experimental Design}{14}}
+\citation{buetti2019predicting}
+\citation{buetti2019predicting}
+\citation{buetti2019predicting}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Registered Hypothesis}{15}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Planned Explorations}{15}}
+\citation{buetti2019predicting}
+\citation{buetti2019predicting}
 \citation{buetti2019predicting}
 \citation{peirce2019psychopy2}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Simulation sensitivity analysis, showing the 97\% HPDI width for the blue distractor condition in a shifted lognormal model, across different numbers of trials and participants. }}{15}}
-\newlabel{fig:power_plot}{{7}{15}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}General Methods}{16}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Sample Size: Participants and Trials}{16}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Stimuli}{16}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Simulation sensitivity analysis, showing the 97\% HPDI width for the blue distractor condition in a shifted lognormal model, across different numbers of trials and participants. }}{17}}
+\newlabel{fig:power_plot}{{7}{17}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Procedure}{17}}
 \bibstyle{plainnat}
 \bibdata{sources}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Procedure}{16}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Data Pre-processing}{16}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Analysis Plan}{16}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Results}{16}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}General Discussion}{16}}
-\bibcite{buetti2016towards}{{1}{2016}{{Buetti et~al.}}{{Buetti, Cronin, Madison, Wang, and Lleras}}}
-\bibcite{buetti2019predicting}{{2}{2019}{{Buetti et~al.}}{{Buetti, Xu, and Lleras}}}
-\bibcite{hulleman2017brink}{{3}{2017}{{Hulleman and Olivers}}{{}}}
-\bibcite{irons2016choosing}{{4}{2016}{{Irons and Leber}}{{}}}
-\bibcite{irons2018characterizing}{{5}{2018}{{Irons and Leber}}{{}}}
-\bibcite{itti2000saliency}{{6}{2000}{{Itti and Koch}}{{}}}
-\bibcite{itti1998model}{{7}{1998}{{Itti et~al.}}{{Itti, Koch, and Niebur}}}
-\bibcite{koch1987shifts}{{8}{1987}{{Koch and Ullman}}{{}}}
-\bibcite{koehler2014saliency}{{9}{2014}{{Koehler et~al.}}{{Koehler, Guo, Zhang, and Eckstein}}}
-\bibcite{lleras2019predicting}{{10}{2019}{{Lleras et~al.}}{{Lleras, Wang, Madison, and Buetti}}}
-\bibcite{lleras2020target}{{11}{2020}{{Lleras et~al.}}{{Lleras, Wang, Ng, Ballew, Xu, and Buetti}}}
-\bibcite{nowakowska2017human}{{12}{2017}{{Nowakowska et~al.}}{{Nowakowska, Clarke, and Hunt}}}
-\bibcite{parkhurst2002modeling}{{13}{2002}{{Parkhurst et~al.}}{{Parkhurst, Law, and Niebur}}}
-\bibcite{peirce2019psychopy2}{{14}{2019}{{Peirce et~al.}}{{Peirce, Gray, Simpson, MacAskill, H{\"o}chenberger, Sogo, Kastman, and Lindel{\o }v}}}
-\bibcite{tatler2007central}{{15}{2007}{{Tatler}}{{}}}
-\bibcite{tatler2011eye}{{16}{2011}{{Tatler et~al.}}{{Tatler, Hayhoe, Land, and Ballard}}}
-\bibcite{treisman1980feature}{{17}{1980}{{Treisman and Gelade}}{{}}}
-\bibcite{wang2017predicting}{{18}{2017}{{Wang et~al.}}{{Wang, Buetti, and Lleras}}}
-\bibcite{wolfe2014approaches}{{19}{2014}{{Wolfe}}{{}}}
-\bibcite{wolfe1989guided}{{20}{1989}{{Wolfe et~al.}}{{Wolfe, Cave, and Franzel}}}
-\bibcite{zhang2008sun}{{21}{2008}{{Zhang et~al.}}{{Zhang, Tong, Marks, Shan, and Cottrell}}}
+\bibcite{becker2010role}{{1}{2010}{{Becker}}{{}}}
+\bibcite{becker2014color}{{2}{2014}{{Becker et~al.}}{{Becker, Valuch, and Ansorge}}}
+\bibcite{buetti2016towards}{{3}{2016}{{Buetti et~al.}}{{Buetti, Cronin, Madison, Wang, and Lleras}}}
+\bibcite{buetti2019predicting}{{4}{2019}{{Buetti et~al.}}{{Buetti, Xu, and Lleras}}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Data Pre-processing}{18}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Analysis Plan}{18}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Results}{18}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}General Discussion}{18}}
+\bibcite{cave1990modeling}{{5}{1990}{{Cave and Wolfe}}{{}}}
+\bibcite{clarke2020stable}{{6}{2020}{{Clarke et~al.}}{{Clarke, Irons, James, Leber, and Hunt}}}
+\bibcite{hulleman2017brink}{{7}{2017}{{Hulleman and Olivers}}{{}}}
+\bibcite{irons2016choosing}{{8}{2016}{{Irons and Leber}}{{}}}
+\bibcite{irons2018characterizing}{{9}{2018}{{Irons and Leber}}{{}}}
+\bibcite{itti2000saliency}{{10}{2000}{{Itti and Koch}}{{}}}
+\bibcite{itti1998model}{{11}{1998}{{Itti et~al.}}{{Itti, Koch, and Niebur}}}
+\bibcite{koch1987shifts}{{12}{1987}{{Koch and Ullman}}{{}}}
+\bibcite{koehler2014saliency}{{13}{2014}{{Koehler et~al.}}{{Koehler, Guo, Zhang, and Eckstein}}}
+\bibcite{lleras2019predicting}{{14}{2019}{{Lleras et~al.}}{{Lleras, Wang, Madison, and Buetti}}}
+\bibcite{lleras2020target}{{15}{2020}{{Lleras et~al.}}{{Lleras, Wang, Ng, Ballew, Xu, and Buetti}}}
+\bibcite{madison2018role}{{16}{2018}{{Madison et~al.}}{{Madison, Lleras, and Buetti}}}
+\bibcite{ng2020prioritization}{{17}{2020}{{Ng et~al.}}{{Ng, Buetti, Patel, and Lleras}}}
+\bibcite{ng2018fixed}{{18}{2018}{{Ng et~al.}}{{Ng, Lleras, and Buetti}}}
+\bibcite{nowakowska2017human}{{19}{2017}{{Nowakowska et~al.}}{{Nowakowska, Clarke, and Hunt}}}
+\bibcite{parkhurst2002modeling}{{20}{2002}{{Parkhurst et~al.}}{{Parkhurst, Law, and Niebur}}}
+\bibcite{peirce2019psychopy2}{{21}{2019}{{Peirce et~al.}}{{Peirce, Gray, Simpson, MacAskill, H{\"o}chenberger, Sogo, Kastman, and Lindel{\o }v}}}
+\bibcite{tatler2007central}{{22}{2007}{{Tatler}}{{}}}
+\bibcite{tatler2011eye}{{23}{2011}{{Tatler et~al.}}{{Tatler, Hayhoe, Land, and Ballard}}}
+\bibcite{treisman1980feature}{{24}{1980}{{Treisman and Gelade}}{{}}}
+\bibcite{wang2017predicting}{{25}{2017}{{Wang et~al.}}{{Wang, Buetti, and Lleras}}}
+\bibcite{wolfe2014approaches}{{26}{2014}{{Wolfe}}{{}}}
+\bibcite{wolfe1989guided}{{27}{1989}{{Wolfe et~al.}}{{Wolfe, Cave, and Franzel}}}
+\bibcite{zhang2008sun}{{28}{2008}{{Zhang et~al.}}{{Zhang, Tong, Marks, Shan, and Cottrell}}}

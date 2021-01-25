@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This experiment was created using PsychoPy3 Experiment Builder (v2020.2.2),
-    on January 25, 2021, at 13:41
+This experiment was created using PsychoPy3 Experiment Builder (v2020.2.8),
+    on January 21, 2021, at 14:22
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -35,10 +35,10 @@ _thisDir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(_thisDir)
 
 # Store info about the experiment session
-psychopyVersion = '2020.2.2'
+psychopyVersion = '2020.2.8'
 expName = 'searchDisc3'  # from the Builder filename that created this script
 expInfo = {'participant': '', 'session': '001'}
-dlg = gui.DlgFromDict(dictionary=expInfo, sort_keys=False, title=expName)
+dlg = gui.DlgFromDict(dictionary=expInfo, sortKeys=False, title=expName)
 if dlg.OK == False:
     core.quit()  # user pressed cancel
 expInfo['date'] = data.getDateStr()  # add a simple timestamp
@@ -51,7 +51,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='C:\\Users\\Marcin\\Documents\\GitHub\\APP_VS\\psychopy_expt\\searchDiscPavlovia\\searchDisc3_lastrun.py',
+    originPath='C:\\Users\\Anna\\Documents\\APP_VS_git\\psychopy_expt\\searchDiscPavlovia\\searchDisc3_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -61,7 +61,7 @@ logging.console.setLevel(logging.WARNING)  # this outputs to the screen, not a f
 endExpNow = False  # flag for 'escape' or other condition => quit the exp
 frameTolerance = 0.001  # how close to onset before 'same' frame
 
-# Start Code - component code to be run before the window creation
+# Start Code - component code to be run after the window creation
 
 # Setup the Window
 win = visual.Window(
@@ -131,21 +131,14 @@ image_3 = visual.ImageStim(
 
 # Initialize components for Routine "fixation"
 fixationClock = core.Clock()
-key_resp_7 = keyboard.Keyboard()
-background = visual.Rect(
-    win=win, name='background',units='norm', 
-    width=(2,2)[0], height=(2,2)[1],
-    ori=0, pos=(0, 0),
-    lineWidth=1, lineColor=[1,1,1], lineColorSpace='rgb',
-    fillColor=[-1,-1,-1], fillColorSpace='rgb',
-    opacity=1, depth=-1.0, interpolate=True)
 fix = visual.ShapeStim(
     win=win, name='fix', vertices='cross',units='norm', 
     size=(0.03, 0.05),
     ori=0, pos=(0, 0),
     lineWidth=1, lineColor=[1,1,1], lineColorSpace='rgb',
     fillColor=[1,1,1], fillColorSpace='rgb',
-    opacity=1, depth=-2.0, interpolate=True)
+    opacity=1, depth=0.0, interpolate=True)
+key_resp_7 = keyboard.Keyboard()
 
 # Initialize components for Routine "practiceTrials"
 practiceTrialsClock = core.Clock()
@@ -559,7 +552,7 @@ for thisTrial_2 in trials_2:
     key_resp_7.rt = []
     _key_resp_7_allKeys = []
     # keep track of which components have finished
-    fixationComponents = [key_resp_7, background, fix]
+    fixationComponents = [fix, key_resp_7]
     for thisComponent in fixationComponents:
         thisComponent.tStart = None
         thisComponent.tStop = None
@@ -581,6 +574,15 @@ for thisTrial_2 in trials_2:
         tThisFlipGlobal = win.getFutureFlipTime(clock=None)
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
         # update/draw components on each frame
+        
+        # *fix* updates
+        if fix.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+            # keep track of start time/frame for later
+            fix.frameNStart = frameN  # exact frame index
+            fix.tStart = t  # local t and not account for scr refresh
+            fix.tStartRefresh = tThisFlipGlobal  # on global time
+            win.timeOnFlip(fix, 'tStartRefresh')  # time at next scr refresh
+            fix.setAutoDraw(True)
         
         # *key_resp_7* updates
         waitOnFlip = False
@@ -604,32 +606,6 @@ for thisTrial_2 in trials_2:
                 # a response ends the routine
                 continueRoutine = False
         
-        # *background* updates
-        if background.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
-            # keep track of start time/frame for later
-            background.frameNStart = frameN  # exact frame index
-            background.tStart = t  # local t and not account for scr refresh
-            background.tStartRefresh = tThisFlipGlobal  # on global time
-            win.timeOnFlip(background, 'tStartRefresh')  # time at next scr refresh
-            background.setAutoDraw(True)
-        if background.status == STARTED:
-            # is it time to stop? (based on global clock, using actual start)
-            if tThisFlipGlobal > background.tStartRefresh + 2-frameTolerance:
-                # keep track of stop time/frame for later
-                background.tStop = t  # not accounting for scr refresh
-                background.frameNStop = frameN  # exact frame index
-                win.timeOnFlip(background, 'tStopRefresh')  # time at next scr refresh
-                background.setAutoDraw(False)
-        
-        # *fix* updates
-        if fix.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
-            # keep track of start time/frame for later
-            fix.frameNStart = frameN  # exact frame index
-            fix.tStart = t  # local t and not account for scr refresh
-            fix.tStartRefresh = tThisFlipGlobal  # on global time
-            win.timeOnFlip(fix, 'tStartRefresh')  # time at next scr refresh
-            fix.setAutoDraw(True)
-        
         # check for quit (typically the Esc key)
         if endExpNow or defaultKeyboard.getKeys(keyList=["escape"]):
             core.quit()
@@ -651,6 +627,8 @@ for thisTrial_2 in trials_2:
     for thisComponent in fixationComponents:
         if hasattr(thisComponent, "setAutoDraw"):
             thisComponent.setAutoDraw(False)
+    trials_2.addData('fix.started', fix.tStartRefresh)
+    trials_2.addData('fix.stopped', fix.tStopRefresh)
     # check responses
     if key_resp_7.keys in ['', [], None]:  # No response was made
         key_resp_7.keys = None
@@ -659,10 +637,6 @@ for thisTrial_2 in trials_2:
         trials_2.addData('key_resp_7.rt', key_resp_7.rt)
     trials_2.addData('key_resp_7.started', key_resp_7.tStartRefresh)
     trials_2.addData('key_resp_7.stopped', key_resp_7.tStopRefresh)
-    trials_2.addData('background.started', background.tStartRefresh)
-    trials_2.addData('background.stopped', background.tStopRefresh)
-    trials_2.addData('fix.started', fix.tStartRefresh)
-    trials_2.addData('fix.stopped', fix.tStopRefresh)
     # the Routine "fixation" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
     

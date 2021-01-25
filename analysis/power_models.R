@@ -27,10 +27,21 @@ my_f <- bf(rt ~ 1 + log(N_T+1) + (1|p_id),
 
 orig_model <- readRDS("models/exp_1_sft.models")
 
-#n <- list(peeps = 100, trials = 6)
 
+get_orig_w <- function(d) {
+  
+  model_params <- set_up_model(1, "shifted_lognormal")
+  model_params$my_formula <- my_f
+  model_params$df <- d
+  m <- run_model(model_params, ppc = "no")
+  h <- hdci(posterior_samples(m, "logN_TP1"), 0.97)
+  w_orig <- h[2] - h[1]
+  return(w_orig)
+  
+  
+}
 
-
+w_orig <- get_orig_w(d)
 
 
 get_hdpi_for_subsample <- function(n) {
@@ -63,6 +74,8 @@ samples$w <- w
 
 d_mean <- 0.18
 
+o_prop <- w_orig/d_mean
+
 samples$w_prop <- w/d_mean
 samples$peeps <- factor(samples$peeps)
 
@@ -72,5 +85,5 @@ samples <- samples %>%
 plt_power <- ggplot(samples, aes(trials, w_prop, colour = peeps)) + geom_point() + geom_line() + theme_bw() + xlab("Number of samples") + 
   ylab("HDPI width as a proportion of slope")
 
-ggsave("../plots/power_plot.pdf", plt_power, width = 8, height = 8)
+ggsave("../plots/power_plot.pdf", plt_power, width = 4, height = 4)
 
