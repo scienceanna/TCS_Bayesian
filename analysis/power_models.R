@@ -82,7 +82,10 @@ samples$peeps <- factor(samples$peeps)
 samples <- samples %>%
   filter(w_prop < 1)
 
-plt_power <- ggplot(samples, aes(trials, w_prop, colour = peeps)) + geom_point() + geom_line() + theme_bw() + xlab("Number of samples") + 
+plt_power <- ggplot(samples, aes(trials, w_prop, colour = peeps)) + geom_point() + 
+  geom_line() + geom_hline(yintercept = o_prop, linetype = "dashed") +
+  annotate("text", label = "X", x = 40, y = 0.14683205, size = 6) +
+  theme_bw() + xlab("Number of samples") + 
   ylab("HDPI width as a proportion of slope")
 
 ggsave("../plots/power_plot.pdf", plt_power, width = 4, height = 4)
