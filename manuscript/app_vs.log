@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2019.10.9)  13 JAN 2021 17:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2019.10.9)  27 JAN 2021 10:47
 entering extended mode
 **./app_vs.tex
 (app_vs.tex
@@ -483,11 +483,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 312--313
  []
 
 [15]
-<../plots/power_plot.pdf, id=122, 578.16pt x 578.16pt>
+<../plots/power_plot.pdf, id=122, 289.08pt x 289.08pt>
 File: ../plots/power_plot.pdf Graphic file (type pdf)
 <use ../plots/power_plot.pdf>
 Package pdftex.def Info: ../plots/power_plot.pdf  used on input line 331.
-(pdftex.def)             Requested size: 338.0pt x 337.99727pt.
+(pdftex.def)             Requested size: 338.0pt x 338.01932pt.
  [16] [17 <../plots/power_plot.pdf>] (app_vs.bbl [18]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -500,7 +500,7 @@ Here is how much of TeX's memory you used:
  7011 multiletter control sequences out of 15000+200000
  40468 words of font info for 83 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,9n,27p,1519b,370s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,9n,27p,1519b,362s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/d
 vips/base/8r.enc}<C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/p
 ublic/amsfonts/cm/cmex10.pfb><C:/Users/Anna/AppData/Local/Programs/MiKTeX 2.9/f
@@ -512,7 +512,7 @@ a/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Users/A
 nna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/User
 s/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/U
 sers/Anna/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on app_vs.pdf (20 pages, 754512 bytes).
+Output written on app_vs.pdf (20 pages, 754391 bytes).
 PDF statistics:
  174 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

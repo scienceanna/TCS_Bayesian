@@ -324,7 +324,7 @@ We plan to investigate the effect of individual differences in this paradigm: to
 
 To determine our sample size, we carried out a simulation study to estimate the effect of reducing the number of trials and increasing the number of participants on our ability to accurately measure the $D_i$. While our reanalysis of \cite{buetti2019predicting}'s data is unable to distinguish between the three models of contrast combination, we believe that this is due to the feature values used in their study, rather than low statistical power from sampling (see above and Figure \ref{fig:comp_rep_conditions}). Therefore, we will base our sensitivity analysis around the width of the $97\%$ HPDI when estimating $D_{\text{blue}}$. We have chosen to look at this single feature level as it is clear from above that the blue distractor trials offer greater discrimination between the three contrast models.
 
-We carried out our simulation sensitivity analysis by generating synthetic data from the shifted lognormal model outlined in Section \ref{sec:reanalysis}, Figure \ref{fig:buetti2019_a1}, for the blue distractor conditions. This was done for several different sample sizes, both in terms of number of trials and number of participants. For each synthetic dataset, we then refit the model and calculated the width of the $97\%$ HPDI (see Figure \ref{fig:power_plot}). F
+We carried out our simulation sensitivity analysis by generating synthetic data from the shifted lognormal model outlined in Section \ref{sec:reanalysis}, Figure \ref{fig:buetti2019_a1}, for the blue distractor conditions. This was done for several different sample sizes, both in terms of number of trials and number of participants. For each synthetic dataset, we then refit the model and calculated the width of the $97\%$ HPDI (see Figure \ref{fig:power_plot}).
 
 \begin{figure}
 \centering
@@ -333,7 +333,7 @@ We carried out our simulation sensitivity analysis by generating synthetic data 
 \label{fig:power_plot}
 \end{figure}
 
-As we are moving from the within-subjects design used by \cite{buetti2019predicting} to a within-subjects design in which each participant sees all combinations of features, we prefer to decrease the number of trials per person $\times$ condition from 40 to six. Increasing the number of participants from 20 to 80 will allow us to maintain sufficient accurcay in the estimating of logarithmic search slopes. 
+As we are moving from the within-subjects design used by \cite{buetti2019predicting} to a within-subjects design in which each participant sees all combinations of features, we prefer to decrease the number of trials per person $\times$ condition from 40 to six. Increasing the number of participants from 20 to 150 will allow us to maintain sufficient accuracy in the estimating of logarithmic search slopes. 
 
 Ethics?
 
@@ -345,23 +345,23 @@ The targets and distractors were randomly assigned to the display based on an in
 
 \textbf{Set sizes:} we ran all the distractor set sizes used in \cite{buetti2019predicting} (1, 4, 9, 19 and 31) along with an extra condition with more distractors (43). We also ran target-only 'zero distractor' trials (30 in total, with 6 being the white semicircle target and the remainder the light blue semicircle target).
 
-The experiments were programmed in PsychoPy and Pavlovia \cite{peirce2019psychopy2}. Stimuli were pre-made offline to generate search array images with 1920 x 1080 resolution. [Need to add something here about target/distractor sizes at this resolution? Obviously potentially not really that useful for online experiments though...]
+The experiments were programmed in PsychoPy and Pavlovia \cite{peirce2019psychopy2}. Stimuli were pre-made offline to generate search array images with 1920 x 1080 resolution. At this resolution, and at a viewing distance of 57cm, the targets subtended approximately 0.5 degrees of visual angle. However, given the experiment was presented online, the exact size of the targets and array would have varied with the viewing distance of the participants and the resolution of their screens.
 
 \subsection{Procedure}
 
-Participants initially viewed a fixation cross for Xms before viewing a search array. Participants were told to search for the target among distractors and report if the semicircle target pointed to the left or right, by pressing either the '1' or '2' key respectively on their keyboard. They first completed 20 practice trials  where they received feedback immediately after completing each trial. In the real experimental trials, participants received feedback on their average accuracy and reaction time after each block of 30 trials. Participants  completed 19 blocks of trials (570 trials overall) with the order of the stimuli being fully randomised.
+Participants initially viewed a fixation cross before viewing a search array: they pressed the space bar to continue to the trial. We decided to allow participants to complete the experiment in this self-paced manner because of the online nature of the experiment. Participants were told to search for the target among distractors and report if the semicircle target pointed to the left or right, by pressing either the '1' or '2' key respectively on their keyboard. They first completed 20 practice trials where they received feedback immediately after completing each trial. In the real experimental trials, participants received feedback on their average accuracy and reaction time after each block of 30 trials. Participants  completed 19 blocks of trials (570 trials overall) with the order of the stimuli being fully randomised.
  
-In both the practice and experimental trials, the search display always remained on screen until a response was made, or until 5 seconds had passed. The inter-trial interval was Xms.
+In both the practice and experimental trials, the search display always remained on screen until a response was made, or until 5 seconds had passed. 
 
 \subsection{Data Pre-processing}
 
-In the original paper, there were inclusion criteria: search accuracy over 90\% and individual average response times smaller than two standard deviations from the group average response time. Even in a lab set up, this normally led to at least one or two participants being excluded. Do we need something similar? More stringent?
+Only participants who complete the full experiment will be considered candidates for inclusion in the data analysis. We will apply the same inclusion criteria as the original paper: search accuracy over 90\% and individual average response times smaller or larger than two standard deviations from the group average response time. 
 
-incorrect trials? Poorly behaved participants? RTs that are far too short? Or far too long?
+For participants included in the analysis, we will apply the data cleaning used in Section \ref{sec:reanalysis} i.e. removing the top and bottom 1\% of their data.
 
 \subsection{Analysis Plan}
 
-We will follow the analysis given in Section \ref{sec:reanalysis}.
+We will follow the analysis given in Section \ref{sec:reanalysis}. Full details of the code used are provided in the \textit{Supplementary Material}.
 
 
 \section{Results}
@@ -371,8 +371,10 @@ We will follow the analysis given in Section \ref{sec:reanalysis}.
 
 
 \section{General Discussion}
+\begin{center}
+\textit{-- blank --}
+\end{center}
 
-Is discriminating between the different models one of our aims? Or is this a discussion point i.e. it's quite hard to do? And therefore maybe a follow up paper?
 
 
 \begin{acknowledgements}
