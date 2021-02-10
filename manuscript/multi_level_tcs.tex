@@ -8,32 +8,40 @@
 \usepackage{tabularx}
 
 
-%\journal{Cortex} 
+\journal{Cortex} 
 
 \begin{document}
 
 \begin{frontmatter}
 
-\title{Bayesian multi-level modelling for predicting single and double feature visual search\thanks{ESRC grant?}
-}
+\title{Bayesian multi-level modelling for predicting single and double feature visual search}
 
-\author[1]{Anna E. Hughes}
+\author[inst1]{Anna E. Hughes}
+\author[2]{Anna Nowakowska}
+\author[1]{Alasdair D. F. Clarke}
 
+\address[inst1]{Department of Psychology,%Department and Organization
+            University of Essex, 
+            city={Colchester},
+            postcode,
+            UK}
+
+\address[2]{School of Psychology,%Department and Organization
+            University of Aberdeen, 
+            Aberdeen,
+            postcode,            
+            UK}
 
 \begin{abstract}
 Performance in visual search tasks is frequently summarised by ``search slopes'' - the additional cost in reaction time for each additional distractor. While search tasks with a shallow search slopes are termed efficient (pop-out, parallel, feature), there is no clear dichotomy between efficient and inefficient (serial, conjunction) search. Indeed, a range of search slopes are observed in empirical data. The Target Contrast Signal (TCS) Theory is a rare example of quantitative model that attempts to predict search slopes for efficient visual search. In particular, the search slope in a double-feature search (where the target differs in both colour and shape from the distractors) can be estimated from the slopes of the associated single-feature searches. This estimating is done be using a contrast combination model, and previous work shows that a collinear contrast integration model outperformed other options. In our work, we extend the TCS to a Bayesian multi-level framework. We demonstrate that moving from using a normal distribution to a shifted-lognormal allows for a better fit of previously published data, and in doing so, we show that previous datasets are not sufficient to distinguish between the various contrast combination models that had been considered. We will conduct experiments that attempt to replicate the key original findings, with some changes to help distinguish between theories. 
 \end{abstract}
 
 
-%
-
 \begin{keyword}
 Visual search \sep  Efficient search \sep Parallel processing
 \end{keyword}
 
 \end{frontmatter}
-
-
 
 
 \section{Introduction}
@@ -91,7 +99,7 @@ While results to date for TCS appear promising, bhere remains a great deal of sc
 
 In the current manuscript, we focus on replicating and extending findings from \cite{buetti2019predicting}. In their study, participants searched for a target in a scene of homogeneous distractors (see Figure \ref{fig:buetti2019_stimulus}). First, parallel search efficiency (measured by the logarithmic search slope) was estimated for cases where the distractors varied from the target in one dimension: either colour (e.g. a cyan target being searched for in either yellow, blue or orange distractors) or shape (e.g. a semicircle target in either circle, diamond or triangle distractors). New participants then searched for the same targets in displays where the distractors were compounds, differing from the target in both colour and shape (e.g. searching for a cyan semicircle in either blue circles, orange diamonds or yellow triangles). The logarithmic search slopes in the initial experiments were then used to predict the logarithmic slopes and reaction times using a number of models. The authors found that the best model was a 'collinear contrast integration model' where the distinctiveness scores were summed along each attribute in the unidimensional experiments, creating an overall contrast score that was used for compound stimuli predictions.
 
-\begin{figure}
+\begin{figure}[ht]
 \centering
 \includegraphics[width=\textwidth]{../plots/example_stimuli_figure.pdf}
 \caption{Example stimuli from \cite{buetti2019predicting} Top left: Expt 1A. Here, the target is a blue semicircle within a set of homogeneous (yellow semicircle) distractors. Top right: Expt 1B. The target is a grey semicircle in circular grey distractors. Bottom left: Expt 2A. The target is a blue semicircle in orange diamond distractors. Bottom middle: Expt 2B. The target is a blue semicircle in dark blue triangle distractors. Bottom right: Expt 2C. The target is a blue semicircle in yellow circular distractors.}
@@ -118,7 +126,7 @@ Experiments 1a and 1b (referred to jointly as Experiment 1) were used to calcula
 
 Fitting the model specified in Equation \ref{eq:loglin} to the data, we obtain the values for $D_c$ and $D_s$ given in Table \ref{tab:reimp_Dc_Ds}. As can be seen, the more similar the distractors are to the target, the steeper the slope parameter is. 
 
-\begin{table}[h]
+\begin{table}[th]
 \centering
 \begin{tabular}{ ccc|ccc } 
 feature & $D_c$ & $a$ & feature & $D_s$ & $a$\\
