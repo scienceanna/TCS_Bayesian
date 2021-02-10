@@ -1,62 +1,40 @@
-%\documentclass{svjour3}                     % onecolumn (standard format)
-%\documentclass[smallcondensed]{svjour3}     % onecolumn (ditto)
-\documentclass[smallextended, natbib]{svjour3}       % onecolumn (second format)
-%\documentclass[twocolumn]{svjour3}          % twocolumn
-%
-\smartqed  % flush right qed marks, e.g. at end of proof
-%
+\documentclass[preprint,12pt,authoryear]{elsarticle}     
+\usepackage{amssymb}
 \usepackage{graphicx}
-%\usepackage{cite},
 \usepackage{amsmath}
 \usepackage{mathptmx}  
 \usepackage{subfigure}    % use Times fonts if available on your TeX system
 %\usepackage{natbib}
 \usepackage{tabularx}
-%
-% insert here the call for the packages your document requires
-%\usepackage{latexsym}
-% etc.
-% please place your own definitions here and don't use \def but
-% \newcommand{}{}
-%B
-% Insert the name of "your journal" with
-% \journalname{myjournal}
-%
+
+
+%\journal{Cortex} 
+
 \begin{document}
+
+\begin{frontmatter}
 
 \title{Bayesian multi-level modelling for predicting single and double feature visual search\thanks{ESRC grant?}
 }
-\subtitle{Replication and Generalisation of the Target Contrast Signal Theory}
 
-\titlerunning{Testing the TCS Theory}        % if too long for running head
+\author[1]{Anna E. Hughes}
 
-\author{Anna E. Hughes \and Anna Nowakowska \and Alasdair D. F. Clarke}
-
-%\authorrunning{Short form of author list} % if too long for running head
-
-\institute{F. Author \at
-              first address \\
-              Tel.: +123-45-678910\\
-              Fax: +123-45-678910\\
-              \email{fauthor@example.com}           %  \\
-%             \emph{Present address:} of F. Author  %  if needed
-           \and
-           S. Author \at
-              second address
-}
-
-\date{Received: date / Accepted: date}
-% The correct dates will be entered by the editor
-
-\maketitle
 
 \begin{abstract}
 Performance in visual search tasks is frequently summarised by ``search slopes'' - the additional cost in reaction time for each additional distractor. While search tasks with a shallow search slopes are termed efficient (pop-out, parallel, feature), there is no clear dichotomy between efficient and inefficient (serial, conjunction) search. Indeed, a range of search slopes are observed in empirical data. The Target Contrast Signal (TCS) Theory is a rare example of quantitative model that attempts to predict search slopes for efficient visual search. In particular, the search slope in a double-feature search (where the target differs in both colour and shape from the distractors) can be estimated from the slopes of the associated single-feature searches. This estimating is done be using a contrast combination model, and previous work shows that a collinear contrast integration model outperformed other options. In our work, we extend the TCS to a Bayesian multi-level framework. We demonstrate that moving from using a normal distribution to a shifted-lognormal allows for a better fit of previously published data, and in doing so, we show that previous datasets are not sufficient to distinguish between the various contrast combination models that had been considered. We will conduct experiments that attempt to replicate the key original findings, with some changes to help distinguish between theories. 
-
-\keywords{Visual search \and  Efficient search \and Parallel processing}
-% \PACS{PACS code1 \and PACS code2 \and more}
-% \subclass{MSC code1 \and MSC code2 \and more}
 \end{abstract}
+
+
+%
+
+\begin{keyword}
+Visual search \sep  Efficient search \sep Parallel processing
+\end{keyword}
+
+\end{frontmatter}
+
+
+
 
 \section{Introduction}
 \label{intro}
@@ -377,9 +355,6 @@ We will follow the analysis given in Section \ref{sec:reanalysis}. Full details 
 
 
 
-\begin{acknowledgements}
-Thank you to AL for help and encouragement! 
-\end{acknowledgements}
 
 % Authors must disclose all relationships or interests that 
 % could have direct or potential influence or impart bias on 
