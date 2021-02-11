@@ -1,3 +1,6 @@
+# this script basically mirrors the sup mat Rmd, but makes (and formats) the
+# figures that we want to include in the main paper. 
+
 library(tidyverse)
 library(brms)
 library(tidybayes)
@@ -10,13 +13,13 @@ theme_set(see::theme_lucid())
 # use parallel cores for mcmc chains!
 options(mc.cores = parallel::detectCores())
 
-# functions used for the analysis reimplementation
-source("scripts/reimplementation.R")
+# functions used for the analysis re-implementation
+source("reimplementation.R")
 
 # functions used for our Bayesian re-analysis
-source("scripts/our_functions.R")
+source("our_functions.R")
 
-source("scripts/import_and_tidy.R")
+source("import_and_tidy.R")
 
 ###################################################
 ## Computational Replication of Buetti et al (2019)
