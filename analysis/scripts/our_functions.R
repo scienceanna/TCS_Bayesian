@@ -209,7 +209,7 @@ plot_ribbon_quantiles <- function(d_hdci, d_plt, y_limits, n_row, plot_type, dot
     facet_wrap( ~ d_feature, nrow = n_row) + 
     # scale_fill_brewer(palette = "Greys") + 
     scale_x_continuous(TeX("$N_T$")) + 
-    scale_y_continuous("reaction time (seconds)", expand = c(0,0)) +
+    scale_y_continuous("rt (seconds)", expand = c(0,0)) +
     coord_cartesian(ylim = y_limits) -> plt
   
   return(plt)
