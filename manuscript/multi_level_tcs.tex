@@ -229,14 +229,15 @@ The $R^2$ values for the three approaches are shown in Table \ref{tab:reimp_D_r2
 
 \begin{table}[h]
 \centering
-\begin{tabular}{ c|cc|ccc|c } 
-Method & Intercept & Slope & $R^2$ & $R^2$ Lower & $R^2$ Upper & Model Weight\\
+\begin{tabular}{ c|cc|ccc|cc } 
+Method & Intercept & Slope & $R^2$ & $R^2$ Lower & $R^2$ Upper & MW(3) & MW(4) \\
  \hline 
-best feature & 0.003 & 0.831 & 0.752 & 0.545 & 0.927 & 34.0\%\\ 
-orthogonal contrast & -0.019 & 1.206 & 0.856 & 0.739 & 0.944 & 33.6\%\\ 
-collinear & -0.034 & 1.814	& 0.901 & 0.824 & 0.963 & 32.4\%\\
+best feature & 0.003 & 0.831 & 0.752 & 0.545 & 0.927 & 34.0\% & 25.3\%\\ 
+orthogonal contrast & -0.019 & 1.206 & 0.856 & 0.739 & 0.944 & 33.6\% & 24.7\%\\ 
+collinear & -0.034 & 1.814	& 0.901 & 0.824 & 0.963 & 32.4\% & 24.3\%\\
+linear transform & 0.000 & 1.006 & 0.917 & 0.852 & 0.974 & - & 25.7\%\\
 \end{tabular}
-\caption{A table to show the logarithmic slope parameters for the three different models (best feature, orthogonal contrast and collinear contrast) along with the $R^2$ values for the three approaches, and the model weights based on bridge sampling.}
+\caption{A table to show the logarithmic slope parameters for the four different models (best feature, orthogonal contrast, collinear contrast and linear transform) along with the $R^2$ values for the four approaches, and the model weights (MW) based on bridge sampling for a) the three original models MW(3) and b) the three original models plus the linear transform model MW(4).}
 \label{tab:reimp_D_r2}
 \end{table}
 
