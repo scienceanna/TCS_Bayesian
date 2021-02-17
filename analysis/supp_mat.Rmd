@@ -1,7 +1,6 @@
 ---
-title: "Implementing Buetti et al(2019)"
+title: "Supplementary Materials"
 author: "ADF Clarke and AE Hughes"
-date: "24/08/2020"
 output: bookdown::html_document2
 ---
 
@@ -30,41 +29,29 @@ theme_set(see::theme_abyss())
 # use parallel cores for mcmc chains!
 options(mc.cores = parallel::detectCores())
 
-# functions used for the analysis reimplementation
-source("scripts/reimplementation.R")
+# reduce the number of decimal places
+options(digits = 3)
 
 # functions used for our Bayesian re-analysis
 source("scripts/our_functions.R")
 
 ```
 
-## Importing
+We will import data from all experiments. While we're at it, we will remove error trials.
 
-We will import all experiments. While we're at it, we will remove error trials and very very short responses.
-
-*What about very very long RTs? I'm not sure if there is a good reason to, or obvious cut off? Unlike for short Rts, in which values == 0 are mathematically impossible, and values <10ms are implausible. 
-
-We'll make a few minor changes to the data:
-  - Switch from ms to seconds
-  - Recode Experiment 1a and 1b to Experiment 1, Experiment 2a, 2b and 2c to Experiment 2, etc.
-  - Remove the bottom and top 1% of data
-  
-  
 ```{r import-data}
 source("scripts/import_and_tidy.R")
+summary(d)
 ```
-
-Do we want to register any other exclusion criteria? 
-- min accuracy per participant?
-- overly long RTs? 
-- overly slow participants?
-- incomplete data (i.e., did not complete the experiment)
-
-[we would expect the data to be noisier due to online... so should build in some data quality checks]
 
 # Computational Replication of Buetti et al (2019)
 
-Before doing anything else (i.e., new), we want to confirm that we can replicate the original analysis.
+Before doing anything else (i.e., new), we want to confirm that we can replicate the original analysis. This section walks through the original analysis.
+
+```{r}
+# functions used for the analysis reimplementation
+source("scripts/reimplementation.R")
+```
 
 ## Calculating $D$
 
@@ -102,11 +89,7 @@ left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
   scale_y_continuous("empirical D")
 ```
 
-```{r}
-knitr::kable(De)
-```
-
-And compute $R^2$
+Now we compute $R^2$ to get a measure of how well $D_p$ predict the $D_e$, calculated for each method and each set of experiments, as well as an overall measure. 
 
 ```{r}
 Dp_tmp <- left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
@@ -128,8 +111,8 @@ for (e_id in exps_to_predict) {
  for (meth in unique(Dp_tmp$method)) {
   df <- filter(Dp_tmp, method == meth)
   r2 <- summary(lm(D ~ Dp, data = df))$r.squared
-  print(meth)
-  print(summary(lm(D ~ Dp, data = df))$r.squared)
+  # print(meth)
+  # print(summary(lm(D ~ Dp, data = df))$r.squared)
   df_r2 <- add_row(df_r2, 
                  exp_id = "all", method = meth, r2 = r2)
  }
@@ -141,13 +124,15 @@ rm(df_r2, Dp_tmp)
 
 ```
 
+The values in the *all* column match those given in Figure 4 (top) (Buetti et al, 2019).
+
 ## Predicting Reaction Times
 
 $L$ indicates the number of distractor types present in the display, $N_T$ is the total number of distractors, $N_i$ is the number of distractors of type $i$, $D_j$ indicates the logarithmic slope parameters associated with distractor of type $j$ (organized from smallest $D_1$ to largest $D_L$). Note that the $D$ parameter is the one that increases with increasing target-distractor similarity.
 
 The constant a represents the reaction time when the target is alone in the display. Inter-item interactions were indexed by the multiplicative factor $\beta$. Finally, the index function $1_{[2, \infty)} (j)$ indicates that the sum over Ni only applies when there are at least two different types of lures in the display $(j > 1)$. When $j = 1$, the second sum is zero.
 
-```{r pred-rt-replication, fig.width = 4, fig.cap="Computational Replication of RT predictions."}
+```{r pred-rt-replication, fig.width = 4.5, fig.asp=1, fig.cap="Computational Replication of RT predictions."}
 
 rt_pred <- map_dfr(exps_to_predict, predict_rt)
 
@@ -159,14 +144,14 @@ d %>% filter(exp_id %in% exps_to_predict) %>%
 	left_join(rt_pred, by = c("exp_id", "d_feature", "N_T")) %>% 
 	ggplot(aes(x = p_rt, y = mean_rt)) + 
   geom_point(color = "yellow1", alpha = 0.5) + 
-  geom_abline() + 
+  geom_abline(linetype = 2, colour = "cyan") + 
   geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
   scale_x_continuous("predicted reaction time (ms)") +
   scale_y_continuous("empirical mean reaction time (ms)")
 
 ```
+This should match Figure 4 (bottom right) in Buetti et al (2019). As a final check that we correctly understand the TCS model and have repimplmented it correctly, we can calcualte the $R^2$ between predicted and empirical reaction times. 
 
-Compute correlation!
 ```{r}
 d %>% filter(exp_id %in% exps_to_predict, N_T > 0) %>%
 	group_by(exp_id, p_id, d_feature, N_T) %>%
@@ -174,14 +159,11 @@ d %>% filter(exp_id %in% exps_to_predict, N_T > 0) %>%
 	group_by(exp_id,  d_feature, N_T) %>%
 	summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
 	left_join(rt_pred, by = c("exp_id", "d_feature", "N_T")) -> d_corr
-
-round(summary(lm(mean_rt ~ p_rt, d_corr))$r.squared,2)
-
 ```
-The $R^2= `r,round(summary(lm(mean_rt ~ p_rt, d_corr))$r.squared,2)`
+
+The $R^2=$ `r round(summary(lm(mean_rt ~ p_rt, d_corr))$r.squared,2)`, matching the value given in Buetti et al (2019).
 
 ```{r tidy-up}
-
 # remove variables we no longer need
 rm(De, Dp, rt_pred, exps_to_predict, 
    calc_D_per_feature, extract_a_value, predict_D_overall, gen_exp_predictions, extract_D, predict_rt, d_corr)
@@ -192,9 +174,10 @@ rm(De, Dp, rt_pred, exps_to_predict,
 Now that we have verified that we can re-create the original results, we switch to a Bayesian multi-level framework. We make the following important changes:
 
   - Modelling trial data, rather than pooled mean reaction time data. This allows us to fit a model that can generate data at the trial level, and account 
-  - Use a lognormal distribution for modelling reaction times, This allows us to avoid ever predicing impossible negative reaction times. It also helps us to account for the skew in the distribution
-  - We will switch from using milli-seconds to seconds. This leaves us with most values around 0.5-1seconds, which will help model fitting. I.e., a more standardised scale. 
-  
+  - Use lognormal and shifted-lognormal distributions for modelling reaction times, This allows us to avoid ever predicting impossible negative reaction times. It also helps us to account for the skew in the distribution
+  - We will switch from using milliseconds to seconds. This leaves us with most values around 0.5-1seconds, which will help model fitting. I.e., a more standardised scale. 
+  - Recode Experiment 1a and 1b to Experiment 1, Experiment 2a, 2b and 2c to Experiment 2, etc.
+- Remove the bottom and top 1% of data
   
 ```{r}
 # switch from ms to seconds
@@ -205,20 +188,20 @@ d <- our_changes_to_data(d)
 
 ## Measuring $D$ from Empirical Data
 
+The models discussed here have been fit in the `fit_models.R` script. In order to validate our choice of distribution, we will run our analysis using a (i) normal, (ii) lognormal, and (iii) shifted-lognormal model. Additionally, we will also consider a version of the shifted-lognormal model that is linear in $N_t$ (while all the other models are loglinear in $N_t$).
 
 ### Prior Predictions
 
-We can take the prior model, and then use it to compute our prior predictions!
+We can take the prior model, and then use it to compute our prior predictions.
 
 ```{r glmm-prior-sample}
 
   prior_model_nrl <- readRDS("models/prior_nrl.models")
   prior_model_log <- readRDS("models/prior_log.models")
   prior_model_sft <- readRDS("models/prior_sft.models")
-
 ```
 
-```{r plt-prior, fig.height=3, fig.cap="Sample Prior predictions for reaction time and log(N+1)."}
+```{r plt-prior, fig.height=2.5, fig.cap="Sample Prior predictions for reaction time and log(N+1)."}
 
 plt_nrl <- plot_model_fits_rt(1, prior_model_nrl, y_limits = c(-2, 10),feature2plot = "blue")
 plt_log <- plot_model_fits_rt(1, prior_model_log, y_limits = c(0, 10), feature2plot = "blue")
@@ -242,15 +225,41 @@ m_exp1_nrl <- readRDS("models/exp_1_nrl.models")
 m_exp1_log <- readRDS("models/exp_1_log.models")
 m_exp1_sft <- readRDS("models/exp_1_sft.models")
 m_exp1_sft_nolog <- readRDS("models/exp_1_sft_nolog.models")
-
 ```
 
-Calculate model weights to decide on best model...
+The plots before show our estimates for average participant to lie. The regions illustrate the distribution of reaction times estimated by our model. 
 
-(There's an additional model here for the shifted lognormal, using the model formula d_feature:(N_T + 1) rather than d_feature:log(N_T + 1))
+```{r plt-post, fig.height=10, fig.cap="Posterior predictions for reaction time and log(N+1)."}
+
+plt_nrl <- plot_model_fits_rt(1, m_exp1_nrl, plot_type = "fitted")
+plt_log <- plot_model_fits_rt(1, m_exp1_log, plot_type = "fitted")
+plt_sft <- plot_model_fits_rt(1, m_exp1_sft, plot_type = "fitted")
+plt_sft_nolog <- plot_model_fits_rt(1, m_exp1_sft_nolog, plot_type = "fitted")
+
+plt_nrl / plt_log / plt_sft / plt_sft_nolog
+
+rm(plt_nrl, plt_log, plt_sft, plt_sft_nolog)
+```
+We can see that all of our models give very similar relationship between $N_T$ and mean reaction time. In the next plot, we look at the model's predictions for the distribution of reaction times. 
 
 
-```{r model-weights, cache = TRUE}
+```{r plt-post-re, fig.height=10, fig.cap="Posterior predictions for reaction time and log(N+1)."}
+
+plt_nrl <- plot_model_fits_rt(1, m_exp1_nrl, plot_type = "predicted", y_limits = c(0, 2.5))
+plt_log <- plot_model_fits_rt(1, m_exp1_log, plot_type = "predicted", y_limits = c(0, 2.5))
+plt_sft <- plot_model_fits_rt(1, m_exp1_sft, plot_type = "predicted", y_limits = c(0, 2.5))
+plt_sft_nolog <- plot_model_fits_rt(1, m_exp1_sft_nolog, plot_type = "predicted", y_limits = c(0, 2.5))
+
+plt_nrl / plt_log / plt_sft / plt_sft_nolog
+
+rm(plt_nrl, plt_log, plt_sft, plt_sft_nolog)
+```
+
+### Model Comparison
+
+Load the model weights to decide on best model...
+
+```{r model-weights, cache=TRUE}
 
 loo_m_exp1_nrl <- readRDS("models/loo_m_exp1_nrl.rds")
 loo_m_exp1_log <- readRDS("models/loo_m_exp1_log.rds")
@@ -258,64 +267,44 @@ loo_m_exp1_sft <- readRDS("models/loo_m_exp1_sft.rds")
 loo_m_exp1_sft_nolog <- readRDS("models/loo_m_exp1_sft_nolog.rds")
 
 loo_list <- list(loo_m_exp1_nrl, loo_m_exp1_log, loo_m_exp1_sft, loo_m_exp1_sft_nolog)
-loo_model_weights(loo_list)
 
-bs_exp1_nrl <- bridge_sampler(m_exp1_nrl)
-bs_exp1_log <- bridge_sampler(m_exp1_log)
-bs_exp1_sft <- bridge_sampler(m_exp1_sft)
-bs_exp1_sft_nolog <- bridge_sampler(m_exp1_sft_nolog)
+tibble(model = c("normal", "lognormal", "shifted-lognormal", "linear in N_d"),
+       weight = as.double(loo_model_weights(loo_list))) %>% 
+  knitr::kable()
+```
 
-post_prob(bs_exp1_nrl, bs_exp1_log, bs_exp1_sft, bs_exp1_sft_nolog)
+These model weights strongly suggest that the shifted-lognormal model gives a better prediction than the lognormal or normal models. It also confirmed that we do want to keep the model loglinear in $N_T$.
 
+We will need to use the `bridge_sampler()` function later on, so let's use it here and verify that it gives the same results as `loo()`.
+
+```{r}
+bs_exp1_nrl <- bridge_sampler(m_exp1_nrl, silent = TRUE)
+bs_exp1_log <- bridge_sampler(m_exp1_log, silent = TRUE)
+bs_exp1_sft <- bridge_sampler(m_exp1_sft, silent = TRUE)
+bs_exp1_sft_nolog <- bridge_sampler(m_exp1_sft_nolog, silent = TRUE)
+
+tibble(model = c("normal", "lognormal", "shifted-lognormal", "linear in N_d"),
+       weight = post_prob(bs_exp1_nrl, bs_exp1_log, bs_exp1_sft, bs_exp1_sft_nolog)) %>% 
+  knitr::kable()
 
 ```
 
-The plots before show our estimates for average participant to lie. The regions illustrate the distribution of reaction times estimated by our model. 
-
-```{r plt-post, fig.height=7, fig.cap="Posterior predictions for reaction time and log(N+1)."}
-
-plt_nrl <- plot_model_fits_rt(1, m_exp1_nrl, plot_type = "fitted")
-plt_log <- plot_model_fits_rt(1, m_exp1_log, plot_type = "fitted")
-plt_sft <- plot_model_fits_rt(1, m_exp1_sft, plot_type = "fitted")
-
-plt_nrl / plt_log / plt_sft
-
-rm(plt_nrl, plt_log, plt_sft)
-```
-
-```{r plt-post-re, fig.height=7, fig.cap="Posterior predictions for reaction time and log(N+1)."}
-
-plt_nrl <- plot_model_fits_rt(1, m_exp1_nrl, plot_type = "predicted", y_limits = c(0, 2.5))
-plt_log <- plot_model_fits_rt(1, m_exp1_log, plot_type = "predicted", y_limits = c(0, 2.5))
-plt_sft <- plot_model_fits_rt(1, m_exp1_sft, plot_type = "predicted", y_limits = c(0, 2.5))
-
-plt_nrl / plt_log / plt_sft
-
-rm(plt_nrl, plt_log, plt_sft)
-```
+Both methods give the same result, which is good news! From now on, we will only consider the shifted-lognormal model, as it outperforms the other models that we have considered. 
 
 ### Fit Model and Posterior Predictions For Experiment 2, 3, and 4
 
 Now that we have decided what the best distribution to use is, we will fit the model to the data from Experiment 2. 
 
 ```{r glmm-compute-post-234}
-
-# m_exp2_nrl <- readRDS("models/exp_2_nrl.models")
-# m_exp2_log <- readRDS("models/exp_2_log.models")
+#load previously fitted models
 m_exp2_sft <- readRDS("models/exp_2_sft.models")
-# m_exp3_nrl <- readRDS("models/exp_3_nrl.models")
-# m_exp3_log <- readRDS("models/exp_3_log.models")
 m_exp3_sft <- readRDS("models/exp_3_sft.models")
-# m_exp4_nrl <- readRDS("models/exp_4_nrl.models")
-# m_exp4_log <- readRDS("models/exp_4_log.models")
 m_exp4_sft <- readRDS("models/exp_4_sft.models")
-
 ```
 
 ### Use these models to compute $D$
 
-note, remove ` subset = 1:1000` when we've re-ran models with equal number of 
-samples! (in the `extract_fixed_slopes_from_model()` function)
+Now we can compute $D$ by extracting the fixed effect slopes from the model for each experiment and condition.
 
 ```{r compute-D-1, fig.cap="Posterior estimates for $D$."}
 slopes1 <- extract_fixed_slopes_from_model(m_exp1_sft)
@@ -329,12 +318,17 @@ bind_rows(
   ggplot(aes(x= D, fill = d_feature)) + 
   geom_density(alpha = 0.5) +
   facet_wrap(~exp, nrow = 2)
-  
 ```
+
+We can see that we have a posterior probability distribution for each type of distracter in both experiment 1 and 3. 
 
 ## Estimating model parameters
 
+Now, we use the model fitted on experiment 1 (or 3) to predict the data in experiment 2 (or 4). I.e., can we predict $D$ for compound features based on the $D$$ values for the related single features. 
+
 ### $D$ for compound feature distractors
+
+Buetti et al (2019) considered three methods for calculating $D_p$: best feature, orthogonal contrast and collinear. We will use these three methods, and also a linear combination of these three.
 
 ```{r predict-D-2, fig.cap = "Estimating D.", fig.height = 4}
 
@@ -342,18 +336,23 @@ Dp_samples <- bind_rows(
    get_Dp_samples(2, d, slopes1, slopes2),
    get_Dp_samples(4, d, slopes3, slopes4))
 
-
 # get best possible linear fit of the various methods!
 
-Dp_samples %>% pivot_wider(c(exp_id, d_feature, iter, De), names_from = method, values_from = Dp) -> d_lmer
+Dp_samples %>% 
+  pivot_wider(
+    c(exp_id, d_feature, iter, De), 
+    names_from = method, values_from = Dp) -> d_lmer
 
+# find mle best fit
 m_lmer <- lme4::lmer(data = d_lmer, De ~ best_feature + orthog_contrast + collinear + (1|iter))
+
 d_lmer %>% 
-  mutate(linear_transform = predict(m_lmer)) %>%
+  mutate(linear_comb = predict(m_lmer)) %>%
   pivot_longer(
-    c(best_feature, orthog_contrast, collinear, linear_transform), 
+    c(best_feature, orthog_contrast, collinear, linear_comb), 
     names_to = "method", 
-    values_to = "Dp") -> Dp_samples
+    values_to = "Dp") %>%
+  mutate(method = fct_relevel(method, "linear_comb", after = Inf)) -> Dp_samples
 
 rm(d_lmer, m_lmer)
 
@@ -460,21 +459,21 @@ compute_rt_predictions <- function(meth) {
 m_prt_best_feature <- compute_rt_predictions(meth = "best_feature")
 m_prt_collinear <- compute_rt_predictions(meth = "collinear")
 m_prt_orthog_contrast <- compute_rt_predictions(meth = "orthog_contrast")
+m_prt_linear_transform <- compute_rt_predictions(meth = "linear_transform")
 
-bs_bfeat <- bridge_sampler(m_prt_best_feature)
-bs_orth <- bridge_sampler(m_prt_orthog_contrast)
-bs_col <- bridge_sampler(m_prt_collinear)
+bs_bfeat <- bridge_sampler(m_prt_best_feature, silent = TRUE)
+bs_orth <- bridge_sampler(m_prt_orthog_contrast, silent = TRUE)
+bs_col <- bridge_sampler(m_prt_collinear, silent = TRUE)
+bs_lint <- bridge_sampler(m_prt_linear_transform, silent = TRUE)
 
-post_prob(bs_bfeat,bs_col, bs_orth)
-
-
+post_prob(bs_bfeat,bs_col, bs_orth, bs_lint)
 
 
 ```
 
 ```{r}
 
-bs_fit <- bridge_sampler(m_exp2_sft)
+bs_fit <- bridge_sampler(m_exp2_sft, silent = TRUE)
 post_prob(bs_fit, bs_bfeat,bs_col, bs_orth)
 
 ```
