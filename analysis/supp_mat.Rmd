@@ -553,163 +553,81 @@ bayes_R2(m_prt)
 
 # Power Analyis for Planned Studies
 
-What do the results look like if:
+Our sensitivity analysis is based around the width of the 97% HPDI when estimating D~blue. 
 
-1) the same people do all parts of the study, and there is a correlation between tasks
-2) We reduce the number of trials down to 96 per condition. 
+```{r, eval = FALSE}
 
+d_power <- filter(d, exp_id == 1, d_feature == "blue")
 
-## Pretend the original experiment was within subjects!
+my_f <- bf(rt ~ 1 + log(N_T+1) + (1|p_id), 
+           ndt ~ 1 + (1|p_id))
 
+orig_model <- readRDS("models/exp_1_sft.models")
 
-rename participants to pretend that we have a between subjects measure!
-
-```{r}
-
-d %>% 
-  select(-exp_id) %>% 
-  separate(p_id, c("exp_id", "p_id"), "-") %>%
-  mutate(p_id = paste(p_id, exp_id)) -> d
-
-shuffle_noise = 0
-map_dfr(unique(d$exp_id), rank_order_people, shuffle_noise = shuffle_noise) %>%
-  left_join(d, by = "p_id")  %>%
-  mutate(exp_id = parse_number(exp_id)) -> dr_no_shuffle 
-
-dr_no_shuffle %>% group_by(ps_id, exp_id) %>% summarise(m_rt = median(rt), .groups = "drop") %>% 
-  pivot_wider(names_from = "exp_id", values_from = "m_rt") %>%
-  ggplot(aes(x = `1`, y = `2`)) + geom_point(colour = "cyan")  + 
-  coord_fixed() -> plt_no_shuffle
-
-shuffle_noise = 0.10
-map_dfr(unique(d$exp_id), rank_order_people, shuffle_noise = shuffle_noise) %>%
-  left_join(d, by = "p_id") %>%
-  mutate(exp_id = parse_number(exp_id)) -> dr_shuffle 
-
-dr_shuffle %>% group_by(ps_id, exp_id) %>% summarise(m_rt = median(rt), .groups = "drop") %>% 
-  pivot_wider(names_from = "exp_id", values_from = "m_rt") %>%
-  ggplot(aes(x = `1`, y = `2`)) + geom_point(colour = "cyan") + 
-  coord_fixed() -> plt_shuffle
-
-plt_no_shuffle + plt_shuffle
-```
-
-We now calculate our assumed "groundtruth"
-
-```{r, message=FALSE, cache=TRUE}
-# 
-# 
-# bayes_corr_subsample(dr_no_shuffle) 
-# bayes_corr_subsample(dr_no_shuffle, 6) 
-# 
-# 
-# bayes_corr_subsample(dr_shuffle) 
-# bayes_corr_subsample(dr_shuffle, 6) 
-
-# save the subsampled version:
-
-dr_shuffle %>% group_by(p_id, exp_id, d_feature, N_T) %>%
-      sample_n(6) %>%
-      ungroup() -> dr_shuffle_ss 
-
-write_csv(dr_shuffle_ss, "models/ss_data.csv")
-
-
-```
-
-If we now rerun the shifted-lognormal model on this dataset (Experiment 1 only) we can investigate how well we can predict each individual participant's performance in Experiment 2. 
-
-
-## Sample 6 trials per condition
-
-
-```{r, fig.height = 4}
-# summary(d)
-# 
-# d %>% group_by(p_id, d_feature, N_T) %>%
-#   slice_sample(n = 6) -> dss
-# 
-# d <- dss
-# 
-# summary(d)
-# 
-# mdl_inputs_log <- set_up_model(1, "lognormal")
-# power_mdl1_log <- run_model(mdl_inputs_log, ppc = "no")
-# 
-# md_inputs_log <- set_up_model(2, "lognormal")
-# power_mdl2_log <- run_model(mdl_inputs_log, ppc = "no")
-# 
-# mdl_inputs_log <- set_up_model(3, "lognormal")
-# power_mdl3_log <- run_model(mdl_inputs_log, ppc = "no")
-# 
-# mdl_inputs_log <- set_up_model(4, "lognormal")
-# power_mdl4_log <- run_model(mdl_inputs_log, ppc = "no")
-
-mp <- readRDS("models/exp_1p_sft.models")
-d<- dr_shuffle 
-plot_model_fits_rt(1, mp, plot_type = "fitted")
-
-slopes1 <- extract_fixed_slopes_from_model(mp)
-
-
-
-  slopes1 %>% mutate(exp = "Experiment 1") %>%
-  ggplot(aes(x= D, fill = d_feature)) + 
-  geom_density(alpha = 0.5) +
-  facet_wrap(~exp, nrow = 2)
+# HPDI width for original model
+get_orig_w <- function(d) {
   
-
-  bs_exp1p_sft <- bridge_sampler(mp)  
-    post_prob(bs_exp1_sft, bs_exp1p_sft)
-
-
+  model_params <- set_up_model(1, "shifted_lognormal")
+  model_params$my_formula <- my_f
+  model_params$df <- d_power
+  m <- run_model(model_params, ppc = "no")
+  h <- hdci(posterior_samples(m, "logN_TP1"), 0.97)
+  w_orig <- h[2] - h[1]
+  return(w_orig)
   
+}
+
+w_orig <- get_orig_w(d)
+
+# Take subsample of trials and people and fit model
+get_hdpi_for_subsample <- function(n) {
   
+  # simulate dataset of required size from original model
+  d_power %>% modelr::data_grid(N_T, d_feature, p_id = 1:samples$peeps[n])  %>%
+    add_predicted_draws(orig_model, re_formula = NULL, allow_new_levels = TRUE, n = samples$trials[n]) %>%
+    ungroup() %>% 
+    select(p_id, d_feature, N_T, trial = ".draw", rt = ".prediction") -> d_sim
+  
+  # fit new model to simualated data!
+  model_params <- set_up_model(1, "shifted_lognormal")
+  model_params$my_formula <- my_f
+  model_params$df <- d_sim
+  m <- run_model(model_params, ppc = "no")
+  h <- hdci(posterior_samples(m, "logN_TP1"), 0.97)
+  w <- h[2] - h[1]
+  return(w)
+  
+}
+
+# Numbers of trials and people we will simulate
+samples <- modelr::data_grid(d, 
+                             trials = c(2,4,6,8,10,12,14,16,20,24,32,40), 
+                             peeps= c(20, 40, 80, 160))
+
+# Run simulation
+w <- map_dbl(1:nrow(samples), get_hdpi_for_subsample)
+samples$w <- w
+
+# Calculating HDPI width as a proportion of the slope
+d_mean <- 0.18
+o_prop <- w_orig/d_mean
+samples$w_prop <- w/d_mean
+samples$peeps <- factor(samples$peeps)
+
+# Filtering out any problematic fits
+samples <- samples %>%
+  filter(w_prop < 1)
+
+# Making a power plot
+plt_power <- ggplot(samples, aes(trials, w_prop, colour = peeps)) + geom_point() + 
+  geom_line() + geom_hline(yintercept = o_prop, linetype = "dashed") +
+  annotate("text", label = "X", x = 40, y = 0.14683205, size = 6) +
+  theme_bw() + xlab("Number of samples") + 
+  ylab("HDPI width as a proportion of slope")
+
 ```
 
-
-
-
-```{r compute-D-1-power, fig.cap="Posterior estimates for $D$."}
-# slopes1 <- extract_fixed_slopes_from_model(power_mdl1_log)
-# slopes3 <- extract_fixed_slopes_from_model(power_mdl3_log)
-# 
-# bind_rows(
-#   slopes1 %>% mutate(exp = "Experiment1"),
-#   slopes3 %>% mutate(exp = "Experiment 3")) %>%
-#   ggplot(aes(x= D, fill = d_feature)) + 
-#   geom_density(alpha = 0.5) +
-#   facet_wrap(~exp, nrow = 2)
-  
-```
-
-
-## Estimating model parameters
-
-### $D$ for compound feature distractors
-
-```{r predict-D-2-power}
-# slopes2 <- extract_fixed_slopes_from_model(m_exp2_log)
-# slopes4 <- extract_fixed_slopes_from_model(m_exp4_log)
-# 
-# 
-# Dp_samples <- bind_rows(
-#   get_Dp_samples(2, d, slopes1, slopes2),
-#   get_Dp_samples(4, d, slopes3, slopes4))
-# 
-# Dp_lines <- get_Dp_lines(Dp_samples)
-# knitr::kable(Dp_lines, digits = 2)
-# plot_Dp_lines(Dp_lines)
-# 
-# ggsave("../plots/recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
-# 
-# rm(slopes1, slopes2)
-
-
-```
-
-
-# Enviroment Details, packages and Vesion Numbers
+# Enviroment Details, packages and Version Numbers
 
 
 ```{r session-info}
