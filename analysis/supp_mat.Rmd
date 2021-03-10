@@ -19,7 +19,6 @@ library(brms)
 library(tidybayes)
 library(patchwork)
 library(latex2exp)
-
 ```
 
 ```{r}
@@ -35,6 +34,8 @@ options(digits = 3)
 # functions used for our Bayesian re-analysis
 source("scripts/our_functions.R")
 
+# set seed to make sure everything is reproducible 
+set.seed(100320021)
 ```
 
 We will import data from all experiments. While we're at it, we will remove error trials.
@@ -49,7 +50,7 @@ summary(d)
 Before doing anything else (i.e., new), we want to confirm that we can replicate the original analysis. This section walks through the original analysis.
 
 ```{r}
-# functions used for the analysis reimplementation
+# functions used for the analysis re-implementation
 source("scripts/reimplementation.R")
 ```
 
@@ -202,7 +203,7 @@ We can take the prior model, and then use it to compute our prior predictions.
 ```
 
 ```{r plt-prior, fig.height=2.5, fig.cap="Sample Prior predictions for reaction time and log(N+1)."}
-
+  
 plt_nrl <- plot_model_fits_rt(1, prior_model_nrl, y_limits = c(-2, 10),feature2plot = "blue")
 plt_log <- plot_model_fits_rt(1, prior_model_log, y_limits = c(0, 10), feature2plot = "blue")
 plt_sft <- plot_model_fits_rt(1, prior_model_sft, y_limits = c(0, 10), feature2plot = "blue")
@@ -287,6 +288,8 @@ tibble(model = c("normal", "lognormal", "shifted-lognormal", "linear in N_d"),
        weight = post_prob(bs_exp1_nrl, bs_exp1_log, bs_exp1_sft, bs_exp1_sft_nolog)) %>% 
   knitr::kable()
 
+#remove the models that we no longer need
+rm(m_exp1_nrl, m_exp1_log, m_exp1_sft_nolog)
 ```
 
 Both methods give the same result, which is good news! From now on, we will only consider the shifted-lognormal model, as it outperforms the other models that we have considered. 
@@ -431,7 +434,7 @@ Seems legit for now to model Exp2 using the variances from Exp1 :)
 
 ## Predicting Reaction Times
 
-```{r gen-predictions, fig.width = 10, fig.height = 10, cache=TRUE}
+```{r gen-predictions, fig.width = 10, fig.height = 10, cache=TRUE, message=FALSE}
 # in order to predict reaction times, we will specify a new version of our model
 # It is a little bit hacky, but we can feed the predicted values for D into the 
 # brms model as a prior, and then use that to simulate new trials.  
@@ -440,12 +443,12 @@ Seems legit for now to model Exp2 using the variances from Exp1 :)
 
 compute_rt_predictions <- function(meth) {
   Dp_samples %>%
-   filter(method == meth)%>%
-   group_by(exp_id, d_feature) %>%
-  summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop") %>%
-  mutate(
-    d_feature = as_factor(d_feature),
-    method = meth) -> Dp_summary
+    filter(method == meth) %>%
+    group_by(exp_id, d_feature) %>%
+    summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop") %>%
+    mutate(
+      d_feature = as_factor(d_feature),
+      method = meth) -> Dp_summary
 
   # now define and run new model! 
   
@@ -459,24 +462,19 @@ compute_rt_predictions <- function(meth) {
 m_prt_best_feature <- compute_rt_predictions(meth = "best_feature")
 m_prt_collinear <- compute_rt_predictions(meth = "collinear")
 m_prt_orthog_contrast <- compute_rt_predictions(meth = "orthog_contrast")
-m_prt_linear_transform <- compute_rt_predictions(meth = "linear_transform")
+m_prt_linear_transform <- compute_rt_predictions(meth = "linear_comb")
 
 bs_bfeat <- bridge_sampler(m_prt_best_feature, silent = TRUE)
 bs_orth <- bridge_sampler(m_prt_orthog_contrast, silent = TRUE)
 bs_col <- bridge_sampler(m_prt_collinear, silent = TRUE)
 bs_lint <- bridge_sampler(m_prt_linear_transform, silent = TRUE)
 
-post_prob(bs_bfeat,bs_col, bs_orth, bs_lint)
+post_prob(bs_bfeat,bs_col, bs_orth, bs_lint)  
 
-
+rm(bs_bfeat,bs_col, bs_orth)
 ```
 
-```{r}
 
-bs_fit <- bridge_sampler(m_exp2_sft, silent = TRUE)
-post_prob(bs_fit, bs_bfeat,bs_col, bs_orth)
-
-```
 
 Note, this plot is for how we expect the average person to perform in experiment 2. 
 

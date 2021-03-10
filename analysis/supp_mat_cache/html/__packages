@@ -12,7 +12,5 @@ Rcpp
 brms
 tidybayes
 patchwork
-magrittr
 latex2exp
-corrplot
 readxl
