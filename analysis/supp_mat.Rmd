@@ -65,14 +65,14 @@ De <- map_dfr(unique(d$exp_id), calc_D_per_feature)
 
 ## Predicing $D$
 
-We can now predict values of $D$ ($D_p$) for all experiments 2x and 4x (referred to as $D_c,s$ in the main manuscript).
+We can now use the values of $D$ calculated above to predict values of $D$ ($D_p$) for all experiments 2x and 4x (referred to as $D_{c,s}$ in the main manuscript).
 
 ```{r}
 exps_to_predict <- c("2a", "2b", "2c", "4a", "4b", "4c")
 Dp <- map_df(exps_to_predict, gen_exp_predictions, De)
 ```
  
-Now, recreate the scatter plots from Buetti et al (2019), Figure 4.
+Recreate the scatter plots from Buetti et al (2019), Figure 4.
 
 ```{r replicating-D-plot, fig.cap="Computational replication of Figure 4 (top row) from Buetti et al (2019)."}
 left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
@@ -270,14 +270,14 @@ loo_m_exp1_sft_nolog <- readRDS("models/loo_m_exp1_sft_nolog.rds")
 
 loo_list <- list(loo_m_exp1_nrl, loo_m_exp1_log, loo_m_exp1_sft, loo_m_exp1_sft_nolog)
 
-tibble(model = c("normal", "lognormal", "shifted-lognormal", "linear in N_d"),
+tibble(model = c("normal", "lognormal", "shifted-lognormal", "linear in $N_T$"),
        weight = as.double(loo_model_weights(loo_list))) %>% 
   knitr::kable()
 ```
 
 These model weights strongly suggest that the shifted-lognormal model gives a better prediction than the lognormal or normal models. It also confirmed that we do want to keep the model loglinear in $N_T$.
 
-We will need to use the `bridge_sampler()` function later on, so let's use it here and verify that it gives the same results as `loo()`.
+We will need to use the `bridge_sampler()` function later on, so let's use it here and verify that it gives the same result as `loo()`.
 
 ```{r}
 bs_exp1_nrl <- bridge_sampler(m_exp1_nrl, silent = TRUE)
@@ -285,7 +285,7 @@ bs_exp1_log <- bridge_sampler(m_exp1_log, silent = TRUE)
 bs_exp1_sft <- bridge_sampler(m_exp1_sft, silent = TRUE)
 bs_exp1_sft_nolog <- bridge_sampler(m_exp1_sft_nolog, silent = TRUE)
 
-tibble(model = c("normal", "lognormal", "shifted-lognormal", "linear in N_d"),
+tibble(model = c("normal", "lognormal", "shifted-lognormal", "linear in $N_T$"),
        weight = post_prob(bs_exp1_nrl, bs_exp1_log, bs_exp1_sft, bs_exp1_sft_nolog)) %>% 
   knitr::kable()
 
@@ -298,14 +298,12 @@ Both methods give the same result, which is good news! From now on, we will only
 ### Model diagnostics for shifted-lognormal model
 
 The model diagnostics (Rhat values, trace plots) for our shifted lognormal model seem okay, and are plotted below.
-
+\tiny
 ```{r model_diagnostics, fig.height = 5}
-
 summary(m_exp1_sft)
 plot(m_exp1_sft, pars = "^b_") 
-
 ```
-
+\normalsize
 ### Fit Model and Posterior Predictions For Experiment 2, 3, and 4
 
 Now that we have decided what the best distribution to use is, we will fit the model to the data from Experiment 2. 
@@ -352,7 +350,6 @@ Dp_samples <- bind_rows(
    get_Dp_samples(4, d, slopes3, slopes4))
 
 # get best possible linear fit of the various methods!
-
 Dp_samples %>% 
   pivot_wider(
     c(exp_id, d_feature, iter, De), 
@@ -387,7 +384,7 @@ get_D_R2 <- function(ii) {
  my_lm <- lm(De ~ Dp,
              filter(df, iter == ii))
  
-   r2 <- summary(my_lm)$r.squared
+   R2 <- summary(my_lm)$r.squared
    intercept <- my_lm$coefficients[1]
    slope <- my_lm$coefficients[2]
    
@@ -506,58 +503,12 @@ d %>% filter(N_T == 0, exp_id == 2) %>%
 
 ```
 
-Do an R2 for this!
-
-
-```{r}
-d %>%
-  filter(
-    exp_id == 2, N_T > 0) %>%
-  mutate(
-    d_feature = fct_drop(d_feature),
-    p_id = fct_drop(p_id)) %>%
-  ungroup() %>%
-  modelr::data_grid(N_T = unique(filter(d, N_T>0)$N_T), d_feature) %>%
-  add_fitted_draws(m_prt, re_formula = NA, scale = "response", n = 500) -> d_samples
-
-d %>%
-  filter(
-    exp_id == 2, N_T > 0) %>%
-  mutate(
-    d_feature = fct_drop(d_feature),
-    p_id = fct_drop(p_id)) %>%
-  ungroup() %>% 
-  group_by(N_T, d_feature, p_id) %>%
-  summarise(mean_rt = exp(mean(log(rt))), .groups = "drop") %>%
-  group_by(N_T, d_feature) %>%
-  summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
-  left_join(d_samples, by = c("N_T", "d_feature")) -> d_samples
-    
-    
-r2 <- vector()
-    
-i <- 0
-for (draw in unique(d_samples$.draw)) {
-  i <- i + 1
-  ddraw <- filter(d_samples, .draw == draw)
-  r2[i] <-   summary(lm(mean_rt ~ .value, ddraw))$r.squared
-}
-
- hdci(r2, 0.97)      
-
-```
-
 Plots for unknown participants (again, using the orthogonal contrast model):
 
 ```{r plot-exp2-predictions-new-person, fig.height = 6, fig.cap="reaction time predictions."}
 plot_model_fits_rt(2, m_prt_orthog_contrast, y_limits = c(0, 2), n_row = 3, plot_type = "predicted")
 ```
 
-Does Bayes_R2 work on this?
-
-```{r}
-bayes_R2(m_prt)
-```
 
 # Power Analyis for Planned Studies
 
