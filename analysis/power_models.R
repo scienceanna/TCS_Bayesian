@@ -68,6 +68,12 @@ samples <- modelr::data_grid(d,
                              trials = c(2,4,6,8,10,12,14,16,20,24,32,40), 
                              peeps= c(20, 40, 80, 160))
 
+# Fixing some that didn't fit properly
+
+#samples <- modelr::data_grid(d, 
+#                             trials = 40, 
+#                             peeps= 40)
+
 w <- map_dbl(1:nrow(samples), get_hdpi_for_subsample)
 
 samples$w <- w
@@ -76,17 +82,19 @@ d_mean <- 0.18
 
 o_prop <- w_orig/d_mean
 
-samples$w_prop <- w/d_mean
+samples$w_prop <- samples$w/d_mean
 samples$peeps <- factor(samples$peeps)
 
-samples <- samples %>%
-  filter(w_prop < 1)
+#samples <- samples %>%
+#  filter(w_prop < 1)
 
 plt_power <- ggplot(samples, aes(trials, w_prop, colour = peeps)) + geom_point() + 
   geom_line() + geom_hline(yintercept = o_prop, linetype = "dashed") +
   annotate("text", label = "X", x = 40, y = 0.14683205, size = 6) +
   theme_bw() + xlab("Number of samples") + 
   ylab("HDPI width as a proportion of slope")
+
+plt_power
 
 ggsave("../plots/power_plot.pdf", plt_power, width = 4, height = 4)
 
