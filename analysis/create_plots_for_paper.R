@@ -15,12 +15,12 @@ theme_set(see::theme_lucid())
 options(mc.cores = parallel::detectCores())
 
 # functions used for the analysis re-implementation
-source("reimplementation.R")
+source("scripts/reimplementation.R")
 
 # functions used for our Bayesian re-analysis
-source("our_functions.R")
+source("scripts/our_functions.R")
 
-source("import_and_tidy.R")
+source("scripts/import_and_tidy.R")
 
 ###################################################
 ## Computational Replication of Buetti et al (2019)
