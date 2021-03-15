@@ -6,6 +6,7 @@ library(brms)
 library(tidybayes)
 library(patchwork)
 library(latex2exp)
+library(lme4)
 
 # set ggplot2 theme
 theme_set(see::theme_lucid())
@@ -189,8 +190,27 @@ ggplot(slopes1, aes(x= D, fill = d_feature)) +
  Dp_samples <- bind_rows(
   get_Dp_samples(2, d, slopes1, slopes2),
   get_Dp_samples(4, d, slopes3, slopes4))
-  
-  
+ 
+ 
+# get best possible linear fit of the various methods!
+Dp_samples %>% 
+   pivot_wider(
+     c(exp_id, d_feature, iter, De), 
+     names_from = method, values_from = Dp) -> d_lmer
+ 
+# find mle best fit
+m_lmer <- lme4::lmer(data = d_lmer, De ~ best_feature + orthog_contrast + collinear + (1|iter))
+ 
+d_lmer %>% 
+   mutate(linear_comb = predict(m_lmer)) %>%
+   pivot_longer(
+     c(best_feature, orthog_contrast, collinear, linear_comb), 
+     names_to = "method", 
+     values_to = "Dp") %>%
+   mutate(method = fct_relevel(method, "linear_comb", after = Inf)) -> Dp_samples
+ 
+rm(d_lmer, m_lmer)
+
 Dp_lines <- get_Dp_lines(Dp_samples)
 plot_Dp_lines(Dp_lines, dot_col = "darkblue", xyline_col = "darkred") -> plt_Dcs
 
