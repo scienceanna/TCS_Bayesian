@@ -391,7 +391,7 @@ get_D_R2 <- function(ii) {
    intercept <- my_lm$coefficients[1]
    slope <- my_lm$coefficients[2]
    
-  return(tibble(r2 = r2, c = intercept, m = slope))
+  return(tibble(r2 = R2, c = intercept, m = slope))
 }
 
 d_r2 <- tibble(method = as.character(),
@@ -481,9 +481,11 @@ bs_orth <- bridge_sampler(m_prt_orthog_contrast, silent = TRUE)
 bs_col <- bridge_sampler(m_prt_collinear, silent = TRUE)
 bs_lint <- bridge_sampler(m_prt_linear_transform, silent = TRUE)
 
+post_prob(bs_bfeat, bs_col, bs_orth)
+
 post_prob(bs_bfeat,bs_col, bs_orth, bs_lint)  
 
-rm(bs_bfeat,bs_col, bs_orth)
+rm(bs_bfeat,bs_col, bs_orth, bs_lint)
 ```
 
 Note, this plot is for how we expect the average person to perform in experiment 2, using the orthogonal contrast combination method: 
