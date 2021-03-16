@@ -6,6 +6,7 @@
 \usepackage{subfigure}    % use Times fonts if available on your TeX system
 %\usepackage{natbib}
 \usepackage{tabularx}
+\usepackage{hyperref}
 
 
 \journal{Cortex} 
@@ -23,13 +24,13 @@
 \address[inst1]{Department of Psychology,%Department and Organization
             University of Essex, 
             Colchester,
-            postcode,
+            CO4 3SQ,
             UK}
 
 \address[2]{School of Psychology,%Department and Organization
             University of Aberdeen, 
             Aberdeen,
-            postcode,            
+            AB24 3FX,            
             UK}
 
 \begin{abstract}
@@ -228,7 +229,7 @@ The first step in predicting the values for $D_{c,s}$ is to extract the logarith
 
 We then combine $D_c$ and $D_c$ using the best feature, orthogonal contrast, and collinear contrast integration models to get three different predictions for $D_{c,s}$. In addition, we also calculated a linear transform model to generate a fourth prediction for $D_{c,s}$. These are illustrated in Figure \ref{fig:buetti2019_D} (bottom).
 
-The $R^2$ values for the four approaches are shown in Table \ref{tab:reimp_D_r2}. We can see that as with the original model, we still find the \textit{best feature} is the worst of the three methods, at least in terms of the raw $R^2$ value. However, it is less clear which of the other methods gives the best performance. While the collinear contrast approach offers the highest $R^2$ (HPDI: 0.824-0.963), it consistently predicts values that are too low. The orthogonal contrast method gives more accurate predictions, albeit with a slightly lower $R^2$ (HPDI: 0.739-0.944). Interestingly, the linear combination model also has a high $R^2$ value (HPDI: 0.852-0.974). In order to distinguish between the different methods, we instead compare goodness-of-fit of the different models for predicting reaction times (see below).
+The $R^2$ values for the four approaches are shown in Table \ref{tab:reimp_D_r2}. We can see that as with the original model, we still find the \textit{best feature} is the worst of the three methods, at least in terms of the raw $R^2$ value. However, it is less clear which of the other methods gives the best performance. While the collinear contrast approach offers the highest $R^2$ (HPDI: 0.827-0.965), it consistently predicts values that are too low. The orthogonal contrast method gives more accurate predictions, albeit with a slightly lower $R^2$ (HPDI: 0.748-0.949). Interestingly, the linear combination model also has a high $R^2$ value (HPDI: 0.849-0.974). In order to distinguish between the different methods, we instead compare goodness-of-fit of the different models for predicting reaction times (see below).
 
 \begin{table}[ht]
 \small
@@ -236,10 +237,10 @@ The $R^2$ values for the four approaches are shown in Table \ref{tab:reimp_D_r2}
 \begin{tabular}{ c|cc|ccc|cc } 
 Method & Intercept & Slope & $R^2$ & Lower & Upper & MW(3) & MW(4) \\
  \hline 
-best feature & 0.003 & 0.831 & 0.752 & 0.545 & 0.927 & 34.0\% & 25.3\%\\ 
-orthogonal contrast & -0.019 & 1.206 & 0.856 & 0.739 & 0.944 & 33.6\% & 24.7\%\\ 
-collinear & -0.034 & 1.814	& 0.901 & 0.824 & 0.963 & 32.4\% & 24.3\%\\
-linear transform & 0.000 & 1.006 & 0.917 & 0.852 & 0.974 & - & 25.7\%\\
+best feature & 0.003 & 0.831 & 0.751 & 0.550 & 0.919 & 32.1\% & 24.0\%\\ 
+orthogonal contrast & -0.019 & 1.206 & 0.857 & 0.748 & 0.949 & 33.7\% & 25.1\%\\ 
+collinear & -0.033 & 1.812	& 0.902 & 0.827 & 0.965 & 34.2\% & 25.5\%\\
+linear transform & 0.000 & 1.005 & 0.916 & 0.849 & 0.974 & - & 25.5\%\\
 \end{tabular}
 \caption{A table to show the logarithmic slope parameters for the four different $D$ models (best feature, orthogonal contrast, collinear contrast and linear transform) along with the $R^2$ values for the four approaches. The final columns show model weights (MW) based on bridge sampling for a) the three original reaction time models MW(3) and b) the three original reaction time models plus the linear transform model MW(4).}
 \label{tab:reimp_D_r2}
@@ -269,7 +270,7 @@ We can summarise how well the model predicts the mean reaction times (Figure \re
 
 At first glance, our model appears to be offering a poorer fit with the the data than the original TCS. This is due to our decision to estimate $a$ (the intercept) from the Experiment 1 data, whereas \cite{buetti2019predicting} estimated three values for $a$, one for each sub-experiment, and these values were estimated from the Experiment 2 empirical data. With the within-subject design we propose for our replication study, this issue should not arise. 
 
-However, our goodness-of-fit measures showed that there was little difference between our models (see Table \ref{tab:reimp_D_r2}): the posterior model probability of the collinear contrast model was 32.4\%, compared to 33.6\% for the orthogonal contrast model and 34.0\% for the best feature model. There is therefore no strong evidence for one model over another. This conclusion holds if we also include our new linear transform model in the comparison (see Table \ref{tab:reimp_D_r2}). Our results contrast with \cite{buetti2019predicting}, who concluded that the collinear contrast integration model offered the best fit to their data. They reasoned that this was due to the independence of the two features in their study, and they would not expect this result to generalize to non-independent features, in which case they expect the \textit{orthogonal} contrast combination model to offer the best predictions. However, our analysis suggests that there is no strong evidence that any of the models tested is superior to the others. 
+However, our goodness-of-fit measures showed that there was little difference between our models (see Table \ref{tab:reimp_D_r2}): the posterior model probability of the collinear contrast model was 34.2\%, compared to 33.7\% for the orthogonal contrast model and 32.1\% for the best feature model. There is therefore no strong evidence for one model over another. This conclusion holds if we also include our new linear transform model in the comparison (see Table \ref{tab:reimp_D_r2}). Our results contrast with \cite{buetti2019predicting}, who concluded that the collinear contrast integration model offered the best fit to their data. They reasoned that this was due to the independence of the two features in their study, and they would not expect this result to generalize to non-independent features, in which case they expect the \textit{orthogonal} contrast combination model to offer the best predictions. However, our analysis suggests that there is no strong evidence that any of the models tested is superior to the others. 
 
 Overall, while our new model appears to fit slightly more poorly than the than the original method, as discussed above, it offers substantial improvements over the original model in terms of predicting the full distribution of reaction times over multiple trials and participants. In addition, as we discuss previously, the $R^2$ value may not capture goodness-of-fit optimally, and more sensitive goodness-of-fit metrics suggest that the models have equivalent predictive value.
 
@@ -286,21 +287,21 @@ We plan an experiment to test the extent to which the original results in \cite{
 In order to better test the above, and increases sensitivity, we propose to make the following changes to the experiment described in \cite{buetti2019predicting}:
 
 \begin{enumerate}
-\item \textbf{Within-subjects design} This modification should give us greater power to detect differences between different models, as well as allowing us to investigate how individual differences in the single-feature task might explain differences in the double-feature task.
+\item \textbf{Within-subjects design.} This modification should give us greater power to detect differences between different models, as well as allowing us to investigate how individual differences in the single-feature task might explain differences in the double-feature task.
 \\
-\item \textbf{Increase target-distractor similarity} Our reanalysis of \cite{buetti2019predicting} indicates that the orange distractor condition does not distinguish well between different contrast models. We will therefore replace the orange distractor condition with a green distractor condition, which is more similar to the light blue target.
+\item \textbf{Increase target-distractor similarity.} Our reanalysis of \cite{buetti2019predicting} indicates that the orange distractor condition does not distinguish well between different contrast models. We will therefore replace the orange distractor condition with a green distractor condition, which is more similar to the light blue target.
 \\
-\item \textbf{Increase number of distractors, and more peripheral distractors} The TCS model, if it is to be a useful predictor of human behaviour, should generalise beyond the conditions originally tested. We therefore will add an extra condition, with 43 distractors. This requires the addition of another ring of possible distractor positions compared to \cite{buetti2019predicting}, allowing the distractors in all conditions to be placed in more peripheral locations. 
+\item \textbf{Increase number of distractors, and more peripheral distractors.} The TCS model, if it is to be a useful predictor of human behaviour, should generalise beyond the conditions originally tested. We therefore will add an extra condition, with 43 distractors. This requires the addition of another ring of possible distractor positions compared to \cite{buetti2019predicting}, allowing the distractors in all conditions to be placed in more peripheral locations. 
 \\
-\item \textbf{Online data collection} This again tests the generalisability of the results obtained so far in laboratory conditions.
+\item \textbf{Online data collection.} This again tests the generalisability of the results obtained so far in laboratory conditions.
 \end{enumerate}
 
 \subsection{Registered Hypothesis}
 
 \begin{enumerate}
-\item \textbf{Shifted lognormal model} We hypothesise that a shifted lognormal model will give the best fit to our single-feature data, when compared to a lognormal and a normal model. \\
+\item \textbf{Shifted lognormal model.} We hypothesise that a shifted lognormal model will give the best fit to our single-feature data, when compared to a lognormal and a normal model. \\
 \item \textbf{Log-linear effect of $N_T$.} We will test the TCS model assumption that $N_T$ has a log-linear effect by testing models with and without the log of this term.\\ 
-\item \textbf{Contrast model comparisons} We will test the hypothesis proposed by \citep{buetti2019predicting}: specifically, that the \textit{collinear contrast ingratiation model} outperforms the \textit{best feature guidance}, and \textit{orthogonal contrast combination models}.\\
+\item \textbf{Contrast model comparisons.} We will test the hypothesis proposed by \citep{buetti2019predicting}: specifically, that the \textit{collinear contrast ingratiation model} outperforms the \textit{best feature guidance}, and \textit{orthogonal contrast combination models}. We will also test whether a \textit{linear transform model} is better able to predict the data. \\
 \end{enumerate}
 
 We will test each of these hypotheses by calculating the marginal likelihood of the relevant models, and then calculating the poster probabilities. This will give us a probability for each model that represents the likelihood that the model gives the best prediction. We will consider there to be evidence for one model over the others if a given model has a probability above 90\%. We will consider there to be strong evidence for one model over the others if that model has a posterior probability above 99\%.
@@ -313,7 +314,7 @@ We plan to investigate the effect of individual differences in this paradigm: to
 
 \subsection{Sample Size: Participants and Trials}
 
-To determine our sample size, we carried out a simulation study to estimate the effect of reducing the number of trials and increasing the number of participants on our ability to accurately measure the $D_i$. While our reanalysis of \cite{buetti2019predicting}'s data is unable to distinguish between the three models of contrast combination, we believe that this is due to the feature values used in their study, rather than low statistical power from sampling (see above and Figure \ref{fig:comp_rep_conditions}). Therefore, we will base our sensitivity analysis around the width of the $97\%$ HPDI when estimating $D_{\text{blue}}$. We have chosen to look at this single feature level as it is clear from above that the blue distractor trials offer greater discrimination between the three contrast models.
+To determine our sample size, we carried out a simulation study to estimate the effect of reducing the number of trials and increasing the number of participants on our ability to accurately measure the $D_i$. While our reanalysis of \cite{buetti2019predicting}'s data is unable to distinguish between the three models of contrast combination, we believe that this is due to the feature values used in their study, rather than low statistical power from sampling (see above and Figure \ref{fig:comp_rep_conditions}). Therefore, we will base our sensitivity analysis around the width of the $97\%$ HPDI when estimating $D_{\text{blue}}$. We have chosen to look at this single feature level as the blue distractor trials offer the greatest discrimination between the three contrast models.
 
 We carried out our simulation sensitivity analysis by generating synthetic data from the shifted lognormal model outlined in Section \ref{sec:reanalysis}, Figure \ref{fig:buetti2019_a1}, for the blue distractor conditions. This was done for several different sample sizes, both in terms of number of trials and number of participants. For each synthetic dataset, we then refit the model and calculated the width of the $97\%$ HPDI (see Figure \ref{fig:power_plot}).
 
@@ -332,7 +333,7 @@ Ethical approval for the study was granted by the University of Aberdeen (applic
 
 The targets and distractors are randomly assigned to the display based on an invisible grid. Within each quadrant of the screen, there are three 'spokes' each with four possible target positions (starting from the centre of the screen and moving outwards), creating 48 different target positions in total, in four concentric circles. A small amount of jitter is added to each possible position to make the target locations less predictable.
 
-\textbf{Distractor and target types:} we replicated the distractor types used in \cite{buetti2019predicting}, apart from that we changed one distractor colour (from orange to green) to allow us to discriminate better between different models of the data (see above). There are six single-feature conditions (yellow, green and blue distractors and triangle, circle and diamond distractors) and nine double-feature conditions (all possible pairings of the single-feature conditions). The target is always a light blue semicircle, except in the trials where the distractors are single-feature shapes (triangles, circles and diamonds) in which case the target is a white semicircle.
+\textbf{Distractor and target types:} we will replicate the distractor types used in \cite{buetti2019predicting}, apart from that we will change one distractor colour (from orange to green) to allow us to discriminate better between different models of the data (see above). There are six single-feature conditions (yellow, green and blue distractors and triangle, circle and diamond distractors) and nine double-feature conditions (all possible pairings of the single-feature conditions). The target is always a light blue semicircle, except in the trials where the distractors are single-feature shapes (triangles, circles and diamonds) in which case the target is a white semicircle.
 
 \textbf{Set sizes:} we will run all the distractor set sizes used in \cite{buetti2019predicting} (1, 4, 9, 19 and 31) along with an extra condition with more distractors (43). We will also run target-only 'zero distractor' trials (30 in total, with 6 being the white semicircle target and the remainder the light blue semicircle target).
 
@@ -354,7 +355,8 @@ For participants included in the analysis, we will apply the data cleaning used 
 
 \subsection{Analysis Plan}
 
-We will follow the analysis given in Section \ref{sec:reanalysis}. Full details of the code used are provided in the \textit{Supplementary Material}.
+We will follow the analysis given in Section \ref{sec:reanalysis}. Full details of the code used are provided in the \textit{Supplementary Material} and on Github at  
+\url{https://github.com/scienceanna/TCS_Bayesian}.
 
 
 \section{Results}
@@ -377,6 +379,9 @@ We will follow the analysis given in Section \ref{sec:reanalysis}. Full details 
 %
 \section*{Conflict of interest}
 The authors declare that they have no conflict of interest.
+
+\section*{Acknowledgements}
+This work was supported by an Economic and Social Research Council grant (ES/S016120/1) to ADFC and employing AN.
 
 % BibTeX users please use one of
 \bibliographystyle{plainnat}    % basic style, author-year citations
