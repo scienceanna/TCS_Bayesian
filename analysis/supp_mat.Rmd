@@ -9,6 +9,7 @@ knitr::opts_chunk$set(
   echo = TRUE,
    fig.height = 3,
   fig.align = "center")
+
 ```
 
 # Setup and Data Import
@@ -19,7 +20,6 @@ library(brms)
 library(tidybayes)
 library(patchwork)
 library(latex2exp)
-
 ```
 
 ```{r}
@@ -35,6 +35,8 @@ options(digits = 3)
 # functions used for our Bayesian re-analysis
 source("scripts/our_functions.R")
 
+# set seed to make sure everything is reproducible 
+set.seed(100320021)
 ```
 
 We will import data from all experiments. While we're at it, we will remove error trials.
@@ -49,28 +51,28 @@ summary(d)
 Before doing anything else (i.e., new), we want to confirm that we can replicate the original analysis. This section walks through the original analysis.
 
 ```{r}
-# functions used for the analysis reimplementation
+# functions used for the analysis re-implementation
 source("scripts/reimplementation.R")
 ```
 
 ## Calculating $D$
 
-Calculate $D_e$ for each condition in each experiment. 
+Calculate $D_e$ (the empirical slopes) for each condition in each experiment.
 
 ```{r}
 De <- map_dfr(unique(d$exp_id), calc_D_per_feature)
 ```
 
-## Predicing $D$
+## Predicting $D$
 
-We can now predict values of $D$ for all experiments 2x and 4x. 
+We can now use the values of $D$ calculated above to predict values of $D$ ($D_p$) for all experiments 2x and 4x (referred to as $D_{c,s}$ in the main manuscript).
 
 ```{r}
 exps_to_predict <- c("2a", "2b", "2c", "4a", "4b", "4c")
 Dp <- map_df(exps_to_predict, gen_exp_predictions, De)
 ```
  
-Now, recreate the scatter plots from Buetti et al (2019), Figure 4.
+Recreate the scatter plots from Buetti et al (2019), Figure 4.
 
 ```{r replicating-D-plot, fig.cap="Computational replication of Figure 4 (top row) from Buetti et al (2019)."}
 left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
@@ -132,7 +134,7 @@ $L$ indicates the number of distractor types present in the display, $N_T$ is th
 
 The constant a represents the reaction time when the target is alone in the display. Inter-item interactions were indexed by the multiplicative factor $\beta$. Finally, the index function $1_{[2, \infty)} (j)$ indicates that the sum over Ni only applies when there are at least two different types of lures in the display $(j > 1)$. When $j = 1$, the second sum is zero.
 
-```{r pred-rt-replication, fig.width = 4.5, fig.asp=1, fig.cap="Computational Replication of RT predictions."}
+```{r pred-rt-replication, fig.width = 4.5, fig.asp=1, fig.cap="Computational Replication of RT predictions: Figure 4 (bottom right) from Buetti et al (2019)"}
 
 rt_pred <- map_dfr(exps_to_predict, predict_rt)
 
@@ -150,7 +152,8 @@ d %>% filter(exp_id %in% exps_to_predict) %>%
   scale_y_continuous("empirical mean reaction time (ms)")
 
 ```
-This should match Figure 4 (bottom right) in Buetti et al (2019). As a final check that we correctly understand the TCS model and have repimplmented it correctly, we can calcualte the $R^2$ between predicted and empirical reaction times. 
+
+As a final check that we correctly understand the TCS model and have reimplemented it correctly, we can calculate the $R^2$ between predicted and empirical reaction times. 
 
 ```{r}
 d %>% filter(exp_id %in% exps_to_predict, N_T > 0) %>%
@@ -201,8 +204,8 @@ We can take the prior model, and then use it to compute our prior predictions.
   prior_model_sft <- readRDS("models/prior_sft.models")
 ```
 
-```{r plt-prior, fig.height=2.5, fig.cap="Sample Prior predictions for reaction time and log(N+1)."}
-
+```{r plt-prior, fig.height=2.5, fig.cap="Sample Prior predictions for reaction time and log(N+1) for the normal model (left), lognormal model (centre) and shifted-lognormal model (right)."}
+  
 plt_nrl <- plot_model_fits_rt(1, prior_model_nrl, y_limits = c(-2, 10),feature2plot = "blue")
 plt_log <- plot_model_fits_rt(1, prior_model_log, y_limits = c(0, 10), feature2plot = "blue")
 plt_sft <- plot_model_fits_rt(1, prior_model_sft, y_limits = c(0, 10), feature2plot = "blue")
@@ -229,7 +232,7 @@ m_exp1_sft_nolog <- readRDS("models/exp_1_sft_nolog.models")
 
 The plots before show our estimates for average participant to lie. The regions illustrate the distribution of reaction times estimated by our model. 
 
-```{r plt-post, fig.height=10, fig.cap="Posterior predictions for reaction time and log(N+1)."}
+```{r plt-post, fig.height=10, fig.cap="Posterior predictions for the reaction time for the average participant and log(N+1) for (from top to bottom) (i) the normal model, (ii) the lognormal model, (iii) the shifted-lognormal model, and (iv) the shifted lognormal model with linear $N_T$."}
 
 plt_nrl <- plot_model_fits_rt(1, m_exp1_nrl, plot_type = "fitted")
 plt_log <- plot_model_fits_rt(1, m_exp1_log, plot_type = "fitted")
@@ -240,10 +243,11 @@ plt_nrl / plt_log / plt_sft / plt_sft_nolog
 
 rm(plt_nrl, plt_log, plt_sft, plt_sft_nolog)
 ```
+
 We can see that all of our models give very similar relationship between $N_T$ and mean reaction time. In the next plot, we look at the model's predictions for the distribution of reaction times. 
 
 
-```{r plt-post-re, fig.height=10, fig.cap="Posterior predictions for reaction time and log(N+1)."}
+```{r plt-post-re, fig.height=10, fig.cap="Posterior predictions for reaction time distributions and log(N+1) for (from top to bottom) (i) the normal model, (ii) the lognormal model, (iii) the shifted-lognormal model, and (iv) the shifted lognormal model with linear $N_T$."}
 
 plt_nrl <- plot_model_fits_rt(1, m_exp1_nrl, plot_type = "predicted", y_limits = c(0, 2.5))
 plt_log <- plot_model_fits_rt(1, m_exp1_log, plot_type = "predicted", y_limits = c(0, 2.5))
@@ -268,14 +272,14 @@ loo_m_exp1_sft_nolog <- readRDS("models/loo_m_exp1_sft_nolog.rds")
 
 loo_list <- list(loo_m_exp1_nrl, loo_m_exp1_log, loo_m_exp1_sft, loo_m_exp1_sft_nolog)
 
-tibble(model = c("normal", "lognormal", "shifted-lognormal", "linear in N_d"),
+tibble(model = c("normal", "lognormal", "shifted-lognormal", "linear in $N_T$"),
        weight = as.double(loo_model_weights(loo_list))) %>% 
   knitr::kable()
 ```
 
 These model weights strongly suggest that the shifted-lognormal model gives a better prediction than the lognormal or normal models. It also confirmed that we do want to keep the model loglinear in $N_T$.
 
-We will need to use the `bridge_sampler()` function later on, so let's use it here and verify that it gives the same results as `loo()`.
+We will need to use the `bridge_sampler()` function later on, so let's use it here and verify that it gives the same result as `loo()`.
 
 ```{r}
 bs_exp1_nrl <- bridge_sampler(m_exp1_nrl, silent = TRUE)
@@ -283,13 +287,25 @@ bs_exp1_log <- bridge_sampler(m_exp1_log, silent = TRUE)
 bs_exp1_sft <- bridge_sampler(m_exp1_sft, silent = TRUE)
 bs_exp1_sft_nolog <- bridge_sampler(m_exp1_sft_nolog, silent = TRUE)
 
-tibble(model = c("normal", "lognormal", "shifted-lognormal", "linear in N_d"),
+tibble(model = c("normal", "lognormal", "shifted-lognormal", "linear in $N_T$"),
        weight = post_prob(bs_exp1_nrl, bs_exp1_log, bs_exp1_sft, bs_exp1_sft_nolog)) %>% 
   knitr::kable()
 
+#remove the models that we no longer need
+rm(m_exp1_nrl, m_exp1_log, m_exp1_sft_nolog)
 ```
 
 Both methods give the same result, which is good news! From now on, we will only consider the shifted-lognormal model, as it outperforms the other models that we have considered. 
+
+### Model diagnostics for shifted-lognormal model
+
+The model diagnostics (Rhat values, trace plots) for our shifted-lognormal model seem okay, and are plotted below.
+\tiny
+```{r model_diagnostics, fig.height = 5, fig.cap = "Model diagnostics for the shifted-lognormal model."}
+summary(m_exp1_sft)
+plot(m_exp1_sft, pars = "^b_") 
+```
+\normalsize
 
 ### Fit Model and Posterior Predictions For Experiment 2, 3, and 4
 
@@ -304,7 +320,7 @@ m_exp4_sft <- readRDS("models/exp_4_sft.models")
 
 ### Use these models to compute $D$
 
-Now we can compute $D$ by extracting the fixed effect slopes from the model for each experiment and condition.
+Now we can compute $D_e$ by extracting the fixed effect slopes from the model for each experiment and condition.
 
 ```{r compute-D-1, fig.cap="Posterior estimates for $D$."}
 slopes1 <- extract_fixed_slopes_from_model(m_exp1_sft)
@@ -324,20 +340,19 @@ We can see that we have a posterior probability distribution for each type of di
 
 ## Estimating model parameters
 
-Now, we use the model fitted on experiment 1 (or 3) to predict the data in experiment 2 (or 4). I.e., can we predict $D$ for compound features based on the $D$$ values for the related single features. 
+Now, we use the model fitted on experiment 1 (or 3) to predict the data in experiment 2 (or 4). I.e., can we predict $D_p$ for compound features based on the $D_e$ values for the related single features. 
 
 ### $D$ for compound feature distractors
 
 Buetti et al (2019) considered three methods for calculating $D_p$: best feature, orthogonal contrast and collinear. We will use these three methods, and also a linear combination of these three.
 
-```{r predict-D-2, fig.cap = "Estimating D.", fig.height = 4}
+```{r predict-D-2, fig.cap = "Estimating D, using four different calculation methods.", fig.height = 4}
 
 Dp_samples <- bind_rows(
    get_Dp_samples(2, d, slopes1, slopes2),
    get_Dp_samples(4, d, slopes3, slopes4))
 
 # get best possible linear fit of the various methods!
-
 Dp_samples %>% 
   pivot_wider(
     c(exp_id, d_feature, iter, De), 
@@ -372,11 +387,11 @@ get_D_R2 <- function(ii) {
  my_lm <- lm(De ~ Dp,
              filter(df, iter == ii))
  
-   r2 <- summary(my_lm)$r.squared
+   R2 <- summary(my_lm)$r.squared
    intercept <- my_lm$coefficients[1]
    slope <- my_lm$coefficients[2]
    
-  return(tibble(r2 = r2, c = intercept, m = slope))
+  return(tibble(r2 = R2, c = intercept, m = slope))
 }
 
 d_r2 <- tibble(method = as.character(),
@@ -409,7 +424,7 @@ rm(df, r2, d_r2)
 
 ### Variance!
 
-As we are using multi-level models to describe the whole distribution of reaction times we aslo need to provide a $\sigma$ and a sd(Intercept). 
+As we are using multi-level models to describe the whole distribution of reaction times we also need to provide a $\sigma$ and a sd(Intercept). 
 
 
 Random intercepts look similar:
@@ -419,33 +434,33 @@ VarCorr(m_exp1_sft)$p_id$sd
 VarCorr(m_exp2_sft)$p_id$sd
 ```
 
-Residual variance looks similar, although exp2 is lower that exp 1. 
+Residual variance looks similar, although Experiment 2 is lower than Experiment 1. 
 
 ```{r}
 VarCorr(m_exp1_sft)$residual$sd
 VarCorr(m_exp2_sft)$residual$sd
 ```
 
-
-Seems legit for now to model Exp2 using the variances from Exp1 :)
+It seems possible to model Experiment 2 using the variances from Experiment 1.
 
 ## Predicting Reaction Times
 
-```{r gen-predictions, fig.width = 10, fig.height = 10, cache=TRUE}
-# in order to predict reaction times, we will specify a new version of our model
-# It is a little bit hacky, but we can feed the predicted values for D into the 
-# brms model as a prior, and then use that to simulate new trials.  
+In order to predict reaction times, we will specify a new version of our model.
+
+We can feed the predicted values for $D$ into our `brms` model as a prior, and then use that to simulate new trials.
+
+```{r gen-predictions, fig.width = 10, fig.height = 10, cache=TRUE, message=FALSE}
 
 # first, summarise our Dp samples to give mu and sigma.
 
 compute_rt_predictions <- function(meth) {
   Dp_samples %>%
-   filter(method == meth)%>%
-   group_by(exp_id, d_feature) %>%
-  summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop") %>%
-  mutate(
-    d_feature = as_factor(d_feature),
-    method = meth) -> Dp_summary
+    filter(method == meth) %>%
+    group_by(exp_id, d_feature) %>%
+    summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop") %>%
+    mutate(
+      d_feature = as_factor(d_feature),
+      method = meth) -> Dp_summary
 
   # now define and run new model! 
   
@@ -459,36 +474,31 @@ compute_rt_predictions <- function(meth) {
 m_prt_best_feature <- compute_rt_predictions(meth = "best_feature")
 m_prt_collinear <- compute_rt_predictions(meth = "collinear")
 m_prt_orthog_contrast <- compute_rt_predictions(meth = "orthog_contrast")
-m_prt_linear_transform <- compute_rt_predictions(meth = "linear_transform")
+m_prt_linear_transform <- compute_rt_predictions(meth = "linear_comb")
 
 bs_bfeat <- bridge_sampler(m_prt_best_feature, silent = TRUE)
 bs_orth <- bridge_sampler(m_prt_orthog_contrast, silent = TRUE)
 bs_col <- bridge_sampler(m_prt_collinear, silent = TRUE)
 bs_lint <- bridge_sampler(m_prt_linear_transform, silent = TRUE)
 
-post_prob(bs_bfeat,bs_col, bs_orth, bs_lint)
+post_prob(bs_bfeat, bs_col, bs_orth)
 
+post_prob(bs_bfeat,bs_col, bs_orth, bs_lint)  
 
+rm(bs_bfeat,bs_col, bs_orth, bs_lint)
 ```
 
-```{r}
+Note, this plot is for how we expect the average person to perform in experiment 2, using the orthogonal contrast combination method: 
 
-bs_fit <- bridge_sampler(m_exp2_sft, silent = TRUE)
-post_prob(bs_fit, bs_bfeat,bs_col, bs_orth)
-
-```
-
-Note, this plot is for how we expect the average person to perform in experiment 2. 
-
-```{r plot-exp2-predictions, fig.height = 6, fig.cap="reaction time predictions."}
+```{r plot-exp2-predictions, fig.height = 6, fig.cap="Reaction time predictions for the average person for the orthogonal contrast method, predicting reaction times in Experiment 2."}
 
 m_prt <- m_prt_orthog_contrast
 plot_model_fits_rt(2, m_prt_orthog_contrast, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
 ```
 
-Show how intercept varies in sub-experiment
+Show how intercept varies in sub-experiment:
 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 
 d %>% filter(N_T == 0, exp_id == 2) %>%
   separate(p_id, into = c("sub_exp", "person")) %>%
@@ -498,218 +508,90 @@ d %>% filter(N_T == 0, exp_id == 2) %>%
 
 ```
 
-Do an R2 for this!
+Plots for unknown participants (again, using the orthogonal contrast model):
 
-
-```{r}
-d %>%
-  filter(
-    exp_id == 2, N_T > 0) %>%
-  mutate(
-    d_feature = fct_drop(d_feature),
-    p_id = fct_drop(p_id)) %>%
-  ungroup() %>%
-  modelr::data_grid(N_T = unique(filter(d, N_T>0)$N_T), d_feature) %>%
-  add_fitted_draws(m_prt, re_formula = NA, scale = "response", n = 500) -> d_samples
-
-d %>%
-  filter(
-    exp_id == 2, N_T > 0) %>%
-  mutate(
-    d_feature = fct_drop(d_feature),
-    p_id = fct_drop(p_id)) %>%
-  ungroup() %>% 
-  group_by(N_T, d_feature, p_id) %>%
-  summarise(mean_rt = exp(mean(log(rt))), .groups = "drop") %>%
-  group_by(N_T, d_feature) %>%
-  summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
-  left_join(d_samples, by = c("N_T", "d_feature")) -> d_samples
-    
-    
-r2 <- vector()
-    
-i <- 0
-for (draw in unique(d_samples$.draw)) {
-  i <- i + 1
-  ddraw <- filter(d_samples, .draw == draw)
-  r2[i] <-   summary(lm(mean_rt ~ .value, ddraw))$r.squared
-}
-
- hdci(r2, 0.97)      
-
+```{r plot-exp2-predictions-new-person, fig.height = 6, fig.cap="Reaction time distribution predictions for the orthogonal contrast method, predicting reaction times in Experiment 2."}
+plot_model_fits_rt(2, m_prt_orthog_contrast, y_limits = c(0, 2), n_row = 3, plot_type = "predicted")
 ```
 
-Attempting plots for unknown participant! 
-
-```{r plot-exp2-predictions-new-person, fig.height = 6, fig.cap="reaction time predictions."}
-plot_model_fits_rt(2, m_prt, y_limits = c(0, 2), n_row = 3, plot_type = "predicted")
-```
-
-Does Bayes_R2 work on this?
-
-```{r}
-bayes_R2(m_prt)
-```
 
 # Power Analyis for Planned Studies
 
-What do the results look like if:
+Our sensitivity analysis is based around the width of the 97% HPDI when estimating D~blue. 
 
-1) the same people do all parts of the study, and there is a correlation between tasks
-2) We reduce the number of trials down to 96 per condition. 
+```{r, eval = FALSE}
 
+d_power <- filter(d, exp_id == 1, d_feature == "blue")
 
-## Pretend the original experiment was within subjects!
+my_f <- bf(rt ~ 1 + log(N_T+1) + (1|p_id), 
+           ndt ~ 1 + (1|p_id))
 
+orig_model <- readRDS("models/exp_1_sft.models")
 
-rename participants to pretend that we have a between subjects measure!
-
-```{r}
-
-d %>% 
-  select(-exp_id) %>% 
-  separate(p_id, c("exp_id", "p_id"), "-") %>%
-  mutate(p_id = paste(p_id, exp_id)) -> d
-
-shuffle_noise = 0
-map_dfr(unique(d$exp_id), rank_order_people, shuffle_noise = shuffle_noise) %>%
-  left_join(d, by = "p_id")  %>%
-  mutate(exp_id = parse_number(exp_id)) -> dr_no_shuffle 
-
-dr_no_shuffle %>% group_by(ps_id, exp_id) %>% summarise(m_rt = median(rt), .groups = "drop") %>% 
-  pivot_wider(names_from = "exp_id", values_from = "m_rt") %>%
-  ggplot(aes(x = `1`, y = `2`)) + geom_point(colour = "cyan")  + 
-  coord_fixed() -> plt_no_shuffle
-
-shuffle_noise = 0.10
-map_dfr(unique(d$exp_id), rank_order_people, shuffle_noise = shuffle_noise) %>%
-  left_join(d, by = "p_id") %>%
-  mutate(exp_id = parse_number(exp_id)) -> dr_shuffle 
-
-dr_shuffle %>% group_by(ps_id, exp_id) %>% summarise(m_rt = median(rt), .groups = "drop") %>% 
-  pivot_wider(names_from = "exp_id", values_from = "m_rt") %>%
-  ggplot(aes(x = `1`, y = `2`)) + geom_point(colour = "cyan") + 
-  coord_fixed() -> plt_shuffle
-
-plt_no_shuffle + plt_shuffle
-```
-
-We now calculate our assumed "groundtruth"
-
-```{r, message=FALSE, cache=TRUE}
-# 
-# 
-# bayes_corr_subsample(dr_no_shuffle) 
-# bayes_corr_subsample(dr_no_shuffle, 6) 
-# 
-# 
-# bayes_corr_subsample(dr_shuffle) 
-# bayes_corr_subsample(dr_shuffle, 6) 
-
-# save the subsampled version:
-
-dr_shuffle %>% group_by(p_id, exp_id, d_feature, N_T) %>%
-      sample_n(6) %>%
-      ungroup() -> dr_shuffle_ss 
-
-write_csv(dr_shuffle_ss, "models/ss_data.csv")
-
-
-```
-
-If we now rerun the shifted-lognormal model on this dataset (Experiment 1 only) we can investigate how well we can predict each individual participant's performance in Experiment 2. 
-
-
-## Sample 6 trials per condition
-
-
-```{r, fig.height = 4}
-# summary(d)
-# 
-# d %>% group_by(p_id, d_feature, N_T) %>%
-#   slice_sample(n = 6) -> dss
-# 
-# d <- dss
-# 
-# summary(d)
-# 
-# mdl_inputs_log <- set_up_model(1, "lognormal")
-# power_mdl1_log <- run_model(mdl_inputs_log, ppc = "no")
-# 
-# md_inputs_log <- set_up_model(2, "lognormal")
-# power_mdl2_log <- run_model(mdl_inputs_log, ppc = "no")
-# 
-# mdl_inputs_log <- set_up_model(3, "lognormal")
-# power_mdl3_log <- run_model(mdl_inputs_log, ppc = "no")
-# 
-# mdl_inputs_log <- set_up_model(4, "lognormal")
-# power_mdl4_log <- run_model(mdl_inputs_log, ppc = "no")
-
-mp <- readRDS("models/exp_1p_sft.models")
-d<- dr_shuffle 
-plot_model_fits_rt(1, mp, plot_type = "fitted")
-
-slopes1 <- extract_fixed_slopes_from_model(mp)
-
-
-
-  slopes1 %>% mutate(exp = "Experiment 1") %>%
-  ggplot(aes(x= D, fill = d_feature)) + 
-  geom_density(alpha = 0.5) +
-  facet_wrap(~exp, nrow = 2)
+# HPDI width for original model
+get_orig_w <- function(d) {
   
-
-  bs_exp1p_sft <- bridge_sampler(mp)  
-    post_prob(bs_exp1_sft, bs_exp1p_sft)
-
-
+  model_params <- set_up_model(1, "shifted_lognormal")
+  model_params$my_formula <- my_f
+  model_params$df <- d_power
+  m <- run_model(model_params, ppc = "no")
+  h <- hdci(posterior_samples(m, "logN_TP1"), 0.97)
+  w_orig <- h[2] - h[1]
+  return(w_orig)
   
+}
+
+w_orig <- get_orig_w(d)
+
+# Take subsample of trials and people and fit model
+get_hdpi_for_subsample <- function(n) {
   
+  # simulate dataset of required size from original model
+  d_power %>% modelr::data_grid(N_T, d_feature, p_id = 1:samples$peeps[n])  %>%
+    add_predicted_draws(orig_model, re_formula = NULL, allow_new_levels = TRUE, n = samples$trials[n]) %>%
+    ungroup() %>% 
+    select(p_id, d_feature, N_T, trial = ".draw", rt = ".prediction") -> d_sim
+  
+  # fit new model to simualated data!
+  model_params <- set_up_model(1, "shifted_lognormal")
+  model_params$my_formula <- my_f
+  model_params$df <- d_sim
+  m <- run_model(model_params, ppc = "no")
+  h <- hdci(posterior_samples(m, "logN_TP1"), 0.97)
+  w <- h[2] - h[1]
+  return(w)
+  
+}
+
+# Numbers of trials and people we will simulate
+samples <- modelr::data_grid(d, 
+                             trials = c(2,4,6,8,10,12,14,16,20,24,32,40), 
+                             peeps= c(20, 40, 80, 160))
+
+# Run simulation
+w <- map_dbl(1:nrow(samples), get_hdpi_for_subsample)
+samples$w <- w
+
+# Calculating HDPI width as a proportion of the slope
+d_mean <- 0.18
+o_prop <- w_orig/d_mean
+samples$w_prop <- w/d_mean
+samples$peeps <- factor(samples$peeps)
+
+# Filtering out any problematic fits
+samples <- samples %>%
+  filter(w_prop < 1)
+
+# Making a power plot
+plt_power <- ggplot(samples, aes(trials, w_prop, colour = peeps)) + geom_point() + 
+  geom_line() + geom_hline(yintercept = o_prop, linetype = "dashed") +
+  annotate("text", label = "X", x = 40, y = 0.14683205, size = 6) +
+  theme_bw() + xlab("Number of samples") + 
+  ylab("HDPI width as a proportion of slope")
+
 ```
 
-
-
-
-```{r compute-D-1-power, fig.cap="Posterior estimates for $D$."}
-# slopes1 <- extract_fixed_slopes_from_model(power_mdl1_log)
-# slopes3 <- extract_fixed_slopes_from_model(power_mdl3_log)
-# 
-# bind_rows(
-#   slopes1 %>% mutate(exp = "Experiment1"),
-#   slopes3 %>% mutate(exp = "Experiment 3")) %>%
-#   ggplot(aes(x= D, fill = d_feature)) + 
-#   geom_density(alpha = 0.5) +
-#   facet_wrap(~exp, nrow = 2)
-  
-```
-
-
-## Estimating model parameters
-
-### $D$ for compound feature distractors
-
-```{r predict-D-2-power}
-# slopes2 <- extract_fixed_slopes_from_model(m_exp2_log)
-# slopes4 <- extract_fixed_slopes_from_model(m_exp4_log)
-# 
-# 
-# Dp_samples <- bind_rows(
-#   get_Dp_samples(2, d, slopes1, slopes2),
-#   get_Dp_samples(4, d, slopes3, slopes4))
-# 
-# Dp_lines <- get_Dp_lines(Dp_samples)
-# knitr::kable(Dp_lines, digits = 2)
-# plot_Dp_lines(Dp_lines)
-# 
-# ggsave("../plots/recreate_log_normal_fig_4.pdf", width = 8, height = 2.5)
-# 
-# rm(slopes1, slopes2)
-
-
-```
-
-
-# Enviroment Details, packages and Vesion Numbers
+# Enviroment Details, packages and Version Numbers
 
 
 ```{r session-info}
