@@ -79,12 +79,12 @@ extract_D <- function(e_id) {
   return(D)
 }
 
-predict_rt <- function(e_id) {
+predict_rt <- function(e_id, meth) {
   
   a <- extract_a_value(e_id)
   D <- extract_D(e_id)	
   N_T <- c(0, 1,4,9,19,31)
-  rt <- a +  log(N_T + 1) %*% t(D$collinear)
+  rt <- a +  log(N_T + 1) %*% t(D[[meth]])
   colnames(rt) <- unique(D$d_feature)
   d_out <- as_tibble(rt )
   

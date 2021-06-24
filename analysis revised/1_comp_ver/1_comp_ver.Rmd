@@ -93,7 +93,6 @@ We can now use the values of $D$ calculated above to predict values of $D$ ($D_p
 exps_to_predict <- c("2a", "2b", "2c", "4a", "4b", "4c")
 Dp <- map_df(exps_to_predict, gen_exp_predictions, De)
 
-
 ```
  
 Recreate the scatter plots from Buetti et al (2019), Figure 4.
@@ -162,40 +161,75 @@ $L$ indicates the number of distractor types present in the display, $N_T$ is th
 
 The constant a represents the reaction time when the target is alone in the display. Inter-item interactions were indexed by the multiplicative factor $\beta$. Finally, the index function $1_{[2, \infty)} (j)$ indicates that the sum over Ni only applies when there are at least two different types of lures in the display $(j > 1)$. When $j = 1$, the second sum is zero.
 
-```{r pred-rt-replication, fig.width = 4.5, fig.asp=1, fig.cap="Computational Replication of RT predictions: Figure 4 (bottom right) from Buetti et al (2019)"}
+```{r pred-rt-replication, fig.width = 10, fig.height = 5, fig.cap="Computational Replication of RT predictions: Figure 4 (bottom) from Buetti et al (2019)"}
 
-rt_pred <- map_dfr(exps_to_predict, predict_rt)
+rt_pred_collinear <- map_dfr(exps_to_predict, predict_rt, 'collinear')
 
-d %>% filter(exp_id %in% exps_to_predict) %>%
-	group_by(exp_id, p_id, d_feature, N_T) %>%
-	summarise(mean_rt = mean(rt), .groups = "drop") %>%
-	group_by(exp_id,  d_feature, N_T) %>%
-	summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
-	left_join(rt_pred, by = c("exp_id", "d_feature", "N_T")) %>% 
-	ggplot(aes(x = p_rt, y = mean_rt)) + 
-  geom_point(color = "yellow1", alpha = 0.5) + 
-  geom_abline(linetype = 2, colour = "cyan") + 
-  geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
-  scale_x_continuous("predicted reaction time (ms)", limits = c(400, 800)) +
-  scale_y_continuous("empirical mean reaction time (ms)", limits = c(400, 800))
-
-```
-
-As a final check that we correctly understand the TCS model and have reimplemented it correctly, we can calculate the $R^2$ between predicted and empirical reaction times. 
-
-```{r}
 d %>% filter(exp_id %in% exps_to_predict, N_T > 0) %>%
 	group_by(exp_id, p_id, d_feature, N_T) %>%
 	summarise(mean_rt = mean(rt), .groups = "drop") %>%
 	group_by(exp_id,  d_feature, N_T) %>%
 	summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
-	left_join(rt_pred, by = c("exp_id", "d_feature", "N_T")) -> d_corr
+	left_join(rt_pred_collinear, by = c("exp_id", "d_feature", "N_T")) %>% 
+	ggplot(aes(x = p_rt, y = mean_rt, colour = "yellow1")) + 
+  geom_point(color = "yellow1", alpha = 0.5) + 
+  geom_abline(linetype = 2, colour = "cyan") + 
+  geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
+  stat_poly_eq(formula = y ~ x, 
+               aes(label = paste(..eq.label.., ..rr.label.., sep = "*plain(\",\")~")), 
+               parse = TRUE, size = 2.8, label.y = 0.9, coef.digits = 3, rr.digits = 4) +
+  coord_cartesian(ylim=c(400, 800), xlim=c(400,800)) +
+  scale_x_continuous("predicted reaction time (ms)") +
+  scale_y_continuous("empirical mean reaction time (ms)") +
+  scale_colour_manual(values = "yellow1") -> collinear_plot
+
+rt_pred_orthog <- map_dfr(exps_to_predict, predict_rt, 'orthog. contrast')
+
+d %>% filter(exp_id %in% exps_to_predict, N_T > 0) %>%
+	group_by(exp_id, p_id, d_feature, N_T) %>%
+	summarise(mean_rt = mean(rt), .groups = "drop") %>%
+	group_by(exp_id,  d_feature, N_T) %>%
+	summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
+	left_join(rt_pred_orthog, by = c("exp_id", "d_feature", "N_T")) %>% 
+	ggplot(aes(x = p_rt, y = mean_rt, colour = "yellow1")) + 
+  geom_point(color = "yellow1", alpha = 0.5) + 
+  geom_abline(linetype = 2, colour = "cyan") + 
+  geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
+  stat_poly_eq(formula = y ~ x, 
+               aes(label = paste(..eq.label.., ..rr.label.., sep = "*plain(\",\")~")), 
+               parse = TRUE, size = 2.8, label.y = 0.9, coef.digits = 3, rr.digits = 4) +
+  coord_cartesian(ylim=c(400, 800), xlim=c(400,800)) +
+  scale_x_continuous("predicted reaction time (ms)") +
+  scale_y_continuous("empirical mean reaction time (ms)") +
+  scale_colour_manual(values = "yellow1") -> orthog_plot
+
+rt_pred_best <- map_dfr(exps_to_predict, predict_rt, 'best feature')
+
+d %>% filter(exp_id %in% exps_to_predict, N_T > 0) %>%
+	group_by(exp_id, p_id, d_feature, N_T) %>%
+	summarise(mean_rt = mean(rt), .groups = "drop") %>%
+	group_by(exp_id,  d_feature, N_T) %>%
+	summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
+	left_join(rt_pred_best, by = c("exp_id", "d_feature", "N_T")) %>% 
+	ggplot(aes(x = p_rt, y = mean_rt, colour = "yellow1")) + 
+  geom_point(color = "yellow1", alpha = 0.5) + 
+  geom_abline(linetype = 2, colour = "cyan") + 
+  geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
+  stat_poly_eq(formula = y ~ x, 
+               aes(label = paste(..eq.label.., ..rr.label.., sep = "*plain(\",\")~")), 
+               parse = TRUE, size = 2.8, label.y = 0.9, coef.digits = 3, rr.digits = 4) +
+  coord_cartesian(ylim=c(400, 800), xlim=c(400,800)) +
+  scale_x_continuous("predicted reaction time (ms)") +
+  scale_y_continuous("empirical mean reaction time (ms)") +
+  scale_colour_manual(values = "yellow1") -> best_plot
+
+best_plot + orthog_plot + collinear_plot
+
 ```
 
-The $R^2=$ `r round(summary(lm(mean_rt ~ p_rt, d_corr))$r.squared,2)`, matching the value given in Buetti et al (2019).
 
 ```{r tidy-up}
 # remove variables we no longer need
-rm(De, Dp, rt_pred, exps_to_predict, 
-   calc_D_per_feature, extract_a_value, predict_D_overall, gen_exp_predictions, extract_D, predict_rt, d_corr)
+rm(De, Dp, rt_pred_collinear, rt_pred_orthog, rt_pred_best, exps_to_predict, 
+   calc_D_per_feature, extract_a_value, predict_D_overall, gen_exp_predictions, extract_D, predict_rt)
 ```
