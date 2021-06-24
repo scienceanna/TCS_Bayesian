@@ -75,6 +75,11 @@ De %>% filter(exp_id %in% c("1a", "3a")) %>%
 De %>% filter(exp_id %in% c("1b", "3b")) %>% 
   knitr::kable(digits = 1) %>% kableExtra::kable_styling()
 
+De <- De %>%
+  mutate(d_feature = fct_relevel(d_feature, "orange diamond", "orange circle", "blue diamond", "blue circle", "yellow diamond", "yellow circle", "yellow triangle",
+                                 "blue triangle", "orange triangle", "yellow semicircle", "blue semicircle", "orange semicircle")) %>%
+  arrange(exp_id, d_feature)
+
 De %>% filter(exp_id %in% c("2a", "2b", "2c", "4a", "4b", "4c")) %>% 
   knitr::kable(digits = 1) %>% kableExtra::kable_styling()
 ```
@@ -104,8 +109,10 @@ left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
   geom_abline(linetype = 2, colour = "cyan") +
   geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
   facet_wrap(~ method) + 
-  scale_x_continuous("predicted D", limits = c(0, 90), breaks = seq(0, 90, 10)) + 
-  scale_y_continuous("empirical D", limits = c(0, 90), breaks = seq(0, 90, 10))
+  scale_x_continuous(limits = c(0, 90), breaks = seq(0, 90, 10)) +  
+  scale_y_continuous(limits = c(0, 90), breaks = seq(0, 90, 10)) + 
+  scale_x_continuous("predicted D") + 
+  scale_y_continuous("empirical D")
 ```
 
 Now we compute $R^2$ to get a measure of how well $D_p$ predict the $D_e$, calculated for each method and each set of experiments, as well as an overall measure. 
