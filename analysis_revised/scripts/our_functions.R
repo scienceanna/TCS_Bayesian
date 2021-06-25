@@ -23,7 +23,7 @@ set_up_model <- function(experiment, fam = "lognormal") {
   
   # subset data to take just th experiment that we're inserted in
   d %>%
-    filter(exp_id == experiment) %>%
+    filter(exp_id %in% experiment) %>%
     group_by(exp_id, p_id, d_feature, N_T) %>%
     mutate(
       d_feature = fct_drop(d_feature),
