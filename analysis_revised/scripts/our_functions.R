@@ -34,7 +34,7 @@ set_up_model <- function(experiment, fam = "lognormal") {
   if (fam == "shifted_lognormal") {
     
     my_f <- bf(rt ~ 0 + exp_id + d_feature:log(N_T+1) + (1|p_id), 
-                 ndt ~ 0 + exp_id + (1|p_id))
+                 ndt ~ 1 + (1|p_id))
     
     my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
     
@@ -64,7 +64,7 @@ set_up_model <- function(experiment, fam = "lognormal") {
   } else if(fam == "shifted_lognormal") {
     
     my_prior <- c(
-      prior_string("normal(-1.4, 0.2)", class = "Intercept"),
+      prior_string("normal(-0.5, 0.3)",  class = "b", coef = intercepts),
       prior_string("normal(0, 0.2)", class = "b"),
       prior_string("normal(-1, 0.5)", class = "Intercept", dpar = "ndt" ),
       prior_string("cauchy(0, 0.4)", class = "sigma"),
