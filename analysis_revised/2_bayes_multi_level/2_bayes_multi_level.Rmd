@@ -1,0 +1,203 @@
+---
+title: "Supplementary Materials"
+author: "ADF Clarke and AE Hughes"
+output: bookdown::html_document2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+   fig.height = 3,
+  fig.align = "center")
+
+```
+
+# Intro
+
+## Setup and Data Import
+
+```{r load-packages, include = FALSE}
+library(tidyverse)
+library(brms)
+library(tidybayes)
+library(patchwork)
+library(latex2exp)
+```
+
+```{r}
+# set ggplot2 theme
+theme_set(see::theme_abyss())
+
+# use parallel cores for mcmc chains!
+options(mc.cores = parallel::detectCores())
+
+# reduce the number of decimal places
+options(digits = 3)
+
+# functions used for our Bayesian re-analysis
+source("../scripts/our_functions.R")
+
+# set seed to make sure everything is reproducible 
+set.seed(100320021)
+```
+
+We will import data from all experiments. While we're at it, we will remove error trials.
+
+```{r import-data}
+source("../scripts/import_and_tidy.R")
+summary(d)
+```
+
+## Switching to a Bayesian Multi-Level Framework
+
+Now that we have verified that we can re-create the original results, we switch to a Bayesian multi-level framework. We make the following important changes:
+
+  - Modelling trial data, rather than pooled mean reaction time data. This allows us to fit a model that can generate data at the trial level, and account 
+  - Use lognormal and shifted-lognormal distributions for modelling reaction times, This allows us to avoid ever predicting impossible negative reaction times. It also helps us to account for the skew in the distribution
+  - We will switch from using milliseconds to seconds. This leaves us with most values around 0.5-1seconds, which will help model fitting. I.e., a more standardised scale. 
+  - Recode Experiment 1a and 1b to Experiment 1, Experiment 2a, 2b and 2c to Experiment 2, etc.
+- Remove the bottom and top 1% of data
+  
+```{r}
+# switch from ms to seconds
+# recode experiment as 1, 2, 3 and 4 
+# remove outlier RTs
+
+d <- our_changes_to_data(d)
+```
+
+# Use Experiments 1x and 3x to select the best model
+
+
+The models discussed here have been fit in the `fit_models.R` script. In order to validate our choice of distribution, we will run our analysis using a (i) normal, (ii) lognormal, and (iii) shifted-lognormal model. Additionally, we will also consider a version of the shifted-lognormal model that is linear in $N_t$ (while all the other models are loglinear in $N_t$).
+
+## Prior Predictions
+
+We can take the prior model, and then use it to compute our prior predictions.
+
+```{r glmm-prior-sample}
+
+  prior_model_nrl <- readRDS("models/prior_nrl.models")
+  prior_model_log <- readRDS("models/prior_log.models")
+  prior_model_sft <- readRDS("models/prior_sft.models")
+  
+```
+
+```{r plt-prior, fig.height=2.5, fig.cap="Sample Prior predictions for reaction time and log(N+1) for the normal model (left), lognormal model (centre) and shifted-lognormal model (right)."}
+  
+plt_nrl <- plot_model_fits_rt(1, prior_model_nrl, y_limits = c(-2, 10),feature2plot = "blue")
+plt_log <- plot_model_fits_rt(1, prior_model_log, y_limits = c(0, 10), feature2plot = "blue")
+plt_sft <- plot_model_fits_rt(1, prior_model_sft, y_limits = c(0, 10), feature2plot = "blue")
+                             
+plt_nrl + plt_log + plt_sft
+
+# tidy up, we no longer need to keep hold of these models and plots
+rm(
+ prior_model_nrl, 
+ prior_model_log, 
+ prior_model_sft, 
+ plt_nrl, plt_log, plt_sft)
+
+```
+
+## Fit Model and Posterior Predictions For Experiment 1
+
+```{r glmm-compute-post-1}
+
+m_exp1_nrl <- readRDS("models/exp_1_nrl.models")
+m_exp1_log <- readRDS("models/exp_1_log.models")
+m_exp1_sft <- readRDS("models/exp_1_sft.models")
+m_exp1_sft_nolog <- readRDS("models/exp_1_sft_nolog.models")
+
+```
+
+The plots before show our estimates for average participant to lie. The regions illustrate the distribution of reaction times estimated by our model. 
+
+```{r plt-post, fig.height=10, fig.cap="Posterior predictions for the reaction time for the average participant and log(N+1) for (from top to bottom) (i) the normal model, (ii) the lognormal model, (iii) the shifted-lognormal model, and (iv) the shifted lognormal model with linear $N_T$."}
+
+plt_nrl <- plot_model_fits_rt(1, m_exp1_nrl, plot_type = "fitted")
+plt_log <- plot_model_fits_rt(1, m_exp1_log, plot_type = "fitted")
+plt_sft <- plot_model_fits_rt(1, m_exp1_sft, plot_type = "fitted")
+plt_sft_nolog <- plot_model_fits_rt(1, m_exp1_sft_nolog, plot_type = "fitted")
+
+plt_nrl / plt_log / plt_sft / plt_sft_nolog
+
+rm(plt_nrl, plt_log, plt_sft, plt_sft_nolog)
+
+```
+
+We can see that all of our models give very similar relationship between $N_T$ and mean reaction time. In the next plot, we look at the model's predictions for the distribution of reaction times. 
+
+```{r plt-post-re, fig.height=10, fig.cap="Posterior predictions for reaction time distributions and log(N+1) for (from top to bottom) (i) the normal model, (ii) the lognormal model, (iii) the shifted-lognormal model, and (iv) the shifted lognormal model with linear $N_T$."}
+
+plt_nrl <- plot_model_fits_rt(1, m_exp1_nrl, plot_type = "predicted", y_limits = c(0, 2.5))
+plt_log <- plot_model_fits_rt(1, m_exp1_log, plot_type = "predicted", y_limits = c(0, 2.5))
+plt_sft <- plot_model_fits_rt(1, m_exp1_sft, plot_type = "predicted", y_limits = c(0, 2.5))
+plt_sft_nolog <- plot_model_fits_rt(1, m_exp1_sft_nolog, plot_type = "predicted", y_limits = c(0, 2.5))
+
+plt_nrl / plt_log / plt_sft / plt_sft_nolog
+
+rm(plt_nrl, plt_log, plt_sft, plt_sft_nolog)
+```
+
+### Model Comparison
+
+Load the model weights to decide on best model...
+
+```{r model-weights, cache=TRUE}
+
+loo_m_exp1_nrl <- readRDS("models/loo_m_exp1_nrl.rds")
+loo_m_exp1_log <- readRDS("models/loo_m_exp1_log.rds")
+loo_m_exp1_sft <- readRDS("models/loo_m_exp1_sft.rds")
+loo_m_exp1_sft_nolog <- readRDS("models/loo_m_exp1_sft_nolog.rds")
+
+loo_list <- list(loo_m_exp1_nrl, loo_m_exp1_log, loo_m_exp1_sft, loo_m_exp1_sft_nolog)
+
+tibble(model = c("normal", "lognormal", "shifted-lognormal", "linear in $N_T$"),
+       weight = as.double(loo_model_weights(loo_list))) %>% 
+  knitr::kable()
+```
+
+These model weights strongly suggest that the shifted-lognormal model gives a better prediction than the lognormal or normal models. It also confirmed that we do want to keep the model loglinear in $N_T$.
+
+We will need to use the `bridge_sampler()` function later on, so let's use it here and verify that it gives the same result as `loo()`.
+
+```{r}
+bs_exp1_nrl <- bridge_sampler(m_exp1_nrl, silent = TRUE)
+bs_exp1_log <- bridge_sampler(m_exp1_log, silent = TRUE)
+bs_exp1_sft <- bridge_sampler(m_exp1_sft, silent = TRUE)
+bs_exp1_sft_nolog <- bridge_sampler(m_exp1_sft_nolog, silent = TRUE)
+
+tibble(model = c("normal", "lognormal", "shifted-lognormal", "linear in $N_T$"),
+       weight = post_prob(bs_exp1_nrl, bs_exp1_log, bs_exp1_sft, bs_exp1_sft_nolog)) %>% 
+  knitr::kable()
+
+#remove the models that we no longer need
+rm(m_exp1_nrl, m_exp1_log, m_exp1_sft_nolog)
+```
+
+Both methods give the same result, which is good news! From now on, we will only consider the shifted-lognormal model, as it outperforms the other models that we have considered. 
+
+### Model diagnostics for shifted-lognormal model
+
+The model diagnostics (Rhat values, trace plots) for our shifted-lognormal model seem okay, and are plotted below.
+\tiny
+```{r model_diagnostics, fig.height = 5, fig.cap = "Model diagnostics for the shifted-lognormal model."}
+summary(m_exp1_sft)
+plot(m_exp1_sft, pars = "^b_") 
+```
+\normalsize
+
+### Fit Model and Posterior Predictions For Experiment 2, 3, and 4
+
+Now that we have decided what the best distribution to use is, we will fit the model to the data from Experiment 2. 
+
+```{r glmm-compute-post-234}
+#load previously fitted models
+m_exp2_sft <- readRDS("models/exp_2_sft.models")
+m_exp3_sft <- readRDS("models/exp_3_sft.models")
+m_exp4_sft <- readRDS("models/exp_4_sft.models")
+```
+
+
+

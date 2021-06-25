@@ -1,7 +1,8 @@
 our_changes_to_data <- function(d) {
   
   d %>% mutate(
-    exp_id = parse_number(exp_id), 
+    exp_n = parse_number(exp_id),
+    exp_id = as_factor(exp_id), 
     rt = rt/1000) %>% 
     filter(
       rt > quantile(rt, 0.01), 
@@ -140,7 +141,7 @@ plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0,
     
     d %>%
       filter(
-        exp_id == e_id) %>%
+        exp_n == e_id) %>%
       mutate(
         d_feature = fct_drop(d_feature),
         p_id = fct_drop(p_id)) %>%
@@ -150,7 +151,7 @@ plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0,
     
     d %>%
       filter(
-        exp_id == e_id, d_feature == feature2plot) %>%
+        exp_n== e_id, d_feature == feature2plot) %>%
       mutate(
         d_feature = fct_drop(d_feature),
         p_id = fct_drop(p_id)) -> d_plt
@@ -278,6 +279,7 @@ calc_D_overall_b <- function(f, Dx, De)
     "collinear" = D_collinear) %>%
     rename(De = "D"))
 }
+
 get_Dp_samples <- function(e_id, d, Dx, De) {
   # This function predicts the values for D of experiment 2 (or 4) 
   # based on the results or experiment 1 (3). 
