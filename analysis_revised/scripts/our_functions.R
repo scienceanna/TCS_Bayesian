@@ -51,11 +51,13 @@ set_up_model <- function(experiment, fam = "lognormal") {
   #slopes <- paste("d_feature", levels(df$d_feature), ":logN_TP1", sep = "")
   #slopes <- gsub("[[:space:]]", "", slopes)
   
+  intercepts = paste("exp_id", experiment, sep = "")
+  
   # now define priors, based on our choice of distribution:
   if ( fam == "lognormal") {
     
     my_prior <- c(
-      prior_string("normal(-0.5, 0.3)", class = "Intercept"),
+      prior_string("normal(-0.5, 0.3)",  class = "b", coef = intercepts),
       prior_string("normal(0.1, 0.3)", class = "b"),
       prior_string("cauchy(0, 0.1)", class = "sigma"))
   
@@ -72,9 +74,6 @@ set_up_model <- function(experiment, fam = "lognormal") {
   } else { 
     
     # use a normal distribution
-    intercepts = paste("exp_id", experiment, sep = "")
- 
-    
     my_prior <- c(
       prior_string("normal(0, 0.25)", class = "b"),
       prior_string("normal(0.5, 0.2)", class = "b", coef = intercepts),
