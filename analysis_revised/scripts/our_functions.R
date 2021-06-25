@@ -27,19 +27,21 @@ set_up_model <- function(experiment, fam = "lognormal") {
     group_by(exp_id, p_id, d_feature, N_T) %>%
     mutate(
       d_feature = fct_drop(d_feature),
-      p_id = fct_drop(p_id)) -> df
+      p_id = fct_drop(p_id)) %>%
+    select(p_id, exp_id, N_T, d_feature, rt) -> df
   
   # define model formula:
   if (fam == "shifted_lognormal") {
-  my_f <- bf(rt ~ 1 + d_feature:log(N_T+1) + (1|p_id), 
-               ndt ~ 1 + (1|p_id))
-  
-  my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
-  
+    
+    my_f <- bf(rt ~ 0 + exp_id + d_feature:log(N_T+1) + (1|p_id), 
+                 ndt ~ 0 + exp_id + (1|p_id))
+    
+    my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
+    
   } else {
     
-  my_f <- rt ~  1 + d_feature:log(N_T+1) + (1|p_id)
-  my_inits <- "random"
+    my_f <- rt ~  0 + exp_id + d_feature:log(N_T+1) + (1|p_id)
+    my_inits <- "random"
     
   }
   
@@ -70,10 +72,14 @@ set_up_model <- function(experiment, fam = "lognormal") {
   } else { 
     
     # use a normal distribution
+    intercepts = paste("exp_id", experiment, sep = "")
+ 
+    
     my_prior <- c(
-      prior_string("normal(0.5, 0.3)", class = "Intercept"),
-      prior_string("normal(0, 0.6)", class = "b"),
-      prior_string("cauchy(0, 0.1)", class = "sigma"))
+      prior_string("normal(0, 0.25)", class = "b"),
+      prior_string("normal(0.5, 0.2)", class = "b", coef = intercepts),
+      prior_string("normal(0, 0.25)", class = "sigma"),
+      prior_string("normal(0, 0.25)", class = "sd"))
   }
   
   return(list(my_formula = my_f, my_inits = my_inits, my_prior = my_prior, df = df, my_dist = fam))
@@ -116,7 +122,8 @@ run_model <- function(my_inputs, ppc) {
   
   # now run model
   m <- brm(
-    my_inputs$my_f, data = my_inputs$df,
+    my_inputs$my_f, 
+    data = my_inputs$df,
     family = brmsfamily(my_inputs$my_dist),
     prior = my_inputs$my_prior,
     chains = n_chains,
