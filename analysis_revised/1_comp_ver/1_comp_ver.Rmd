@@ -259,7 +259,7 @@ De %>%
 
 
 ```{r}
-exps_to_predict <- c("2a", "2b", "2c")
+exps_to_predict <- c("2a")
 Dp <- map_df(exps_to_predict, gen_exp_predictions, De, "Bayes")
 ```
 
@@ -271,5 +271,5 @@ Dp %>% mutate(
   mutate(d_feature = d_feature2) %>%
   select(-d_feature2)
 
-left_join(filter(De, parse_number(exp_id)==2), Dp)
+
 ```
