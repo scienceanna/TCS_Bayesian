@@ -47,7 +47,7 @@ source("../scripts/import_and_tidy.R")
 summary(d)
 ```
 
-# Computational Replication of Buetti et al (2019)
+# Freqentist Computational Replication of Buetti et al (2019)
 
 Before doing anything else (i.e., new), we want to confirm that we can replicate the original analysis. This section walks through the original analysis.
 
@@ -92,7 +92,6 @@ We can now use the values of $D$ calculated above to predict values of $D$ ($D_p
 ```{r}
 exps_to_predict <- c("2a", "2b", "2c", "4a", "4b", "4c")
 Dp <- map_df(exps_to_predict, gen_exp_predictions, De)
-
 ```
  
 Recreate the scatter plots from Buetti et al (2019), Figure 4.
@@ -231,5 +230,46 @@ best_plot + orthog_plot + collinear_plot
 ```{r tidy-up}
 # remove variables we no longer need
 rm(De, Dp, rt_pred_collinear, rt_pred_orthog, rt_pred_best, exps_to_predict, 
-   calc_D_per_feature, extract_a_value, predict_D_overall, gen_exp_predictions, extract_D, predict_rt)
+   extract_a_value, extract_D, predict_rt)
+```
+
+# Bayesian Computational Replication of Buetti et al (2019)
+
+We now repeat all of the above, but in a Bayesian framework. This is intended to be a stepping stone to our multi-level implementation documented in Supp mat 2.
+
+## Calculating $D$
+
+```{r}
+De <- map_dfr(c("1a", "1b", "2a"), calc_D_per_feature, "Bayes")
+saveRDS(De, "tmp.model")
+
+De %>% 
+  mutate(
+    d_feature = as_factor(d_feature),
+    d_feature = fct_relevel(d_feature, "yellow", "orange", "blue", "triangle", "semicircle", "diamond", "circle")) %>%
+  arrange(exp_id, d_feature) %>%
+  group_by(exp_id, d_feature) %>%
+  mean_hdci(D, .width = 0.53) %>%
+  select(exp_id, d_feature, `53% lower` = ".lower", D, `53% upper` = ".upper") %>%
+  knitr::kable() %>% kableExtra::kable_styling()
+  
+```
+
+## Predicting $D$
+
+
+```{r}
+exps_to_predict <- c("2a", "2b", "2c")
+Dp <- map_df(exps_to_predict, gen_exp_predictions, De, "Bayes")
+```
+
+```{r}
+Dp %>% mutate(
+  d_feature2 = d_feature,
+  d_feature = str_replace(d_feature, " ", "")) %>%
+  left_join(filter(De, exp_id %in% exps_to_predict), by = c("exp_id", "d_feature")) %>%
+  mutate(d_feature = d_feature2) %>%
+  select(-d_feature2)
+
+left_join(filter(De, parse_number(exp_id)==2), Dp)
 ```

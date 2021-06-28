@@ -1,6 +1,6 @@
 # These functions are for the direct computational replication
 
-calc_D_per_feature <- function(experiment) {
+calc_D_per_feature <- function(experiment, approach = "freq") {
   
   d %>%
     filter(exp_id == experiment) %>%
@@ -10,18 +10,41 @@ calc_D_per_feature <- function(experiment) {
   
   n_feat <- length(levels(df$d_feature))
   
-  m <- lm(mean_rt ~  0 + d_feature + log(N_T+1):d_feature, df)
-  coef_tab <- summary(m)$coefficients
+  if (approach == "freq") {
+    m <- lm(mean_rt ~  0 + d_feature + log(N_T+1):d_feature, df)
+    coef_tab <- summary(m)$coefficients
+    
+    d_out <- tibble(
+      exp_id = experiment,
+      d_feature = levels(df$d_feature),
+      D = c(coef_tab[(n_feat+1):(2*n_feat),1]))
+  } 
+  else if (approach == "Bayes") {
+    m <- brm(mean_rt ~  0 + d_feature + log(N_T+1):d_feature, 
+             data = df, 
+             iter = 500, 
+             chains = 2,
+             refresh = 0)
+    
+    # get the slopes from the model
+    slopes <- str_subset(get_variables(m), "b_d_[a-z]*:")
+    
+    d_out <- posterior_samples(m, slopes) %>%
+      pivot_longer(starts_with("b_d"), names_to = "d_feature", values_to = "D") %>%
+      mutate(
+        exp_id = experiment,
+        d_feature = str_remove(d_feature, "b_d_feature"),
+        d_feature = str_remove(d_feature, ":logN_TP1"),
+        d_feature = as_factor(d_feature)) %>%
+      select(exp_id, d_feature, D)
+  }
   
-  d_out <- tibble(
-    exp_id = experiment,
-    d_feature = levels(df$d_feature),
-    D = c(coef_tab[(n_feat+1):(2*n_feat),1]))
+  rm(m)
   
   return(d_out)
 }
 
-predict_D_overall <- function(f, D)
+predict_D_overall <- function(f, D, approach = "freq")
 {
   # f is a feature condition, such as "blue circle"
   # D is the dataframe that is output by calc_D_per_feature
@@ -35,13 +58,14 @@ predict_D_overall <- function(f, D)
   D_best_feature = min(D1, D2)
   D_orth_contrast =  sqrt(1/((1/D1^2) + (1/D2^2)))
   
-  return(list(
+  return(tibble(
+    d_feature = f,
     "best feature" = D_best_feature, 
     "orthog. contrast" = D_orth_contrast, 
     "collinear" = D_collinear))
 }
 
-gen_exp_predictions <- function(experiment, De) 
+gen_exp_predictions <- function(experiment, De, approach = "freq") 
 {
   # Predict values of D for composite features
   
@@ -57,8 +81,7 @@ gen_exp_predictions <- function(experiment, De)
   
   d_out <- tibble(
     exp_id = experiment,
-    d_feature = levels(df$d_feature), 
-    map_dfr(levels(df$d_feature), predict_D_overall, D))
+    map_dfr(levels(df$d_feature), predict_D_overall, D, approach))
   
   return(d_out)
 }
