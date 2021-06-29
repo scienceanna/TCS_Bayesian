@@ -64,7 +64,7 @@ predict_D_overall <- function(f, D, approach = "freq")
   D2 = as.numeric(filter(D, d_feature == f2)$D)
   
   D_collinear = 1/((1/D1) + (1/D2))
-  D_best_feature = min(D1, D2)
+  D_best_feature = pmin(D1, D2)
   D_orth_contrast =  sqrt(1/((1/D1^2) + (1/D2^2)))
   
   return(tibble(

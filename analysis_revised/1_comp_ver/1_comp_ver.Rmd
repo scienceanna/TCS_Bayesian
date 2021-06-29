@@ -261,7 +261,7 @@ De %>%
 
 
 ```{r}
-exps_to_predict <- c("2a")
+exps_to_predict <- c("2a", "2b", "2c", "4a", "4b", "4c")
 Dp <- map_df(exps_to_predict, gen_exp_predictions, De, "Bayes")
 ```
 
@@ -288,7 +288,7 @@ Dp %>% filter(method != "D") %>%
 rm(De2)
 
 ggplot(Dp, aes(x = De, xmin = De_lower, xmax = De_upper, y = Dp, ymin = .lower, ymax = .upper )) + 
-  geom_errorbar(colour = "yellow") + geom_errorbarh(colour = "yellow")
+  geom_errorbar(colour = "yellow") + geom_errorbarh(colour = "yellow") + facet_wrap(~method)
   
 
 ```
