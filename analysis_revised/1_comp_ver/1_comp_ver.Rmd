@@ -240,8 +240,8 @@ We now repeat all of the above, but in a Bayesian framework. This is intended to
 ## Calculating $D$
 
 ```{r}
-# De <- map_dfr(c("1a", "1b", "2a", "2b", "2c", "3a", "3b", "4a", "4b", "4c" ),
-  #            calc_D_per_feature, "Bayes")
+#De <- map_dfr(c("1a", "1b", "2a", "2b", "2c", "3a", "3b", "4a", "4b", "4c" ),
+#              calc_D_per_feature, "Bayes")
 #saveRDS(De, "tmp.model")
 
 De <- readRDS("tmp.model")
@@ -271,6 +271,7 @@ Dp <- map_df(exps_to_predict, gen_exp_predictions, De, "Bayes")
 Dp %>% pivot_longer(
     c(`best feature`, `orthog. contrast`, collinear),
     names_to = "method", values_to = "Dp") %>%
+  mutate(method = fct_relevel(method, "best feature", "orthog. contrast")) %>%
   select(-iter) %>%
   group_by(exp_id, d_feature, method) %>%
     mean_hdci(.width = 0.53) %>%
@@ -291,12 +292,16 @@ Dp %>% pivot_longer(
 DHDI <- full_join(DeHDI, DpHDI, by = c("exp_id", "d_feature"))
 
 
-ggplot(DHDI, aes(x = Dp, xmin = Dp_lower, xmax = Dp_upper , y = D, ymin = De_lower, ymax = De_upper)) + 
+ggplot(DHDI, aes(x = Dp, xmin = Dp_lower, xmax = Dp_upper , y = D, ymin = De_lower, ymax = De_upper, colour = method)) + 
   geom_errorbar(colour = "yellow") + geom_errorbarh(colour = "yellow") + facet_wrap(~method) + 
    geom_abline(linetype = 2, colour = "cyan") +
   geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") +
+      stat_poly_eq(formula = y ~ x, 
+               aes(label = paste(..eq.label.., ..rr.label.., sep = "*plain(\",\")~")), 
+               parse = TRUE, size = 2.8, label.y = 0.9, coef.digits = 3, rr.digits = 4) +
    scale_x_continuous("predicted D", limits = c(0, 90), breaks = seq(0, 90, 10)) + 
-  scale_y_continuous("empirical D", limits = c(0, 90), breaks = seq(0, 90, 10))
+  scale_y_continuous("empirical D", limits = c(0, 90), breaks = seq(0, 90, 10)) +
+  scale_colour_manual(values = c("yellow1", "yellow1", "yellow1"))
   
 
 ```
