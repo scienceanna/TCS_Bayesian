@@ -28,7 +28,7 @@ library(ggpmisc)
 theme_set(see::theme_abyss())
 
 # use parallel cores for mcmc chains!
-options(mc.cores = parallel::detectCores())
+options(mc.cores = 4)
 
 # reduce the number of decimal places
 options(digits = 3)
@@ -240,8 +240,10 @@ We now repeat all of the above, but in a Bayesian framework. This is intended to
 ## Calculating $D$
 
 ```{r}
-De <- map_dfr(c("1a", "1b", "2a"), calc_D_per_feature, "Bayes")
+De <- map_dfr(c("1a", "1b", "2a", "2b", "2c"), calc_D_per_feature, "Bayes")
 saveRDS(De, "tmp.model")
+
+# De <- readRDS("tmp.model")
 
 De %>% 
   mutate(
@@ -267,9 +269,26 @@ Dp <- map_df(exps_to_predict, gen_exp_predictions, De, "Bayes")
 Dp %>% mutate(
   d_feature2 = d_feature,
   d_feature = str_replace(d_feature, " ", "")) %>%
-  left_join(filter(De, exp_id %in% exps_to_predict), by = c("exp_id", "d_feature")) %>%
+  full_join(filter(De, exp_id %in% exps_to_predict), by = c("exp_id", "d_feature", "iter")) %>%
   mutate(d_feature = d_feature2) %>%
-  select(-d_feature2)
+  select(-d_feature2, -iter) %>%
+  pivot_longer(
+    c(`best feature`, `orthog. contrast`, collinear, D),
+    names_to = "method", values_to = "Dp") %>%
+  group_by(exp_id, d_feature, method) %>%
+    mean_hdci(.width = 0.53) -> Dp
 
+De2 <- filter(Dp, method == "D") %>%
+  select(exp_id, d_feature, De = "Dp", De_lower = ".lower", De_upper = ".upper")
+
+Dp %>% filter(method != "D") %>%
+  select(-.width, -.point, -.interval) %>%
+  full_join(De2, by = c("exp_id", "d_feature")) -> Dp
+
+rm(De2)
+
+ggplot(Dp, aes(x = De, xmin = De_lower, xmax = De_upper, y = Dp, ymin = .lower, ymax = .upper )) + 
+  geom_errorbar(colour = "yellow") + geom_errorbarh(colour = "yellow")
+  
 
 ```

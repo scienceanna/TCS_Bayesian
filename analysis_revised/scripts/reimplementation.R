@@ -20,23 +20,32 @@ calc_D_per_feature <- function(experiment, approach = "freq") {
       D = c(coef_tab[(n_feat+1):(2*n_feat),1]))
   } 
   else if (approach == "Bayes") {
+    intercepts = paste("d_feature", str_replace(unique(df$d_feature), " ", ""), sep = "")
+    
+    my_prior <- c(
+      prior_string("normal(0, 50)", class = "b"),
+      prior_string("normal(500, 100)", class = "b", coef = intercepts),
+      prior_string("normal(0, 50)", class = "sigma"))
+      
     m <- brm(mean_rt ~  0 + d_feature + log(N_T+1):d_feature, 
              data = df, 
+             prior = my_prior,
              iter = 500, 
-             chains = 2,
+             chains = 1,
              refresh = 0)
     
     # get the slopes from the model
     slopes <- str_subset(get_variables(m), "b_d_[a-z]*:")
     
     d_out <- posterior_samples(m, slopes) %>%
+      mutate(iter = 1:n()) %>%
       pivot_longer(starts_with("b_d"), names_to = "d_feature", values_to = "D") %>%
       mutate(
         exp_id = experiment,
         d_feature = str_remove(d_feature, "b_d_feature"),
         d_feature = str_remove(d_feature, ":logN_TP1"),
         d_feature = as_factor(d_feature)) %>%
-      select(exp_id, d_feature, D)
+      select(exp_id, d_feature, iter, D)
   }
   
   rm(m)
@@ -60,6 +69,7 @@ predict_D_overall <- function(f, D, approach = "freq")
   
   return(tibble(
     d_feature = f,
+    iter = 1:length(D1),
     "best feature" = D_best_feature, 
     "orthog. contrast" = D_orth_contrast, 
     "collinear" = D_collinear))
