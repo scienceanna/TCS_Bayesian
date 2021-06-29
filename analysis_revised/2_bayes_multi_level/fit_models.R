@@ -43,7 +43,6 @@ rm(
 #### Fit model for Expt 1&3 ####
 training_models <- c("1a", "1b", "3a", "3b")
 
-
 mdl_inputs_nrl <- set_up_model(training_models, "normal")
 m_exp1_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
 saveRDS(m_exp1_nrl, "models/exp_1_3_nrl.models") 
@@ -56,37 +55,18 @@ mdl_inputs_sft <- set_up_model(training_models, "shifted_lognormal")
 m_exp1_sft <- run_model(mdl_inputs_sft, ppc = "no") 
 saveRDS(m_exp1_sft, "models/exp_1_3_sft.models")
 
-#### Calculating model weights to decide on best model ####
-
-loo_m_exp1_nrl <- loo(m_exp1_nrl, nsamples=4500)
-saveRDS(loo_m_exp1_nrl, "models/loo_m_exp13_nrl.rds")
-loo_m_exp1_log <- loo(m_exp1_log, nsamples=4500, moment_match = TRUE)
-saveRDS(loo_m_exp1_log, "models/loo_m_exp13_log.rds")
-loo_m_exp1_sft <- loo(m_exp1_sft, nsamples=4500, moment_match = TRUE)
-saveRDS(loo_m_exp1_sft, "models/loo_m_exp13_sft.rds")
-#loo_m_exp1_sft_nolog <- loo(m_exp1_sft, nsamples=4500, moment_match = TRUE) # The 'no log' model is not preferred
-
-loo_list <- list(loo_m_exp1_nrl, loo_m_exp1_log, loo_m_exp1_sft)
-loo_model_weights(loo_list)
-
-rm(m_exp1_nrl,
-   m_exp1_log,
-   m_exp1_sft,
-   loo_m_exp1_nrl,
-   loo_m_exp1_log,
-   loo_m_exp1_sft)
 
 #### Fit models for Expts 2a,b,c and 4a,b,c ####
 
 exps_to_model <- c("2a", "2b", "2c", "4a", "4b", "4c")
 
-for (e2m in exps_to_model) {
+
    
-   mdl_inputs_sft <- set_up_model(e2m, "shifted_lognormal")
-   m_exp_sft <- run_model(mdl_inputs_sft, ppc = "no")
-   saveRDS(m_exp_sft, paste("models/exp_", e2m, "_sft.models", sep = ""))
+mdl_inputs_sft <- set_up_model(exps_to_model , "shifted_lognormal")
+m_exp_sft <- run_model(mdl_inputs_sft, ppc = "no")
+saveRDS(m_exp_sft, paste("models/exp_2_4_sft.models", sep = ""))
    
-}
+
 
 
 

@@ -142,21 +142,7 @@ rm(plt_nrl, plt_log, plt_sft, plt_sft_nolog)
 
 ### Model Comparison
 
-Load the model weights to decide on best model...
-
-```{r model-weights, cache=TRUE}
-
-loo_m_exp1_nrl <- readRDS("models/loo_m_exp1_nrl.rds")
-loo_m_exp1_log <- readRDS("models/loo_m_exp1_log.rds")
-loo_m_exp1_sft <- readRDS("models/loo_m_exp1_sft.rds")
-loo_m_exp1_sft_nolog <- readRDS("models/loo_m_exp1_sft_nolog.rds")
-
-loo_list <- list(loo_m_exp1_nrl, loo_m_exp1_log, loo_m_exp1_sft, loo_m_exp1_sft_nolog)
-
-tibble(model = c("normal", "lognormal", "shifted-lognormal", "linear in $N_T$"),
-       weight = as.double(loo_model_weights(loo_list))) %>% 
-  knitr::kable()
-```
+update text as we will now only use bridge sampling!
 
 These model weights strongly suggest that the shifted-lognormal model gives a better prediction than the lognormal or normal models. It also confirmed that we do want to keep the model loglinear in $N_T$.
 
