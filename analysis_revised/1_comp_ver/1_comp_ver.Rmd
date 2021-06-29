@@ -268,28 +268,30 @@ Dp <- map_df(exps_to_predict, gen_exp_predictions, De, "Bayes")
 ```
 
 ```{r}
-Dp %>% mutate(
-  d_feature2 = d_feature,
-  d_feature = str_replace(d_feature, " ", "")) %>%
-  full_join(filter(De, exp_id %in% exps_to_predict), by = c("exp_id", "d_feature", "iter")) %>%
-  mutate(d_feature = d_feature2) %>%
-  select(-d_feature2, -iter) %>%
-  pivot_longer(
-    c(`best feature`, `orthog. contrast`, collinear, D),
+Dp %>% pivot_longer(
+    c(`best feature`, `orthog. contrast`, collinear),
     names_to = "method", values_to = "Dp") %>%
+  select(-iter) %>%
   group_by(exp_id, d_feature, method) %>%
-    mean_hdci(.width = 0.53) -> Dp
+    mean_hdci(.width = 0.53) %>%
+   ungroup() %>%
+    select(-.width, -.interval, -.point) %>%
+  mutate(d_feature = str_replace(d_feature, " ", "")) %>%
+  rename(Dp_lower = ".lower", Dp_upper = ".upper") -> DpHDI
+  
 
-De2 <- filter(Dp, method == "D") %>%
-  select(exp_id, d_feature, De = "Dp", De_lower = ".lower", De_upper = ".upper")
+ De %>% filter(exp_id %in% exps_to_predict) %>%
+   select(-iter) %>%
+   group_by(exp_id, d_feature) %>%
+    mean_hdci(.width = 0.53) %>%
+   ungroup() %>%
+    select(-.width, -.interval, -.point)  %>%
+  rename(De_lower = ".lower", De_upper = ".upper")  -> DeHDI
 
-Dp %>% filter(method != "D") %>%
-  select(-.width, -.point, -.interval) %>%
-  full_join(De2, by = c("exp_id", "d_feature")) -> Dp
+DHDI <- full_join(DeHDI, DpHDI, by = c("exp_id", "d_feature"))
 
-rm(De2)
 
-ggplot(Dp, aes(x = De, xmin = De_lower, xmax = De_upper, y = Dp, ymin = .lower, ymax = .upper )) + 
+ggplot(DHDI, aes(x = Dp, xmin = Dp_lower, xmax = Dp_upper , y = D, ymin = De_lower, ymax = De_upper)) + 
   geom_errorbar(colour = "yellow") + geom_errorbarh(colour = "yellow") + facet_wrap(~method) + 
    geom_abline(linetype = 2, colour = "cyan") +
   geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") +
