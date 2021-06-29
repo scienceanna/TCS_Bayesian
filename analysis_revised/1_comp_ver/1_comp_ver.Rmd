@@ -253,8 +253,17 @@ De %>%
   arrange(exp_id, d_feature) %>%
   group_by(exp_id, d_feature) %>%
   mean_hdci(D, .width = 0.53) %>%
-  select(exp_id, d_feature, `53% lower` = ".lower", D, `53% upper` = ".upper") %>%
+  select(exp_id, d_feature, `53% lower` = ".lower", D, `53% upper` = ".upper") -> D_tab 
+
+D_tab %>% filter(exp_id %in% c("1a", "3a")) %>% 
   knitr::kable() %>% kableExtra::kable_styling()
+
+D_tab %>% filter(exp_id %in% c("1b", "3b")) %>% 
+  knitr::kable(digits = 1) %>% kableExtra::kable_styling()
+
+D_tab %>% filter(exp_id %in% c("2a", "2b", "2c", "4a", "4b", "4c")) %>% 
+  knitr::kable(digits = 1) %>% kableExtra::kable_styling()
+
   
 ```
 
