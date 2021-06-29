@@ -240,10 +240,11 @@ We now repeat all of the above, but in a Bayesian framework. This is intended to
 ## Calculating $D$
 
 ```{r}
-De <- map_dfr(c("1a", "1b", "2a", "2b", "2c"), calc_D_per_feature, "Bayes")
-saveRDS(De, "tmp.model")
+# De <- map_dfr(c("1a", "1b", "2a", "2b", "2c", "3a", "3b", "4a", "4b", "4c" ),
+  #            calc_D_per_feature, "Bayes")
+#saveRDS(De, "tmp.model")
 
-# De <- readRDS("tmp.model")
+De <- readRDS("tmp.model")
 
 De %>% 
   mutate(
@@ -261,8 +262,9 @@ De %>%
 
 
 ```{r}
-exps_to_predict <- c("2a", "2b", "2c", "4a", "4b", "4c")
+exps_to_predict <- c("2a", "2b", "2c", "4a", "4b", "4c") #
 Dp <- map_df(exps_to_predict, gen_exp_predictions, De, "Bayes")
+
 ```
 
 ```{r}
@@ -288,7 +290,11 @@ Dp %>% filter(method != "D") %>%
 rm(De2)
 
 ggplot(Dp, aes(x = De, xmin = De_lower, xmax = De_upper, y = Dp, ymin = .lower, ymax = .upper )) + 
-  geom_errorbar(colour = "yellow") + geom_errorbarh(colour = "yellow") + facet_wrap(~method)
+  geom_errorbar(colour = "yellow") + geom_errorbarh(colour = "yellow") + facet_wrap(~method) + 
+   geom_abline(linetype = 2, colour = "cyan") +
+  geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") +
+   scale_x_continuous("predicted D", limits = c(0, 90), breaks = seq(0, 90, 10)) + 
+  scale_y_continuous("empirical D", limits = c(0, 90), breaks = seq(0, 90, 10))
   
 
 ```
