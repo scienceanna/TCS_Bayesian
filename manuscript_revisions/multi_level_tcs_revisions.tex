@@ -62,19 +62,15 @@ TCS falls under a class of models that take a different approach, in that they f
 
 A key assumption of the TCS model is that behaviour is determined by comparing the target template (held in memory) with every element present in the scene in parallel. This allows the visual system to reject peripheral non-targets quickly; the speed at which items are evaluated is determined by how different the item is from the template through an evidence accumulation process (formally, the slope of the logarithmic function is assumed to be inversely proportional to the overall magnitude of the contrast signal between the target and distractor). The model thus focuses on an initial, efficient processing stage of search; if sufficient evidence is not accumulated during this process, the model posits that a second stage is entered, requiring a sequence of eye movements to search for the target in a serial manner. TCS has been successful in predicting a number of empirical results, including search performance in heterogeneous scenes based on parameters estimated in homogeneous scenes, both with artificial stimuli \citep{buetti2016towards,lleras2019predicting} and with real-world objects visualised on a computer display \citep{wang2017predicting}. Table \ref{tab:tcs_overview} provides an overview of studies investigating the TCS framework to date.
  
-The original version of the TCS model is given below:
-\begin{equation}
-\hat{RT} = a + \sum_{j=1}^{L}(D_j-D_{j-1})\log{\left( N_T-\left(\sum_{i=1}^{j-1}N_i\right)I_{[2,\infty]}(L)+1\right)}
-\label{eq:tcs}
-\end{equation}
+The original version of the TCS model is essentially a (natural) log-linear model in the number of distractors. The full model contains a variable $L$, which represents the number of different types of distractors present in the display. However, in our paper, we will follow \cite{buetti2019predicting} and only consider the specific case of $L=1$, of a target among a homogeneous set of distractors. In this case, the TCS model can be represented in the following way:
 
-This is essentially (natural) log-linear model in the number of distractors. The intercept, $a$, corresponds to search arrays in which only the target is present and there are no distractors. $L$ represents the number of different types of distractors present in the display, while $N_i$ represents the number of individual distractors present of type $i$. $N_T$ is the total number of distractors, i.e., $N_T = \sum_{i=1}^{L}N_i$. Finally, $I_{[2, \infty]}$ is an index function that equals 0 when there $L<2$, and 1 otherwise\footnote{Note: Equation 1 in \cite{lleras2020target} had $j$ here rather than $L$, due to a typesetting error (confirmed with the authors). We have amended this in our version.}. In our paper, we will follow \cite{buetti2019predicting} and only consider the specific case of $L=1$, of a target among a homogeneous set of distractors  As such, the Equation \ref{eq:tcs} simplifies to:
 
 \begin{equation}
 \hat{RT} = a + D\log(N_T+1)
 \label{eq:loglin}
 \end{equation}
 
+The intercept, $a$, corresponds to search arrays in which only the target is present and there are no distractors. $N_T$ is the total number of distractors.
 
 \begin{table}[hp]
 \centering
@@ -89,6 +85,7 @@ Reference & Overview\\
 \textbf{\cite{buetti2019predicting}} & Data from search arrays where the distractors are distinguished from the target by one feature can be used to predict search reaction times in displays with compound stimuli, defined by two features. Reaction times can be predicted using a collinear contrast integration model, which assumes that the overall target-distractor contrast is the sum of the contrasts from the two feature vectors separately. \\
 \cite{lleras2020target} & Full proposal of the Target Contrast Signal Theory, proposing that the initial stage of processing computes a difference signal between each item in the scene and the target template, using this to determine which items in the scene are unlikely to be the target. \\
 \cite{ng2020prioritization} & Attention works in a two stage process, first discarding target-dissimilar distractors in a distributed, parallel way. Focused spatial attention then visits target-similar items at random. \\
+\cite{xu2021predicting} & Extension of \cite{buetti2019predicting} to new features (shape and texture), which combine according to a Euclidean metric (orthogonal contrast integration model). \\
 \end{tabularx}
 \caption{An overview of work on the Target Contrast Signal Theory. The key paper for our replication is highlighted.}
 \label{tab:tcs_overview}
