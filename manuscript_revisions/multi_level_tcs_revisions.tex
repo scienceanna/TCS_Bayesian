@@ -133,11 +133,13 @@ blue & 76.8 & 575.1 & triangle & 141.1 & 551.6\\
 yellow & 16.0 & 575.1 & diamond & 77.2 & 537.7\\
 orange & 9.8 & 575.1 & circle & 62.1& 555.8\\
 \end{tabular}
-\caption{A table of $D_i$ values for Experiment 1a and 1b}
+\caption{A table of $D_i$ values for Experiment 1a and 1b.}
 \label{tab:reimp_Dc_Ds}
 \end{table}
 
-As $a$ is the intercept in our model, it represents how long observers take to find a target when $N_T = 0$, i.e., there are no distractors. As such, it should be independent of both shape and colour, and can be thought of as the role of non-search processes (such as motivation, motor preparation etc.) that influence reaction time. However, there is some ambiguity in how $a$ should be defined; in \cite{buetti2019predicting}, $a$ was calculated for each feature in each sub-experiment (e.g. Experiments 1a, 1b, 2a, 2b, 2c; see Table \ref{tab:reimp_Dc_Ds}). Here, we follow that method in order to replicate their results exactly. However, in our proposed new version of the TCS theory, we will estimate $a$ at the level of an experiment (e.g. Experiments 1 and 2), as this is more appropriate in a within-subjects design (all participants will complete all experiments, and thus we would not expect systematic differences in non-search processes due to individual differences, as might be seen in a between-subjects design).
+As $a$ is the intercept in our model, it represents how long observers take to find a target when $N_T = 0$, i.e., there are no distractors. As such, it should be independent of both shape and colour, and can be thought of as the role of non-search processes (such as motivation, motor preparation etc.) that influence reaction time. However, there is some ambiguity in how $a$ should be defined; in \cite{buetti2019predicting}, $a$ was calculated for each feature in each sub-experiment (e.g. Experiments 1a, 1b, 2a, 2b, 2c; see Table \ref{tab:reimp_Dc_Ds}). Here, we follow that method in order to replicate their results exactly. However, in our proposed version, we will use $a$ from the single feature experiments (i.e. Experiment 1) to predict $a$ in the compound features experiments (i.e. Experiment 2), as this is more appropriate in a within-subjects design (all participants will complete all experiments, and thus we would not expect systematic differences in non-search processes due to individual differences, as might be seen in a between-subjects design).
+
+Note that in \citep{buetti2019predicting} an extra two experiments were conducted (Experiments 3 and 4) that had the same structure as Experiments 1 and 2 respectively, but with different target and distractor types. For our computational replication (see \textit{Supplementary Materials}) we have used all the data from Experiments 1-4 to ensure we can fully replicate the original results.
 
 \subsubsection{Estimating $D_{c,s}$, the logarithmic slope parameter for compound features}
 
@@ -148,10 +150,10 @@ D_\text{c,s} = \text{min}\left(D_\text{c}, D_\text{s}\right)
 \label{eq:bestfeature}
 \end{equation}
 
-The orthogonal contrast combination model instead suggests that independent feature dimensions comprise a multidimensional space, where an object can be described by the overall vector in this space, and thus $\mathrm{D_{c,s}}$ can be represented as\footnote{Note: there is a small error in Equation 4 in \cite{buetti2019predicting} that was introduced by typesetting (confirmed with the authors). We have amended this in our version.}:
+The orthogonal contrast combination model instead suggests that independent feature dimensions comprise a multidimensional space, where an object can be described by the overall vector in this space, and thus $\mathrm{D_{c,s}}$ can be represented as:
 
 \begin{equation}
-D_\text{c,s} = \frac{1}{\sqrt{\frac{1}{(D_\text{c})^2 + (D_\text{s})^2}}}
+D_\text{c,s} = \frac{1}{\sqrt{{\frac{1}{(D_\text{c}})^2 + (\frac{1}{D_\text{s}})^2}}
 \label{eq:orthogonalcontrast}
 \end{equation}
 
@@ -167,7 +169,7 @@ Finally, the collinear contrast integration model also assumes independence of f
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{../plots/computational_replication.pdf}
-\caption{(left) The collinear method for calculating $D$ offers a good prediction. (centre) Using the TCS to predict reaction times. (right) Each dot now represents a randomly sampled reaction time from an observer.}
+\caption{(left) The collinear method for calculating $D$ offers a good prediction. (centre) Using the TCS to predict reaction times. (right) Each dot now represents a randomly sampled reaction time from an observer. Note that there is greater spread in the data points here, due to the fact that there will be noise due to target position, observer differences etc.}
 \label{fig:comp_rep}
 \end{figure}
 
@@ -179,14 +181,14 @@ Finally, we can use Equation \ref{eq:loglin} to predict mean reaction times. As 
 
 While TCS theory offers a good prediction of search slopes and corresponding mean reaction times for double feature search, there are two related limitations. Firstly, it is unable to account for individual differences between observers, only the changes to the sample average. Secondly, it cannot account for the distribution of reaction times over multiple trials. Figure \ref{fig:comp_rep} (right panel) shows clearly that these factors generate high levels of variability within the individual trial-level data. To address these issues, we propose a second version of the TCS that make use of multi-level modelling techniques.
 
-It is also worth noting that relying simply on $R^2$ values may give a misleading view of the accuracy of the TCS model. Figure \ref{fig:comp_rep_conditions} (top) shows the predicted RTs (pink line) for three conditions from Experiment 2 (a, b and c) of \cite{buetti2019predicting}, plotted next to the mean of means for each condition. It is clear that for at least some conditions, the TCS model is doing a poor job of predicting the empirical data, even when allowing quite rigid constraints on the model; for example, the intercept, $a$, is set at the level of each sub-experiment and thus would be expected to be perfect. To some extent, this could reflect the fact that the $R^2$ measure of goodness-of-fit simply measures how tightly clustered the points are around a line with arbitrary intercept and slope. It is possible therefore for the $R^2$ value to be high, but for the line to deviate significantly from an intercept of 0 and a slope of 1, which is the unity line required for the predictions to be a good match to the empirical data. For our reimplementation of the TCS model, we will therefore assess model fit by computing the log marginal likelihoods via bridge sampling. This directly assesses how well our values of $D_{c,s}$ are able to predict RTs, avoiding the issues with the $R^2$ measure.
+It is also worth noting that relying simply on $R^2$ values may give a misleading view of the accuracy of the TCS model. Figure \ref{fig:comp_rep_conditions} (top) shows the predicted RTs (pink line) for three conditions from Experiment 2 (a, b and c) of \cite{buetti2019predicting}, plotted next to the mean of means for each condition. It is clear that for at least some conditions, the TCS model is doing a poor job of predicting the empirical data, even when allowing quite rigid constraints on the model; for example, the intercept, $a$, is derived from the data for each sub-experiment (e.g. Experiment 2a, 2c etc.) and thus will always reflect the observed, true mean for $N_T = 0$ for that dataset (rather than being predicted from the data in Experiment 1). To some extent, this could reflect the fact that the $R^2$ measure of goodness-of-fit simply measures how tightly clustered the points are around a line with arbitrary intercept and slope. It is possible therefore for the $R^2$ value to be high, but for the line to deviate significantly from an intercept of 0 and a slope of 1, which is the unity line required for the predictions to be a good match to the empirical data. For our reimplementation of the TCS model, we will therefore assess model fit by computing the log marginal likelihoods via bridge sampling. This directly assesses how well our values of $D_{c,s}$ are able to predict RTs, avoiding the issues with the $R^2$ measure.
 
 Finally, if we look at the different predictions made by the three proposed feature combination models, we can see that in most of the parameter space explored in \cite{buetti2019predicting}, the models all make very similar predictions (Figure \ref{fig:comp_rep_conditions}, bottom). In Experiment 2, we are only able to discriminate between models in the \textit{blue} conditions, whereas in the \textit{yellow} and \textit{orange} conditions, they make essentially identical predictions. As such, if we want to distinguish between these three models, we will have to use combinations of features that lead to larger target-distractor differences. We will therefore use yellow, green and blue distractors in our replication study where participants are required to find a cyan target, hopefully generating a wider range of target-distractor differences.
 
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{../plots/computational_replication_issues.pdf}
-\caption{(top) Three conditions from Experiment 2. Blue dots represent the mean of means for each condition, while the line shows the prediction of the TCS theory. (bottom) Estimates of $D_{c,s}$ for the different colours and shape from \cite{buetti2019predicting}. As can be seen, in two of the three colour conditions, we are unable to distinguish between best feature, collinear or orthogonal contrast models.}
+\caption{(top) Three conditions from Experiment 2. Blue dots represent the mean of means for each condition, while the line shows the prediction of the TCS theory. (bottom) Estimates of $D_{c,s}$ for the different colours and shape from Experiment 2 in \cite{buetti2019predicting}. Note that both axes are continuous (labels on the x axis are included as a convenience for the reader, so they are able to see which $D_s$ value corresponds with each shape). As can be seen, in two of the three colour conditions, we are unable to distinguish between best feature, collinear or orthogonal contrast models.}
 \label{fig:comp_rep_conditions}
 \end{figure}
 
