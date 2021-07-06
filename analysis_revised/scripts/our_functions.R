@@ -115,7 +115,7 @@ run_model <- function(my_inputs, ppc) {
   # this is done to optimistically make things go faster!
   if (ppc == 'only') {
     my_inputs$df %>% 
-      group_by(p_id, d_feature, N_T) %>%
+      group_by(p_id, exp_id, d_feature, N_T) %>%
       summarise(rt = sample(rt, 1), .groups = "drop") -> my_inputs$df
   }
   
@@ -147,20 +147,22 @@ plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0,
     
     d %>%
       filter(
-        exp_n == e_id) %>%
+        exp_id %in% e_id) %>%
       mutate(
         d_feature = fct_drop(d_feature),
-        p_id = fct_drop(p_id)) %>%
+        p_id = fct_drop(p_id),
+        exp_id = fct_drop(exp_id)) %>%
       ungroup() -> d_plt
     
   } else {
     
     d %>%
       filter(
-        exp_n== e_id, d_feature == feature2plot) %>%
+        exp_n == e_id, d_feature == feature2plot) %>%
       mutate(
         d_feature = fct_drop(d_feature),
-        p_id = fct_drop(p_id)) -> d_plt
+        p_id = fct_drop(p_id),
+        exp_id = fct_drop(exp_id)) -> d_plt
   }
   
   if (plot_type == "predicted") {
@@ -168,25 +170,25 @@ plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0,
     # include all group-level effects. 
     # Let's simulate 100 new people!
     d_plt %>%
-      modelr::data_grid(N_T = seq(0,36,4), d_feature, p_id = 1:100)  %>%
+      expand(nesting(exp_id, d_feature), p_id = 1:10, N_T = full_seq(N_T,1)) %>%
       add_predicted_draws(m, re_formula = NULL, allow_new_levels = TRUE, n = 100) %>%
       ungroup() %>% 
       select(-p_id) %>% 
-      group_by(d_feature, N_T) -> d_hdci
+      group_by(d_feature, N_T, exp_id) -> d_hdci
     
   } else {
     
     # no group-level effects are included, so we are plotting 
     # for the average participant
     d_plt %>% 
-      modelr::data_grid(N_T = seq(0,36,4), d_feature) %>%
+      expand(nesting(exp_id, d_feature), N_T = full_seq(N_T,1)) %>%
       add_fitted_draws(m, re_formula = NA, scale = "response", n = 500) -> d_hdci
     
     # we will plot these against the mean mean rt
     
-    d_plt %>% group_by(N_T, d_feature, p_id) %>%
+    d_plt %>% group_by(exp_id, N_T, d_feature, p_id) %>%
       summarise(mean_rt = mean(rt), .groups = "drop") %>%
-      group_by(N_T, d_feature) %>%
+      group_by(exp_id, N_T, d_feature) %>%
       summarise(mean_rt = mean(mean_rt), .groups = "drop") -> d_plt
   }
 
@@ -213,7 +215,7 @@ plot_ribbon_quantiles <- function(d_hdci, d_plt, y_limits, n_row, plot_type, dot
     geom_ribbon(aes( ymin = .lower, ymax = .upper, group = .width),  alpha = 0.5, fill = "palevioletred1") +
     my_dots + 
     geom_hline(yintercept = 0, colour = "white") + 
-    facet_wrap( ~ d_feature, nrow = n_row) + 
+    facet_wrap(exp_id ~ d_feature, nrow = n_row) + 
     # scale_fill_brewer(palette = "Greys") + 
     scale_x_continuous(TeX("$N_T$")) + 
     scale_y_continuous("rt (seconds)", expand = c(0,0)) +

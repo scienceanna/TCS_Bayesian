@@ -6,7 +6,7 @@ library(patchwork)
 library(magrittr)
 
 # use parallel cores for mcmc chains!
-options(mc.cores = parallel::detectCores())
+options(mc.cores = 6)
 
 # functions used for the analysis implementation
 source("../scripts/reimplementation.R")
@@ -22,51 +22,70 @@ source("../scripts/import_and_tidy.R")
 d <- our_changes_to_data(d)
 
 
-#### Prior fitting ####
-mdl_inputs_nrl <- set_up_model("1a", "normal")
-prior_model_nrl <- run_model(mdl_inputs_nrl, ppc = "only")
-saveRDS(prior_model_nrl, "models/prior_nrl.models")
-
-mdl_inputs_log <- set_up_model("1a", "lognormal")
-prior_model_log <- run_model(mdl_inputs_log, ppc = "only")
-saveRDS(prior_model_log, "models/prior_log.models")
-
-mdl_inputs_sft <- set_up_model("1a", "shifted_lognormal")
-prior_model_sft <- run_model(mdl_inputs_sft, ppc = "only")
-saveRDS(prior_model_sft, "models/prior_sft.models")
-
-rm(
-  prior_model_nrl, 
-  prior_model_log,
-  prior_model_sft)
+training_models <- c("1a", "1b")
+# 
+# #### Prior fitting ####
+# mdl_inputs_nrl <- set_up_model(training_models, "normal")
+# prior_model_nrl <- run_model(mdl_inputs_nrl, ppc = "only")
+# saveRDS(prior_model_nrl, "models/prior_nrl.models")
+# 
+# mdl_inputs_log <- set_up_model(training_models, "lognormal")
+# prior_model_log <- run_model(mdl_inputs_log, ppc = "only")
+# saveRDS(prior_model_log, "models/prior_log.models")
+# 
+# mdl_inputs_sft <- set_up_model(training_models, "shifted_lognormal")
+# prior_model_sft <- run_model(mdl_inputs_sft, ppc = "only")
+# saveRDS(prior_model_sft, "models/prior_sft.models")
+# 
+# rm(
+#   prior_model_nrl, 
+#   prior_model_log,
+#   prior_model_sft)
 
 #### Fit model for Expt 1&3 ####
-training_models <- c("1a", "1b", "3a", "3b")
+training_models <- c("1a", "1b")
 
 mdl_inputs_nrl <- set_up_model(training_models, "normal")
 m_exp1_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
-saveRDS(m_exp1_nrl, "models/exp_1_3_nrl.models") 
+saveRDS(m_exp1_nrl, "models/exp_1_nrl.models") 
 
 mdl_inputs_log <- set_up_model(training_models, "lognormal")
 m_exp1_log <- run_model(mdl_inputs_log, ppc = "no") 
-saveRDS(m_exp1_log, "models/exp_1_3_log.models")
+saveRDS(m_exp1_log, "models/exp_1_log.models")
 
 mdl_inputs_sft <- set_up_model(training_models, "shifted_lognormal")
 m_exp1_sft <- run_model(mdl_inputs_sft, ppc = "no") 
-saveRDS(m_exp1_sft, "models/exp_1_3_sft.models")
+saveRDS(m_exp1_sft, "models/exp_1_sft.models")
+
+training_models <- c("3a", "3b")
+
+mdl_inputs_nrl <- set_up_model(training_models, "normal")
+m_exp3_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
+saveRDS(m_exp1_nrl, "models/exp_3_nrl.models") 
+
+mdl_inputs_log <- set_up_model(training_models, "lognormal")
+m_exp3_log <- run_model(mdl_inputs_log, ppc = "no") 
+saveRDS(m_exp1_log, "models/exp_3_log.models")
+
+mdl_inputs_sft <- set_up_model(training_models, "shifted_lognormal")
+m_exp3_sft <- run_model(mdl_inputs_sft, ppc = "no") 
+saveRDS(m_exp1_sft, "models/exp_3_sft.models")
+
 
 
 #### Fit models for Expts 2a,b,c and 4a,b,c ####
 
-exps_to_model <- c("2a", "2b", "2c", "4a", "4b", "4c")
-
-
+exps_to_model <- c("2a", "2b", "2c")
    
 mdl_inputs_sft <- set_up_model(exps_to_model , "shifted_lognormal")
 m_exp_sft <- run_model(mdl_inputs_sft, ppc = "no")
-saveRDS(m_exp_sft, paste("models/exp_2_4_sft.models", sep = ""))
+saveRDS(m_exp_sft, paste("models/exp_2_sft.models", sep = ""))
    
+exps_to_model <- c("4a", "4b", "4c")
 
+mdl_inputs_sft <- set_up_model(exps_to_model , "shifted_lognormal")
+m_exp_sft <- run_model(mdl_inputs_sft, ppc = "no")
+saveRDS(m_exp_sft, paste("models/exp_4_sft.models", sep = ""))
 
 
 

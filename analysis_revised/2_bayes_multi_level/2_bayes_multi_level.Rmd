@@ -85,11 +85,11 @@ We can take the prior model, and then use it to compute our prior predictions.
 
 ```{r plt-prior, fig.height=2.5, fig.cap="Sample Prior predictions for reaction time and log(N+1) for the normal model (left), lognormal model (centre) and shifted-lognormal model (right)."}
   
-plt_nrl <- plot_model_fits_rt(1, prior_model_nrl, y_limits = c(-2, 10),feature2plot = "blue")
-plt_log <- plot_model_fits_rt(1, prior_model_log, y_limits = c(0, 10), feature2plot = "blue")
-plt_sft <- plot_model_fits_rt(1, prior_model_sft, y_limits = c(0, 10), feature2plot = "blue")
+#plt_nrl <- plot_model_fits_rt(1, prior_model_nrl, y_limits = c(-2, 10),feature2plot = "blue")
+#plt_log <- plot_model_fits_rt(1, prior_model_log, y_limits = c(0, 10), feature2plot = "blue")
+#plt_sft <- plot_model_fits_rt(1, prior_model_sft, y_limits = c(0, 10), feature2plot = "blue")
                              
-plt_nrl + plt_log + plt_sft
+# plt_nrl + plt_log + plt_sft
 
 # tidy up, we no longer need to keep hold of these models and plots
 rm(
@@ -107,7 +107,7 @@ rm(
 m_exp1_nrl <- readRDS("models/exp_1_nrl.models")
 m_exp1_log <- readRDS("models/exp_1_log.models")
 m_exp1_sft <- readRDS("models/exp_1_sft.models")
-m_exp1_sft_nolog <- readRDS("models/exp_1_sft_nolog.models")
+#m_exp1_sft_nolog <- readRDS("models/exp_1_3_sft_nolog.models")
 
 ```
 
@@ -115,12 +115,14 @@ The plots before show our estimates for average participant to lie. The regions 
 
 ```{r plt-post, fig.height=10, fig.cap="Posterior predictions for the reaction time for the average participant and log(N+1) for (from top to bottom) (i) the normal model, (ii) the lognormal model, (iii) the shifted-lognormal model, and (iv) the shifted lognormal model with linear $N_T$."}
 
-plt_nrl <- plot_model_fits_rt(1, m_exp1_nrl, plot_type = "fitted")
-plt_log <- plot_model_fits_rt(1, m_exp1_log, plot_type = "fitted")
-plt_sft <- plot_model_fits_rt(1, m_exp1_sft, plot_type = "fitted")
-plt_sft_nolog <- plot_model_fits_rt(1, m_exp1_sft_nolog, plot_type = "fitted")
+training_models = c("1a", "1b")
 
-plt_nrl / plt_log / plt_sft / plt_sft_nolog
+plt_nrl <- plot_model_fits_rt(training_models, m_exp1_nrl, plot_type = "fitted")
+plt_log <- plot_model_fits_rt(training_models, m_exp1_log, plot_type = "fitted")
+plt_sft <- plot_model_fits_rt(training_models, m_exp1_sft, plot_type = "fitted")
+#plt_sft_nolog <- plot_model_fits_rt(1, m_exp1_sft_nolog, plot_type = "fitted")
+
+plt_nrl / plt_log / plt_sft #/ plt_sft_nolog
 
 rm(plt_nrl, plt_log, plt_sft, plt_sft_nolog)
 
@@ -130,15 +132,17 @@ We can see that all of our models give very similar relationship between $N_T$ a
 
 ```{r plt-post-re, fig.height=10, fig.cap="Posterior predictions for reaction time distributions and log(N+1) for (from top to bottom) (i) the normal model, (ii) the lognormal model, (iii) the shifted-lognormal model, and (iv) the shifted lognormal model with linear $N_T$."}
 
-plt_nrl <- plot_model_fits_rt(1, m_exp1_nrl, plot_type = "predicted", y_limits = c(0, 2.5))
-plt_log <- plot_model_fits_rt(1, m_exp1_log, plot_type = "predicted", y_limits = c(0, 2.5))
-plt_sft <- plot_model_fits_rt(1, m_exp1_sft, plot_type = "predicted", y_limits = c(0, 2.5))
-plt_sft_nolog <- plot_model_fits_rt(1, m_exp1_sft_nolog, plot_type = "predicted", y_limits = c(0, 2.5))
+plt_nrl <- plot_model_fits_rt(training_models, m_exp1_nrl, plot_type = "predicted", y_limits = c(0, 2.5))
+plt_log <- plot_model_fits_rt(training_models, m_exp1_log, plot_type = "predicted", y_limits = c(0, 2.5))
+plt_sft <- plot_model_fits_rt(training_models, m_exp1_sft, plot_type = "predicted", y_limits = c(0, 2.5))
+# plt_sft_nolog <- plot_model_fits_rt(1, m_exp1_sft_nolog, plot_type = "predicted", y_limits = c(0, 2.5))
 
-plt_nrl / plt_log / plt_sft / plt_sft_nolog
+plt_nrl / plt_log / plt_sft #/ plt_sft_nolog
 
 rm(plt_nrl, plt_log, plt_sft, plt_sft_nolog)
 ```
+
+
 
 ### Model Comparison
 
@@ -152,17 +156,17 @@ We will need to use the `bridge_sampler()` function later on, so let's use it he
 bs_exp1_nrl <- bridge_sampler(m_exp1_nrl, silent = TRUE)
 bs_exp1_log <- bridge_sampler(m_exp1_log, silent = TRUE)
 bs_exp1_sft <- bridge_sampler(m_exp1_sft, silent = TRUE)
-bs_exp1_sft_nolog <- bridge_sampler(m_exp1_sft_nolog, silent = TRUE)
+#bs_exp1_sft_nolog <- bridge_sampler(m_exp1_sft_nolog, silent = TRUE)
 
-tibble(model = c("normal", "lognormal", "shifted-lognormal", "linear in $N_T$"),
-       weight = post_prob(bs_exp1_nrl, bs_exp1_log, bs_exp1_sft, bs_exp1_sft_nolog)) %>% 
+tibble(model = c("normal", "lognormal", "shifted-lognormal"), #, "linear in $N_T$"
+       weight = post_prob(bs_exp1_nrl, bs_exp1_log, bs_exp1_sft)) %>% # , bs_exp1_sft_nolog 
   knitr::kable()
 
 #remove the models that we no longer need
 rm(m_exp1_nrl, m_exp1_log, m_exp1_sft_nolog)
 ```
 
-Both methods give the same result, which is good news! From now on, we will only consider the shifted-lognormal model, as it outperforms the other models that we have considered. 
+From now on, we will only consider the shifted-lognormal model, as it outperforms the other models that we have considered. 
 
 ### Model diagnostics for shifted-lognormal model
 
@@ -173,6 +177,79 @@ summary(m_exp1_sft)
 plot(m_exp1_sft, pars = "^b_") 
 ```
 \normalsize
+
+
+
+## Fit Model and Posterior Predictions For Experiment 3
+
+```{r glmm-compute-post-1}
+
+m_exp3_nrl <- readRDS("models/exp_3_nrl.models")
+m_exp3_log <- readRDS("models/exp_3_log.models")
+m_exp3_sft <- readRDS("models/exp_3_sft.models")
+#m_exp1_sft_nolog <- readRDS("models/exp_1_3_sft_nolog.models")
+
+```
+
+The plots before show our estimates for average participant to lie. The regions illustrate the distribution of reaction times estimated by our model. 
+
+```{r plt-post, fig.height=10, fig.cap="Posterior predictions for the reaction time for the average participant and log(N+1) for (from top to bottom) (i) the normal model, (ii) the lognormal model, (iii) the shifted-lognormal model, and (iv) the shifted lognormal model with linear $N_T$."}
+
+training_models = c("3a", "3b")
+
+plt_nrl <- plot_model_fits_rt(training_models, m_exp3_nrl, plot_type = "fitted")
+plt_log <- plot_model_fits_rt(training_models, m_exp3_log, plot_type = "fitted")
+plt_sft <- plot_model_fits_rt(training_models, m_exp3_sft, plot_type = "fitted")
+#plt_sft_nolog <- plot_model_fits_rt(1, m_exp1_sft_nolog, plot_type = "fitted")
+
+plt_nrl / plt_log / plt_sft #/ plt_sft_nolog
+
+rm(plt_nrl, plt_log, plt_sft, plt_sft_nolog)
+
+```
+
+We can see that all of our models give very similar relationship between $N_T$ and mean reaction time. In the next plot, we look at the model's predictions for the distribution of reaction times. 
+
+```{r plt-post-re, fig.height=10, fig.cap="Posterior predictions for reaction time distributions and log(N+1) for (from top to bottom) (i) the normal model, (ii) the lognormal model, (iii) the shifted-lognormal model, and (iv) the shifted lognormal model with linear $N_T$."}
+
+plt_nrl <- plot_model_fits_rt(training_models, m_exp1_nrl, plot_type = "predicted", y_limits = c(0, 2.5))
+plt_log <- plot_model_fits_rt(training_models, m_exp1_log, plot_type = "predicted", y_limits = c(0, 2.5))
+plt_sft <- plot_model_fits_rttraining_models1, m_exp1_sft, plot_type = "predicted", y_limits = c(0, 2.5))
+#plt_sft_nolog <- plot_model_fits_rt(1, m_exp1_sft_nolog, plot_type = "predicted", y_limits = c(0, 2.5))
+
+plt_nrl / plt_log / plt_sft# / plt_sft_nolog
+
+rm(plt_nrl, plt_log, plt_sft, plt_sft_nolog)
+```
+
+
+
+### Model Comparison
+
+update text as we will now only use bridge sampling!
+
+These model weights strongly suggest that the shifted-lognormal model gives a better prediction than the lognormal or normal models. It also confirmed that we do want to keep the model loglinear in $N_T$.
+
+We will need to use the `bridge_sampler()` function later on, so let's use it here and verify that it gives the same result as `loo()`.
+
+```{r}
+bs_exp1_nrl <- bridge_sampler(m_exp1_nrl, silent = TRUE)
+bs_exp1_log <- bridge_sampler(m_exp1_log, silent = TRUE)
+bs_exp1_sft <- bridge_sampler(m_exp1_sft, silent = TRUE)
+#bs_exp1_sft_nolog <- bridge_sampler(m_exp1_sft_nolog, silent = TRUE)
+
+tibble(model = c("normal", "lognormal", "shifted-lognormal"), #, "linear in $N_T$"
+       weight = post_prob(bs_exp1_nrl, bs_exp1_log, bs_exp1_sft)) %>% # , bs_exp1_sft_nolog 
+  knitr::kable()
+
+#remove the models that we no longer need
+rm(m_exp1_nrl, m_exp1_log, m_exp1_sft_nolog)
+```
+
+From now on, we will only consider the shifted-lognormal model, as it outperforms the other models that we have considered. 
+
+
+
 
 ### Fit Model and Posterior Predictions For Experiment 2, 3, and 4
 
