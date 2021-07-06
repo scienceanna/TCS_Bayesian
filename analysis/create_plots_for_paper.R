@@ -7,6 +7,7 @@ library(tidybayes)
 library(patchwork)
 library(latex2exp)
 library(lme4)
+library(ggrepel)
 
 # set ggplot2 theme
 theme_set(see::theme_lucid())
@@ -126,11 +127,15 @@ calc_D_plot <- function(e_id) {
     rename(Dcs = "D") %>%
     select(-exp_id) %>% full_join(df)
   
-  ggplot(d2, aes(x  = Ds, y = Dp, colour = method)) + 
-    geom_line() + geom_point() + 
-    geom_point(aes(y = Dcs), shape = 3, size = 3, colour = "black") + facet_wrap(~ colour) + 
-    scale_x_continuous(TeX("D_s"), breaks = unique(d2$Ds), label = ss) +
-    scale_y_continuous(TeX("D_{c,s}")) +
+  d2_forlabels <- d2 %>%
+    filter(colour == "blue", method == "collinear")
+  
+  ggplot(d2_forlabels, aes(x  = Ds, y = Dp, colour = method)) + 
+    geom_line(data = d2) + geom_point(data = d2) +
+    geom_text_repel(aes(label = shape), colour = "black", size = 2) +
+    facet_wrap(~ colour) + 
+    #scale_x_continuous(TeX("D_s"), breaks = unique(d2$Ds), label = ss) +
+    scale_y_continuous(TeX("D_{c,s}"), limits = c(0,80)) +
     ggthemes::scale_colour_ptol(labels = c("best feature", "collinear", "orthogonal")) + 
     theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1))-> plt
   
