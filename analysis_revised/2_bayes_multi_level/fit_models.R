@@ -57,19 +57,21 @@ mdl_inputs_sft <- set_up_model(training_models, "shifted_lognormal")
 m_exp1_sft <- run_model(mdl_inputs_sft, ppc = "no") 
 saveRDS(m_exp1_sft, "models/exp_1_sft.models")
 
+rm(m_exp1_nrl,m_exp1_log, m_exp1_sft )
+
 training_models <- c("3a", "3b")
 
 mdl_inputs_nrl <- set_up_model(training_models, "normal")
 m_exp3_nrl <- run_model(mdl_inputs_nrl, ppc = "no")
-saveRDS(m_exp1_nrl, "models/exp_3_nrl.models") 
+saveRDS(m_exp3_nrl, "models/exp_3_nrl.models") 
 
 mdl_inputs_log <- set_up_model(training_models, "lognormal")
 m_exp3_log <- run_model(mdl_inputs_log, ppc = "no") 
-saveRDS(m_exp1_log, "models/exp_3_log.models")
+saveRDS(m_exp3_log, "models/exp_3_log.models")
 
 mdl_inputs_sft <- set_up_model(training_models, "shifted_lognormal")
 m_exp3_sft <- run_model(mdl_inputs_sft, ppc = "no") 
-saveRDS(m_exp1_sft, "models/exp_3_sft.models")
+saveRDS(m_exp3_sft, "models/exp_3_sft.models")
 
 
 
@@ -79,7 +81,7 @@ exps_to_model <- c("2a", "2b", "2c")
    
 mdl_inputs_sft <- set_up_model(exps_to_model , "shifted_lognormal")
 m_exp_sft <- run_model(mdl_inputs_sft, ppc = "no")
-saveRDS(m_exp_sft, paste("models/exp_2_sft.models", sep = ""))
+saveRDS(m_exp_sft, "models/exp_2_sft.models")
    
 exps_to_model <- c("4a", "4b", "4c")
 
