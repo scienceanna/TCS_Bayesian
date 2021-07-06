@@ -158,7 +158,7 @@ plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0,
     
     d %>%
       filter(
-        exp_n == e_id, d_feature == feature2plot) %>%
+        exp_id %in% e_id, d_feature == feature2plot) %>%
       mutate(
         d_feature = fct_drop(d_feature),
         p_id = fct_drop(p_id),
