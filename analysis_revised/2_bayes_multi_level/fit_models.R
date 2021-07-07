@@ -75,6 +75,9 @@ saveRDS(m_exp3_sft, "models/exp_3_sft.models")
 
 
 
+
+
+
 #### Fit models for Expts 2a,b,c and 4a,b,c ####
 
 exps_to_model <- c("2a", "2b", "2c")
@@ -87,7 +90,7 @@ exps_to_model <- c("4a", "4b", "4c")
 
 mdl_inputs_sft <- set_up_model(exps_to_model , "shifted_lognormal")
 m_exp_sft <- run_model(mdl_inputs_sft, ppc = "no")
-saveRDS(m_exp_sft, paste("models/exp_4_sft.models", sep = ""))
+saveRDS(m_exp_sft, "models/exp_4_sft.models")
 
 
 

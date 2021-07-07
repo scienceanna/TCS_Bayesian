@@ -349,8 +349,8 @@ Buetti et al (2019) considered three methods for calculating $D_p$: best feature
 ```{r predict-D-2, fig.cap = "Estimating D, using four different calculation methods.", fig.height = 4}
 
 Dp_samples <- bind_rows(
-   get_Dp_samples(2, d, slopes1, slopes2),
-   get_Dp_samples(4, d, slopes3, slopes4))
+   map_dfr(c("2a", "2b", "2c"), get_Dp_samples, d, slopes1, slopes2),
+   map_dfr(c("4a", "4b", "4c"), get_Dp_samples, d, slopes3, slopes4))
 
 # get best possible linear fit of the various methods!
 Dp_samples %>% 
