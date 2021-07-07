@@ -259,13 +259,9 @@ Now that we have decided what the best distribution to use is, we will fit the m
 
 ```{r glmm-compute-post-24}
 #load previously fitted models
-<<<<<<< Updated upstream
-#m_exp2_sft <- readRDS("models/exp_2_sft.models")
-#m_exp4_sft <- readRDS("models/exp_4_sft.models")
-=======
 m_exp2_sft <- readRDS("models/exp_2_sft.models")
 m_exp4_sft <- readRDS("models/exp_4_sft.models")
->>>>>>> Stashed changes
+
 ```
 
 
@@ -302,7 +298,7 @@ Buetti et al (2019) considered three methods for calculating $D_p$: best feature
 
 Dp_samples <- bind_rows(
    map_dfr(c("2a", "2b", "2c"), get_Dp_samples, d, slopes1, slopes2),
-    map_dfr(c("4a", "4b", "4c"), get_Dp_samples, d, slopes1, slopes2))
+    map_dfr(c("4a", "4b", "4c"), get_Dp_samples, d, slopes3, slopes4))
 
 # get best possible linear fit of the various methods!
 Dp_samples %>% 
@@ -320,6 +316,8 @@ d_lmer %>%
     names_to = "method", 
     values_to = "Dp") %>%
   mutate(method = fct_relevel(method, "linear_comb", after = Inf)) -> Dp_samples
+
+#Dp_samples %>% group_by(exp_id, d_feature) %>% summarise(De = mean(De), Dp = mean(Dp))
 
 rm(d_lmer, m_lmer)
 
