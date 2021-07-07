@@ -79,19 +79,19 @@ ggsave("../plots/computational_replication.pdf", plt_D + plt_mean_rt + plt_sampl
 
 
 
-d %>% filter(parse_number(exp_id) == 2,
-             d_feature %in% c("blue diamond", "blue triangle", "orange triangle")) %>%
+d %>% filter(parse_number(exp_id) == 2) %>%
+             #d_feature %in% c("blue diamond", "blue triangle", "orange triangle")) %>%
   group_by(exp_id, p_id, d_feature, N_T) %>%
   summarise(mean_rt = mean(rt), .groups = "drop") %>%
   group_by(exp_id,  d_feature, N_T) %>%
   summarise(mean_rt = mean(mean_rt), .groups = "drop") -> d_mean_mean
 
 rt_pred %>%
-  filter(parse_number(exp_id) == 2,
-         d_feature %in% c("blue diamond", "blue triangle", "orange triangle")) %>%
+  filter(parse_number(exp_id) == 2) %>%
+         #d_feature %in% c("blue diamond", "blue triangle", "orange triangle")) %>%
   ggplot( aes(x = N_T, y = p_rt)) + 
   geom_line(colour = "violetred3") + 
-  facet_wrap( ~ d_feature, nrow = 1) + 
+  facet_wrap( ~ d_feature, nrow = 3) + 
   geom_point(data = d_mean_mean, aes(y = mean_rt), colour = "darkblue" ) + 
   scale_y_continuous("predicted rt (sec)") + 
   scale_x_continuous(TeX("$N_T")) -> plt_rt
@@ -133,7 +133,7 @@ calc_D_plot <- function(e_id) {
   ggplot(d2_forlabels, aes(x  = Ds, y = Dp, colour = method)) + 
     geom_line(data = d2) + geom_point(data = d2) +
     geom_text_repel(aes(label = shape), colour = "black", size = 2) +
-    facet_wrap(~ colour) + 
+    facet_wrap(~ colour, nrow = 3) + 
     #scale_x_continuous(TeX("D_s"), breaks = unique(d2$Ds), label = ss) +
     scale_y_continuous(TeX("D_{c,s}"), limits = c(0,80)) +
     ggthemes::scale_colour_ptol(labels = c("best feature", "collinear", "orthogonal")) + 
@@ -154,9 +154,13 @@ ss <- c("circle", "diamond", "triangle")
 
 plt1 <- calc_D_plot(1)
 
+layout <- "
+AAA###
+AAABBB
+AAA###
+"
 
-
-ggsave("../plots/computational_replication_issues.pdf", plt_rt / plt1, width = 8, height = 4)
+ggsave("../plots/computational_replication_issues.pdf", plt_rt + plt1 + plot_layout(design = layout), width = 10, height = 6)
 
 
 ###################################################
