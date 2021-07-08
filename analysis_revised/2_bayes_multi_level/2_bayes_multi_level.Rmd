@@ -328,3 +328,74 @@ rm(slopes1, slopes2, slopes3, slopes4)
 
 ```
 
+
+### Variance!
+
+As we are using multi-level models to describe the whole distribution of reaction times we also need to provide a $\sigma$ and a sd(Intercept). 
+
+
+Random intercepts look similar:
+
+```{r}
+VarCorr(m_exp1_sft)$p_id$sd
+VarCorr(m_exp2_sft)$p_id$sd
+```
+
+Residual variance looks similar, although Experiment 2 is lower than Experiment 1. 
+
+```{r}
+VarCorr(m_exp1_sft)$residual$sd
+VarCorr(m_exp2_sft)$residual$sd
+```
+
+It seems possible to model Experiment 2 using the variances from Experiment 1.
+
+
+
+## Predicting Reaction Times
+
+In order to predict reaction times, we will specify a new version of our model.
+
+We can feed the predicted values for $D$ into our `brms` model as a prior, and then use that to simulate new trials.
+
+```{r gen-predictions, fig.width = 10, fig.height = 10, cache=TRUE, message=FALSE}
+
+# first, summarise our Dp samples to give mu and sigma.
+
+compute_rt_predictions <- function(meth) {
+  Dp_samples %>%
+    filter(method == meth) %>%
+    group_by(exp_id, d_feature) %>%
+    summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop") %>%
+    mutate(
+      d_feature = as_factor(d_feature),
+      method = meth) -> Dp_summary
+
+  # now define and run new model! 
+  
+  model_params <- set_up_predict_model(c("2a", "2b", "2c"), "shifted_lognormal", meth, Dp_summary, m_exp1_sft, m_exp2_sft)
+  m_prt <- run_model(model_params, ppc = "only")
+    
+  return(m_prt)
+  
+}
+
+m_prt_best_feature <- compute_rt_predictions(meth = "best_feature")
+m_prt_collinear <- compute_rt_predictions(meth = "collinear")
+m_prt_orthog_contrast <- compute_rt_predictions(meth = "orthog_contrast")
+m_prt_linear_transform <- compute_rt_predictions(meth = "linear_comb")
+
+bs_bfeat <- bridge_sampler(m_prt_best_feature, silent = TRUE)
+bs_orth <- bridge_sampler(m_prt_orthog_contrast, silent = TRUE)
+bs_col <- bridge_sampler(m_prt_collinear, silent = TRUE)
+bs_lint <- bridge_sampler(m_prt_linear_transform, silent = TRUE)
+
+post_prob(bs_bfeat, bs_col, bs_orth)
+
+post_prob(bs_bfeat,bs_col, bs_orth, bs_lint)  
+
+rm(bs_bfeat,bs_col, bs_orth, bs_lint)
+```
+
+
+

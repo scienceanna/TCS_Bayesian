@@ -327,7 +327,7 @@ set_up_predict_model <- function(e_id, fam = "shifted_lognormal", meth, Dp_summa
   # this is the prediction version of the set_up_model() function at the top of the script
   
   d %>%
-    filter(exp_id == e_id) %>%
+    filter(exp_id %in% e_id) %>%
     group_by(exp_id, p_id, d_feature, N_T) %>%
     mutate(
       d_feature = fct_drop(d_feature),
@@ -349,10 +349,6 @@ set_up_predict_model <- function(e_id, fam = "shifted_lognormal", meth, Dp_summa
                        method == meth, exp_id == e_id)
   
   df %>%
-    filter(exp_id == e_id) %>%
-    mutate(
-      d_feature = fct_drop(d_feature),
-      p_id = fct_drop(p_id)) %>%
     filter(d_feature != "no distractors") %>%
     mutate(
       d_feature = fct_drop(d_feature),
