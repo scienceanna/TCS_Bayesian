@@ -83,7 +83,7 @@ prior_model_sft <- readRDS("models/prior_sft.models")
   
 ```
 
-```{r plt-prior, fig.height=10, fig.cap="Sample Prior predictions for reaction time and log(N+1) for the normal model (left), lognormal model (centre) and shifted-lognormal model (right)."}
+```{r plt-prior, fig.height=10, fig.cap="Sample Prior predictions for reaction time and log(N+1) for the normal model (top), lognormal model (centre) and shifted-lognormal model (bottom). Note that these priors give the range of possible values for the RTs to fall within i.e. they constrain the model fitting process. The plots therefore show that the range of values possible is plausble, and in the case of the latter two models, does not permit impossible e.g. negative values."}
   
 training_models = c("1a", "1b")
 
@@ -113,8 +113,6 @@ m_exp1_sft <- readRDS("models/exp_1_sft.models")
 
 ```
 
-The plots before show our estimates for average participant to lie. The regions illustrate the distribution of reaction times estimated by our model. 
-
 ```{r plt-post, fig.height=10, fig.cap="Posterior predictions for the reaction time for the average participant and log(N+1) for (from top to bottom) (i) the normal model, (ii) the lognormal model, (iii) the shifted-lognormal model, and (iv) the shifted lognormal model with linear $N_T$."}
 
 plt_nrl <- plot_model_fits_rt(training_models, m_exp1_nrl, plot_type = "fitted")
@@ -128,7 +126,7 @@ rm(plt_nrl, plt_log, plt_sft, plt_sft_nolog)
 
 ```
 
-We can see that all of our models give very similar relationship between $N_T$ and mean reaction time. In the next plot, we look at the model's predictions for the distribution of reaction times. 
+In the above figure (Figure 2.2), we can see that all of our models give very similar relationship between $N_T$ and mean reaction time. In the next plot, we look at the model's predictions for the distribution of reaction times. 
 
 ```{r plt-post-re, fig.height=10, fig.cap="Posterior predictions for reaction time distributions and log(N+1) for (from top to bottom) (i) the normal model, (ii) the lognormal model, (iii) the shifted-lognormal model, and (iv) the shifted lognormal model with linear $N_T$.", cache=TRUE}
 
@@ -225,11 +223,9 @@ rm(plt_nrl, plt_log, plt_sft, plt_sft_nolog)
 
 ### Model Comparison
 
-update text as we will now only use bridge sampling!
+We use the `bridge_sampler()` function to compare models.
 
 These model weights strongly suggest that the shifted-lognormal model gives a better prediction than the lognormal or normal models. It also confirmed that we do want to keep the model loglinear in $N_T$.
-
-We will need to use the `bridge_sampler()` function later on, so let's use it here and verify that it gives the same result as `loo()`.
 
 ```{r, cache=TRUE}
 bs_exp1_nrl <- bridge_sampler(m_exp3_nrl, silent = TRUE)
@@ -246,12 +242,6 @@ rm(m_exp1_nrl, m_exp1_log, m_exp1_sft_nolog)
 ```
 
 From now on, we will only consider the shifted-lognormal model, as it outperforms the other models that we have considered. 
-
-
-
-
-
-
 
 ### Fit Model and Posterior Predictions For Experiment 2, and 4
 
@@ -328,7 +318,6 @@ rm(slopes1, slopes2, slopes3, slopes4)
 
 ```
 
-
 ### Variance!
 
 As we are using multi-level models to describe the whole distribution of reaction times we also need to provide a $\sigma$ and a sd(Intercept). 
@@ -349,7 +338,6 @@ VarCorr(m_exp2_sft)$residual$sd
 ```
 
 It seems possible to model Experiment 2 using the variances from Experiment 1.
-
 
 
 ## Predicting Reaction Times
@@ -395,7 +383,9 @@ post_prob(bs_bfeat, bs_col, bs_orth)
 post_prob(bs_bfeat,bs_col, bs_orth, bs_lint)  
 
 rm(bs_bfeat,bs_col, bs_orth, bs_lint)
+
 ```
+
 
 
 
