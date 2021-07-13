@@ -1,4 +1,4 @@
-\begin{thebibliography}{29}
+\begin{thebibliography}{35}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -90,6 +90,12 @@ Kathryn Koehler, Fei Guo, Sheng Zhang, and Miguel~P Eckstein.
 \newblock What do saliency models predict?
 \newblock \emph{Journal of vision}, 14\penalty0 (3):\penalty0 14--14, 2014.
 
+\bibitem[Liesefeld and M{\"u}ller(2020)]{liesefeld2020theoretical}
+Heinrich~Ren{\'e} Liesefeld and Hermann~J M{\"u}ller.
+\newblock A theoretical attempt to revive the serial/parallel-search dichotomy.
+\newblock \emph{Attention, Perception, \& Psychophysics}, 82\penalty0
+  (1):\penalty0 228--245, 2020.
+
 \bibitem[Lleras et~al.(2019)Lleras, Wang, Madison, and
   Buetti]{lleras2019predicting}
 Alejandro Lleras, Zhiyuan Wang, Anna Madison, and Simona Buetti.
@@ -117,6 +123,29 @@ Xiao-Li Meng and Wing~Hung Wong.
 \newblock Simulating ratios of normalizing constants via a simple identity: a
   theoretical exploration.
 \newblock \emph{Statistica Sinica}, pages 831--860, 1996.
+
+\bibitem[Moran et~al.(2013)Moran, Zehetleitner, Mueller, and
+  Usher]{moran2013competitive}
+Rani Moran, Michael Zehetleitner, Hermann~J Mueller, and Marius Usher.
+\newblock Competitive guided search: Meeting the challenge of benchmark rt
+  distributions.
+\newblock \emph{Journal of Vision}, 13\penalty0 (8):\penalty0 24--24, 2013.
+
+\bibitem[Moran et~al.(2016)Moran, Zehetleitner, Liesefeld, M{\"u}ller, and
+  Usher]{moran2016serial}
+Rani Moran, Michael Zehetleitner, Heinrich~Ren{\'e} Liesefeld, Hermann~J
+  M{\"u}ller, and Marius Usher.
+\newblock Serial vs. parallel models of attention in visual search: accounting
+  for benchmark rt-distributions.
+\newblock \emph{Psychonomic bulletin \& review}, 23\penalty0 (5):\penalty0
+  1300--1315, 2016.
+
+\bibitem[Moran et~al.(2017)Moran, Liesefeld, Usher, and
+  Muller]{moran2017appeal}
+Rani Moran, Heinrich~Ren{\'e} Liesefeld, Marius Usher, and Hermann~J Muller.
+\newblock An appeal against the item's death sentence: Accounting for
+  diagnostic data patterns with an item-based model of visual search.
+\newblock \emph{Behavioral and Brain Sciences}, 40:\penalty0 e148, 2017.
 
 \bibitem[Ng et~al.(2020)Ng, Buetti, Patel, and Lleras]{ng2020prioritization}
 Gavin~JP Ng, Simona Buetti, Trisha~N Patel, and Alejandro Lleras.
@@ -190,6 +219,17 @@ Jeremy~M Wolfe, Kyle~R Cave, and Susan~L Franzel.
   visual search.
 \newblock \emph{Journal of Experimental Psychology: Human perception and
   performance}, 15\penalty0 (3):\penalty0 419, 1989.
+
+\bibitem[Wolfe et~al.(2010)Wolfe, Palmer, and Horowitz]{wolfe2010reaction}
+Jeremy~M Wolfe, Evan~M Palmer, and Todd~S Horowitz.
+\newblock Reaction time distributions constrain models of visual search.
+\newblock \emph{Vision research}, 50\penalty0 (14):\penalty0 1304--1311, 2010.
+
+\bibitem[Xu et~al.(2021)Xu, Lleras, and Buetti]{xu2021predicting}
+Zoe~Jing Xu, Alejandro Lleras, and Simona Buetti.
+\newblock Predicting how surface texture and shape combine in the human visual
+  system to direct attention.
+\newblock \emph{Scientific reports}, 11\penalty0 (1):\penalty0 1--13, 2021.
 
 \bibitem[Zhang et~al.(2008)Zhang, Tong, Marks, Shan, and
   Cottrell]{zhang2008sun}
