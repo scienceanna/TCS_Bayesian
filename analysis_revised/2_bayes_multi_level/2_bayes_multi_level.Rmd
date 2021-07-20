@@ -286,12 +286,11 @@ Buetti et al (2019) considered three methods for calculating $D_p$: best feature
 
 ```{r predict-D-2, fig.cap = "Estimating D, using four different calculation methods.", fig.height = 4}
 
-Dp_samples <- bind_rows(
-   map_dfr(c("2a", "2b", "2c"), get_Dp_samples, d, slopes1, slopes2),
-    map_dfr(c("4a", "4b", "4c"), get_Dp_samples, d, slopes3, slopes4))
+Dp_samples2 <- map_dfr(c("2a", "2b", "2c"), get_Dp_samples, d, slopes1, slopes2)
+Dp_samples4 <- map_dfr(c("4a", "4b", "4c"), get_Dp_samples, d, slopes3, slopes4)
 
 # get best possible linear fit of the various methods!
-Dp_samples %>% 
+rbind(Dp_samples2, Dp_samples4) %>% 
   pivot_wider(
     c(exp_id, d_feature, iter, De), 
     names_from = method, values_from = Dp) -> d_lmer
@@ -351,7 +350,7 @@ We can feed the predicted values for $D$ into our `brms` model as a prior, and t
 # first, summarise our Dp samples to give mu and sigma.
 
 compute_rt_predictions <- function(meth) {
-  Dp_samples %>%
+  Dp_samples2 %>%
     filter(method == meth) %>%
     group_by(exp_id, d_feature) %>%
     summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop") %>%
@@ -362,6 +361,7 @@ compute_rt_predictions <- function(meth) {
   # now define and run new model! 
   
   model_params <- set_up_predict_model(c("2a", "2b", "2c"), "shifted_lognormal", meth, Dp_summary, m_exp1_sft, m_exp2_sft)
+  
   m_prt <- run_model(model_params, ppc = "only")
     
   return(m_prt)
@@ -371,12 +371,12 @@ compute_rt_predictions <- function(meth) {
 m_prt_best_feature <- compute_rt_predictions(meth = "best_feature")
 m_prt_collinear <- compute_rt_predictions(meth = "collinear")
 m_prt_orthog_contrast <- compute_rt_predictions(meth = "orthog_contrast")
-m_prt_linear_transform <- compute_rt_predictions(meth = "linear_comb")
+# m_prt_linear_transform <- compute_rt_predictions(meth = "linear_comb")
 
 bs_bfeat <- bridge_sampler(m_prt_best_feature, silent = TRUE)
 bs_orth <- bridge_sampler(m_prt_orthog_contrast, silent = TRUE)
 bs_col <- bridge_sampler(m_prt_collinear, silent = TRUE)
-bs_lint <- bridge_sampler(m_prt_linear_transform, silent = TRUE)
+# bs_lint <- bridge_sampler(m_prt_linear_transform, silent = TRUE)
 
 post_prob(bs_bfeat, bs_col, bs_orth)
 
@@ -387,5 +387,16 @@ rm(bs_bfeat,bs_col, bs_orth, bs_lint)
 ```
 
 
+Note, this plot is for how we expect the average person to perform in experiment 2, using the orthogonal contrast combination method: 
+
+```{r plot-exp2-predictions, fig.height = 6, fig.cap="Reaction time predictions for the average person for the orthogonal contrast method, predicting reaction times in Experiment 2."}
+plot_model_fits_rt(c("2a", "2b", "2c"), m_prt_best_feature, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
+
+
+plot_model_fits_rt(c("2a", "2b", "2c"), m_prt_collinear, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
+
+m_prt <- m_prt_orthog_contrast
+plot_model_fits_rt(c("2a", "2b", "2c"), m_prt_best_feature, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
+```
 
 

@@ -101,7 +101,7 @@ run_model <- function(my_inputs, ppc) {
 
   if (ppc == "only") {
     
-    n_chains = 4
+    n_chains = 1
     n_itr = 5000
     
   } else {
@@ -128,7 +128,7 @@ run_model <- function(my_inputs, ppc) {
     chains = n_chains,
     sample_prior = ppc,
     iter = n_itr,
-    inits = my_inputs$my_inits,
+    inits = "0",# my_inputs$my_inits,
     stanvars = my_inputs$my_stanvar,
     save_pars = save_pars(all=TRUE)
     )
@@ -335,18 +335,18 @@ set_up_predict_model <- function(e_id, fam = "shifted_lognormal", meth, Dp_summa
   
   # define model formula:
   if (fam == "shifted_lognormal") {
-    my_f <- bf(rt ~ 1 + d_feature:log(N_T+1) + (1|p_id),
+    my_f <- bf(rt ~ 0 + exp_id + d_feature:log(N_T+1) + (1|p_id), 
                ndt ~ 1 + (1|p_id))
     
-    my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
+    my_inits <- list(list(Intercept_ndt = -10, sigma = 0.1))
     
   } else {
-    my_f <- rt ~ 1 + log(N_T+1):d_feature + (1|p_id)
+    my_f <- rt ~  0 + exp_id + d_feature:log(N_T+1) + (1|p_id)
     my_inits <- "random"
   }
   
   Dp_summary <- filter(Dp_summary, 
-                       method == meth, exp_id == e_id)
+                       method == meth, exp_id %in% e_id)
   
   df %>%
     filter(d_feature != "no distractors") %>%
@@ -354,14 +354,13 @@ set_up_predict_model <- function(e_id, fam = "shifted_lognormal", meth, Dp_summa
       d_feature = fct_drop(d_feature),
       d_feature = as.factor(as.character(d_feature))) -> df
 
+  intercepts = paste("exp_id", e_id, sep = "")
 
-  # cheatign a little and using the "correct" intercepts 
-  # (from the double feature model)
-  intercept_mu <- fixef(two_feature_model)[1,1]
-  intercept_sd <- fixef(two_feature_model)[1,2]
+  intercept_mu <- fixef(two_feature_model)[intercepts, 1]
+  intercept_sd <- fixef(two_feature_model)[intercepts, 2]
   
-  ndt_int_mu <- fixef(two_feature_model)[2,1]
-  ndt_int_sd <- fixef(two_feature_model)[2,2]
+  ndt_int_mu <- fixef(two_feature_model)["ndt_Intercept", 1]
+  ndt_int_sd <- fixef(two_feature_model)["ndt_Intercept", 2]
   
   # simply copy over from experiment 1
   sigma_mean <-  VarCorr(one_feature_model)$residual$sd[1]
@@ -374,19 +373,20 @@ set_up_predict_model <- function(e_id, fam = "shifted_lognormal", meth, Dp_summa
   sd_ndt_sd <- VarCorr(one_feature_model)$p_id$sd[2,2]
   
   # use our model of D!
+ 
+  
   slopes <- convert_d_feature_to_coef_name(Dp_summary$d_feature)
   slopes_mu <-Dp_summary$mu 
   slopes_sd <-Dp_summary$sigma 
-  
     
   my_prior <-  c(
-    prior_string(paste("normal(", intercept_mu, ",",  intercept_sd, ")", sep = ""), class = "Intercept"),
+    prior_string(paste("normal(", intercept_mu, ",",  intercept_sd, ")", sep = ""), class = "b", coef = intercepts),
     prior_string(paste("normal(", slopes_mu, ",",  slopes_sd, ")", sep = ""), class = "b", coef = slopes),
-    prior(normal(sigma_mean, sigma_sd), class = "sigma"),
-    prior(normal(sd_mean, sd_sd), class = "sd"),
+   prior_string(paste("normal(", sigma_mean, ",", sigma_sd, ")", sep = ""), class = "sigma"),
+    prior_string(paste("normal(", sd_mean, ",", sd_sd, ")", sep = ""), class = "sd"),
     prior_string(paste("normal(",ndt_int_mu, ", ", ndt_int_sd, ")"), class = "Intercept", dpar = "ndt" ),
-    prior_string(paste("normal(",sd_ndt_mean,",", sd_ndt_sd,")"), class = "sd", dpar = "ndt")
-    )
+   prior_string(paste("normal(",sd_ndt_mean,",", sd_ndt_sd,")"), class = "sd", dpar = "ndt"))
+    
    
   stanvars <- stanvar(sigma_mean, name='sigma_mean') + 
     stanvar(sigma_sd, name='sigma_sd') + 
