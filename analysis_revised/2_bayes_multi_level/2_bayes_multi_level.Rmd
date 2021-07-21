@@ -294,6 +294,25 @@ Dp_lines <- get_Dp_lines(Dp_samples)
 plot_Dp_lines(Dp_lines)
 
 rm(slopes1, slopes2, slopes3, slopes4)
+```
+
+
+Now create table of comparison statistics
+
+
+```{r}
+Dp_lines %>% group_by(method) %>% 
+  summarise(intercept = median(intercept), 
+            slope = median(slope),
+            r2 = median(r2)) -> s1
+
+Dp_samples %>% group_by(method, exp_id, d_feature) %>%
+  summarise(mean_De = mean(De), mean_Dp = mean(Dp), .groups = "drop") %>%
+  mutate(abs_err = abs(mean_De - mean_Dp)) %>%
+  group_by(method) %>%
+  summarise(mean_abs_err = mean(abs_err)) -> s2
+
+full_join(s1, s2, by = "method") %>% knitr::kable()
 
 ```
 

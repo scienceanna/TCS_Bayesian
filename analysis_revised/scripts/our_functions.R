@@ -402,11 +402,21 @@ lm_D <- function(df) {
   
   nl <- length( levels(df$method) )
   
-  my_lm = lm(De ~ 0 + method + Dp:method, df)
+  d_out <- tibble()
+  for (m in levels(df$method)) {
+    
+    dd <- filter(df, method == m)
+    my_lm = lm(De ~  Dp, dd)
+    
+    d_out <- bind_rows(d_out,
+                       tibble(method = m,
+                              intercept = summary(my_lm)$coefficients[1,1],
+                              slope = summary(my_lm)$coefficients[2,1],
+                              r2 = summary(my_lm)$r.squared))
+    
+  }
   
-  return(tibble(method = levels(df$method),
-                intercept = summary(my_lm)$coefficients[1:nl, 1],
-                slope = summary(my_lm)$coefficients[(nl+1):(2*nl), 1]))
+  return(d_out)
   
 }
 
