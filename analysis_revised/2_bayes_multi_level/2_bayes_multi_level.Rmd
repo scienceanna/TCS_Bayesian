@@ -210,9 +210,9 @@ We can see that all of our models give very similar relationship between $N_T$ a
 
 ```{r plt-post-re3, fig.height=10, fig.cap="Posterior predictions for reaction time distributions and log(N+1) for (from top to bottom) (i) the normal model, (ii) the lognormal model, (iii) the shifted-lognormal model, and (iv) the shifted lognormal model with linear $N_T$.", cache=TRUE}
 
-plt_nrl <- plot_model_fits_rt(training_models, m_exp3_nrl, plot_type = "predicted", y_limits = c(0, 2.5))
-plt_log <- plot_model_fits_rt(training_models, m_exp3_log, plot_type = "predicted", y_limits = c(0, 2.5))
-plt_sft <- plot_model_fits_rt(training_models, m_exp3_sft, plot_type = "predicted", y_limits = c(0, 2.5))
+plt_nrl <- plot_model_fits_rt(training_models, m_exp3_nrl, plot_type = "predicted", y_limits = c(0, 2))
+plt_log <- plot_model_fits_rt(training_models, m_exp3_log, plot_type = "predicted", y_limits = c(0, 2))
+plt_sft <- plot_model_fits_rt(training_models, m_exp3_sft, plot_type = "predicted", y_limits = c(0, 2))
 #plt_sft_nolog <- plot_model_fits_rt(1, m_exp1_sft_nolog, plot_type = "predicted", y_limits = c(0, 2.5))
 
 plt_nrl / plt_log / plt_sft# / plt_sft_nolog
@@ -289,28 +289,7 @@ Buetti et al (2019) considered three methods for calculating $D_p$: best feature
 Dp_samples2 <- map_dfr(c("2a", "2b", "2c"), get_Dp_samples, d, slopes1, slopes2)
 Dp_samples4 <- map_dfr(c("4a", "4b", "4c"), get_Dp_samples, d, slopes3, slopes4)
 
-# get best possible linear fit of the various methods!
-rbind(Dp_samples2, Dp_samples4) %>% 
-  pivot_wider(
-    c(exp_id, d_feature, iter, De), 
-    names_from = method, values_from = Dp) -> d_lmer
-
-# find mle best fit
-m_lmer <- lme4::lmer(data = d_lmer, De ~ best_feature + orthog_contrast + collinear + (1|iter))
-
-d_lmer %>% 
-  mutate(linear_comb = predict(m_lmer)) %>%
-  pivot_longer(
-    c(best_feature, orthog_contrast, collinear, linear_comb), 
-    names_to = "method", 
-    values_to = "Dp") %>%
-  mutate(method = fct_relevel(method, "linear_comb", after = Inf)) -> Dp_samples
-
-
-#Dp_samples %>% group_by(exp_id, d_feature) %>% summarise(De = mean(De), Dp = mean(Dp))
-
-rm(d_lmer, m_lmer)
-
+Dp_samples <- bind_rows(Dp_samples2, Dp_samples4)
 Dp_lines <- get_Dp_lines(Dp_samples)
 plot_Dp_lines(Dp_lines)
 
@@ -372,29 +351,27 @@ test_set <- c("2a", "2b", "2c")
 m_prt_best_feature2 <- compute_rt_predictions(test_set,  meth = "best_feature", m_exp1_sft, m_exp2_sft)
 m_prt_collinear2 <- compute_rt_predictions(test_set, meth = "collinear", m_exp1_sft, m_exp2_sft)
 m_prt_orthog_contrast2 <- compute_rt_predictions(test_set, meth = "orthog_contrast", m_exp1_sft, m_exp2_sft)
-m_prt_linear_transform2 <- compute_rt_predictions(test_set, meth = "linear_comb", m_exp1_sft, m_exp2_sft)
 
 bs_bfeat <- bridge_sampler(m_prt_best_feature2, silent = TRUE)
 bs_orth <- bridge_sampler(m_prt_orthog_contrast2, silent = TRUE)
 bs_col <- bridge_sampler(m_prt_collinear2, silent = TRUE)
-bs_lint <- bridge_sampler(m_prt_linear_transform2, silent = TRUE)
+
 
 post_prob(bs_bfeat, bs_col, bs_orth)
 
-post_prob(bs_bfeat,bs_col, bs_orth, bs_lint)  
+
 
 test_set <- c("4a", "4b", "4c")
 m_prt_best_feature4 <- compute_rt_predictions(test_set, meth = "best_feature", m_exp3_sft, m_exp4_sft)
 m_prt_collinear4 <- compute_rt_predictions(test_set, meth = "collinear", m_exp3_sft, m_exp4_sft)
 m_prt_orthog_contrast4 <- compute_rt_predictions(test_set, meth = "orthog_contrast", m_exp3_sft, m_exp4_sft)
-m_prt_linear_transform4 <- compute_rt_predictions(test_set, meth = "linear_comb", m_exp3_sft, m_exp4_sft)
 
 bs_bfeat <- bridge_sampler(m_prt_best_feature4, silent = TRUE)
 bs_orth <- bridge_sampler(m_prt_orthog_contrast4, silent = TRUE)
 bs_col <- bridge_sampler(m_prt_collinear4, silent = TRUE)
-bs_lint <- bridge_sampler(m_prt_linear_transform4, silent = TRUE)
 
-post_prob(bs_bfeat,bs_col, bs_orth, bs_lint) 
+
+post_prob(bs_bfeat,bs_col, bs_orth) 
 
 
 rm(bs_bfeat,bs_col, bs_orth, bs_lint)
@@ -405,25 +382,17 @@ rm(bs_bfeat,bs_col, bs_orth, bs_lint)
 Note, this plot is for how we expect the average person to perform in experiment 2, using the orthogonal contrast combination method: 
 
 ```{r plot-exp2-predictions, fig.height = 6, fig.cap="Reaction time predictions for the average person for the orthogonal contrast method, predicting reaction times in Experiment 2."}
-plot_model_fits_rt(c("2a", "2b", "2c"), m_prt_best_feature2, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
 
-plot_model_fits_rt(c("2a", "2b", "2c"), m_prt_collinear2, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
 
-plot_model_fits_rt(c("2a", "2b", "2c"), m_prt_orthog_contrast2, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
-
-plot_model_fits_rt(c("2a", "2b", "2c"), m_prt_linear_transform2, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
+plot_model_fits_rt(c("2a", "2b", "2c"), m_prt_orthog_contrast2, y_limits = c(0.4, 0.8), n_row = 3, plot_type = "fitted")
+plot_model_fits_rt(c("4a", "4b", "4c"), m_prt_orthog_contrast4, y_limits = c(0.4, 0.8), n_row = 3, plot_type = "fitted")
 ```
 
 ```{r, fig.height = 6}
 
+plot_model_fits_rt(c("2a", "2b", "2c"), m_prt_orthog_contrast2, y_limits = c(0, 1.6), n_row = 3, plot_type = "predicted")
+plot_model_fits_rt(c("4a", "4b", "4c"), m_prt_orthog_contrast4, y_limits = c(0, 1.6), n_row = 3, plot_type = "predicted")
 
-plot_model_fits_rt(c("4a", "4b", "4c"), m_prt_best_feature4, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
-
-plot_model_fits_rt(c("4a", "4b", "4c"), m_prt_collinear4, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
-
-plot_model_fits_rt(c("4a", "4b", "4c"), m_prt_orthog_contrast4, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
-
-plot_model_fits_rt(c("4a", "4b", "4c"), m_prt_linear_transform4, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
 
 ```
 

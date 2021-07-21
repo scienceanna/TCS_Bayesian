@@ -130,14 +130,15 @@ run_model <- function(my_inputs, ppc) {
     iter = n_itr,
     inits = "0",# my_inputs$my_inits,
     stanvars = my_inputs$my_stanvar,
-    save_pars = save_pars(all=TRUE)
+    save_pars = save_pars(all=TRUE),
+    silent = TRUE
     )
 
   return(m)
   
 }
   
-plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0, 1.5), n_row = 1, feature2plot = 'all', dot_col = "yellow1") {
+plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0.4, 1), n_row = 1, feature2plot = 'all', dot_col = "yellow1") {
   
   # plot search slopes for experiment e_id
   
@@ -170,7 +171,7 @@ plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0,
     # include all group-level effects. 
     # Let's simulate 100 new people!
     d_plt %>%
-      expand(nesting(exp_id, d_feature), p_id = 1:10, N_T = full_seq(N_T,1)) %>%
+      expand(nesting(exp_id, d_feature), p_id = 1:10, N_T = 0:33) %>%
       add_predicted_draws(m, re_formula = NULL, allow_new_levels = TRUE, n = 100) %>%
       ungroup() %>% 
       select(-p_id) %>% 
@@ -181,7 +182,7 @@ plot_model_fits_rt <- function(e_id, m, plot_type = 'predicted', y_limits = c(0,
     # no group-level effects are included, so we are plotting 
     # for the average participant
     d_plt %>% 
-      expand(nesting(exp_id, d_feature), N_T = full_seq(N_T,1)) %>%
+      expand(nesting(exp_id, d_feature), N_T = 0:33) %>%
       add_fitted_draws(m, re_formula = NA, scale = "response", n = 500) -> d_hdci
     
     # we will plot these against the mean mean rt
