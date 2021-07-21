@@ -306,6 +306,7 @@ d_lmer %>%
     values_to = "Dp") %>%
   mutate(method = fct_relevel(method, "linear_comb", after = Inf)) -> Dp_samples
 
+
 #Dp_samples %>% group_by(exp_id, d_feature) %>% summarise(De = mean(De), Dp = mean(Dp))
 
 rm(d_lmer, m_lmer)
@@ -349,9 +350,9 @@ We can feed the predicted values for $D$ into our `brms` model as a prior, and t
 
 # first, summarise our Dp samples to give mu and sigma.
 
-compute_rt_predictions <- function(meth) {
-  Dp_samples2 %>%
-    filter(method == meth) %>%
+compute_rt_predictions <- function(test_data = c("2a", "2b", "2c"), meth, onefm, twofm) {
+  Dp_samples %>%
+    filter(method == meth, exp_id %in% test_data) %>%
     group_by(exp_id, d_feature) %>%
     summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop") %>%
     mutate(
@@ -360,27 +361,41 @@ compute_rt_predictions <- function(meth) {
 
   # now define and run new model! 
   
-  model_params <- set_up_predict_model(c("2a", "2b", "2c"), "shifted_lognormal", meth, Dp_summary, m_exp1_sft, m_exp2_sft)
+  model_params <- set_up_predict_model(test_data, "shifted_lognormal", meth, Dp_summary, onefm, twofm)
   
   m_prt <- run_model(model_params, ppc = "only")
     
   return(m_prt)
   
 }
+test_set <- c("2a", "2b", "2c")
+m_prt_best_feature2 <- compute_rt_predictions(test_set,  meth = "best_feature", m_exp1_sft, m_exp2_sft)
+m_prt_collinear2 <- compute_rt_predictions(test_set, meth = "collinear", m_exp1_sft, m_exp2_sft)
+m_prt_orthog_contrast2 <- compute_rt_predictions(test_set, meth = "orthog_contrast", m_exp1_sft, m_exp2_sft)
+m_prt_linear_transform2 <- compute_rt_predictions(test_set, meth = "linear_comb", m_exp1_sft, m_exp2_sft)
 
-m_prt_best_feature <- compute_rt_predictions(meth = "best_feature")
-m_prt_collinear <- compute_rt_predictions(meth = "collinear")
-m_prt_orthog_contrast <- compute_rt_predictions(meth = "orthog_contrast")
-# m_prt_linear_transform <- compute_rt_predictions(meth = "linear_comb")
-
-bs_bfeat <- bridge_sampler(m_prt_best_feature, silent = TRUE)
-bs_orth <- bridge_sampler(m_prt_orthog_contrast, silent = TRUE)
-bs_col <- bridge_sampler(m_prt_collinear, silent = TRUE)
-# bs_lint <- bridge_sampler(m_prt_linear_transform, silent = TRUE)
+bs_bfeat <- bridge_sampler(m_prt_best_feature2, silent = TRUE)
+bs_orth <- bridge_sampler(m_prt_orthog_contrast2, silent = TRUE)
+bs_col <- bridge_sampler(m_prt_collinear2, silent = TRUE)
+bs_lint <- bridge_sampler(m_prt_linear_transform2, silent = TRUE)
 
 post_prob(bs_bfeat, bs_col, bs_orth)
 
 post_prob(bs_bfeat,bs_col, bs_orth, bs_lint)  
+
+test_set <- c("4a", "4b", "4c")
+m_prt_best_feature4 <- compute_rt_predictions(test_set, meth = "best_feature", m_exp3_sft, m_exp4_sft)
+m_prt_collinear4 <- compute_rt_predictions(test_set, meth = "collinear", m_exp3_sft, m_exp4_sft)
+m_prt_orthog_contrast4 <- compute_rt_predictions(test_set, meth = "orthog_contrast", m_exp3_sft, m_exp4_sft)
+m_prt_linear_transform4 <- compute_rt_predictions(test_set, meth = "linear_comb", m_exp3_sft, m_exp4_sft)
+
+bs_bfeat <- bridge_sampler(m_prt_best_feature4, silent = TRUE)
+bs_orth <- bridge_sampler(m_prt_orthog_contrast4, silent = TRUE)
+bs_col <- bridge_sampler(m_prt_collinear4, silent = TRUE)
+bs_lint <- bridge_sampler(m_prt_linear_transform4, silent = TRUE)
+
+post_prob(bs_bfeat,bs_col, bs_orth, bs_lint) 
+
 
 rm(bs_bfeat,bs_col, bs_orth, bs_lint)
 
@@ -390,13 +405,26 @@ rm(bs_bfeat,bs_col, bs_orth, bs_lint)
 Note, this plot is for how we expect the average person to perform in experiment 2, using the orthogonal contrast combination method: 
 
 ```{r plot-exp2-predictions, fig.height = 6, fig.cap="Reaction time predictions for the average person for the orthogonal contrast method, predicting reaction times in Experiment 2."}
-plot_model_fits_rt(c("2a", "2b", "2c"), m_prt_best_feature, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
+plot_model_fits_rt(c("2a", "2b", "2c"), m_prt_best_feature2, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
+
+plot_model_fits_rt(c("2a", "2b", "2c"), m_prt_collinear2, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
+
+plot_model_fits_rt(c("2a", "2b", "2c"), m_prt_orthog_contrast2, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
+
+plot_model_fits_rt(c("2a", "2b", "2c"), m_prt_linear_transform2, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
+```
+
+```{r, fig.height = 6}
 
 
-plot_model_fits_rt(c("2a", "2b", "2c"), m_prt_collinear, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
+plot_model_fits_rt(c("4a", "4b", "4c"), m_prt_best_feature4, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
 
-m_prt <- m_prt_orthog_contrast
-plot_model_fits_rt(c("2a", "2b", "2c"), m_prt_best_feature, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
+plot_model_fits_rt(c("4a", "4b", "4c"), m_prt_collinear4, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
+
+plot_model_fits_rt(c("4a", "4b", "4c"), m_prt_orthog_contrast4, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
+
+plot_model_fits_rt(c("4a", "4b", "4c"), m_prt_linear_transform4, y_limits = c(0.2, 0.8), n_row = 3, plot_type = "fitted")
+
 ```
 
 
