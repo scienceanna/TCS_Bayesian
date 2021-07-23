@@ -831,6 +831,16 @@ collinear
 </tr>
 </tbody>
 </table>
+<pre class="r"><code>Dp_tmp %&gt;% mutate(abs_err = abs(Dp-D)) %&gt;%
+  group_by(method) %&gt;%
+  summarise(mean_abs_err = mean(abs_err))</code></pre>
+<pre><code>## # A tibble: 4 x 2
+##   method           mean_abs_err
+## * &lt;chr&gt;                   &lt;dbl&gt;
+## 1 best feature            11.4 
+## 2 collinear                3.41
+## 3 iter                    18.1 
+## 4 orthog. contrast         7.27</code></pre>
 <pre class="r"><code>rm(df_r2, Dp_tmp)</code></pre>
 <p>The values in the <em>all</em> column match those given in Figure 4 (top) (Buetti et al, 2019).</p>
 </div>

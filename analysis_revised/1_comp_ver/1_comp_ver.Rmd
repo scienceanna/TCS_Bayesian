@@ -148,6 +148,10 @@ for (e_id in exps_to_predict) {
 df_r2 %>% pivot_wider(method, names_from = "exp_id", values_from = "r2") %>%
   knitr::kable(digits = 4) %>% kableExtra::kable_styling()
 
+Dp_tmp %>% mutate(abs_err = abs(Dp-D)) %>%
+  group_by(method) %>%
+  summarise(mean_abs_err = mean(abs_err))
+
 rm(df_r2, Dp_tmp)
 
 ```
