@@ -1,0 +1,241 @@
+\begin{thebibliography}{35}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Becker(2010)]{becker2010role}
+Stefanie~I Becker.
+\newblock The role of target--distractor relationships in guiding attention and
+  the eyes in visual search.
+\newblock \emph{Journal of Experimental Psychology: General}, 139\penalty0
+  (2):\penalty0 247, 2010.
+
+\bibitem[Becker et~al.(2014)Becker, Valuch, and Ansorge]{becker2014color}
+Stefanie~I Becker, Christian Valuch, and Ulrich Ansorge.
+\newblock Color priming in pop-out search depends on the relative color of the
+  target.
+\newblock \emph{Frontiers in psychology}, 5:\penalty0 289, 2014.
+
+\bibitem[Buetti et~al.(2016)Buetti, Cronin, Madison, Wang, and
+  Lleras]{buetti2016towards}
+Simona Buetti, Deborah~A Cronin, Anna~M Madison, Zhiyuan Wang, and Alejandro
+  Lleras.
+\newblock Towards a better understanding of parallel visual processing in human
+  vision: Evidence for exhaustive analysis of visual information.
+\newblock \emph{Journal of Experimental Psychology: General}, 145\penalty0
+  (6):\penalty0 672, 2016.
+
+\bibitem[Buetti et~al.(2019)Buetti, Xu, and Lleras]{buetti2019predicting}
+Simona Buetti, Jing Xu, and Alejandro Lleras.
+\newblock Predicting how color and shape combine in the human visual system to
+  direct attention.
+\newblock \emph{Scientific reports}, 9\penalty0 (1):\penalty0 1--11, 2019.
+
+\bibitem[Cave and Wolfe(1990)]{cave1990modeling}
+Kyle~R Cave and Jeremy~M Wolfe.
+\newblock Modeling the role of parallel processing in visual search.
+\newblock \emph{Cognitive psychology}, 22\penalty0 (2):\penalty0 225--271,
+  1990.
+
+\bibitem[Clarke et~al.(2020)Clarke, Irons, James, Leber, and
+  Hunt]{clarke2020stable}
+Alasdair~DF Clarke, JL~Irons, Warren James, Andrew~B Leber, and Amelia~R Hunt.
+\newblock Stable individual differences in strategies within, but not between,
+  visual search tasks.
+\newblock \emph{Quarterly Journal of Experimental Psychology}, 2020.
+
+\bibitem[Hulleman and Olivers(2017)]{hulleman2017brink}
+Johan Hulleman and Christian~NL Olivers.
+\newblock On the brink: The demise of the item in visual search moves closer.
+\newblock \emph{Behavioral and Brain Sciences}, 40, 2017.
+
+\bibitem[Irons and Leber(2016)]{irons2016choosing}
+Jessica~L Irons and Andrew~B Leber.
+\newblock Choosing attentional control settings in a dynamically changing
+  environment.
+\newblock \emph{Attention, Perception, \& Psychophysics}, 78\penalty0
+  (7):\penalty0 2031--2048, 2016.
+
+\bibitem[Irons and Leber(2018)]{irons2018characterizing}
+Jessica~L Irons and Andrew~B Leber.
+\newblock Characterizing individual variation in the strategic use of
+  attentional control.
+\newblock \emph{Journal of Experimental Psychology: Human Perception and
+  Performance}, 44\penalty0 (10):\penalty0 1637, 2018.
+
+\bibitem[Itti and Koch(2000)]{itti2000saliency}
+Laurent Itti and Christof Koch.
+\newblock A saliency-based search mechanism for overt and covert shifts of
+  visual attention.
+\newblock \emph{Vision research}, 40\penalty0 (10-12):\penalty0 1489--1506,
+  2000.
+
+\bibitem[Itti et~al.(1998)Itti, Koch, and Niebur]{itti1998model}
+Laurent Itti, Christof Koch, and Ernst Niebur.
+\newblock A model of saliency-based visual attention for rapid scene analysis.
+\newblock \emph{IEEE Transactions on pattern analysis and machine
+  intelligence}, 20\penalty0 (11):\penalty0 1254--1259, 1998.
+
+\bibitem[Koch and Ullman(1987)]{koch1987shifts}
+Christof Koch and Shimon Ullman.
+\newblock Shifts in selective visual attention: towards the underlying neural
+  circuitry.
+\newblock In \emph{Matters of intelligence}, pages 115--141. Springer, 1987.
+
+\bibitem[Koehler et~al.(2014)Koehler, Guo, Zhang, and
+  Eckstein]{koehler2014saliency}
+Kathryn Koehler, Fei Guo, Sheng Zhang, and Miguel~P Eckstein.
+\newblock What do saliency models predict?
+\newblock \emph{Journal of vision}, 14\penalty0 (3):\penalty0 14--14, 2014.
+
+\bibitem[Liesefeld and M{\"u}ller(2020)]{liesefeld2020theoretical}
+Heinrich~Ren{\'e} Liesefeld and Hermann~J M{\"u}ller.
+\newblock A theoretical attempt to revive the serial/parallel-search dichotomy.
+\newblock \emph{Attention, Perception, \& Psychophysics}, 82\penalty0
+  (1):\penalty0 228--245, 2020.
+
+\bibitem[Lleras et~al.(2019)Lleras, Wang, Madison, and
+  Buetti]{lleras2019predicting}
+Alejandro Lleras, Zhiyuan Wang, Anna Madison, and Simona Buetti.
+\newblock Predicting search performance in heterogeneous scenes: Quantifying
+  the impact of homogeneity effects in efficient search.
+\newblock \emph{Collabra: Psychology}, 5\penalty0 (1), 2019.
+
+\bibitem[Lleras et~al.(2020)Lleras, Wang, Ng, Ballew, Xu, and
+  Buetti]{lleras2020target}
+Alejandro Lleras, Zhiyuan Wang, Gavin Jun~Peng Ng, Kirk Ballew, Jing Xu, and
+  Simona Buetti.
+\newblock A target contrast signal theory of parallel processing in
+  goal-directed search.
+\newblock \emph{Attention, Perception, \& Psychophysics}, pages 1--32, 2020.
+
+\bibitem[Madison et~al.(2018)Madison, Lleras, and Buetti]{madison2018role}
+Anna Madison, Alejandro Lleras, and Simona Buetti.
+\newblock The role of crowding in parallel search: Peripheral pooling is not
+  responsible for logarithmic efficiency in parallel search.
+\newblock \emph{Attention, Perception, \& Psychophysics}, 80\penalty0
+  (2):\penalty0 352--373, 2018.
+
+\bibitem[Meng and Wong(1996)]{meng1996simulating}
+Xiao-Li Meng and Wing~Hung Wong.
+\newblock Simulating ratios of normalizing constants via a simple identity: a
+  theoretical exploration.
+\newblock \emph{Statistica Sinica}, pages 831--860, 1996.
+
+\bibitem[Moran et~al.(2013)Moran, Zehetleitner, Mueller, and
+  Usher]{moran2013competitive}
+Rani Moran, Michael Zehetleitner, Hermann~J Mueller, and Marius Usher.
+\newblock Competitive guided search: Meeting the challenge of benchmark rt
+  distributions.
+\newblock \emph{Journal of Vision}, 13\penalty0 (8):\penalty0 24--24, 2013.
+
+\bibitem[Moran et~al.(2016)Moran, Zehetleitner, Liesefeld, M{\"u}ller, and
+  Usher]{moran2016serial}
+Rani Moran, Michael Zehetleitner, Heinrich~Ren{\'e} Liesefeld, Hermann~J
+  M{\"u}ller, and Marius Usher.
+\newblock Serial vs. parallel models of attention in visual search: accounting
+  for benchmark rt-distributions.
+\newblock \emph{Psychonomic bulletin \& review}, 23\penalty0 (5):\penalty0
+  1300--1315, 2016.
+
+\bibitem[Moran et~al.(2017)Moran, Liesefeld, Usher, and
+  Muller]{moran2017appeal}
+Rani Moran, Heinrich~Ren{\'e} Liesefeld, Marius Usher, and Hermann~J Muller.
+\newblock An appeal against the item's death sentence: Accounting for
+  diagnostic data patterns with an item-based model of visual search.
+\newblock \emph{Behavioral and Brain Sciences}, 40:\penalty0 e148, 2017.
+
+\bibitem[Ng et~al.(2020)Ng, Buetti, Patel, and Lleras]{ng2020prioritization}
+Gavin~JP Ng, Simona Buetti, Trisha~N Patel, and Alejandro Lleras.
+\newblock Prioritization in visual attention does not work the way you think it
+  does.
+\newblock \emph{Journal of Experimental Psychology: Human Perception and
+  Performance}, 2020.
+
+\bibitem[Ng et~al.(2018)Ng, Lleras, and Buetti]{ng2018fixed}
+Gavin Jun~Peng Ng, Alejandro Lleras, and Simona Buetti.
+\newblock Fixed-target efficient search has logarithmic efficiency with and
+  without eye movements.
+\newblock \emph{Attention, Perception, \& Psychophysics}, 80\penalty0
+  (7):\penalty0 1752--1762, 2018.
+
+\bibitem[Nowakowska et~al.(2017)Nowakowska, Clarke, and
+  Hunt]{nowakowska2017human}
+Anna Nowakowska, Alasdair~DF Clarke, and Amelia~R Hunt.
+\newblock Human visual search behaviour is far from ideal.
+\newblock \emph{Proceedings of the Royal Society B: Biological Sciences},
+  284\penalty0 (1849):\penalty0 20162767, 2017.
+
+\bibitem[Parkhurst et~al.(2002)Parkhurst, Law, and
+  Niebur]{parkhurst2002modeling}
+Derrick Parkhurst, Klinton Law, and Ernst Niebur.
+\newblock Modeling the role of salience in the allocation of overt visual
+  attention.
+\newblock \emph{Vision research}, 42\penalty0 (1):\penalty0 107--123, 2002.
+
+\bibitem[Peirce et~al.(2019)Peirce, Gray, Simpson, MacAskill, H{\"o}chenberger,
+  Sogo, Kastman, and Lindel{\o}v]{peirce2019psychopy2}
+Jonathan Peirce, Jeremy~R Gray, Sol Simpson, Michael MacAskill, Richard
+  H{\"o}chenberger, Hiroyuki Sogo, Erik Kastman, and Jonas~Kristoffer
+  Lindel{\o}v.
+\newblock Psychopy2: Experiments in behavior made easy.
+\newblock \emph{Behavior research methods}, 51\penalty0 (1):\penalty0 195--203,
+  2019.
+
+\bibitem[Tatler(2007)]{tatler2007central}
+Benjamin~W Tatler.
+\newblock The central fixation bias in scene viewing: Selecting an optimal
+  viewing position independently of motor biases and image feature
+  distributions.
+\newblock \emph{Journal of vision}, 7\penalty0 (14):\penalty0 4--4, 2007.
+
+\bibitem[Tatler et~al.(2011)Tatler, Hayhoe, Land, and Ballard]{tatler2011eye}
+Benjamin~W Tatler, Mary~M Hayhoe, Michael~F Land, and Dana~H Ballard.
+\newblock Eye guidance in natural vision: Reinterpreting salience.
+\newblock \emph{Journal of vision}, 11\penalty0 (5):\penalty0 5--5, 2011.
+
+\bibitem[Treisman and Gelade(1980)]{treisman1980feature}
+Anne~M Treisman and Garry Gelade.
+\newblock A feature-integration theory of attention.
+\newblock \emph{Cognitive psychology}, 12\penalty0 (1):\penalty0 97--136, 1980.
+
+\bibitem[Wang et~al.(2017)Wang, Buetti, and Lleras]{wang2017predicting}
+Zhiyuan Wang, Simona Buetti, and Alejandro Lleras.
+\newblock Predicting search performance in heterogeneous visual search scenes
+  with real-world objects.
+\newblock \emph{Collabra: Psychology}, 3\penalty0 (1), 2017.
+
+\bibitem[Wolfe(2014)]{wolfe2014approaches}
+Jeremy~M Wolfe.
+\newblock Approaches to visual search: Feature integration theory and guided
+  search.
+\newblock \emph{Oxford handbook of attention}, pages 11--55, 2014.
+
+\bibitem[Wolfe et~al.(1989)Wolfe, Cave, and Franzel]{wolfe1989guided}
+Jeremy~M Wolfe, Kyle~R Cave, and Susan~L Franzel.
+\newblock Guided search: an alternative to the feature integration model for
+  visual search.
+\newblock \emph{Journal of Experimental Psychology: Human perception and
+  performance}, 15\penalty0 (3):\penalty0 419, 1989.
+
+\bibitem[Wolfe et~al.(2010)Wolfe, Palmer, and Horowitz]{wolfe2010reaction}
+Jeremy~M Wolfe, Evan~M Palmer, and Todd~S Horowitz.
+\newblock Reaction time distributions constrain models of visual search.
+\newblock \emph{Vision research}, 50\penalty0 (14):\penalty0 1304--1311, 2010.
+
+\bibitem[Xu et~al.(2021)Xu, Lleras, and Buetti]{xu2021predicting}
+Zoe~Jing Xu, Alejandro Lleras, and Simona Buetti.
+\newblock Predicting how surface texture and shape combine in the human visual
+  system to direct attention.
+\newblock \emph{Scientific reports}, 11\penalty0 (1):\penalty0 1--13, 2021.
+
+\bibitem[Zhang et~al.(2008)Zhang, Tong, Marks, Shan, and
+  Cottrell]{zhang2008sun}
+Lingyun Zhang, Matthew~H Tong, Tim~K Marks, Honghao Shan, and Garrison~W
+  Cottrell.
+\newblock Sun: A bayesian framework for saliency using natural statistics.
+\newblock \emph{Journal of vision}, 8\penalty0 (7):\penalty0 32--32, 2008.
+
+\end{thebibliography}
