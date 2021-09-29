@@ -230,6 +230,14 @@ summary(d)</code></pre>
 ##  Mean   : 587   Mean   :0.501   Mean   :0                     
 ##  3rd Qu.: 645   3rd Qu.:1.000   3rd Qu.:0                     
 ##  Max.   :4989   Max.   :1.000   Max.   :0                     
+##                                                               
+##      ring          
+##  Length:142077     
+##  Class :character  
+##  Mode  :character  
+##                    
+##                    
+##                    
 ## </code></pre>
 </div>
 <div id="freqentist-computational-replication-of-buetti-et-al-2019" class="section level1" number="2">
@@ -667,6 +675,55 @@ Dp &lt;- map_df(exps_to_predict, gen_exp_predictions, De)</code></pre>
 Figure 2.1: Computational replication of Figure 4 (top row) from Buetti et al (2019).
 </p>
 </div>
+<p>Now put mean absoluate error in a table:</p>
+<pre class="r"><code>left_join(Dp, De, by = c(&quot;exp_id&quot;, &quot;d_feature&quot;)) %&gt;%
+  pivot_longer(
+    cols = c(`best feature`, `orthog. contrast`, collinear),
+    values_to = &quot;Dp&quot;,
+    names_to = &quot;method&quot;) %&gt;%
+  mutate(method = fct_relevel(method, &quot;best feature&quot;, &quot;orthog. contrast&quot;),
+         error = D-Dp) %&gt;%
+  group_by(method) %&gt;%
+  summarise(mean_err = mean(abs(error))) %&gt;%
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+method
+</th>
+<th style="text-align:right;">
+mean_err
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+best feature
+</td>
+<td style="text-align:right;">
+11.37
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+orthog. contrast
+</td>
+<td style="text-align:right;">
+7.27
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+collinear
+</td>
+<td style="text-align:right;">
+3.41
+</td>
+</tr>
+</tbody>
+</table>
 <p>Now we compute <span class="math inline">\(R^2\)</span> to get a measure of how well <span class="math inline">\(D_p\)</span> predict the <span class="math inline">\(D_e\)</span>, calculated for each method and each set of experiments, as well as an overall measure.</p>
 <pre class="r"><code>Dp_tmp &lt;- left_join(Dp, De, by = c(&quot;exp_id&quot;, &quot;d_feature&quot;)) %&gt;%
   pivot_longer(-c(exp_id, d_feature, D), names_to = &quot;method&quot;, values_to = &quot;Dp&quot;)

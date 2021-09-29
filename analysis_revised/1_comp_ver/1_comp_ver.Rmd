@@ -117,6 +117,21 @@ left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
   scale_colour_manual(values = c("yellow1", "yellow1", "yellow1"))
 ```
 
+Now put mean absoluate error in a table:
+
+```{r}
+left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
+  pivot_longer(
+    cols = c(`best feature`, `orthog. contrast`, collinear),
+    values_to = "Dp",
+    names_to = "method") %>%
+  mutate(method = fct_relevel(method, "best feature", "orthog. contrast"),
+         error = D-Dp) %>%
+  group_by(method) %>%
+  summarise(mean_err = mean(abs(error))) %>%
+  knitr::kable()
+```
+
 Now we compute $R^2$ to get a measure of how well $D_p$ predict the $D_e$, calculated for each method and each set of experiments, as well as an overall measure. 
 
 ```{r}

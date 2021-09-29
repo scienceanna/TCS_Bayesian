@@ -15,7 +15,11 @@ import_experiment <- function(sheet, d_labels, exp_number, exp_part) {
       d_feature = "dcolors",
       rt = "RT",
       response = "resp",
-      error = "Error") %>%
+      error = "Error",
+      starts_with("loc")) %>%
+    pivot_longer(loc1:loc36, names_to = "location", values_to = "item") %>%
+    filter(item == 1) %>%
+    select(-item) %>%
     # code up p_id, t_id and distracter colour as a factor
     mutate(
       exp_id = paste(exp_number, exp_part, sep = ""),
@@ -45,6 +49,22 @@ d$e4b <- import_experiment(18, c(`orange circle` = "1", `yellow diamond` = "2", 
 d$e4c <- import_experiment(20, c(`blue diamond` = "1", `yellow circle` = "2", `orange semicircle` = "3"), 4, "c")
 
 d <- bind_rows(d)
+
+
+# convert locations to ring idea
+r_inner <- c(1,2,3,10,11,12,19,20,21,28,29,30)
+r_middle <- c(4,5,6,13,14,15,22,23,24,31,32,33)
+r_outer <- c(7,8,9,16,17,18,25,26,27,34,35,36)
+
+
+d %>% mutate(location = str_remove(location, "loc"),
+             location = parse_integer(location),
+             ring = if_else(location %in% r_inner, "inner", "missing"),
+             ring = if_else(location %in% r_middle, "middle", ring),
+             ring = if_else(location %in% r_outer, "outer", ring)) %>%
+  select(-location) -> d 
+
+
 
 # # remove error trials 
 # print(dim(d))

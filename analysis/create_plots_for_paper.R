@@ -78,7 +78,7 @@ d %>%
 ggsave("../plots/computational_replication.pdf", plt_D + plt_mean_rt + plt_sample_rt, width = 8, height = 3)
 
 
-
+# experiment 2
 d %>% filter(parse_number(exp_id) == 2) %>%
              #d_feature %in% c("blue diamond", "blue triangle", "orange triangle")) %>%
   group_by(exp_id, p_id, d_feature, N_T) %>%
@@ -94,7 +94,26 @@ rt_pred %>%
   facet_wrap( ~ d_feature, nrow = 3) + 
   geom_point(data = d_mean_mean, aes(y = mean_rt), colour = "darkblue" ) + 
   scale_y_continuous("predicted rt (sec)") + 
-  scale_x_continuous(TeX("$N_T")) -> plt_rt
+  scale_x_continuous(TeX("$N_T")) -> plt_rt2
+
+# experiment 3
+d %>% filter(parse_number(exp_id) == 4) %>%
+  #d_feature %in% c("blue diamond", "blue triangle", "orange triangle")) %>%
+  group_by(exp_id, p_id, d_feature, N_T) %>%
+  summarise(mean_rt = mean(rt), .groups = "drop") %>%
+  group_by(exp_id,  d_feature, N_T) %>%
+  summarise(mean_rt = mean(mean_rt), .groups = "drop") -> d_mean_mean
+
+rt_pred %>%
+  filter(parse_number(exp_id) == 4) %>%
+  #d_feature %in% c("blue diamond", "blue triangle", "orange triangle")) %>%
+  ggplot( aes(x = N_T, y = p_rt)) + 
+  geom_line(colour = "violetred3") + 
+  facet_wrap( ~ d_feature, nrow = 3) + 
+  geom_point(data = d_mean_mean, aes(y = mean_rt), colour = "darkblue" ) + 
+  scale_y_continuous("predicted rt (sec)") + 
+  scale_x_continuous(TeX("$N_T")) -> plt_rt4
+
 
 
 calc_D_plot <- function(e_id) {
@@ -160,7 +179,11 @@ AAABBB
 AAA###
 "
 
-ggsave("../plots/computational_replication_issues.pdf", plt_rt + plt1 + plot_layout(design = layout), width = 10, height = 6)
+ggsave("../plots/computational_replication_issues.pdf", plt_rt2 + plt_rt4, width = 10, height = 6)
+       
+
+ggsave("../plots/computational_replication_issues2.pdf", plt1, width = 6, height = 6)
+
 
 
 ###################################################
