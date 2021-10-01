@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2021.1.2),
-    on October 01, 2021, at 13:01
+    on October 01, 2021, at 15:52
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -1819,7 +1819,7 @@ for thisTrial in trials:
         tThisFlipGlobal = win.getFutureFlipTime(clock=None)
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
         # update/draw components on each frame
-        if trialCounter != 100 and trialCounter != 200 and trialCounter !=300 and trialCounter !=400 and trialCounter !=500 and trialCounter !=600 and trialCounter !=700:
+        if trialCounter != 120 and trialCounter != 240 and trialCounter !=360 and trialCounter !=480 and trialCounter !=600 and trialCounter !=720 and trialCounter !=840:
             continueRoutine = False
         
             

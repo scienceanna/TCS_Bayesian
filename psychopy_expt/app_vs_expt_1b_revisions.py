@@ -164,8 +164,8 @@ trials = np.vstack((dsetsize, dcolours, tid))
 # randomly shuffling order (not necessary for now)
 #np.random.shuffle(np.transpose(trials))
 
-# Repeat 3 times (to give 160 trials)
-trials = np.tile(trials, 5)
+# Repeat 3 times (to give 192 trials)
+trials = np.tile(trials, 6)
 
 # Starting actual experiment
 
@@ -173,7 +173,7 @@ trials = np.tile(trials, 5)
 win = visual.Window(size = (1920,1080), color = [0,0,0], colorSpace = 'rgb255', fullscr = True, units = 'pix')
 
 # Number of trials
-T_trials = 160
+T_trials = 192
 
 for itrial in range(T_trials):
     
