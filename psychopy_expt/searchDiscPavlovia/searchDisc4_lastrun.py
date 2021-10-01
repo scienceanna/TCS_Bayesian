@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This experiment was created using PsychoPy3 Experiment Builder (v2020.2.2),
-    on February 17, 2021, at 22:14
+This experiment was created using PsychoPy3 Experiment Builder (v2021.1.2),
+    on October 01, 2021, at 13:01
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -15,14 +15,14 @@ from __future__ import absolute_import, division
 
 from psychopy import locale_setup
 from psychopy import prefs
-from psychopy import sound, gui, visual, core, data, event, logging, clock
+from psychopy import sound, gui, visual, core, data, event, logging, clock, colors
 from psychopy.constants import (NOT_STARTED, STARTED, PLAYING, PAUSED,
                                 STOPPED, FINISHED, PRESSED, RELEASED, FOREVER)
 
 import numpy as np  # whole numpy lib is available, prepend 'np.'
 from numpy import (sin, cos, tan, log, log10, pi, average,
                    sqrt, std, deg2rad, rad2deg, linspace, asarray)
-from numpy.random import random, randint, normal, shuffle
+from numpy.random import random, randint, normal, shuffle, choice as randchoice
 import os  # handy system and path functions
 import sys  # to get file system encoding
 
@@ -35,10 +35,10 @@ _thisDir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(_thisDir)
 
 # Store info about the experiment session
-psychopyVersion = '2020.2.2'
+psychopyVersion = '2021.1.2'
 expName = 'searchDisc4'  # from the Builder filename that created this script
 expInfo = {'participant': '', 'session': '001'}
-dlg = gui.DlgFromDict(dictionary=expInfo, sort_keys=False, title=expName)
+dlg = gui.DlgFromDict(dictionary=expInfo, sortKeys=False, title=expName)
 if dlg.OK == False:
     core.quit()  # user pressed cancel
 expInfo['date'] = data.getDateStr()  # add a simple timestamp
@@ -51,7 +51,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='C:\\Users\\Marcin\\Documents\\GitHub\\APP_VS\\psychopy_expt\\searchDiscPavlovia\\searchDisc4_lastrun.py',
+    originPath='C:\\Users\\Anna\\Documents\\APP_VS_git\\psychopy_expt\\searchDiscPavlovia\\searchDisc4_lastrun.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -61,7 +61,7 @@ logging.console.setLevel(logging.WARNING)  # this outputs to the screen, not a f
 endExpNow = False  # flag for 'escape' or other condition => quit the exp
 frameTolerance = 0.001  # how close to onset before 'same' frame
 
-# Start Code - component code to be run before the window creation
+# Start Code - component code to be run after the window creation
 
 # Setup the Window
 win = visual.Window(
@@ -175,7 +175,7 @@ key_resp_13 = keyboard.Keyboard()
 # Initialize components for Routine "WelcomePractice"
 WelcomePracticeClock = core.Clock()
 text_2 = visual.TextStim(win=win, name='text_2',
-    text='Welcome! Your task is to find\nwhite or blue semicircle and indicate \nif it is facing left or right.\nPress SPACE bar to continue.\n',
+    text='Welcome! Your task is to find\nwhite or red semicircle and indicate \nif it is facing left or right.\nPress SPACE bar to continue.\n',
     font='Arial',
     units='norm', pos=(0, 0), height=0.07, wrapWidth=1.5, ori=0, 
     color='white', colorSpace='rgb', opacity=1, 
@@ -186,7 +186,7 @@ key_resp_5 = keyboard.Keyboard()
 # Initialize components for Routine "instructions"
 instructionsClock = core.Clock()
 text_5 = visual.TextStim(win=win, name='text_5',
-    text="Look at the fixation cross and press SPACE bar when you\nare ready to start the trial.\nPress '1' for semicircle facing left.\nPress '2' for semicircle facing right.\nYou will first complete 20 practice trials.\nPress SPACE bar when you are ready to start.",
+    text="Look at the fixation cross and press SPACE bar when you\nare ready to start the trial.\nPress 'f' for semicircle facing left.\nPress 'j' for semicircle facing right.\nYou will first complete 16 practice trials.\nPress SPACE bar when you are ready to start.",
     font='Arial',
     units='norm', pos=(0, 0), height=0.07, wrapWidth=1.5, ori=0, 
     color='white', colorSpace='rgb', opacity=1, 
@@ -206,7 +206,7 @@ image_2 = visual.ImageStim(
     texRes=128, interpolate=True, depth=0.0)
 key_resp_6 = keyboard.Keyboard()
 text_3 = visual.TextStim(win=win, name='text_3',
-    text='Press 1 if you see left semicircle\n\n\nPress 2 if you see right semicircle\n\n\nPress SPACE to start',
+    text='Press f if you see left semicircle\n\n\nPress j if you see right semicircle\n\n\nPress SPACE to start',
     font='Arial',
     units='norm', pos=(0, 0), height=0.08, wrapWidth=1.5, ori=0, 
     color='white', colorSpace='rgb', opacity=1, 
@@ -227,8 +227,7 @@ fix = visual.ShapeStim(
     win=win, name='fix', vertices='cross',
     size=[1.0, 1.0],
     ori=0, pos=(0, 0),
-    lineWidth=1, lineColor=[1,1,1], lineColorSpace='rgb',
-    fillColor=[1,1,1], fillColorSpace='rgb',
+    lineWidth=1,     colorSpace='rgb',  lineColor=[1,1,1], fillColor=[1,1,1],
     opacity=1, depth=0.0, interpolate=True)
 key_resp_7 = keyboard.Keyboard()
 
@@ -248,7 +247,7 @@ key_resp_4 = keyboard.Keyboard()
 practiceFeedbackClock = core.Clock()
 msg='doh'
 text_4 = visual.TextStim(win=win, name='text_4',
-    text='default text',
+    text='',
     font='Arial',
     units='norm', pos=(0, 0), height=0.1, wrapWidth=1.5, ori=0, 
     color='white', colorSpace='rgb', opacity=1, 
@@ -258,7 +257,7 @@ text_4 = visual.TextStim(win=win, name='text_4',
 # Initialize components for Routine "WelcomeScreen"
 WelcomeScreenClock = core.Clock()
 text = visual.TextStim(win=win, name='text',
-    text="Welcome to the experimental trials.\nBe reminded that your task is to look for \na white or a blue semicircle.\nIf semicircle is facing left press '1'.\nIf semicircle is facing right press '2'.\nPress SPACE bar to continue\n",
+    text="Welcome to the experimental trials.\nBe reminded that your task is to look for \na white or a red semicircle.\nIf semicircle is facing left press 'f'.\nIf semicircle is facing right press 'j'.\nPress SPACE bar to continue\n",
     font='Arial',
     units='norm', pos=(0, 0), height=0.07, wrapWidth=1.5, ori=0, 
     color='white', colorSpace='rgb', opacity=1, 
@@ -272,8 +271,7 @@ fix2experiment = visual.ShapeStim(
     win=win, name='fix2experiment', vertices='cross',
     size=[1.0, 1.0],
     ori=0, pos=(0, 0),
-    lineWidth=1, lineColor=[1,1,1], lineColorSpace='rgb',
-    fillColor=[1,1,1], fillColorSpace='rgb',
+    lineWidth=1,     colorSpace='rgb',  lineColor=[1,1,1], fillColor=[1,1,1],
     opacity=1, depth=0.0, interpolate=True)
 key_resp_9 = keyboard.Keyboard()
 
@@ -296,7 +294,7 @@ trialCounter=0
 accuracySum=0
 totRT=0
 breakMessage = visual.TextStim(win=win, name='breakMessage',
-    text='default text',
+    text='',
     font='Arial',
     units='norm', pos=(0, 0), height=0.1, wrapWidth=1.5, ori=0, 
     color='white', colorSpace='rgb', opacity=1, 
@@ -1301,7 +1299,7 @@ for thisTrial_2 in trials_2:
                 win.timeOnFlip(key_resp_4, 'tStopRefresh')  # time at next scr refresh
                 key_resp_4.status = FINISHED
         if key_resp_4.status == STARTED and not waitOnFlip:
-            theseKeys = key_resp_4.getKeys(keyList=['1', '2'], waitRelease=False)
+            theseKeys = key_resp_4.getKeys(keyList=['f', 'j'], waitRelease=False)
             _key_resp_4_allKeys.extend(theseKeys)
             if len(_key_resp_4_allKeys):
                 key_resp_4.keys = _key_resp_4_allKeys[-1].name  # just the last key pressed
@@ -1543,7 +1541,7 @@ routineTimer.reset()
 # set up handler to look after randomisation of conditions etc
 trials = data.TrialHandler(nReps=1, method='random', 
     extraInfo=expInfo, originPath=-1,
-    trialList=data.importConditions('Images_List.xlsx'),
+    trialList=data.importConditions('Images_List_revisions.xlsx'),
     seed=None, name='trials')
 thisExp.addLoop(trials)  # add the loop to the experiment
 thisTrial = trials.trialList[0]  # so we can initialise stimuli with some values
@@ -1727,7 +1725,7 @@ for thisTrial in trials:
                 win.timeOnFlip(key_resp_2, 'tStopRefresh')  # time at next scr refresh
                 key_resp_2.status = FINISHED
         if key_resp_2.status == STARTED and not waitOnFlip:
-            theseKeys = key_resp_2.getKeys(keyList=['1', '2'], waitRelease=False)
+            theseKeys = key_resp_2.getKeys(keyList=['f', 'j'], waitRelease=False)
             _key_resp_2_allKeys.extend(theseKeys)
             if len(_key_resp_2_allKeys):
                 key_resp_2.keys = _key_resp_2_allKeys[-1].name  # just the last key pressed
@@ -1793,7 +1791,7 @@ for thisTrial in trials:
     meanRT = totRT/trialCounter
     meanRT = round(meanRT, 3)
     
-    msg = "You have completed %i out of 570 trials. You are %i %% accurate so far, with an average reaction time of %.2f sec. Press space bar to continue." %(trialCounter,percentAccurate,meanRT)
+    msg = "You have completed %i out of 800 trials. You are %i %% accurate so far, with an average reaction time of %.2f sec. Press space bar to continue." %(trialCounter,percentAccurate,meanRT)
     breakMessage.setText(msg)
     key_resp.keys = []
     key_resp.rt = []
@@ -1821,7 +1819,7 @@ for thisTrial in trials:
         tThisFlipGlobal = win.getFutureFlipTime(clock=None)
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
         # update/draw components on each frame
-        if trialCounter != 60 and trialCounter != 120 and trialCounter !=180 and trialCounter !=240 and trialCounter !=300 and trialCounter !=360 and trialCounter !=420:
+        if trialCounter != 100 and trialCounter != 200 and trialCounter !=300 and trialCounter !=400 and trialCounter !=500 and trialCounter !=600 and trialCounter !=700:
             continueRoutine = False
         
             
