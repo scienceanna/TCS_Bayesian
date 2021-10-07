@@ -435,11 +435,16 @@ get_Dp_lines <- function(Dp_s) {
   
 }
 
-plot_Dp_lines <- function(Dp_lines, dot_col = "yellow1", xyline_col = "cyan") {
+plot_Dp_lines <- function(Dp_lines, dot_col = "yellow1", xyline_col = "cyan", nrl = FALSE) {
   
   # x_range = 0.25
   # bind_rows(Dp_lines %>% mutate(x = 0, .lower = 0, .upper = 0),
             # Dp_lines %>% mutate(x = x_range, .lower = x * .lower, .upper = x * .upper)) -> Dp_lines
+  if (nrl) {
+    axis_max = 0.07
+  } else {
+    axis_max = 0.25
+  }
   
   
   Dp_samples %>%
@@ -453,7 +458,7 @@ plot_Dp_lines <- function(Dp_lines, dot_col = "yellow1", xyline_col = "cyan") {
    geom_abline(data = Dp_lines, aes(intercept = intercept, slope = slope), colour = "palevioletred1", alpha = 0.1) +
      facet_wrap(~method, nrow = 1) +
     # geom_ribbon(data = Dp_lines, aes(x = x,  ymin = .lower, ymax=  .upper), alpha = 0.5, fill = "palevioletred1") + 
-    coord_fixed(xlim = c(0, 0.25), ylim = c(0, 0.25)) +
+    coord_fixed(xlim = c(0, axis_max), ylim = c(0, axis_max)) +
     scale_x_continuous(TeX("Predicted value for $D_{c,s}$"), expand = c(0, 0), breaks = c(0, 0.1, 0.2)) +
     scale_y_continuous(TeX("empirical value for $D_{c,s}$"), expand = c(0, 0), breaks = c(0, 0.1, 0.2)) 
   

@@ -160,6 +160,8 @@ tibble(model = c("normal", "lognormal", "shifted-lognormal"), #, "linear in $N_T
        weight = post_prob(bs_exp1_nrl, bs_exp1_log, bs_exp1_sft)) %>% # , bs_exp1_sft_nolog 
   knitr::kable()
 
+waic(m_exp1_nrl, m_exp1_log, m_exp1_sft, cores = 1)
+
 #remove the models that we no longer need
 rm(m_exp1_nrl, m_exp1_log, m_exp1_sft_nolog)
 ```
@@ -273,6 +275,27 @@ bind_rows(
   facet_wrap(~exp, nrow = 2)
 ```
 
+```{r}
+m_exp1_nrl <- readRDS("models/exp_1_nrl.models")
+m_exp2_nrl <- readRDS("models/exp_2_nrl.models")
+m_exp3_nrl <- readRDS("models/exp_3_nrl.models")
+m_exp4_nrl <- readRDS("models/exp_4_nrl.models")
+
+slopes1nrl <- extract_fixed_slopes_from_model(m_exp1_nrl)
+slopes2nrl <- extract_fixed_slopes_from_model(m_exp2_nrl)
+slopes3nrl <- extract_fixed_slopes_from_model(m_exp3_nrl)
+slopes4nrl <- extract_fixed_slopes_from_model(m_exp4_nrl)
+
+bind_rows(
+  slopes1 %>% mutate(exp = "Experiment 1", dist = "shifted-lognormal"),
+  slopes3 %>% mutate(exp = "Experiment 3", dist = "shifted-lognormal"),
+  slopes1nrl %>% mutate(exp = "Experiment 1", dist = "normal"),
+  slopes3nrl %>% mutate(exp = "Experiment 3", dist = "normal")) %>%
+  ggplot(aes(x= D, fill = d_feature)) + 
+  geom_density(alpha = 0.5) +
+  facet_wrap(dist~exp, nrow = 2, scales = "free")
+```
+
 We can see that we have a posterior probability distribution for each type of distracter in both experiment 1 and 3. 
 
 
@@ -286,12 +309,22 @@ Buetti et al (2019) considered three methods for calculating $D_p$: best feature
 
 ```{r predict-D-2, fig.cap = "Estimating D, using four different calculation methods.", fig.height = 4}
 
-Dp_samples2 <- map_dfr(c("2a", "2b", "2c"), get_Dp_samples, d, slopes1, slopes2)
-Dp_samples4 <- map_dfr(c("4a", "4b", "4c"), get_Dp_samples, d, slopes3, slopes4)
+
+
+rm(slopes1, slopes2, slopes3, slopes4)
+```
+
+
+Now repeat for normal model
+
+```{r predict-D-2, fig.cap = "Estimating D, using four different calculation methods.", fig.height = 4}
+
+Dp_samples2 <- map_dfr(c("2a", "2b", "2c"), get_Dp_samples, d, slopes1nrl, slopes2nrl)
+Dp_samples4 <- map_dfr(c("4a", "4b", "4c"), get_Dp_samples, d, slopes3nrl, slopes4nrl)
 
 Dp_samples <- bind_rows(Dp_samples2, Dp_samples4)
 Dp_lines <- get_Dp_lines(Dp_samples)
-plot_Dp_lines(Dp_lines)
+plot_Dp_lines(Dp_lines, nrl = TRUE)
 
 rm(slopes1, slopes2, slopes3, slopes4)
 ```
