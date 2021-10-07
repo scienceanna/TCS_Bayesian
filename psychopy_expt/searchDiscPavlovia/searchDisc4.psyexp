@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" ?>
-<PsychoPy2experiment encoding="utf-8" version="2021.1.2">
+<PsychoPy2experiment encoding="utf-8" version="3.2.4">
   <Settings>
     <Param name="Audio latency priority" updates="None" val="use prefs" valType="str"/>
     <Param name="Audio lib" updates="None" val="use prefs" valType="str"/>
@@ -12,6 +12,7 @@
     <Param name="Full-screen window" updates="None" val="True" valType="bool"/>
     <Param name="HTML path" updates="None" val="" valType="str"/>
     <Param name="Incomplete URL" updates="None" val="" valType="str"/>
+    <Param name="JS libs" updates="None" val="packaged" valType="str"/>
     <Param name="Monitor" updates="None" val="testMonitor" valType="str"/>
     <Param name="Resources" updates="None" val="[]" valType="fileList"/>
     <Param name="Save csv file" updates="None" val="True" valType="bool"/>
@@ -86,7 +87,7 @@
         <Param name="Begin Experiment" updates="constant" val="msg='doh'&amp;#10;trialCounter=0&amp;#10;accuracySum=0&amp;#10;totRT=0" valType="extendedCode"/>
         <Param name="Begin JS Experiment" updates="constant" val="msg = &quot;&quot;;&amp;#10;trialCounter=0;&amp;#10;accuracySum=0;&amp;#10;totRT=0;&amp;#10;&amp;#10;//round = function(num, n=0) {    &amp;#10;//   return +(Math.round(num + (&quot;e+&quot; + n))  + (&quot;e-&quot; + n));&amp;#10;//}&amp;#10;" valType="extendedCode"/>
         <Param name="Begin JS Routine" updates="constant" val="trialCounter=trialCounter+1;  &amp;#10;&amp;#10;if(key_resp_2.corr) {&amp;#10;    accuracySum = accuracySum + 1;&amp;#10;    totRT = totRT + key_resp_2.rt;&amp;#10;}&amp;#10;&amp;#10;percentAccurate = accuracySum/trialCounter * 100;&amp;#10;percentAccurate = round(percentAccurate, 3);&amp;#10;meanRT = totRT/trialCounter;&amp;#10;meanRT = round(meanRT, 3);&amp;#10;&amp;#10;msg = &quot;You have completed &quot; + trialCounter + &quot; trials. You are &quot; + percentAccurate + &quot;% accurate so far, with an average reaction time of &quot; + meanRT + &quot;s. Press space bar to continue&quot;;" valType="extendedCode"/>
-        <Param name="Begin Routine" updates="constant" val="trialCounter = trialCounter + 1&amp;#10;&amp;#10;if key_resp_2.corr:&amp;#10;    accuracySum = accuracySum + 1&amp;#10;    totRT = totRT + key_resp_2.rt&amp;#10;&amp;#10;percentAccurate = accuracySum/trialCounter * 100&amp;#10;percentAccurate = round(percentAccurate, 3)&amp;#10;meanRT = totRT/trialCounter&amp;#10;meanRT = round(meanRT, 3)&amp;#10;&amp;#10;msg = &quot;You have completed %i out of 800 trials. You are %i %% accurate so far, with an average reaction time of %.2f sec. Press space bar to continue.&quot; %(trialCounter,percentAccurate,meanRT)" valType="extendedCode"/>
+        <Param name="Begin Routine" updates="constant" val="trialCounter = trialCounter + 1&amp;#10;&amp;#10;if key_resp_2.corr:&amp;#10;    accuracySum = accuracySum + 1&amp;#10;    totRT = totRT + key_resp_2.rt&amp;#10;&amp;#10;percentAccurate = accuracySum/trialCounter * 100&amp;#10;percentAccurate = round(percentAccurate, 3)&amp;#10;meanRT = totRT/trialCounter&amp;#10;meanRT = round(meanRT, 3)&amp;#10;&amp;#10;msg = &quot;You have completed %i out of 800 trials. You are %i %% accurate so far, with an average reaction time of %.2f sec. Press 'c' to continue.&quot; %(trialCounter,percentAccurate,meanRT)" valType="extendedCode"/>
         <Param name="Code Type" updates="None" val="Both" valType="str"/>
         <Param name="Each Frame" updates="constant" val="if trialCounter != 120 and trialCounter != 240 and trialCounter !=360 and trialCounter !=480 and trialCounter !=600 and trialCounter !=720 and trialCounter !=840:&amp;#10;    continueRoutine = False&amp;#10;&amp;#10;    &amp;#10;" valType="extendedCode"/>
         <Param name="Each JS Frame" updates="constant" val="if ((trialCounter !== 120 &amp;&amp; trialCounter !== 240 &amp;&amp; trialCounter !== 360 &amp;&amp; trialCounter !== 480 &amp;&amp; trialCounter !== 600 &amp;&amp; trialCounter !== 720 &amp;&amp; trialCounter !== 840)) {&amp;#10;    continueRoutine = false;&amp;#10;}&amp;#10;&amp;#10;&amp;#10;" valType="extendedCode"/>
@@ -123,7 +124,7 @@
         <Param name="wrapWidth" updates="constant" val="1.5" valType="code"/>
       </TextComponent>
       <KeyboardComponent name="key_resp">
-        <Param name="allowedKeys" updates="constant" val="'space','return'" valType="code"/>
+        <Param name="allowedKeys" updates="constant" val="'c','return'" valType="code"/>
         <Param name="correctAns" updates="constant" val="" valType="str"/>
         <Param name="disabled" updates="None" val="False" valType="bool"/>
         <Param name="discard previous" updates="constant" val="True" valType="bool"/>
