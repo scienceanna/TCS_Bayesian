@@ -367,10 +367,10 @@ for itrial in range(T_trials):
                 C, whichring, cx, cy = grid_nc(i)
                 randnum = random.random()
                 if randnum < 0.5:
-                        target = visual.ImageStim(win, image='stimuli/locircle.jpg', pos = [cx,cy])
+                        target = visual.ImageStim(win, image='stimuli/locircle.png', pos = [cx,cy])
                         target.draw()
                 else:
-                        target = visual.ImageStim(win, image='stimuli/rocircle.jpg', pos = [cx,cy])
+                        target = visual.ImageStim(win, image='stimuli/rocircle.png', pos = [cx,cy])
                         target.draw()
                 
         
@@ -378,10 +378,10 @@ for itrial in range(T_trials):
                 C, whichring, cx, cy = grid_nc(i)
                 randnum = random.random()
                 if randnum < 0.5:
-                        target = visual.ImageStim(win, image='stimuli/lpcircle.jpg', pos = [cx,cy])
+                        target = visual.ImageStim(win, image='stimuli/lpcircle.png', pos = [cx,cy])
                         target.draw()
                 else:
-                        target = visual.ImageStim(win, image='stimuli/rpcircle.jpg', pos = [cx,cy])
+                        target = visual.ImageStim(win, image='stimuli/rpcircle.png', pos = [cx,cy])
                         target.draw()
                 
         
@@ -389,10 +389,10 @@ for itrial in range(T_trials):
                 C, whichring, cx, cy = grid_nc(i)
                 randnum = random.random()
                 if randnum < 0.5:
-                        target = visual.ImageStim(win, image='stimuli/lycircle.jpg', pos = [cx,cy])
+                        target = visual.ImageStim(win, image='stimuli/lvcircle.png', pos = [cx,cy])
                         target.draw()
                 else:
-                        target = visual.ImageStim(win, image='stimuli/rycircle.jpg', pos = [cx,cy])
+                        target = visual.ImageStim(win, image='stimuli/rvcircle.png', pos = [cx,cy])
                         target.draw()
             
         print(loc)

@@ -365,7 +365,7 @@ for itrial in range(T_trials):
             
             elif loc[0,i] == 2:
                 C, whichring, cx, cy = grid_nc(i)
-                target = visual.ImageStim(win, image='stimuli/ycircle.png', pos = [cx,cy])
+                target = visual.ImageStim(win, image='stimuli/vcircle.png', pos = [cx,cy])
                 target.draw()
         
             elif loc[0,i] == 3:

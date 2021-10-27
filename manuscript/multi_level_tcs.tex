@@ -289,11 +289,10 @@ In order to better test the above, and increases sensitivity, we propose to make
 \begin{enumerate}
 \item \textbf{Within-subjects design.} This modification should give us greater power to detect differences between different models, as well as allowing us to investigate how individual differences in the single-feature task might explain differences in the double-feature task.
 \\
-\item \textbf{Increase target-distractor similarity.} Our reanalysis of \cite{buetti2019predicting} indicates that the orange distractor condition does not distinguish well between different contrast models. We will therefore replace the orange distractor condition with a green distractor condition, which is more similar to the light blue target.
+\item \textbf{Increase target-distractor similarity.} Our reanalysis of \cite{buetti2019predicting} indicates that the distractors with very different colours from the target do not distinguish well between different contrast models. We will therefore run a version of the experiment where the target is a red semicircle, with yellow, orange and pink distractors.
 \\
-\item \textbf{Increase number of distractors, and more peripheral distractors.} The TCS model, if it is to be a useful predictor of human behaviour, should generalise beyond the conditions originally tested. We therefore will add an extra condition, with 43 distractors. This requires the addition of another ring of possible distractor positions compared to \cite{buetti2019predicting}, allowing the distractors in all conditions to be placed in more peripheral locations. 
-\\
-\item \textbf{Online data collection.} This again tests the generalisability of the results obtained so far in laboratory conditions.
+
+
 \end{enumerate}
 
 \subsection{Registered Hypothesis}
@@ -333,17 +332,17 @@ Ethical approval for the study was granted by the University of Aberdeen (applic
 
 The targets and distractors are randomly assigned to the display based on an invisible grid. Within each quadrant of the screen, there are three 'spokes' each with four possible target positions (starting from the centre of the screen and moving outwards), creating 48 different target positions in total, in four concentric circles. A small amount of jitter is added to each possible position to make the target locations less predictable.
 
-\textbf{Distractor and target types:} we will replicate the distractor types used in \cite{buetti2019predicting}, apart from that we will change one distractor colour (from orange to green) to allow us to discriminate better between different models of the data (see above). There are six single-feature conditions (yellow, green and blue distractors and triangle, circle and diamond distractors) and nine double-feature conditions (all possible pairings of the single-feature conditions). The target is always a light blue semicircle, except in the trials where the distractors are single-feature shapes (triangles, circles and diamonds) in which case the target is a white semicircle.
+\textbf{Distractor and target types:} we will replicate the distractor types used in \cite{buetti2019predicting}, apart from that we will change one distractor colour (from blue to pink) to allow us to discriminate better between different models of the data (see above). There are six single-feature conditions (yellow, orange and pink distractors and triangle, circle and diamond distractors) and nine double-feature conditions (all possible pairings of the single-feature conditions). The target is always a red semicircle, except in the trials where the distractors are single-feature shapes (triangles, circles and diamonds) in which case the target is a white semicircle.
 
-\textbf{Set sizes:} we will run all the distractor set sizes used in \cite{buetti2019predicting} (1, 4, 9, 19 and 31) along with an extra condition with more distractors (43). We will also run target-only 'zero distractor' trials (30 in total, with 6 being the white semicircle target and the remainder the light blue semicircle target).
+\textbf{Set sizes:} we will run all the distractor set sizes used in \cite{buetti2019predicting} (1, 4, 9, 19 and 31). We will also run target-only 'zero distractor' trials (30 in total, with 6 being the white semicircle target and the remainder the light blue semicircle target).
 
-The experiments were programmed in PsychoPy and Pavlovia \citep{peirce2019psychopy2}. Stimuli were pre-made offline to generate search array images with 1920 $\times$ 1080 resolution. 
+The experiments were programmed in PsychoPy and Pavlovia \citep{peirce2019psychopy2}. Stimuli were pre-made to generate search array images with 1920 $\times$ 1080 resolution. 
 
 \subsection{Procedure}
 
-Initially, participants will calibrate their screen by asking them to resize a rectangle on the screen until it is the same size as a credit card. This allows the search arrays to be scaled to the same real size for each participant (50cm $\times$ 28.125cm).
+The experiment will take place in a controlled lab setting...
 
-Participants will view a fixation cross before viewing a search array: they will press the space bar to continue to the trial. We decided to allow participants to complete the experiment in this self-paced manner because of the online nature of the experiment, where we will not be able to provide a completely controlled environment. Participants will be told to search for the target among distractors and report if the semicircle target points to the left or right, by pressing either the `f' or `j' key respectively on their keyboard. They will first complete 20 practice trials where they will receive feedback immediately after completing each trial. In the real experimental trials, participants will receive feedback on their average accuracy and reaction time after each block of 30 trials. Participants will complete 19 blocks of trials (570 trials overall) with the order of the stimuli being fully randomised.
+Participants will view a fixation cross before viewing a search array: they will press the space bar to continue to the trial. Participants will be told to search for the target among distractors and report if the semicircle target points to the left or right, by pressing either the `f' or `j' key respectively on their keyboard. They will first complete 20 practice trials where they will receive feedback immediately after completing each trial. In the real experimental trials, participants will receive feedback on their average accuracy and reaction time after each block of 30 trials. Participants will complete 19 blocks of trials (570 trials overall) with the order of the stimuli being fully randomised.
  
 In both the practice and experimental trials, the search display will always remain on screen until a response is made, or until 5 seconds had passed. 
 
