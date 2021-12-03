@@ -46,8 +46,9 @@ left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
   scale_y_continuous("empirical D")  + 
   coord_fixed()-> plt_D
 
+meth <- "collinear" # added by AH, or else predict_rt doesn't work
 
-rt_pred <- map_dfr(exps_to_predict, predict_rt)
+rt_pred <- map2_dfr(exps_to_predict, meth, predict_rt)
 
 d %>% 
   group_by(exp_id, p_id, d_feature, N_T) %>%
@@ -96,7 +97,7 @@ rt_pred %>%
   scale_y_continuous("predicted rt (sec)") + 
   scale_x_continuous(TeX("$N_T")) -> plt_rt2
 
-# experiment 3
+# experiment 4
 d %>% filter(parse_number(exp_id) == 4) %>%
   #d_feature %in% c("blue diamond", "blue triangle", "orange triangle")) %>%
   group_by(exp_id, p_id, d_feature, N_T) %>%

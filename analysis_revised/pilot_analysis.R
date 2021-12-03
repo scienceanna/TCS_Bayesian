@@ -49,7 +49,7 @@ my_formula <- bf(rt ~ 0 + experiment + colour:experiment:lnd,
 
 m <- brm(my_formula,
 	family = "shifted_lognormal",
-	data = filter(d, observer == "11"),
+	data = (filter(d, observer != "11")),
 		prior = my_prior)
 
 
