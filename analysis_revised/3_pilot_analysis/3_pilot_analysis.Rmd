@@ -1,0 +1,57 @@
+---
+title: "Supplementary Materials: Pilot Analysis"
+author: "ADF Clarke and AE Hughes"
+output: bookdown::html_document2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+   fig.height = 3,
+  fig.align = "center")
+
+```
+
+# Intro
+
+## Setup and Data Import
+
+```{r load-packages, include = FALSE}
+library(tidyverse)
+library(brms)
+library(tidybayes)
+library(patchwork)
+library(latex2exp)
+```
+
+```{r}
+# set ggplot2 theme
+theme_set(see::theme_abyss())
+
+# use parallel cores for mcmc chains!
+options(mc.cores = parallel::detectCores())
+
+# reduce the number of decimal places
+options(digits = 3)
+
+# functions used for our Bayesian re-analysis
+source("../scripts/our_functions.R")
+
+# set seed to make sure everything is reproducible 
+set.seed(100320021)
+```
+
+We will import data from all experiments. While we're at it, we will remove error trials.
+
+```{r import-data}
+
+d <- read_csv("../data_exp_in_the_lab/accuracy_rt_data.txt") %>%
+  filter(!is.na(rt)) %>%
+  mutate(experiment = as_factor(experiment),
+         observer = as_factor(observer),
+         colour = as_factor(colour),
+         nd = no_distractors) %>%
+  select(observer, experiment, colour, nd, accuracy, rt)
+
+summary(d)
+```
