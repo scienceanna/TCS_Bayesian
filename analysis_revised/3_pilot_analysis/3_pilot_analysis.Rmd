@@ -69,3 +69,161 @@ d %>% group_by(observer, experiment, colour, nd) %>%
 
 d <- filter(d, accuracy == 1)
 ```
+
+Replicate nD=0 trials and remove outliers
+
+```{r}
+d <- bind_rows(filter(d, nd != 0),
+               filter(d, nd == 0) %>% mutate(colour = "1"),
+               filter(d, nd == 0) %>% mutate(colour = "2"),
+               filter(d, nd == 0) %>% mutate(colour = "3")) %>%
+mutate(lnd = log(nd+1))
+
+
+d %>% filter(
+      rt > quantile(rt, 0.01), 
+      rt < quantile(rt, 0.99)) -> d
+
+```
+
+Check Rt
+
+```{r}
+
+
+  
+d %>% group_by(observer, experiment, colour, nd) %>%
+  summarise(median_rt = median(rt)) %>%
+  ggplot(aes(x = nd, y = median_rt, group = observer)) +
+  geom_path(colour = "pink") +
+  facet_grid(colour ~ experiment)
+
+```
+
+Rename some variables so that they match original datasets
+
+```{r}
+d %>% rename(exp_id = "experiment", p_id = "observer", d_feature = "colour", N_T = "nd") -> d
+```
+
+
+## Run Moden on Exp 1 part
+
+
+
+```{r}
+training_models <- c("1a", "1b")
+
+ d %>%
+    filter(exp_id %in% training_models) %>%
+    group_by(exp_id, p_id, d_feature, N_T) %>%
+    mutate(
+      d_feature = fct_drop(d_feature),
+      p_id = fct_drop(p_id)) %>%
+    select(p_id, exp_id, N_T, d_feature, rt) -> df
+ 
+  my_f <- bf(rt ~  exp_id:d_feature:log(N_T+1) + (exp_id:d_feature:log(N_T+1)|p_id), 
+                 ndt ~ 1 + (1|p_id))
+    
+  my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
+
+
+ my_prior <- c(
+      prior_string("normal(-0.5, 0.3)",  class = "Intercept"),
+      prior_string("normal(0, 0.2)", class = "b"),
+      prior_string("normal(-1, 0.5)", class = "Intercept", dpar = "ndt" ),
+      prior_string("cauchy(0, 0.4)", class = "sigma"),
+      prior_string("cauchy(0, 0.05)", class = "sd"),
+      prior_string("cauchy(0, 0.05)", class = "sd", dpar = "ndt"))
+ 
+   
+    n_chains = 4
+    n_itr = 5000
+ 
+    # now run model
+  m <- brm(
+    my_f, 
+    data = df,
+    family = brmsfamily("shifted_lognormal"),
+    prior = my_prior,
+    chains = n_chains,
+    iter = n_itr,
+    inits = my_inits,
+    ##stanvars = my_stanvar,
+    save_pars = save_pars(all=TRUE),
+    silent = TRUE
+    )
+  
+  saveRDS(m, "pilot1.model")
+  
+  
+  training_models <- c("2a", "2b", "2c")
+
+ d %>%
+    filter(exp_id %in% training_models) %>%
+    group_by(exp_id, p_id, d_feature, N_T) %>%
+    mutate(
+      d_feature = fct_drop(d_feature),
+      p_id = fct_drop(p_id)) %>%
+    select(p_id, exp_id, N_T, d_feature, rt) -> df
+ 
+  my_f <- bf(rt ~  exp_id:d_feature:log(N_T+1) + (exp_id:d_feature:log(N_T+1)|p_id), 
+                 ndt ~ 1 + (1|p_id))
+    
+  my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
+
+
+ my_prior <- c(
+      prior_string("normal(-0.5, 0.3)",  class = "Intercept"),
+      prior_string("normal(0, 0.2)", class = "b"),
+      prior_string("normal(-1, 0.5)", class = "Intercept", dpar = "ndt" ),
+      prior_string("cauchy(0, 0.4)", class = "sigma"),
+      prior_string("cauchy(0, 0.05)", class = "sd"),
+      prior_string("cauchy(0, 0.05)", class = "sd", dpar = "ndt"))
+ 
+   
+    n_chains = 4
+    n_itr = 5000
+ 
+    # now run model
+  m <- brm(
+    my_f, 
+    data = df,
+    family = brmsfamily("shifted_lognormal"),
+    prior = my_prior,
+    chains = n_chains,
+    iter = n_itr,
+    inits = my_inits,
+    ##stanvars = my_stanvar,
+    save_pars = save_pars(all=TRUE),
+    silent = TRUE
+    )
+  
+  saveRDS(m, "pilot2.model")
+  
+  
+  
+  
+
+```
+
+```{r}
+slopes <- str_subset(get_variables(m), "b_[a-z_1]*:")
+
+samples <- as_draws_df(m, slopes, 
+                               add_chain = TRUE, 
+                               subset =sample(1:nsamples(m), n_draws = 1000))%>%
+    pivot_longer(starts_with("b_"), names_to = "d_feature", values_to = "D") %>%
+    mutate(
+      d_feature = as_factor(d_feature)) %>%
+    select(d_feature, D) %>%
+  separate(d_feature, c("exp_id", "d_feature", "slope"), sep = ":") %>%
+  select(-slope) %>%
+  mutate(exp_id = str_extract(exp_id, "1[ab]"),
+         d_feature = as_factor(parse_number(d_feature)))
+
+ggplot(samples, aes(x = D, fill = d_feature)) + 
+  geom_density(alpha = 0.5) +
+  facet_wrap(~exp_id)
+
+```
