@@ -40,4 +40,27 @@ things_to_calc <- samples2 %>% select(-rD,  -D, -.draw) %>%
   distinct()
 
 
-Dp <- pmap_df(things_to_calc, calc_D) %>% full_join(samples2)
+Dp <- pmap_df(things_to_calc, calc_D) %>% full_join(samples2) %>%
+  group_by(observer, feature1, feature2) %>%
+  summarise(collinear = mean(D_collinear),
+            best_feature = mean(D_best_feature),
+            orth_contrast = mean(D_orth_contrast),
+            D = mean(rD)) %>%
+  pivot_longer(c(collinear, best_feature, orth_contrast), names_to = "method", values_to = "Dp")
+
+
+ggplot(Dp, aes(x = Dp, y = D, colour = feature1, shape = feature2)) + 
+  geom_point() + 
+  geom_abline(linetype = 2) + 
+  geom_smooth(method = "lm", aes(group = 1), colour = "black") +
+  facet_grid(observer~method)
+
+
+#### now use this to predict reaction times in double feature condition
+
+
+
+
+
+
+
