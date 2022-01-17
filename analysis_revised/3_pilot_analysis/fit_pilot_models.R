@@ -14,7 +14,7 @@ my_f <- bf(rt ~ feature:lnd + (feature:lnd|observer),
 my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
 
 my_prior <- c(
-  prior_string("normal(-0.5, 0.3)",  class = "Intercept"),
+  prior_string("normal(-0.5, 0.3)", class = "Intercept"),
   prior_string("normal(0, 0.2)", class = "b"),
   prior_string("normal(-1, 0.5)", class = "Intercept", dpar = "ndt" ),
   prior_string("cauchy(0, 0.4)", class = "sigma"),
