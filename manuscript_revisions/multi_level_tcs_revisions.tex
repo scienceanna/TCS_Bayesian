@@ -34,7 +34,7 @@
             UK}
 
 \begin{abstract}
-Performance in visual search tasks is frequently summarised by ``search slopes'' - the additional cost in reaction time for each additional distractor. While search tasks with a shallow search slopes are termed efficient (pop-out, parallel, feature), there is no clear dichotomy between efficient and inefficient (serial, conjunction) search. Indeed, a range of search slopes are observed in empirical data. The Target Contrast Signal (TCS) Theory is a rare example of quantitative model that attempts to predict search slopes for efficient visual search. One study using the TCS framework has shown that the search slope in a double-feature search (where the target differs in both colour and shape from the distractors) can be estimated from the slopes of the associated single-feature searches. This estimation is done using a contrast combination model, and a collinear contrast integration model was shown to outperform other options. In our work, we extend TCS to a Bayesian multi-level framework. We investigate using normal and shifted-lognormal distributions, and show that the latter allows for a better fit to previously published data. We also show that in the case of contrast combination, previous datasets are not sufficient to distinguish between the hypotheses that had been considered. We will conduct experiments that attempt to replicate the key original findings, with some changes to help distinguish between theories. 
+Performance in visual search tasks is frequently summarised by ``search slopes'' - the additional cost in reaction time for each additional distractor. While search tasks with a shallow search slopes are termed efficient (pop-out, parallel, feature), there is no clear dichotomy between efficient and inefficient (serial, conjunction) search. Indeed, a range of search slopes are observed in empirical data. The Target Contrast Signal (TCS) Theory is a rare example of quantitative model that attempts to predict search slopes for efficient visual search. One study using the TCS framework has shown that the search slope in a double-feature search (where the target differs in both colour and shape from the distractors) can be estimated from the slopes of the associated single-feature searches. This estimation is done using a contrast combination model, and a collinear contrast integration model was shown to outperform other options. In our work, we extend TCS to a Bayesian multi-level framework. We propose running a new fully within-subjects experiment \ldots  investigate using normal and shifted-lognormal distributions, and show that the latter allows for a better fit to previously published data. We also show that in the case of contrast combination, previous datasets are not sufficient to distinguish between the hypotheses that had been considered. We will conduct experiments that attempt to replicate the key original findings, with some changes to help distinguish between theories. 
 \end{abstract}
 
 
@@ -111,7 +111,7 @@ We begin by verifying the analysis of \cite{buetti2019predicting}, and then we u
 \section{The Target Contrast Model}
 \label{sec:reansalysis}
 
-We first describe the original Target Contrast Model, as presented in \cite{buetti2019predicting} and verify that we can succesfully replicate the original analysis (both using frequentist modelling and Bayesian modelling; see Supplementary Materials). This is followed by Section \ref{sec:reanalysis} in which we detail our proposed modifications and show how they change the interpretation of the data collected by \cite{buetti2019predicting}.
+We first describe the original Target Contrast Model, as presented in \cite{buetti2019predicting} and verify that we can succesfully replicate the original analysis (both using frequentist modelling and Bayesian modelling; see Supplementary Materials).
 
 \subsection{TCS modelling overview} 
 
@@ -183,112 +183,7 @@ Finally, we can use Equation \ref{eq:loglin} to predict mean reaction times. As 
 
 While TCS theory offers a good prediction of search slopes and corresponding mean reaction times for double feature search, there are two related limitations. Firstly, it is unable to account for individual differences between observers, only the changes to the sample average. Secondly, it cannot account for the distribution of reaction times over multiple trials. Figure \ref{fig:comp_rep} (right panel) shows clearly that these factors generate high levels of variability within the individual trial-level data. To address these issues, we propose adapting TCS to make use of multi-level modelling techniques.
 
-It is also worth noting that relying simply on $R^2$ values may give a slightly misleading view of the accuracy of the TCS model. To some extent, this could reflect the fact that the $R^2$ measure of goodness-of-fit simply measures how tightly clustered the points are around some line with arbitrary intercept and slope. It is possible therefore for the $R^2$ value to be high, but for the line to deviate significantly from an intercept of 0 and a slope of 1, which is the unity line required for the predictions to be a good match to the empirical data. For example, Figure 2.2 in the supplementary material shows that the best feature model has a relatively high $R^2$ value (0.869) but the best fit line deviates significantly from $y = x$. In \cite{buetti2019predicting}, a mean absolute error metric was used to assess this aspect of model fit, and was found to be in agreement with the $R^2$ metric: however, this does not necessarily hold in general. For our reimplementation of the TCS model, we will therefore assess model fit by computing the log marginal likelihoods via bridge sampling. This directly assesses how well our values of $D_{c,s}$ are able to predict RTs, avoiding the issues with the $R^2$ measure.
 
-Figure \ref{fig:comp_rep_conditions} shows the predicted RTs (pink line) for the conditions from Experiment 2 (a, b and c) of \cite{buetti2019predicting}, plotted next to the mean of means for each condition. It is clear that for at least some conditions, the TCS model (using the collinear method) is not predicting the empirical data well, even when allowing quite rigid constraints on the model; for example, the intercept, $a$, is derived from the data for each sub-experiment (e.g. Experiment 2a) and thus will always reflect the observed, true mean for $N_T = 0$ for that dataset (rather than being predicted from the data in Experiment 1). 
-
-Finally, if we look at the different predictions made by the three proposed feature combination models, we can see that in most of the parameter space explored in \cite{buetti2019predicting}, the models all make very similar predictions (Figure \ref{fig:comp_rep_conditions2}). In Experiment 2, we are only able to discriminate between models in the \textit{blue} condition; in the \textit{yellow} and \textit{orange} conditions, they make essentially identical predictions. As such, if we want to distinguish between these three models, we will have to use combinations of features that lead to larger target-distractor differences. 
-
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{../plots/computational_replication_issues.pdf}
-\caption{(left) Conditions from Experiment 2. Blue dots represent the mean of means for each condition, while the line shows the prediction of the TCS theory (for the collinear combination). (right) As before, but conditions from Experiment 4.}
-\label{fig:comp_rep_conditions}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{../plots/computational_replication_issues2.pdf}
-\caption{ Estimates of $D_{c,s}$ for the different colours and shape from Experiment 2 in \cite{buetti2019predicting}. Note that both axes are continuous (labels on the x axis are included as a convenience for the reader, so they are able to see which $D_s$ value corresponds with each shape). As can be seen, in two of the three colour conditions, we are unable to distinguish between best feature, collinear or orthogonal contrast models.}
-\label{fig:comp_rep_conditions2}
-\end{figure}
-
-\subsection{A multi-level TCS}
-\label{sec:reanalysis}
-
-Switching from a linear regression model to a multi-level model will allow us to compute $D$ for each participant, while simultaneously estimating the trial-to-trial variance. We also switch from a frequentist to Bayesian framework, as this allows us to naturally account for the uncertainty in the model's predictions.
-
-However, switching from linear regression to a multi-level model raises the problem of which distribution to use for modelling reaction times. Using a normal distribution is unlikely to be satisfactory, as it is unable to account for the skew frequently seen in reaction time distributions, and also allows the possibility of negative reaction times. We can account for both of these problems by using a \textit{lognormal} distribution, $\text{rt} \sim \text{lognormal}(\mu, \sigma)$. We will also test whether a slightly more complex extension of this model, the \textit{shifted lognormal} model (which allows the distribution to be offset to the right i.e. mimicking the patterns seen in reaction time data, where valid responses begin at around 100ms) offers any improvement in model fit.\footnote{Note that a Wald, or inverse Gaussian distribution, would also be a reasonable distribution choice for this data given that TCS is based on a diffusion process e.g. \cite{moran2013competitive}: we chose not to use this distribution as it often leads to computational issues, which would make it harder for others to reproduce or build on our approach later.}
-
-Throughout the paper, we will make use of the $53\%$ and $97\%$ \textit{highest posterior density intervals} (HPDI) to summarise probability distributions. These can be thought of as the smallest interval that, given our data and assumptions, contain $53\%$ and $97\%$ of the probability mass. Finally, when comparing models, we assess the goodness-of-fit of the predicted reaction models using bridge sampling to calculate the log marginal likelihoods.
-
-\subsubsection{Calculating the logarithmic slope parameter, $D_i$}
-
-We began in a similar fashion to section \ref{sec:fitting_D}, although this time, we fitted each model three times using a (i) normal, (ii) lognormal, (iii) shifted lognormal distribution (please see Supplementary Materials for full details of our modelling approach, including prior predictive checks and model fit diagnostics). The three models were compared using bridge sampling \citep{meng1996simulating} to calculate the log marginal likelihoods, and the results showed that the shifted lognormal model (illustrated in Figure \ref{fig:buetti2019_a1}) was given $100\%$ of the weight\footnote{We also tested a version of the shifted lognormal model that did not use the logarithm of the number of distractors i.e. testing this assumption of the TCS model, but found no support for this model being better: see Supplementary Materials for further details.}. Therefore, we used only this model for the rest of the analysis. 
-
-
-\begin{figure}[ht]
-\centering
-\subfigure{\includegraphics[width=\textwidth]{../plots/bayes_buetti_refit.pdf}}
-\caption{(\textit{top}) The shaded regions show the shifted lognormal model's estimate ($53\%$ and $97\%$ intervals) of the average participant's mean reaction time, while the points show the empirical mean reaction time. (\textit{bottom}): The shaded regions now indicate the distribution of reaction times (over a new simulated group of participants) generated by the model. The points now represent the 100 quantiles from the empirical data.}
-\label{fig:buetti2019_a1}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\subfigure{\includegraphics[width=\textwidth]{../plots/bayes_buetti_D.pdf}}
-\caption{(\textit{top}) Posterior probability density functions for each $D_c$ and $D_s$ in Experiment 1. As with the original TCS model, when searching for a blue semicircle, triangular distractors are the hardest, while yellow and orange distractors are the easiest.) (\textit{bottom}) Predicting $D_{c,s}$ from $D_c$ and $D_s$. Crosshairs indicate $97.5$ HPDI for estimates and predictions, while the pink region shows the HPDI for the best fit line. }
-\label{fig:buetti2019_D}
-\end{figure}
-
-\subsubsection{Estimating $D_{c,s}$, the logarithmic slope parameter for compound features}
-
-The first step in predicting the values for $D_{c,s}$ is to extract the logarithmic slope parameters $D_c$ and $D_c$ from our model outlined above (Figure \ref{fig:buetti2019_D} (top)). This is the same as the original TCS, except here we use samples from the posterior distributions, rather than just the maximum likelihood fit. 
-
-We then combine $D_c$ and $D_c$ using the best feature, orthogonal contrast, and collinear contrast integration models to get three different predictions for $D_{c,s}$. In addition, we also calculated a linear transform model to generate a fourth prediction for $D_{c,s}$. These are illustrated in Figure \ref{fig:buetti2019_D} (bottom).
-
-The $R^2$ values for the four approaches are shown in Table \ref{tab:reimp_D_r2}. We can see that as with the original model, we still find the best feature model is the worst of the three methods, at least in terms of the raw $R^2$ value. However, it is less clear which of the other methods gives the best performance. While the collinear contrast approach offers the highest $R^2$ (HPDI: 0.827-0.965), it consistently predicts values that are too low (Figure \ref{fig:buetti2019_D}, bottom). The orthogonal contrast method gives more accurate predictions, albeit with a slightly lower $R^2$ (HPDI: 0.748-0.949). In order to distinguish between the different methods, we instead compare goodness-of-fit of the different models for predicting reaction times (see below).
-
-\begin{table}[ht]
-\small
-\centering
-\begin{tabular}{ c|cc|ccc|cc } 
-Method & Intercept & Slope & $R^2$ & Lower & Upper & MW(3) & MW(4) \\
- \hline 
-best feature & 0.003 & 0.831 & 0.751 & 0.550 & 0.919 & 32.1\% & 24.0\%\\ 
-orthogonal contrast & -0.019 & 1.206 & 0.857 & 0.748 & 0.949 & 33.7\% & 25.1\%\\ 
-collinear & -0.033 & 1.812	& 0.902 & 0.827 & 0.965 & 34.2\% & 25.5\%\\
-linear transform & 0.000 & 1.005 & 0.916 & 0.849 & 0.974 & - & 25.5\%\\
-\end{tabular}
-\caption{A table to show the logarithmic slope parameters for the four different $D$ models (best feature, orthogonal contrast, collinear contrast and linear transform) along with the $R^2$ values for the four approaches. The final columns show model weights (MW) based on bridge sampling for a) the three original reaction time models MW(3) and b) the three original reaction time models plus the linear transform model MW(4).}
-\label{tab:reimp_D_r2}
-\end{table}
-
-\subsubsection{Estimating other parameters and predicting reaction times}
-
-Unlike the original TCS, before we can use the predicted values of $D_{c,s}$ to generate reaction times, we first have to estimate some additional parameters: 
-
-\begin{itemize}	
-\item $\alpha$ - the intercept for the shift (ndt) parameter.
-\item $\phi_a$ - the random intercepts for the linear predictor for $\mu$.
-\item $\phi_\alpha$ - the random intercepts for $a$.
-\item $\sigma$ - the residual (trial-to-trial) variance. 
-\end{itemize}
-
-For the implementation presented here, in order to predict the data from Experiment 2 we will simply use the values for the above parameters obtained from Experiment 1. Once these have been set, we can use the specified model to generate the HPDI intervals for the expected average performance and the full distribution of reaction times over a number of simulated new observers (Figure \ref{fig:buetti2019_rt}).
-
-\begin{figure}
-\centering
-\subfigure{\includegraphics[width=\textwidth]{../plots/bayes_buetti_rt.pdf}}
-\caption{(\textit{left}) HPDI and empirical mean reaction times for each condition in Experiment 2, using the Bayesian multi-level modelling approach and the collinear contrast integration model to predict D values. (\textit{right}) Similar, for the full distribution of reaction times over trials. }
-\label{fig:buetti2019_rt}
-\end{figure}
-
-We can summarise how well the model predicts the mean reaction times (Figure \ref{fig:buetti2019_rt}, left) by repeatedly i) sampling from the posterior, ii) computing the predicted mean reaction times, and iii) calculating a measure of goodness-of-fit of the model predicting RTs from the $D_{c,s}$ values.
-
-Our goodness-of-fit measures showed that there was little difference between our models (see Table \ref{tab:reimp_D_r2}): the posterior model probability of the collinear contrast model was 34.2\%, compared to 33.7\% for the orthogonal contrast model and 32.1\% for the best feature model. There is therefore no strong evidence for one model over another. This conclusion holds if we also include our new linear transform model in the comparison (see Table \ref{tab:reimp_D_r2}). Our results contrast with \cite{buetti2019predicting}, who concluded that the collinear contrast integration model offered the best fit to their data. They reasoned that this was due to the independence of the two features in their study, and they would not expect this result to generalize to non-independent features, in which case they expect the \textit{orthogonal} contrast combination model to offer the best predictions. However, our analysis suggests that there is no strong evidence that any of the models tested is superior to the others. 
-
-Overall, while our new model appears to fit slightly more poorly than the than the original method, as discussed above, it offers substantial improvements over the original model in terms of predicting the full distribution of reaction times over multiple trials and participants. In addition, as we discuss previously, the $R^2$ value may not capture goodness-of-fit optimally, and more sensitive goodness-of-fit metrics suggest that the models have equivalent predictive value.
-
-\subsection{Discussion}
-
-Our extension to a multi-level TCS model allows us to go beyond the original version and predict the full distribution of reaction times over samples of known, or new, observers. Moving from a normal to a shifted-lognormal distribution allows us to accurately model the skew seen in the empirical data, and avoid predicting negative response times. Our modelling has also highlighted other issues that we will address during our replication study. 
-
-Firstly, we will use $a$ from the single feature experiments (i.e. Experiment 1) to predict $a$ in the compound features experiments (i.e. Experiment 2), as we plan to run our experiments as a within-subject design, and thus we would not expect systematic differences in non-search processes due to individual differences, as might be seen in a between-subjects design, such as that employed in \citep{buetti2019predicting}.
-
-Secondly, we will choose distractor features to give the highest possible $D$ sensitivity, and thus give us greater power to detect true differences between models.
-
-Finally, the multi-level model is also easily extended to incorporate extra factors which may affect RTs on a trial-by-trial basis e.g. which ring the target is in. We demonstrate an example of extending the model in this way in the supplementary material.
 
 \section{Hypotheses}
 
@@ -320,6 +215,10 @@ We will test each of these hypotheses by calculating the marginal likelihood of 
 We plan to investigate the effect of individual differences in this paradigm: to what extent performance in the single-feature task can predict performance in the double-feature task for a given individual (\cite{buetti2019predicting} were not able to investigate this due to the between-subjects design of their study). We plan to do this by specifying a more complex random effects structure for the model, that allows for individual differences across different slopes for different features. This allows us to then study the random effect correlation structure.  However, given these models can be challenging to fit, we will do this in an exploratory manner after carrying out our formally registered analysis.
 
 We will also run exploratory analyses including a factor for which ring the target is in to assess whether this improves model fit or affects any of the conclusions that can be drawn from the model.
+
+\subsection{Pilot Experiment}
+
+Full details of a pilot experiment with $n=4$ participants (xxx trials) can be found in supplementary materials. This suggests that even with a small sample, we can convincing demostrate H1 and H2, however more data will be required to discriminate between the models in H3. 
 
 \section{General Methods}
 
@@ -365,6 +264,10 @@ Only participants who complete the full experiment will be considered candidates
 For participants included in the analysis, we will apply the data cleaning used in Section \ref{sec:reanalysis} i.e. removing the top and bottom 1\% of their data.
 
 \subsection{Analysis Plan}
+
+All analysis will be carried out using R (vx.xx)\footnote{Version numbers will be recorded upon completion of final analysis.}, brms (v.xx.xx) and rStan (vx.xxxx) As discussed above, we will use a mixed-effect models with either normal, lognormal or shifted lognormal distributions. 
+
+Please see the analysis of our pilot data for a full implementation of our analysis pipeline, including all code...
 
 We will follow the analysis given in Section \ref{sec:reanalysis}. Full details of the code used are provided in the \textit{Supplementary Material} and on Github at  
 \url{https://github.com/scienceanna/TCS_Bayesian}.
