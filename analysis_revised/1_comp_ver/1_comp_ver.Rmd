@@ -117,7 +117,7 @@ left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
   scale_colour_manual(values = c("yellow1", "yellow1", "yellow1"))
 ```
 
-Now put mean absoluate error in a table:
+Now put mean absolute error in a table:
 
 ```{r}
 left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
@@ -136,7 +136,7 @@ Now we compute $R^2$ to get a measure of how well $D_p$ predict the $D_e$, calcu
 
 ```{r}
 Dp_tmp <- left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
-  pivot_longer(-c(exp_id, d_feature, D), names_to = "method", values_to = "Dp")
+  pivot_longer(-c(exp_id, d_feature, D, iter), names_to = "method", values_to = "Dp")
 
 df_r2 <- tibble(exp_id = as.character(), method = as.character(), r2 = as.numeric())
 
@@ -162,10 +162,6 @@ for (e_id in exps_to_predict) {
 
 df_r2 %>% pivot_wider(method, names_from = "exp_id", values_from = "r2") %>%
   knitr::kable(digits = 4) %>% kableExtra::kable_styling()
-
-Dp_tmp %>% mutate(abs_err = abs(Dp-D)) %>%
-  group_by(method) %>%
-  summarise(mean_abs_err = mean(abs_err))
 
 rm(df_r2, Dp_tmp)
 
@@ -263,7 +259,7 @@ We now repeat all of the above, but in a Bayesian framework. This is intended to
 #              calc_D_per_feature, "Bayes")
 #saveRDS(De, "tmp.model")
 
-De <- readRDS("tmp.model")
+De <- readRDS("../models/tmp.model")
 
 De %>% 
   mutate(
