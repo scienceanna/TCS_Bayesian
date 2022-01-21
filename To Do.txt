@@ -1,0 +1,10 @@
+- check all figures have appropriate titles etc.
+- pilot analysis and power analysis
+- Anna to check average mean prediction error
+- Fig 3 in paper - order conditions sensibly
+- More in intro about methods rationale
+- Make intro clearer, check abstract, consider title change
+- "Which ring target in" - check everything with that
+- Once pilot stuff checked- add in details for new experiment
+- WAIC
+- Github permissions, helper function explanations
