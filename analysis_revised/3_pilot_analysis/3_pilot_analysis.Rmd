@@ -41,189 +41,58 @@ source("../scripts/our_functions.R")
 set.seed(100320021)
 ```
 
+## Import and Remove Outliers 
+
 We will import data from pilot experiment. 
 
 ```{r import-data}
+source("1_pre_process_pilot.R")
 
-d <- read_csv("../../data/pilot/accuracy_rt_data.txt") %>%
-  filter(!is.na(rt)) %>%
-  mutate(experiment = as_factor(experiment),
-         observer = as_factor(observer),
-         colour = as_factor(colour),
-         nd = no_distractors) %>%
-  select(observer, experiment, colour, nd, accuracy, rt)
-
-summary(d)
+summary(d1)
+summary(d2)
 ```
 
-Check accuracy
-
-```{r}
-# what acc exclusion do we use?
-d %>% group_by(observer, experiment, colour, nd) %>%
-  summarise(acc = mean(accuracy)) %>%
-  ggplot(aes(x = observer, y = acc, fill = as_factor(nd))) +
-  geom_col(position = position_dodge())+
-  facet_wrap(~experiment)
-
-
-d <- filter(d, accuracy == 1)
-```
-
-Replicate nD=0 trials and remove outliers
-
-```{r}
-d <- bind_rows(filter(d, nd != 0),
-               filter(d, nd == 0) %>% mutate(colour = "1"),
-               filter(d, nd == 0) %>% mutate(colour = "2"),
-               filter(d, nd == 0) %>% mutate(colour = "3")) %>%
-mutate(lnd = log(nd+1))
-
-
-d %>% filter(
-      rt > quantile(rt, 0.01), 
-      rt < quantile(rt, 0.99)) -> d
-
-```
-
-Check Rt
+# Fit Models to Data
 
 ```{r}
 
-
-  
-d %>% group_by(observer, experiment, colour, nd) %>%
-  summarise(median_rt = median(rt)) %>%
-  ggplot(aes(x = nd, y = median_rt, group = observer)) +
-  geom_path(colour = "pink") +
-  facet_grid(colour ~ experiment)
+# source("2_fit_pilot_models.R")
 
 ```
 
-Rename some variables so that they match original datasets
+todo : plot prior predictions
 
-```{r}
-d %>% rename(exp_id = "experiment", p_id = "observer", d_feature = "colour", N_T = "nd") -> d
+## Hypothesis 1 
+
+Verify that using a shift-lognormal gives a better mdoel than a lognormal or normal.
+
+```{r, cache=TRUE}
+m_sft <- readRDS("pilot1.model")
+m_nrl <- readRDS("pilot1_normal.model")
+m_log <- readRDS("pilot1_lognormal.model")
+
+tibble(model = c("shifted lognormal", "normal", "lognormal"),
+  LOO = model_weights(m_sft, m_nrl, m_log, weights = "loo"),
+             WAIC = model_weights(m_sft, m_nrl, m_log, weights = "waic")) %>%
+  knitr::kable()
+
+rm(m_nrl, m_log)
 ```
 
+## Hypothesis 2
 
-## Run Moden on Exp 1 part
+Verify that using log(number of distracters) is superior to n(distracters).
 
+```{r, cache=TRUE}
+m_lin <- readRDS("pilot1_linear.model")
 
+tibble(model = c("loglinear in n", "linear in n"),
+             LOO = model_weights(m_sft, m_lin, weights = "loo"),
+             WAIC = model_weights(m_sft, m_lin, weights = "waic")) %>%
+  knitr::kable()
 
-```{r}
-training_models <- c("1a", "1b")
-
- d %>%
-    filter(exp_id %in% training_models) %>%
-    group_by(exp_id, p_id, d_feature, N_T) %>%
-    mutate(
-      d_feature = fct_drop(d_feature),
-      p_id = fct_drop(p_id)) %>%
-    select(p_id, exp_id, N_T, d_feature, rt) -> df
- 
-  my_f <- bf(rt ~  exp_id:d_feature:log(N_T+1) + (exp_id:d_feature:log(N_T+1)|p_id), 
-                 ndt ~ 1 + (1|p_id))
-    
-  my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
-
-
- my_prior <- c(
-      prior_string("normal(-0.5, 0.3)",  class = "Intercept"),
-      prior_string("normal(0, 0.2)", class = "b"),
-      prior_string("normal(-1, 0.5)", class = "Intercept", dpar = "ndt" ),
-      prior_string("cauchy(0, 0.4)", class = "sigma"),
-      prior_string("cauchy(0, 0.05)", class = "sd"),
-      prior_string("cauchy(0, 0.05)", class = "sd", dpar = "ndt"))
- 
-   
-    n_chains = 4
-    n_itr = 5000
- 
-    # now run model
-  m <- brm(
-    my_f, 
-    data = df,
-    family = brmsfamily("shifted_lognormal"),
-    prior = my_prior,
-    chains = n_chains,
-    iter = n_itr,
-    inits = my_inits,
-    ##stanvars = my_stanvar,
-    save_pars = save_pars(all=TRUE),
-    silent = TRUE
-    )
-  
-  saveRDS(m, "pilot1.model")
-  
-  
-  training_models <- c("2a", "2b", "2c")
-
- d %>%
-    filter(exp_id %in% training_models) %>%
-    group_by(exp_id, p_id, d_feature, N_T) %>%
-    mutate(
-      d_feature = fct_drop(d_feature),
-      p_id = fct_drop(p_id)) %>%
-    select(p_id, exp_id, N_T, d_feature, rt) -> df
- 
-  my_f <- bf(rt ~  exp_id:d_feature:log(N_T+1) + (exp_id:d_feature:log(N_T+1)|p_id), 
-                 ndt ~ 1 + (1|p_id))
-    
-  my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
-
-
- my_prior <- c(
-      prior_string("normal(-0.5, 0.3)",  class = "Intercept"),
-      prior_string("normal(0, 0.2)", class = "b"),
-      prior_string("normal(-1, 0.5)", class = "Intercept", dpar = "ndt" ),
-      prior_string("cauchy(0, 0.4)", class = "sigma"),
-      prior_string("cauchy(0, 0.05)", class = "sd"),
-      prior_string("cauchy(0, 0.05)", class = "sd", dpar = "ndt"))
- 
-   
-    n_chains = 4
-    n_itr = 5000
- 
-    # now run model
-  m <- brm(
-    my_f, 
-    data = df,
-    family = brmsfamily("shifted_lognormal"),
-    prior = my_prior,
-    chains = n_chains,
-    iter = n_itr,
-    inits = my_inits,
-    ##stanvars = my_stanvar,
-    save_pars = save_pars(all=TRUE),
-    silent = TRUE
-    )
-  
-  saveRDS(m, "pilot2.model")
-  
-  
-  
-  
-
+rm(m_lin)
 ```
 
-```{r}
-slopes <- str_subset(get_variables(m), "b_[a-z_1]*:")
+# Hypothesis 3
 
-samples <- as_draws_df(m, slopes, 
-                               add_chain = TRUE, 
-                               subset =sample(1:nsamples(m), n_draws = 1000))%>%
-    pivot_longer(starts_with("b_"), names_to = "d_feature", values_to = "D") %>%
-    mutate(
-      d_feature = as_factor(d_feature)) %>%
-    select(d_feature, D) %>%
-  separate(d_feature, c("exp_id", "d_feature", "slope"), sep = ":") %>%
-  select(-slope) %>%
-  mutate(exp_id = str_extract(exp_id, "1[ab]"),
-         d_feature = as_factor(parse_number(d_feature)))
-
-ggplot(samples, aes(x = D, fill = d_feature)) + 
-  geom_density(alpha = 0.5) +
-  facet_wrap(~exp_id)
-
-```

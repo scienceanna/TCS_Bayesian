@@ -1,10 +1,13 @@
 library(tidyverse)
 library(brms)
 
-source("pre_process_pilot.R")
+source("1_pre_process_pilot.R")
 
 # use parallel cores for mcmc chains!
 options(mc.cores = parallel::detectCores())
+
+n_chains = 4
+n_itr = 1000
 
 ###############################################
 ## fit shifted lognormal model to training data
@@ -22,9 +25,6 @@ my_prior <- c(
   prior_string("cauchy(0, 0.4)", class = "sigma"),
   prior_string("cauchy(0, 0.05)", class = "sd"),
   prior_string("cauchy(0, 0.05)", class = "sd", dpar = "ndt"))
-
-n_chains = 4
-n_itr = 1000
 
 # now run model
 m <- brm(
@@ -55,9 +55,6 @@ my_prior <- c(
   prior_string("cauchy(0, 0.4)", class = "sigma"),
   prior_string("cauchy(0, 0.05)", class = "sd"))
 
-n_chains = 4
-n_itr = 1000
-
 # now run model
 m <- brm(
   my_f, 
@@ -86,8 +83,6 @@ my_prior <- c(
   prior_string("normal(0, 0.25)", class = "sigma"),
   prior_string("normal(0, 0.25)", class = "sd"))
 
-n_chains = 4
-n_itr = 1000
 
 # now run model
 m <- brm(
@@ -121,9 +116,6 @@ my_prior <- c(
   prior_string("cauchy(0, 0.05)", class = "sd"),
   prior_string("cauchy(0, 0.05)", class = "sd", dpar = "ndt"))
 
-n_chains = 4
-n_itr = 1000
-
 # now run model
 m <- brm(
   my_f, 
@@ -144,24 +136,24 @@ rm(m)
 
 
 
-# now run model for test data
-
+###############################################
+## fit shifted lognormal model to test data
+###############################################
+# now treating person as fixed effect as we want to predict person-level effects
 
 d2 <- d2 %>% unite(feature, feature1, feature2)
 
-my_f <- bf(rt ~ feature:lnd + (feature:lnd|observer), 
-           ndt ~ 1 + (1|observer))
+my_f <- bf(rt ~ observer:feature:lnd, 
+           ndt ~ 0 + observer)
 
 
-my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
+my_inits <- list(list(b_ndt = as.array(rep(-10, 4))),list(b_ndt = as.array(rep(-10, 4))),list(b_ndt = as.array(rep(-10, 4))),list(b_ndt = as.array(rep(-10, 4))))
 
 my_prior <- c(
   prior_string("normal(-0.5, 0.3)", class = "Intercept"),
   prior_string("normal(0, 0.2)", class = "b"),
-  prior_string("normal(-1, 0.5)", class = "Intercept", dpar = "ndt" ),
-  prior_string("cauchy(0, 0.4)", class = "sigma"),
-  prior_string("cauchy(0, 0.05)", class = "sd"),
-  prior_string("cauchy(0, 0.05)", class = "sd", dpar = "ndt"))
+  prior_string("normal(-1, 0.5)", class = "b", dpar = "ndt" ),
+  prior_string("cauchy(0, 0.4)", class = "sigma"))
 
 m <- brm(
   my_f, 
@@ -171,7 +163,7 @@ m <- brm(
   chains = n_chains,
   iter = n_itr,
   inits = my_inits,
-  ##stanvars = my_stanvar,
+  #stanvars = my_stanvar,
   save_pars = save_pars(all=TRUE),
   silent = TRUE
 )
