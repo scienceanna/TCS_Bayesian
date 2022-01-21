@@ -8,7 +8,14 @@ source("get_slopes_fun.R")
 m1 <- readRDS("pilot1.model")
 samples1 <- get_slopes(m1, 1) %>% select(-observer, -rD) %>% distinct()
 
-m2 <- readRDS("pilot2.model") 
+
+samples1 %>% mutate(feature_type = if_else(
+  feature %in% c("purple", "orange", "pink"), "colour", "shape")) %>%
+  ggplot(aes(D, fill = feature)) + 
+  geom_density(alpha = 0.33) + 
+  facet_wrap(~feature_type)
+
+m2 <- readRDS("pilot2_random.model") 
 samples2 <- get_slopes(m2, 1) %>% select(-observer, -rD) %>% distinct()
 
 
@@ -23,10 +30,11 @@ calc_D <- function(feature1, feature2) {
   D_orth_contrast =  1/sqrt(1/(D1^2) + (1/D2^2))
   
   return(tibble(.draw = 1:2000,
+                feature = paste(feature1, feature2, sep = "_"),
                 feature1 = feature1, feature2 = feature2,
-                D_collinear = D_collinear,
-                D_best_feature = D_best_feature,
-                D_orth_contrast = D_orth_contrast))
+                collinear = D_collinear,
+                `best feature` = D_best_feature,
+                `orthogonal contrast` = D_orth_contrast))
   
 }
 
@@ -34,6 +42,24 @@ calc_D <- function(feature1, feature2) {
 things_to_calc <- samples2 %>% select( -D, -.draw) %>%
   distinct() %>%
   separate(feature, c("feature1", "feature2"))
+
+
+pmap_df(things_to_calc, calc_D) %>% full_join(samples2, by = c(".draw", "feature")) %>%
+  pivot_longer(c(collinear, `best feature`, `orthogonal contrast`), names_to = "method", values_to = "Dp") %>%
+  select(-feature, -.draw) %>%
+  pivot_longer(c(D, Dp), names_to = "type", values_to = "D") %>%
+  group_by(feature1, feature2, method, type) %>%
+  median_hdci(D) %>%
+  unite(D, D, .lower, .upper) %>%
+  select(-.width, -.point, -.interval) %>%
+  pivot_wider(names_from = "type", values_from = "D") %>%
+  separate(D, into = c("De", "De_min", "De_max"), sep = "_", convert = TRUE) %>%
+  separate(Dp, into = c("Dp", "Dp_min", "Dp_max"), sep = "_", convert=  TRUE) %>%
+  ggplot(aes(x = Dp, xmin = Dp_min, xmax = Dp_max, y = De, ymin = De_min, ymax = De_max)) + 
+  geom_point() + geom_errorbar(alpha = 0.5) + geom_errorbarh(alpha = 0.5) + 
+  geom_abline(linetype = 2) + 
+  geom_smooth(method = "lm", fullrange  = T, colour = "darkred") + 
+  facet_wrap(~method, scales = "free") 
 
 
 slopes <- pmap_df(things_to_calc, calc_D) %>% full_join(samples2) %>%
@@ -44,6 +70,8 @@ slopes <- pmap_df(things_to_calc, calc_D) %>% full_join(samples2) %>%
   mutate(method = str_remove(method, "D_"),
          slope = paste0("feature", feature1, "_", feature2, ":lnd"))
 
+
+slopes %>% ggplot(aes(x = ))
 
 #######################################################################
 #### now use this to predict reaction times in double feature condition

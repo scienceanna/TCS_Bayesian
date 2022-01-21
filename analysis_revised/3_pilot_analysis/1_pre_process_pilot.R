@@ -68,7 +68,8 @@ d %>% mutate(exp = parse_number(experiment)) %>%
 # split into training and set sets
 
 d1 <- filter(d, exp == 1) %>% 
-  select(-exp)
+  select(-exp) %>%
+  mutate(feature = fct_drop(feature))
 
 d2 <- filter(d, exp == 2) %>%
   separate(feature, into = c("feature1", "feature2"))  %>% 
