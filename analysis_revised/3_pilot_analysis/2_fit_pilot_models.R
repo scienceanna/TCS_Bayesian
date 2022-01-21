@@ -139,9 +139,45 @@ rm(m)
 ###############################################
 ## fit shifted lognormal model to test data
 ###############################################
-# now treating person as fixed effect as we want to predict person-level effects
 
 d2 <- d2 %>% unite(feature, feature1, feature2)
+
+my_f <- bf(rt ~ feature:lnd + (feature:lnd|observer), 
+           ndt ~ 1 + (1|observer))
+
+my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
+
+my_prior <- c(
+  prior_string("normal(-0.5, 0.3)", class = "Intercept"),
+  prior_string("normal(0, 0.2)", class = "b"),
+  prior_string("normal(-1, 0.5)", class = "Intercept", dpar = "ndt" ),
+  prior_string("cauchy(0, 0.4)", class = "sigma"),
+  prior_string("cauchy(0, 0.05)", class = "sd"),
+  prior_string("cauchy(0, 0.05)", class = "sd", dpar = "ndt"))
+
+# now run model
+m <- brm(
+  my_f, 
+  data = d2,
+  family = brmsfamily("shifted_lognormal"),
+  prior = my_prior,
+  chains = n_chains,
+  iter = n_itr,
+  inits = my_inits,
+  ##stanvars = my_stanvar,
+  save_pars = save_pars(all=TRUE),
+  silent = TRUE
+)
+
+
+
+saveRDS(m, "pilot2_random.model")
+
+
+
+# now treating person as fixed effect as we want to predict person-level effects
+
+
 
 my_f <- bf(rt ~ observer:feature:lnd, 
            ndt ~ 0 + observer)
@@ -169,6 +205,6 @@ m <- brm(
 )
 
 
-saveRDS(m, "pilot2.model")
+saveRDS(m, "pilot2_fixed.model")
 
 
