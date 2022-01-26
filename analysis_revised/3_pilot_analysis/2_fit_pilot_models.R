@@ -6,7 +6,7 @@ source("1_pre_process_pilot.R")
 # use parallel cores for mcmc chains!
 options(mc.cores = parallel::detectCores())
 
-n_chains = 4
+n_chains = 1
 n_itr = 1000
 
 ###############################################
@@ -17,7 +17,7 @@ my_f <- bf(rt ~ feature:lnd + (feature:lnd|observer),
            ndt ~ 1 + (1|observer))
 
 my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
-
+my_inits <- list(list(Intercept_ndt = -10))
 my_prior <- c(
   prior_string("normal(-0.5, 0.3)", class = "Intercept"),
   prior_string("normal(0, 0.2)", class = "b"),

@@ -16,8 +16,8 @@ d <- read_csv("../../data/pilot/accuracy_rt_data.txt") %>%
   mutate(
          observer = as_factor(observer),
          colour = as_factor(colour),
-         nd = no_distractors) %>%
-  select(observer, experiment, colour, nd, accuracy, rt)
+         nd = distractor_no) %>%
+  select(observer, experiment = "exp", colour, nd, accuracy, rt)
 
 
 # check acc is ok
