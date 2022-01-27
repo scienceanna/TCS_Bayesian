@@ -75,19 +75,15 @@ tibble(model = c("shifted lognormal", "normal", "lognormal"),
   LOO = model_weights(m_sft, m_nrl, m_log, weights = "loo"),
              WAIC = model_weights(m_sft, m_nrl, m_log, weights = "waic")) %>%
   knitr::kable()
-
-
 ```
 
 Some plots to illustrate model:
-
 
 ```{r}
 d1 %>% group_by(feature, lnd, observer) %>%
   summarise(median_rt = median(rt)) %>%
   summarise(mean_median = mean(median_rt)) -> d_mean
   
-
 d1 %>% modelr::data_grid(feature, lnd) %>%
   add_predicted_draws(m_sft, re_formula = NA) %>%
   mean_hdci(.width = c(0.53, 0.97)) %>%
@@ -112,9 +108,7 @@ d1 %>% modelr::data_grid(feature, lnd) %>%
   geom_point(data = d_mean, aes(y = mean_median), alpha = 1, colour = "white") + 
   facet_wrap(~feature, nrow = 1)
 
-
 rm(m_nrl, m_log)
-
 ```
 
 ## Hypothesis 2

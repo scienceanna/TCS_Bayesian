@@ -3,6 +3,9 @@ library(brms)
 
 source("1_pre_process_pilot.R")
 
+
+ggplot(d1, aes(x = lnd, y = rt)) + geom_dotplot()
+
 # use parallel cores for mcmc chains!
 options(mc.cores = parallel::detectCores())
 
