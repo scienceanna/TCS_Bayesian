@@ -179,8 +179,6 @@ saveRDS(m, "pilot2_random.model")
 
 # now treating person as fixed effect as we want to predict person-level effects
 
-
-
 my_f <- bf(rt ~ observer:feature:lnd, 
            ndt ~ 0 + observer)
 

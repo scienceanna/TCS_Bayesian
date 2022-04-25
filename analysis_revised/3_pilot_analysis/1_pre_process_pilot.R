@@ -11,7 +11,7 @@ source("../scripts/our_functions.R")
 set.seed(100320021)
 
 
-d <- read_csv("../../data/pilot/accuracy_rt_data.txt") %>%
+d <- read_csv("../../data/pilot/accuracy_rt_data.txt", show_col_types = F) %>%
   filter(!is.na(rt)) %>%
   mutate(
          observer = as_factor(observer),
