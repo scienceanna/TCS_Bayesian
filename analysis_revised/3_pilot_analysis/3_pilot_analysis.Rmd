@@ -22,6 +22,7 @@ library(brms)
 library(tidybayes)
 library(patchwork)
 library(latex2exp)
+library(ggpmisc)
 ```
 
 ```{r}
@@ -130,9 +131,10 @@ rm(m_lin, m_sft)
 
 ## Fixed effect of D (group average)
 
+Can we predict $D$ in the double-feature case from data in the single-feature case?
+
 ```{r}
 source("get_slopes_fun.R")
-
 
 m1 <- readRDS("pilot1.model")
 samples1 <- get_slopes(m1, 1) %>% select(-observer, -rD) %>% distinct()
@@ -196,10 +198,14 @@ slopes %>%
   separate(D, into = c("De", "De_min", "De_max"), sep = "_", convert = TRUE) %>%
   separate(Dp, into = c("Dp", "Dp_min", "Dp_max"), sep = "_", convert=  TRUE) %>%
   ggplot(aes(x = Dp, xmin = Dp_min, xmax = Dp_max, y = De, ymin = De_min, ymax = De_max)) + 
-  geom_point() + geom_errorbar(alpha = 0.5) + geom_errorbarh(alpha = 0.5) + 
+  geom_point() + geom_errorbar(alpha = 0.5, colour = "yellow") + geom_errorbarh(alpha = 0.5, colour = "yellow") + 
   geom_abline(linetype = 2) + 
-  geom_smooth(method = "lm", fullrange  = T, colour = "darkred") + 
-  facet_wrap(~method, scales = "free") 
+  geom_smooth(method = "lm", fullrange  = T, colour = "violetred3") + 
+      stat_poly_eq(formula = y ~ x, 
+               aes(label = paste(..eq.label.., ..rr.label.., sep = "*plain(\",\")~")), 
+               parse = TRUE, size = 2.8, label.y = 0.9, coef.digits = 3, rr.digits = 4, colour="yellow1") +
+  facet_wrap(~method, scales = "free") +
+  scale_colour_manual(values = c("yellow1", "yellow1", "yellow1"))
 
 slopes  %>%
   summarise(mu = mean(D),
