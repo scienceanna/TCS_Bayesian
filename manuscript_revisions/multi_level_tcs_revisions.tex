@@ -34,7 +34,7 @@
             UK}
 
 \begin{abstract}
-Performance in visual search tasks is frequently summarised by ``search slopes'' - the additional cost in reaction time for each additional distractor. While search tasks with a shallow search slopes are termed efficient (pop-out, parallel, feature), there is no clear dichotomy between efficient and inefficient (serial, conjunction) search. Indeed, a range of search slopes are observed in empirical data. The Target Contrast Signal (TCS) Theory is a rare example of quantitative model that attempts to predict search slopes for efficient visual search. One study using the TCS framework has shown that the search slope in a double-feature search (where the target differs in both colour and shape from the distractors) can be estimated from the slopes of the associated single-feature searches. This estimation is done using a contrast combination model, and a collinear contrast integration model was shown to outperform other options. In our work, we extend TCS to a Bayesian multi-level framework. We propose running a new fully within-subjects experiment \ldots  investigate using normal and shifted-lognormal distributions, and show that the latter allows for a better fit to previously published data. We also show that in the case of contrast combination, previous datasets are not sufficient to distinguish between the hypotheses that had been considered. We will conduct experiments that attempt to replicate the key original findings, with some changes to help distinguish between theories. 
+Performance in visual search tasks is frequently summarised by ``search slopes'' - the additional cost in reaction time for each additional distractor. While search tasks with a shallow search slopes are termed efficient (pop-out, parallel, feature), there is no clear dichotomy between efficient and inefficient (serial, conjunction) search. Indeed, a range of search slopes are observed in empirical data. The Target Contrast Signal (TCS) Theory is a rare example of quantitative model that attempts to predict search slopes for efficient visual search. One study using the TCS framework has shown that the search slope in a double-feature search (where the target differs in both colour and shape from the distractors) can be estimated from the slopes of the associated single-feature searches. This estimation is done using a contrast combination model, and a collinear contrast integration model was shown to outperform other options. In our work, we extend TCS to a Bayesian multi-level framework. We investigate modelling using normal and shifted-lognormal distributions, and show that the latter allows for a better fit to previously published data. We propose running a new fully within-subjects experiment to attempt to replicate the key original findings, with some changes to help distinguish between theories. 
 \end{abstract}
 
 
@@ -106,7 +106,7 @@ In the current manuscript, we focus on replicating and extending findings from \
 \label{fig:buetti2019_stimulus}
 \end{figure}
 
-We begin by verifying the analysis of \cite{buetti2019predicting}, and then we use their data to show how we are able to extend their model of how multi-dimensional contrasts are calculated, both by incorporating a multi-level design to predict within-subjects effects and by utilising a Bayesian generalised linear model framework to better represent the distribution of responses (e.g. avoiding predicting negative reaction times, accounting for uncertainty in model predictions). We then describe our proposed replication study and our registered hypotheses.
+We begin by verifying the analysis of \cite{buetti2019predicting}. We then describe our proposed replication study, showing with pilot data how we are able to extend their model of how multi-dimensional contrasts are calculated, both by incorporating a multi-level design to predict within-subjects effects and by utilising a Bayesian generalised linear model framework to better represent the distribution of responses (e.g. avoiding predicting negative reaction times, accounting for uncertainty in model predictions). 
 
 \section{The Target Contrast Model}
 \label{sec:reansalysis}
@@ -122,7 +122,7 @@ The \textit{Target Signal Contrast} theory is built around a linear model for pr
 \subsubsection{Calculating the intercept, $a$, and the logarithmic slope parameter, $D_i$}
 \label{sec:fitting_D}
 
-Experiments 1a and 1b and 3a and 3b were used to calculate the logarithmic slope parameter $D_i$. In all experiments, the number of distractors varied, allowing the data to be used to fit a log-linear model for reaction times, where reaction times increase logarithmically with $N_T$, the number of distractors see Equation \ref{eq:loglin}). In the original model the error distribution was assumed to be normal. Thus the results of Experiments 1 and 3 were used to calculate $D_i$, for each type of distractor. When colour varied, we will refer to $D_c$, for $c=1,2,3$. Similarly for shape we will denote this ($D_s$), and the compound features are denoted as ($D_{c,s}$). 
+Experiments 1a and 1b and 3a and 3b were used to calculate the logarithmic slope parameter $D_i$. In all experiments, the number of distractors varied, allowing the data to be used to fit a log-linear model for reaction times, where reaction times increase logarithmically with $N_T$, the number of distractors (see Equation \ref{eq:loglin}). In the original model the error distribution was assumed to be normal. Thus the results of Experiments 1 and 3 were used to calculate $D_i$, for each type of distractor. When colour varied, we will refer to $D_c$, for $c=1,2,3$. Similarly for shape we will denote this ($D_s$), and the compound features are denoted as ($D_{c,s}$). 
 
 Fitting the model specified in Equation \ref{eq:loglin} to the data, we obtain the values for $D_c$ and $D_s$ given in Table \ref{tab:reimp_Dc_Ds}. As can be seen, the more similar the distractors are to the target, the steeper the slope parameter is. 
 
@@ -196,7 +196,7 @@ In order to better test the above, and increases sensitivity, we propose to make
 \begin{enumerate}
 \item \textbf{Within-subjects design.} This modification should give us greater power to detect differences between different models, as well as allowing us to investigate how individual differences in the single-feature task might explain differences in the double-feature task.
 \\
-\item \textbf{Increase target-distractor similarity.} Our reanalysis of \cite{buetti2019predicting} indicates that if the distractors are a very different colour from the target, they not distinguish well between different contrast models. We will therefore run a version of the experiment where the target is a red semicircle, with distractors being either orange, yellow or pink.
+\item \textbf{Increase target-distractor similarity.} Our reanalysis of \cite{buetti2019predicting} indicates that if the distractors are a very different colour from the target, they not distinguish well between different contrast models. We will therefore run a version of the experiment where the target is a red semicircle, with distractors being either orange, purple or pink.
 \\
 \end{enumerate}
 
@@ -205,10 +205,11 @@ In order to better test the above, and increases sensitivity, we propose to make
 \begin{enumerate}
 \item \textbf{Shifted lognormal model.} We hypothesise that a shifted lognormal model will give the best fit to our single-feature data, when compared to a lognormal and a normal model. \\
 \item \textbf{Log-linear effect of $N_T$.} We will test the TCS model assumption that $N_T$ has a log-linear effect by testing models with and without the log of this term. We expect that this will confirm the results previously seen in papers testing TCS i.e. that the log-linear approach will be best.\\ 
-\item \textbf{Contrast model comparisons.} We will test the hypothesis proposed by \citep{buetti2019predicting}: specifically, that the \textit{collinear contrast ingratiation model} outperforms the \textit{best feature guidance}, and \textit{orthogonal contrast combination models}. \\
+\item \textbf{Contrast model comparisons.} We will test the hypothesis proposed by \citep{buetti2019predicting}: specifically, that the \textit{collinear contrast ingratiation model} outperforms the \textit{best feature guidance}, and \textit{orthogonal contrast combination models} for the calculation of $D$, by calculating and comparing the mean absolute prediction error for each model. \\
+\item \textbf{Reaction time predictions.} We will further test the hypothesis proposed by \citep{buetti2019predicting} by testing which model gives the best prediction at the trial-by-trial RT level.
 \end{enumerate}
 
-We will test each of these hypotheses by calculating the marginal likelihood of the relevant models, and then calculating the poster probabilities. This will give us a probability for each model that represents the likelihood that the model gives the best prediction. We will consider there to be evidence for one model over the others if a given model has a probability above 90\%. We will consider there to be strong evidence for one model over the others if that model has a posterior probability above 99\%.
+We will test hypotheses 1,2, and 4  by calculating the marginal likelihood of the relevant models, and then calculating the posterior probabilities. This will give us a probability for each model that represents the likelihood that the model gives the best prediction. We will consider there to be evidence for one model over the others if a given model has a probability above 90\%. We will consider there to be strong evidence for one model over the others if that model has a posterior probability above 99\%.
 
 \subsection{Planned Explorations}
 
@@ -218,7 +219,7 @@ We will also run exploratory analyses including a factor for which ring the targ
 
 \subsection{Pilot Experiment}
 
-Full details of a pilot experiment with $n=4$ participants (xxx trials) can be found in supplementary materials. This suggests that even with a small sample, we can convincing demostrate H1 and H2, however more data will be required to discriminate between the models in H3. 
+Full details of a pilot experiment with $n=4$ participants (960 trials each) can be found in supplementary materials. This suggests that even with a small sample, we can convincingly demonstrate H1 and H2, however more data will be required to discriminate between the models in H3. 
 
 \section{General Methods}
 
@@ -243,17 +244,15 @@ Ethical approval for the study was granted by the University of Aberdeen (applic
 
 The targets and distractors are randomly assigned to the display based on an invisible grid. Within each quadrant of the screen, there are three 'spokes' each with four possible target positions (starting from the centre of the screen and moving outwards), creating 36 different target positions in total, in three concentric circles. A small amount of jitter is added to each possible position to make the target locations less predictable.
 
-\textbf{Distractor and target types:} we will replicate the distractor types used in \cite{buetti2019predicting}, apart from that we will change one distractor colour (from blue to pnik) to allow us to discriminate better between different models of the data (see above). There are six single-feature conditions (yellow, orange and pink distractors and triangle, circle and diamond distractors) and nine double-feature conditions (all possible pairings of the single-feature conditions). The target is always a red semicircle, except in the trials where the distractors are single-feature shapes (triangles, circles and diamonds) in which case the target is a white semicircle.
+\textbf{Distractor and target types:} we will replicate the distractor types used in \cite{buetti2019predicting}, apart from that we will change one distractor colour (from blue to pink) to allow us to discriminate better between different models of the data (see above). There are six single-feature conditions (purple, orange and pink distractors and triangle, circle and diamond distractors) and nine double-feature conditions (all possible pairings of the single-feature conditions). The target is always a red semicircle, except in the trials where the distractors are single-feature shapes (triangles, circles and diamonds) in which case the target is a white semicircle.
 
-\textbf{Set sizes:} we will run all the distractor set sizes used in \cite{buetti2019predicting} (1, 4, 9, 19 and 31). We will also run target-only 'zero distractor' trials (30 in total, with 6 being the white semicircle target and the remainder the red semicircle target).
+\textbf{Set sizes:} we will run all the distractor set sizes used in \cite{buetti2019predicting} (1, 4, 9, 19 and 31). We will also run target-only 'zero distractor' trials (60 in total, with 12 being the white semicircle target and the remainder the red semicircle target).
 
 The experiments were programmed in PsychoPy and Pavlovia \citep{peirce2019psychopy2}. Stimuli were pre-made to generate search array images with 1920 $\times$ 1080 resolution. 
 
 \subsection{Procedure}
 
-Participants will complete the experiment in the laboratory...
-
-Participants will view a fixation cross before viewing a search array: they will press the space bar to continue to the trial.  Participants will be told to search for the target among distractors (i.e. will be told to perform a singleton search) and report if the semicircle target points to the left or right, by pressing either the `f' or `j' key respectively on their keyboard. They will first complete 16 practice trials where they will receive feedback immediately after completing each trial. In the real experimental trials, participants will receive feedback on their average accuracy and reaction time after each block of 30 trials. Participants will complete 19 blocks of trials (570 trials overall i.e. 114 trials in each of 5 experiments, consisting of 6 set sizes x 3 distractor conditions x 6 repeats + 6 zero distractor trials) with the order of the stimuli being fully randomised i.e. all different conditions will be completely intermixed (in the terminology of \cite{buetti2019predicting}, participants will complete all of Experiments 1 and 2 in the same testing session, rather than having different participants complete each separate sub-experiment).
+Participants will complete the experiment in the laboratory. They will view a fixation cross before viewing a search array: they will press the space bar to continue to the trial.  Participants will be told to search for the target among distractors (i.e. will be told to perform a singleton search) and report if the semicircle target points to the left or right, by pressing either the `f' or `j' key respectively on their keyboard. They will first complete 16 practice trials where they will receive feedback immediately after completing each trial. In the real experimental trials, participants will receive feedback on their average accuracy and reaction time after each block of 120 trials. Participants will complete 8 blocks of trials (960 trials overall i.e. 192 trials in each of 5 experiments, consisting of 5 set sizes x 3 distractor conditions x 12 repeats + 12 zero distractor trials) with the order of the stimuli being fully randomised i.e. all different conditions will be completely intermixed (in the terminology of \cite{buetti2019predicting}, participants will complete all of Experiments 1 and 2 in the same testing session, rather than having different participants complete each separate sub-experiment).
  
 In both the practice and experimental trials, the search display will always remain on screen until a response is made, or until 5 seconds had passed. 
 
@@ -267,10 +266,8 @@ For participants included in the analysis, we will apply the data cleaning used 
 
 All analysis will be carried out using R (vx.xx)\footnote{Version numbers will be recorded upon completion of final analysis.}, brms (v.xx.xx) and rStan (vx.xxxx) As discussed above, we will use a mixed-effect models with either normal, lognormal or shifted lognormal distributions. 
 
-Please see the analysis of our pilot data for a full implementation of our analysis pipeline, including all code...
-
-We will follow the analysis given in Section \ref{sec:reanalysis}. Full details of the code used are provided in the \textit{Supplementary Material} and on Github at  
-\url{https://github.com/scienceanna/TCS_Bayesian}.
+Please see the analysis of our pilot data for a full implementation of our analysis pipeline, including all code (available on Github at  
+\url{https://github.com/scienceanna/TCS_Bayesian}).
 
 
 \section{Results}
