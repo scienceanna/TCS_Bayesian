@@ -132,6 +132,7 @@ rm(m_lin, m_sft)
 ## Fixed effect of D (group average)
 
 Can we predict $D$ in the double-feature case from data in the single-feature case?
+Which method has the lowest prediction error (or whatever the original authors call it)?
 
 ```{r}
 source("get_slopes_fun.R")
@@ -186,7 +187,7 @@ things_to_calc <- samples2 %>% select( -D, -.draw) %>%
 
 slopes <- pmap_df(things_to_calc, calc_D) %>% full_join(samples2, by = c(".draw", "feature")) %>%
   pivot_longer(c(collinear, `best feature`, `orthogonal contrast`), names_to = "method", values_to = "Dp") %>%
-  select(-feature, -.draw) %>%
+  select(-feature) %>%
   pivot_longer(c(D, Dp), names_to = "type", values_to = "D") %>%
   group_by(feature1, feature2, method, type)
 
@@ -198,7 +199,9 @@ slopes %>%
   separate(D, into = c("De", "De_min", "De_max"), sep = "_", convert = TRUE) %>%
   separate(Dp, into = c("Dp", "Dp_min", "Dp_max"), sep = "_", convert=  TRUE) %>%
   ggplot(aes(x = Dp, xmin = Dp_min, xmax = Dp_max, y = De, ymin = De_min, ymax = De_max)) + 
-  geom_point() + geom_errorbar(alpha = 0.5, colour = "yellow") + geom_errorbarh(alpha = 0.5, colour = "yellow") + 
+  geom_point() + 
+  geom_errorbar(alpha = 0.5, colour = "yellow") + 
+  geom_errorbarh(alpha = 0.5, colour = "yellow") + 
   geom_abline(linetype = 2) + 
   geom_smooth(method = "lm", fullrange  = T, colour = "violetred3") + 
       stat_poly_eq(formula = y ~ x, 
@@ -206,13 +209,27 @@ slopes %>%
                parse = TRUE, size = 2.8, label.y = 0.9, coef.digits = 3, rr.digits = 4, colour="yellow1") +
   facet_wrap(~method, scales = "free") +
   scale_colour_manual(values = c("yellow1", "yellow1", "yellow1"))
-
-slopes  %>%
-  summarise(mu = mean(D),
-            sd = sd(D)) %>%
-  mutate(method = str_remove(method, "D_"),
-         slope = paste0("feature", feature1, "_", feature2, ":lnd"))
-
-
-
 ```
+
+Calculate absolute prediction error:
+```{r}
+slopes  %>%
+  ungroup() %>%
+ pivot_wider(names_from = "type", values_from = "D") %>%
+  mutate(abs_err = abs(D-Dp)) %>%
+  group_by(feature1, feature2, method) %>%
+  summarise(mean_abs_err = mean(abs_err)) %>%
+  pivot_wider(names_from = "method", values_from = "mean_abs_err") %>%
+  ungroup() -> slopes_err
+
+
+  add_row(slopes_err, feature1 = "sum", feature2 = "over all", 
+          `best feature` = sum(slopes_err[3]),
+          collinear = sum(slopes_err[4]),
+          `orthogonal contrast` = sum(slopes_err[5])) %>%
+    knitr::kable()
+```
+
+# Hypothesis 4: Predicting Reaction Times
+
+
