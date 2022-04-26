@@ -45,9 +45,9 @@ set.seed(100320021)
 
 ## Import and Remove Outliers 
 
-We will import data from pilot experiment. 
+We will import data from the pilot experiment (with pre-processing already in place, e.g. incorrect trials removed, 1st and 100th percentile reaction times removed). $d1$ is the training data set (Experiment 1) and $d2$ is the test data set.
 
-```{r import-data}
+```{r import-data, message = FALSE, warning = FALSE}
 source("1_pre_process_pilot.R")
 
 summary(d1)
@@ -56,9 +56,27 @@ summary(d2)
 
 # Fit Models to Data
 
-```{r}
+For hypothesis 1, we fit the following models:
 
-# source("2_fit_pilot_models.R")
+* A shifted lognormal model to the training data
+* A lognormal model to the training data
+* A normal model to the training data
+
+For hypothesis 2, we fit the following models:
+
+* A shifted lognormal model to the training data, with a linear number of distractors
+
+For hypotheses 3 and 4, we fit the following models:
+
+* A shifted lognormal model to the test data
+* A shifted lognormal model to the test data with person as a fixed effect, as we want to predict person-level effects
+
+The models take a little while to run, so do not run by default in this document. Set $eval=TRUE$ to run them.
+
+
+```{r, eval = FALSE}
+
+source("2_fit_pilot_models.R")
 
 ```
 
@@ -66,7 +84,7 @@ todo : plot prior predictions
 
 ## Hypothesis 1 
 
-Verify that using a shift-lognormal gives a better mdoel than a lognormal or normal.
+Test whether using a shifted-lognormal distribution gives a better model than a lognormal or normal.
 
 ```{r, cache=TRUE}
 m_sft <- readRDS("pilot1.model")
@@ -79,9 +97,11 @@ tibble(model = c("shifted lognormal", "normal", "lognormal"),
   knitr::kable()
 ```
 
-Some plots to illustrate model:
+The shifted lognormal model gives the best prediction 100% of the time, meaning that we have strong evidence that we should prefer this model over the others.
 
-```{r}
+Some plots to illustrate our model:
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
 d1 %>% group_by(feature, lnd, observer) %>%
   summarise(median_rt = median(rt)) %>%
   summarise(mean_median = mean(median_rt)) -> d_mean
@@ -115,9 +135,9 @@ rm(m_nrl, m_log)
 
 ## Hypothesis 2
 
-Verify that using log(number of distracters) is superior to n(distracters).
+Here, we want to verify that using log(number of distractors) in our model is superior to n(distractors).
 
-```{r, cache=TRUE}
+```{r, cache=TRUE, echo = FALSE}
 m_lin <- readRDS("pilot1_linear.model")
 
 tibble(model = c("loglinear in n", "linear in n"),
@@ -128,14 +148,16 @@ tibble(model = c("loglinear in n", "linear in n"),
 rm(m_lin, m_sft)
 ```
 
+Our loglinear model is preferred 100% of the time, supporting the hypothesis that this is the best model structure for the data.
+
 # Hypothesis 3
 
 ## Fixed effect of D (group average)
 
 Can we predict $D$ in the double-feature case from data in the single-feature case?
-Which method has the lowest prediction error (or whatever the original authors call it)?
+Which method has the lowest mean absolute prediction error?
 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 source("get_slopes_fun.R")
 
 m1 <- readRDS("pilot1.model")
@@ -159,7 +181,7 @@ samples2 %>% separate(feature, into = c("colour", "shape")) %>%
 
 ```
 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 
 calc_D <- function(feature1, feature2) {
   
@@ -212,8 +234,8 @@ slopes %>%
   scale_colour_manual(values = c("yellow1", "yellow1", "yellow1"))
 ```
 
-Calculate absolute prediction error:
-```{r}
+Calculate mean absolute prediction error:
+```{r, message = FALSE, warning = FALSE}
 slopes  %>%
   ungroup() %>%
  pivot_wider(names_from = "type", values_from = "D") %>%
@@ -231,11 +253,13 @@ slopes  %>%
     knitr::kable()
 ```
 
+Overall, the collinear model has the lowest mean absolute error, in line with the findings from the original manuscript.
+
 # Hypothesis 4: Predicting Reaction Times
 
-Finally, we check which model offers the best prediction of reaction times
+Finally, we check which model offers the best prediction of reaction times.
 
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
 compute_rt_predictions <- function(slopes, meth) {
  
    slopes %>%
@@ -299,7 +323,8 @@ my_f <- brms::bf(rt ~ feature:lnd + (feature:lnd|observer),
     stanvars = stanvars,
     save_pars = save_pars(all=TRUE),
     silent = TRUE,
-    sample_prior = "only"
+    sample_prior = "only",
+    refresh = 0
   )
 
   return(m_prt)
@@ -308,10 +333,9 @@ my_f <- brms::bf(rt ~ feature:lnd + (feature:lnd|observer),
 
 ```
 
-```{r, cache=TRUE}
+```{r, cache=TRUE, message = FALSE, warning = FALSE, echo = FALSE}
   d2 <- d2 %>% unite(feature, feature1, feature2)
 m_col <- compute_rt_predictions(slopes, "collinear")
-
 
 d2 %>% modelr::data_grid(feature, lnd) %>%
   add_predicted_draws(m_col, re_formula = NA) %>%
@@ -326,10 +350,7 @@ m_orc <- compute_rt_predictions(slopes, "orthogonal contrast")
 ```
 
 
-Now posterior probabilties...
-
-
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 m_col <- bridge_sampler(m_col)
 m_bfe <- bridge_sampler(m_bfe)
 m_orc <- bridge_sampler(m_orc)
@@ -339,4 +360,4 @@ post_prob(m_col, m_bfe, m_orc) %>%
 
 ```
 
-
+With the pilot data, all three models receive approximately the same predictive weight, meaning that we are not able to distinguish between them: we do not have evidence for one model over the others. 

@@ -12,3 +12,7 @@ brms
 tidybayes
 patchwork
 latex2exp
+base
+ggpp
+ggpmisc
+bridgesampling
