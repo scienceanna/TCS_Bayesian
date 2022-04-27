@@ -80,7 +80,32 @@ source("2_fit_pilot_models.R")
 
 ```
 
-todo : plot prior predictions
+## Plotting prior predictions
+
+We can see that the priors chosen for our models centre the estimates of $D$ around 0 (i.e. we are not making any assumptions about what we expect the slopes to be).
+
+```{r, message = FALSE, warning = FALSE}
+
+m1b <- readRDS("pilot1_prior.model")
+
+source("get_slopes_fun.R")
+
+
+samples1b <- get_slopes(m1b, 1) %>% select(-observer, -rD) %>% distinct()
+
+
+# circle, diamond, orange, pink, purple, triangle
+colourPalette <- c("#aadce0", "#72bcd5", "#e78429", "#ed968c", "#7c4b73", "528fad")
+
+samples1b %>% mutate(feature_type = if_else(
+  feature %in% c("purple", "orange", "pink"), "colour", "shape")) %>%
+  ggplot(aes(D, fill = feature)) + 
+  geom_density(alpha = 0.33) + 
+  facet_wrap(~feature_type) +
+  scale_fill_manual(values=colourPalette)
+
+```
+
 
 ## Hypothesis 1 
 
@@ -164,20 +189,28 @@ m1 <- readRDS("pilot1.model")
 samples1 <- get_slopes(m1, 1) %>% select(-observer, -rD) %>% distinct()
 
 
+# circle, diamond, orange, pink, purple, triangle
+colourPalette <- c("#aadce0", "#72bcd5", "#e78429", "#ed968c", "#7c4b73", "528fad")
+
 samples1 %>% mutate(feature_type = if_else(
   feature %in% c("purple", "orange", "pink"), "colour", "shape")) %>%
   ggplot(aes(D, fill = feature)) + 
   geom_density(alpha = 0.33) + 
-  facet_wrap(~feature_type)
+  facet_wrap(~feature_type) +
+  scale_fill_manual(values=colourPalette)
 
 
 m2 <- readRDS("pilot2_random.model") 
 samples2 <- get_slopes(m2, 1) %>% select(-observer, -rD) %>% distinct()
 
+colourPalette2 <- c("#e78429", "#ed968c", "#7c4b73")
+
+
 samples2 %>% separate(feature, into = c("colour", "shape")) %>%
   ggplot(aes(D, fill = colour)) + 
   geom_density(alpha = 0.33) + 
-  facet_grid(.~shape)
+  facet_grid(.~shape) +
+  scale_fill_manual(values=colourPalette2)
 
 ```
 
@@ -351,9 +384,9 @@ m_orc <- compute_rt_predictions(slopes, "orthogonal contrast")
 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-m_col <- bridge_sampler(m_col)
-m_bfe <- bridge_sampler(m_bfe)
-m_orc <- bridge_sampler(m_orc)
+m_col <- bridge_sampler(m_col, silent = TRUE)
+m_bfe <- bridge_sampler(m_bfe, silent = TRUE)
+m_orc <- bridge_sampler(m_orc, silent = TRUE)
 
 post_prob(m_col, m_bfe, m_orc) %>%
   knitr::kable()
