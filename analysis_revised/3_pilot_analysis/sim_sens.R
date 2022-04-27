@@ -46,11 +46,13 @@ m <- brm(
 )
 
 saveRDS(m, "sim_sense.model")
-
+m <- readRDS("sim_sense.model")
 n_obs <-  50
-n_trials <- 100
+n_trials <- 15
 d %>% modelr::data_grid(feature, lnd, observer = 1:n_obs) %>%
   add_predicted_draws(m, allow_new_levels = TRUE, ndraws = n_trials) %>%
   ungroup %>%
   select(observer, feature, lnd, rt = ".prediction") -> dsim
-  
+
+d1 <- filter(dsim, !str_detect(feature, "_"))
+d2 <- filter(dsim, str_detect(feature, "_")) %>% separate(feature, c("feature1", "feature2"))  
