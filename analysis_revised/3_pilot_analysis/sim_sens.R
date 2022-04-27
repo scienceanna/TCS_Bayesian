@@ -1,7 +1,6 @@
-library(brms)
 library(tidyverse)
 library(tidybayes)
-
+library(brms)
 
 # use parallel cores for mcmc chains!
 options(mc.cores = parallel::detectCores())
@@ -16,6 +15,7 @@ source("1_pre_process_pilot.R")
 
 d2 %>% unite(feature, feature1, feature2) %>%
   bind_rows(d1) -> d
+
 
 
 my_f <- bf(rt ~ feature:lnd + (feature:lnd|observer), 
@@ -39,11 +39,18 @@ m <- brm(
   prior = my_prior,
   chains = n_chains,
   iter = n_itr,
-  inits = my_inits,
+  init = my_inits,
   ##stanvars = my_stanvar,
   save_pars = save_pars(all=TRUE),
   silent = TRUE
 )
 
-saveRDS(m, "pilot1.model")
-rm(m)
+saveRDS(m, "sim_sense.model")
+
+n_obs <-  50
+n_trials <- 100
+d %>% modelr::data_grid(feature, lnd, observer = 1:n_obs) %>%
+  add_predicted_draws(m, allow_new_levels = TRUE, ndraws = n_trials) %>%
+  ungroup %>%
+  select(observer, feature, lnd, rt = ".prediction") -> dsim
+  
