@@ -7,13 +7,14 @@
 %\usepackage{natbib}
 \usepackage{tabularx}
 \usepackage{hyperref}
-
+\usepackage{lineno}
 
 \journal{Cortex} 
 
 \begin{document}
 
 \begin{frontmatter}
+
 
 \title{Bayesian multi-level modelling for predicting single and double feature visual search}
 
@@ -44,6 +45,7 @@ Visual search \sep  Efficient search \sep Parallel processing
 
 \end{frontmatter}
 
+\linenumbers
 
 \section{Introduction}
 \label{intro}
@@ -141,7 +143,7 @@ orange & 9.8  & circle & 62.1\\
 
 \subsubsection{Estimating $D_{c,s}$, the logarithmic slope parameter for compound features}
 
-In the context of the current experiments, the core idea of TCS theory is that we can estimate the logarithmic slope parameter for a double feature visual search from the slopes parameters in the two independent single feature searches i.e., $D_{c,s} = f(D_c, D_s)$. \cite{buetti2019predicting} tested three different models for predicting $D$ for compound colour-shape stimuli. The best feature guidance model (Equation \ref{eq:bestfeature}) suggests that when the target and lures differ in two dimensions, participants will choose to attend to whichever feature dimension is the most discriminable (i.e. has the smallest $D$ value):
+In the context of the current experiments, the core idea of TCS theory is that we can estimate the (natural) logarithmic slope parameter for a double feature visual search from the slopes parameters in the two independent single feature searches i.e., $D_{c,s} = f(D_c, D_s)$. \cite{buetti2019predicting} tested three different models for predicting $D$ for compound colour-shape stimuli. The best feature guidance model (Equation \ref{eq:bestfeature}) suggests that when the target and lures differ in two dimensions, participants will choose to attend to whichever feature dimension is the most discriminable (i.e. has the smallest $D$ value):
 
 \begin{equation}
 D_\text{c,s} = \text{min}\left(D_\text{c}, D_\text{s}\right)
@@ -181,9 +183,7 @@ Finally, we can use Equation \ref{eq:loglin} to predict mean reaction times. As 
 
 \subsubsection{Discussion}
 
-While TCS theory offers a good prediction of search slopes and corresponding mean reaction times for double feature search, there are two related limitations. Firstly, it is unable to account for individual differences between observers, only the changes to the sample average. Secondly, it cannot account for the distribution of reaction times over multiple trials. Figure \ref{fig:comp_rep} (right panel) shows clearly that these factors generate high levels of variability within the individual trial-level data. To address these issues, we propose adapting TCS to make use of multi-level modelling techniques.
-
-
+While TCS theory offers a good prediction of search slopes and corresponding mean reaction times for double feature search, there are two related limitations. Firstly, it is unable to account for individual differences between observers, only the changes to the sample average. Secondly, it cannot account for the distribution of reaction times over multiple trials. Figure \ref{fig:comp_rep} (right panel) shows clearly that these factors generate high levels of variability within the individual trial-level data. To address these issues, we propose adapting TCS to make use of multi-level modelling techniques. Multi-level models allow us to take into account the hierarchical structure of the data (i.e. that each participant completes multiple trials) in a way that does not require averaging, meaning that we are able to model participant variability as well as group-level effects \citep{gelman2006data}.
 
 \section{Hypotheses}
 
@@ -209,13 +209,17 @@ In order to better test the above, and increases sensitivity, we propose to make
 \item \textbf{Reaction time predictions.} We will further test the hypothesis proposed by \citep{buetti2019predicting} by testing which model gives the best prediction at the trial-by-trial RT level.
 \end{enumerate}
 
+<<<<<<< Updated upstream
 We will test hypotheses 1,2, and 4  by calculating the marginal likelihood of the relevant models, and then calculating the posterior probabilities. This will give us a probability for each model that represents the likelihood that the model gives the best prediction. We will consider there to be evidence for one model over the others if a given model has a probability above 90\%. We will consider there to be strong evidence for one model over the others if that model has a posterior probability above 99\%.
+=======
+We will test each of these hypotheses by calculating the marginal likelihood of the relevant models, and then calculating the poster probabilities. This will give us a probability for each model that represents the likelihood that the model gives the best prediction. We will consider there to be evidence for one model over the others if a given model has a probability above 90\%. We will consider there to be strong evidence for one model over the others if that model has a posterior probability above 99\%. This approach is most appropriate for our model: other measures of model fit, such as AIC, require an assumption of flat priors (which is not valid for multi-level models) and are based on point estimates (which is not valid for Bayesian models) \citep{mcelreath2020statistical}.
+>>>>>>> Stashed changes
 
 \subsection{Planned Explorations}
 
 We plan to investigate the effect of individual differences in this paradigm: to what extent performance in the single-feature task can predict performance in the double-feature task for a given individual (\cite{buetti2019predicting} were not able to investigate this due to the between-subjects design of their study). We plan to do this by specifying a more complex random effects structure for the model, that allows for individual differences across different slopes for different features. This allows us to then study the random effect correlation structure.  However, given these models can be challenging to fit, we will do this in an exploratory manner after carrying out our formally registered analysis.
 
-We will also run exploratory analyses including a factor for which ring the target is in to assess whether this improves model fit or affects any of the conclusions that can be drawn from the model.
+One of the benefits of using a multi-level modelling approach is that it is relatively easy to extend to incorporate other factors that may contribute to reaction times, such as eccentricity and inter-item distance, which may help to explain behaviour further. To demonstrate this, we will also run exploratory analyses including a factor for which ring the target is in to assess whether this improves model fit or affects any of the conclusions that can be drawn from the model.
 
 \subsection{Pilot Experiment}
 
@@ -252,7 +256,11 @@ The experiments were programmed in PsychoPy and Pavlovia \citep{peirce2019psycho
 
 \subsection{Procedure}
 
+<<<<<<< Updated upstream
 Participants will complete the experiment in the laboratory. They will view a fixation cross before viewing a search array: they will press the space bar to continue to the trial.  Participants will be told to search for the target among distractors (i.e. will be told to perform a singleton search) and report if the semicircle target points to the left or right, by pressing either the `f' or `j' key respectively on their keyboard. They will first complete 16 practice trials where they will receive feedback immediately after completing each trial. In the real experimental trials, participants will receive feedback on their average accuracy and reaction time after each block of 120 trials. Participants will complete 8 blocks of trials (960 trials overall i.e. 192 trials in each of 5 experiments, consisting of 5 set sizes x 3 distractor conditions x 12 repeats + 12 zero distractor trials) with the order of the stimuli being fully randomised i.e. all different conditions will be completely intermixed (in the terminology of \cite{buetti2019predicting}, participants will complete all of Experiments 1 and 2 in the same testing session, rather than having different participants complete each separate sub-experiment).
+=======
+Participants will complete the experiment in the laboratory. They will view a fixation cross before viewing a search array: they will press the space bar to continue to the trial.  Participants will be told to search for the target among distractors (i.e. will be told to perform a singleton search) and report if the semicircle target points to the left or right, by pressing either the `f' or `j' key respectively on their keyboard. They will first complete 16 practice trials where they will receive feedback immediately after completing each trial. In the real experimental trials, participants will receive feedback on their average accuracy and reaction time after each block of 30 trials. Participants will complete 19 blocks of trials (570 trials overall i.e. 114 trials in each of 5 experiments, consisting of 6 set sizes x 3 distractor conditions x 6 repeats + 6 zero distractor trials) with the order of the stimuli being fully randomised i.e. all different conditions will be completely intermixed (in the terminology of \cite{buetti2019predicting}, participants will complete all of Experiments 1 and 2 in the same testing session, rather than having different participants complete each separate sub-experiment).
+>>>>>>> Stashed changes
  
 In both the practice and experimental trials, the search display will always remain on screen until a response is made, or until 5 seconds had passed. 
 
