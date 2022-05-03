@@ -86,7 +86,7 @@ source("2_fit_pilot_models.R")
 
 We can see that the priors chosen for our models centre the estimates of $D$ around 0 (i.e. we are not making any assumptions about what we expect the slopes to be).
 
-```{r, message = FALSE, warning = FALSE}
+```{r, message = FALSE, warning = FALSE, fig.cap = "Prior predictions for our models."}
 
 m1b <- readRDS("pilot1_prior.model")
 
@@ -96,15 +96,14 @@ source("get_slopes_fun.R")
 samples1b <- get_slopes(m1b, 1) %>% select(-observer, -rD) %>% distinct()
 
 
-# circle, diamond, orange, pink, purple, triangle
-colourPalette <- c("#aadce0", "#72bcd5", "#e78429", "#ed968c", "#7c4b73", "528fad")
+colourPalette <- c("#e78429", "#ed968c", "#7c4b73","#aadce0", "#72bcd5", "528fad")
 
 samples1b %>% mutate(feature_type = if_else(
   feature %in% c("purple", "orange", "pink"), "colour", "shape")) %>%
   ggplot(aes(D, fill = feature)) + 
   geom_density(alpha = 0.33) + 
   facet_wrap(~feature_type) +
-  scale_fill_manual(values=colourPalette)
+  scale_fill_manual(values=colourPalette, limits = c("orange", "pink","purple", "circle", "diamond", "triangle"))
 
 ```
 
@@ -126,9 +125,9 @@ tibble(model = c("shifted lognormal", "normal", "lognormal"),
 
 The shifted lognormal model gives the best prediction 100% of the time, meaning that we have strong evidence that we should prefer this model over the others.
 
-Some plots to illustrate our model:
+Some plots to illustrate our models:
 
-```{r, message = FALSE, warning = FALSE, echo = FALSE}
+```{r, message = FALSE, warning = FALSE, echo = FALSE, fig.cap = "Model predictions for (top) shifted log normal model, (middle) log normal model and (bottom) normal model.", fig.height = 10}
 d1 %>% group_by(feature, lnd, observer) %>%
   summarise(median_rt = median(rt)) %>%
   summarise(mean_median = mean(median_rt)) -> d_mean
@@ -138,24 +137,29 @@ d1 %>% modelr::data_grid(feature, lnd) %>%
   mean_hdci(.width = c(0.53, 0.97)) %>%
   ggplot(aes(lnd)) +
   geom_ribbon(aes(ymin = .lower, ymax = .upper, group = .width), alpha = 0.3, fill = "pink") + 
-  geom_point(data = d_mean, aes(y = mean_median), alpha = 1, colour = "white") + 
-  facet_wrap(~feature, nrow = 1)
+  geom_jitter(data = d1, aes(y = rt), colour = "white", alpha = 0.1) + 
+  geom_point(data = d_mean, aes(y = mean_median), alpha = 1, colour = "yellow") + 
+  facet_wrap(~feature, nrow = 1) -> d1_sft
 
 d1 %>% modelr::data_grid(feature, lnd) %>%
   add_predicted_draws(m_log, re_formula = NA) %>%
   mean_hdci(.width = c(0.53, 0.97)) %>%
   ggplot(aes(lnd)) +
   geom_ribbon(aes(ymin = .lower, ymax = .upper, group = .width), alpha = 0.3, fill = "pink") + 
-  geom_point(data = d_mean, aes(y = mean_median), alpha = 1, colour = "white") + 
-  facet_wrap(~feature, nrow = 1)
+  geom_jitter(data = d1, aes(y = rt), colour = "white", alpha = 0.1) + 
+  geom_point(data = d_mean, aes(y = mean_median), alpha = 1, colour = "yellow") + 
+  facet_wrap(~feature, nrow = 1) -> d1_log
 
 d1 %>% modelr::data_grid(feature, lnd) %>%
   add_predicted_draws(m_nrl, re_formula = NA) %>%
   mean_hdci(.width = c(0.53, 0.97)) %>%
   ggplot(aes(lnd)) +
   geom_ribbon(aes(ymin = .lower, ymax = .upper, group = .width), alpha = 0.3, fill = "pink") + 
-  geom_point(data = d_mean, aes(y = mean_median), alpha = 1, colour = "white") + 
-  facet_wrap(~feature, nrow = 1)
+  geom_jitter(data = d1, aes(y = rt), colour = "white", alpha = 0.1) + 
+  geom_point(data = d_mean, aes(y = mean_median), alpha = 1, colour = "yellow") + 
+  facet_wrap(~feature, nrow = 1) -> d1_nrl
+
+d1_sft / d1_log / d1_nrl
 
 rm(m_nrl, m_log)
 ```
@@ -184,7 +188,7 @@ Our loglinear model is preferred 100% of the time, supporting the hypothesis tha
 Can we predict $D$ in the double-feature case from data in the single-feature case?
 Which method has the lowest mean absolute prediction error?
 
-```{r, message = FALSE, warning = FALSE}
+```{r, message = FALSE, warning = FALSE, fig.cap = "Predicting the group average D."}
 source("get_slopes_fun.R")
 
 m1 <- readRDS("pilot1.model")
@@ -192,15 +196,18 @@ samples1 <- get_slopes(m1, 1) %>% select(-observer, -rD) %>% distinct()
 
 
 # circle, diamond, orange, pink, purple, triangle
-colourPalette <- c("#aadce0", "#72bcd5", "#e78429", "#ed968c", "#7c4b73", "528fad")
+colourPalette <- c("#e78429", "#ed968c", "#7c4b73","#aadce0", "#72bcd5", "528fad")
 
 samples1 %>% mutate(feature_type = if_else(
   feature %in% c("purple", "orange", "pink"), "colour", "shape")) %>%
   ggplot(aes(D, fill = feature)) + 
   geom_density(alpha = 0.33) + 
   facet_wrap(~feature_type) +
-  scale_fill_manual(values=colourPalette)
+  scale_fill_manual(values=colourPalette,  limits = c("orange", "pink","purple", "circle", "diamond", "triangle"))
 
+```
+
+```{r, message = FALSE, warning = FALSE, fig.cap = "Predicting person-level effects."}
 
 m2 <- readRDS("pilot2_random.model") 
 samples2 <- get_slopes(m2, 1) %>% select(-observer, -rD) %>% distinct()
@@ -216,7 +223,7 @@ samples2 %>% separate(feature, into = c("colour", "shape")) %>%
 
 ```
 
-```{r, message = FALSE, warning = FALSE}
+```{r, message = FALSE, warning = FALSE, fig.width = 5, fig.cap = "Predicted D plotted against empirical D for our pilot data."}
 
 calc_D <- function(feature1, feature2) {
   
@@ -368,7 +375,7 @@ my_f <- brms::bf(rt ~ feature:lnd + (feature:lnd|observer),
 
 ```
 
-```{r, cache=TRUE, message = FALSE, warning = FALSE, echo = FALSE}
+```{r, cache=TRUE, message = FALSE, warning = FALSE, echo = FALSE, fig.height = 5, , fig.cap = "Predicted RTs for our pilot data, using collinear contrast combination."}
   d2 <- d2 %>% unite(feature, feature1, feature2)
 m_col <- compute_rt_predictions(slopes, "collinear")
 
@@ -378,7 +385,7 @@ d2 %>% modelr::data_grid(feature, lnd) %>%
   ggplot(aes(lnd)) +
   geom_ribbon(aes(ymin = .lower, ymax = .upper, group = .width), alpha = 0.3, fill = "pink") + 
   geom_jitter(data = d2, aes(y = rt), colour = "white", alpha = 0.1) + 
-  facet_wrap(~feature, nrow = 2)
+  facet_wrap(~feature, nrow = 3)
 
 m_bfe <- compute_rt_predictions(slopes, "best feature")
 m_orc <- compute_rt_predictions(slopes, "orthogonal contrast")
@@ -390,7 +397,8 @@ m_col <- bridge_sampler(m_col, silent = TRUE)
 m_bfe <- bridge_sampler(m_bfe, silent = TRUE)
 m_orc <- bridge_sampler(m_orc, silent = TRUE)
 
-post_prob(m_col, m_bfe, m_orc) %>%
+tibble(model = c("collinear", "best feature", "orthogonal contrast"),
+             `posterior probability` = post_prob(m_col, m_bfe, m_orc)) %>%
   knitr::kable()
 
 ```

@@ -291,7 +291,7 @@ Dp <- map_df(exps_to_predict, gen_exp_predictions, De, "Bayes")
 
 ```
 
-```{r}
+```{r, fig.cap = "Replication of Figure 4 (top row) from Buetti et al (2019), using Bayesian methods."}
 Dp %>% pivot_longer(
     c(`best feature`, `orthog. contrast`, collinear),
     names_to = "method", values_to = "Dp") %>%
