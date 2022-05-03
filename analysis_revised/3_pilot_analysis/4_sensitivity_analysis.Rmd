@@ -102,13 +102,18 @@ saveRDS(m, "sim_sense.model")
 
 m <- readRDS("sim_sense.model")
 
-n_obs <-  50
+n_obs <-  5
 n_trials <- 15
 
 d %>% modelr::data_grid(feature, lnd, observer = 1:n_obs) %>%
   add_predicted_draws(m, allow_new_levels = TRUE, ndraws = n_trials) %>%
   ungroup %>%
   select(observer, feature, lnd, rt = ".prediction") -> dsim
+
+# remove 1st and 100th percentile RT
+dsim %>% filter(
+  rt > quantile(rt, 0.01), 
+  rt < quantile(rt, 0.99)) -> dsim
 
 d1 <- filter(dsim, !str_detect(feature, "_"))
 d2 <- filter(dsim, str_detect(feature, "_")) %>% separate(feature, c("feature1", "feature2"))  
@@ -119,7 +124,7 @@ ggplot(d1, aes(lnd, rt)) + geom_jitter(colour = "white", alpha = 0.1) + facet_wr
 
 # Fit training model
 
-```{r}
+```{r, cache = TRUE, warning = FALSE, message = FALSE}
 
 my_f <- brms::bf(rt ~ feature:lnd + (feature:lnd|observer), 
            ndt ~ 1 + (1|observer))
@@ -133,6 +138,7 @@ my_prior <- c(
   prior_string("cauchy(0, 0.4)", class = "sigma"),
   prior_string("cauchy(0, 0.05)", class = "sd"),
   prior_string("cauchy(0, 0.05)", class = "sd", dpar = "ndt"))
+
 
 # now run model
 m <- brm(
@@ -150,13 +156,15 @@ m <- brm(
 
 saveRDS(m, "pilot1_sensitivity.model")
 
+
 ```
 
 ## Fit test models
 
-```{r}
+```{r, cache = TRUE, warning = FALSE, message = FALSE}
 
 d2 <- d2 %>% unite(feature, feature1, feature2)
+
 
 my_f <- brms::bf(rt ~ feature:lnd + (feature:lnd|observer), 
            ndt ~ 1 + (1|observer))
@@ -186,40 +194,7 @@ m <- brm(
 )
 
 
-
 saveRDS(m, "pilot2_sensitivity_random.model")
-
-```
-
-```{r}
-
-my_f <- bf(rt ~ observer:feature:lnd, 
-           ndt ~ 0 + observer)
-
-
-my_inits <- list(list(b_ndt = as.array(rep(-10, 6))),list(b_ndt = as.array(rep(-10, 6))),list(b_ndt = as.array(rep(-10, 6))),list(b_ndt = as.array(rep(-10, 6))))
-
-my_prior <- c(
-  prior_string("normal(-0.5, 0.3)", class = "Intercept"),
-  prior_string("normal(0, 0.2)", class = "b"),
-  prior_string("normal(-1, 0.5)", class = "b", dpar = "ndt" ),
-  prior_string("cauchy(0, 0.4)", class = "sigma"))
-
-m <- brm(
-  my_f, 
-  data = d2,
-  family = brmsfamily("shifted_lognormal"),
-  prior = my_prior,
-  chains = n_chains,
-  iter = n_itr,
-  inits = my_inits,
-  #stanvars = my_stanvar,
-  save_pars = save_pars(all=TRUE),
-  silent = TRUE
-)
-
-
-saveRDS(m, "pilot2_sensitivity_fixed.model")
 
 ```
 
@@ -227,10 +202,12 @@ saveRDS(m, "pilot2_sensitivity_fixed.model")
 
 ## Fixed effect of D (group average)
 
-```{r message=FALSE, warning=FALSE, eval = FALSE}
+```{r message=FALSE, warning=FALSE}
 source("get_slopes_fun.R")
 
-samples1 <- get_slopes(m, 1) %>% select(-observer, -rD) %>% distinct() %>%
+m1 <- readRDS("pilot1_sensitivity.model")
+
+samples1 <- get_slopes(m1, 1) %>% select(-observer, -rD) %>% distinct() %>%
    filter(!str_detect(feature, '_')) 
 
 # circle, diamond, orange, pink, purple, triangle
@@ -245,10 +222,10 @@ samples1 %>% mutate(feature_type = if_else(
 
 ```
 
-```{r, message = FALSE, warning = FALSE, eval = FALSE}
+```{r, message = FALSE, warning = FALSE}
 
-samples2 <- get_slopes(m, 1) %>% select(-observer, -rD) %>% distinct() %>%
-   filter(str_detect(feature, '_')) 
+m2 <- readRDS("pilot2_sensitivity_random.model") 
+samples2 <- get_slopes(m2, 1) %>% select(-observer, -rD) %>% distinct()
 
 
 calc_D <- function(feature1, feature2) {
@@ -304,7 +281,7 @@ slopes %>%
 
 # Hypothesis 4: Predicting Reaction Times
 
-```{r, message = FALSE, warning = FALSE, echo = FALSE, eval = FALSE}
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
 compute_rt_predictions <- function(slopes, meth) {
  
    slopes %>%

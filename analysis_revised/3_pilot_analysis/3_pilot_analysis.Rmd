@@ -73,6 +73,8 @@ For hypotheses 3 and 4, we fit the following models:
 
 The models take a little while to run, so do not run by default in this document. Set $eval=TRUE$ to run them.
 
+Note that our approach differs slightly from the original methods proposed by Buetti et al (2019). In their manuscript, due to the between-subjects nature of the design, $a$ was calculated at the level of each sub-experiment. However, in our within-subjects version, we will use $a$ from the single feature experiments (i.e. Experiment 1) to predict $a$ in the compound feature experiments (i.e. Experiment 2).
+
 
 ```{r, eval = FALSE}
 
