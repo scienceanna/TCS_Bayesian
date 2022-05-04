@@ -355,8 +355,8 @@ my_f <- brms::bf(rt ~ feature:lnd + (feature:lnd|observer),
 
 ```
 
-```{r, cache=TRUE, message = FALSE, warning = FALSE, echo = FALSE, eval = FALSE}
-  d2 <- d2 %>% unite(feature, feature1, feature2)
+```{r, cache=TRUE, message = FALSE, warning = FALSE, echo = FALSE}
+  #d2 <- d2 %>% unite(feature, feature1, feature2)
 m_col <- compute_rt_predictions(slopes, "collinear")
 
 d2 %>% modelr::data_grid(feature, lnd) %>%
@@ -372,11 +372,14 @@ m_orc <- compute_rt_predictions(slopes, "orthogonal contrast")
 ```
 
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE, eval = FALSE}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 m_col <- bridge_sampler(m_col, silent = TRUE)
 m_bfe <- bridge_sampler(m_bfe, silent = TRUE)
 m_orc <- bridge_sampler(m_orc, silent = TRUE)
+```
 
+
+```{r}
 post_prob(m_col, m_bfe, m_orc) %>%
   knitr::kable()
 
