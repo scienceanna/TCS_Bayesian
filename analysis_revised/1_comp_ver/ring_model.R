@@ -35,3 +35,4 @@ m <- brm(formula = my_f,
          prior = my_prior,
          init = my_inits)
 
+saveRDS(m,'ring_model.rds')

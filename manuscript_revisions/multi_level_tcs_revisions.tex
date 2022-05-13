@@ -231,19 +231,7 @@ Full details of a pilot experiment with $n=4$ participants (960 trials each) usi
 
 \subsection{Sample Size: Participants and Trials}
 
-To determine our sample size, we carried out a simulation study to estimate the effect of reducing the number of trials and increasing the number of participants on our ability to accurately measure the $D_i$. While our reanalysis of \cite{buetti2019predicting}'s data is unable to distinguish between the three models of contrast combination, we believe that this is due to the feature values used in their study, rather than low statistical power from sampling (see above and Figure \ref{fig:comp_rep_conditions}). Therefore, we will base our sensitivity analysis around the width of the $97\%$ HPDI when estimating $D_{\text{blue}}$. We have chosen to look at this single feature level as the blue distractor trials offer the greatest discrimination between the three contrast models.
-
-We carried out our simulation sensitivity analysis by generating synthetic data from the shifted lognormal model outlined in Section \ref{sec:reanalysis}, Figure \ref{fig:buetti2019_a1}, for the blue distractor conditions. This was done for several different sample sizes, both in terms of number of trials and number of participants. For each synthetic dataset, we then refit the model and calculated the width of the $97\%$ HPDI (see Figure \ref{fig:power_plot}).
-
-\begin{figure}
-\centering
-\subfigure{\includegraphics[scale=0.6]{../plots/power_plot.pdf}}
-\caption{Simulation sensitivity analysis, showing the 97\% HPDI width for the blue distractor condition in a shifted lognormal model, across different numbers of trials and participants. The X shows the real HPDI width as a proportion of slope for the blue distractor condition in \cite{buetti2019predicting}.}
-\label{fig:power_plot}
-\end{figure}
-
-As we are moving from the between-subjects design used by \cite{buetti2019predicting} to a within-subjects design in which each participant sees all combinations of features, we prefer to decrease the number of trials per person $\times$ condition from 40 to six. Increasing the number of participants from 20 to 150 will allow us to maintain sufficient accuracy in the estimating of logarithmic search slopes. 
-
+We plan to test 40 participants during the experiment. Our pilot experiment shows that H1 and H2 are easily demonstrated with 10 times less data, and \cite{buetti2019predicting} used 20 participants per experiment. Our sample size will therefore be in line with previous work testing H3 and H4.
 Ethical approval for the study was granted by the University of Aberdeen (application number PEC/4677/2021/2).
 
 \subsection{Stimuli}
@@ -267,7 +255,7 @@ In both the practice and experimental trials, the search display will always rem
 
 Only participants who complete the full experiment will be considered candidates for inclusion in the data analysis. We will apply the same inclusion criteria as the original paper: participants will only be included if their search accuracy over 90\% and their average response time is not smaller or larger than two standard deviations from the group average response time. 
 
-For participants included in the analysis, we will apply the data cleaning used in Section \ref{sec:reanalysis} i.e. removing the top and bottom 1\% of their data.
+For participants included in the analysis, we will apply the data cleaning used in the pilot data analysis i.e. removing the top and bottom 1\% of their data.
 
 \subsection{Analysis Plan}
 
