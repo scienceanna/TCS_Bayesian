@@ -12,6 +12,8 @@ d3 %>% group_by(p_id, N_T, d_feature, exp_id, ring) %>%
   facet_grid( ~ d_feature)
   
 
+## Ring model
+
 library(brms)
 
 my_prior <- c(
@@ -33,6 +35,32 @@ m <- brm(formula = my_f,
          data = d3,
          family = "shifted_lognormal",
          prior = my_prior,
-         init = my_inits)
+         init = my_inits,
+         save_pars = save_pars(all = TRUE))
 
 saveRDS(m,'ring_model.rds')
+
+## Model without a ring
+
+my_f2 <- bf(rt ~ 0 + exp_id + d_feature:log(N_T+1) + (1|p_id), 
+           ndt ~ 1 + (1|p_id))
+
+m2 <- brm(formula = my_f2,
+         data = d3,
+         family = "shifted_lognormal",
+         prior = my_prior,
+         init = my_inits, 
+         save_pars = save_pars(all= TRUE))
+
+saveRDS(m2, 'nonring_model.rds')
+
+
+####
+
+m <- readRDS('ring_model.rds')
+m2 <- readRDS('nonring_model.rds')
+
+m <- bridge_sampler(m, silent = TRUE)
+m2 <- bridge_sampler(m2, silent = TRUE)
+
+post_prob(m, m2)
