@@ -244,8 +244,7 @@ best_plot + orthog_plot + collinear_plot
 
 ```{r tidy-up}
 # remove variables we no longer need
-rm(De, Dp, rt_pred_collinear, rt_pred_orthog, rt_pred_best, exps_to_predict, 
-   extract_a_value, extract_D, predict_rt)
+rm(rt_pred_orthog, rt_pred_best)
 ```
 
 # Bayesian Computational Replication of Buetti et al (2019)
@@ -327,5 +326,62 @@ ggplot(DHDI, aes(x = Dp, xmin = Dp_lower, xmax = Dp_upper , y = D, ymin = De_low
   scale_y_continuous("empirical D", limits = c(0, 90), breaks = seq(0, 90, 10)) +
   scale_colour_manual(values = c("yellow1", "yellow1", "yellow1"))
   
+
+```
+
+
+```{r}
+
+# This generates the figure for the paper
+
+exps_to_predict <- c("2a", "2b", "2c", "4a", "4b", "4c")
+De <- map_dfr(unique(d$exp_id), calc_D_per_feature)
+Dp <- map_df(exps_to_predict, gen_exp_predictions, De)
+
+left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
+  pivot_longer(
+    cols = c(`best feature`, `orthog. contrast`, collinear),
+    values_to = "Dp",
+    names_to = "method") %>%
+  mutate(method = fct_relevel(method, "best feature", "orthog. contrast")) %>%
+  filter(method == "collinear") %>%
+  ggplot(aes(x = Dp, y = D)) +
+  geom_point( color = "darkblue", alpha = 0.5) + 
+  geom_abline(linetype = 2) +
+  geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
+  scale_x_continuous("predicted D") + 
+  scale_y_continuous("empirical D")  + 
+  coord_fixed() + theme_bw() -> plt_D
+
+rt_pred <- rt_pred_collinear
+
+d %>% 
+  group_by(exp_id, p_id, d_feature, N_T) %>%
+  summarise(mean_rt = mean(rt), .groups = "drop") %>%
+  group_by(exp_id,  d_feature, N_T) %>%
+  summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
+  left_join(rt_pred, by = c("exp_id", "d_feature", "N_T")) %>% 
+  ggplot(aes(x = p_rt, y = mean_rt)) + 
+  geom_point(color = "darkblue", alpha = 0.5) + 
+  geom_abline(linetype = 2) +
+  geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
+  scale_x_continuous("predicted rt (sec)") +
+  scale_y_continuous("empirical mean rt (sec)") + theme_bw() -> plt_mean_rt
+  #coord_fixed() -> plt_mean_rt
+
+
+d %>%
+  group_by(exp_id, p_id, d_feature, N_T) %>%
+  sample_n(1) %>%
+  left_join(rt_pred, by = c("exp_id", "d_feature", "N_T")) %>% 
+  ggplot(aes(x = p_rt, y = rt)) + 
+  geom_point(color = "darkblue", alpha = 0.15) + 
+  geom_abline(linetype = 2) +
+  geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
+  scale_x_continuous("predicted rt (sec)") +
+  scale_y_continuous("sampled rt (sec)") + theme_bw() -> plt_sample_rt
+
+ggsave("computational_replication.pdf", plt_D + plt_mean_rt + plt_sample_rt, width = 8, height = 3)
+
 
 ```
