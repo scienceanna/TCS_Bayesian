@@ -223,7 +223,7 @@ samples2 %>% separate(feature, into = c("colour", "shape")) %>%
 
 ```
 
-```{r, message = FALSE, warning = FALSE, fig.width = 5, fig.cap = "Predicted D plotted against empirical D for our pilot data."}
+```{r, message = FALSE, warning = FALSE, fig.width = 6, fig.cap = "Predicted D plotted against empirical D for our pilot data."}
 
 calc_D <- function(feature1, feature2) {
   
