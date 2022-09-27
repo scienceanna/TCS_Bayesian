@@ -1,0 +1,387 @@
+---
+title: '1: Computational Verification'
+author: "ADF Clarke and AE Hughes"
+output: bookdown::html_document2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+   fig.height = 3,
+  fig.align = "center")
+
+```
+
+# Setup and Data Import
+
+```{r load-packages, include = FALSE}
+library(tidyverse)
+library(brms)
+library(tidybayes)
+library(patchwork)
+library(latex2exp)
+library(ggpmisc)
+```
+
+```{r}
+# set ggplot2 theme
+theme_set(see::theme_abyss())
+
+# use parallel cores for mcmc chains!
+options(mc.cores = 4)
+
+# reduce the number of decimal places
+options(digits = 3)
+
+# functions used for our Bayesian re-analysis
+source("../scripts/our_functions.R")
+
+# set seed to make sure everything is reproducible 
+set.seed(100320021)
+```
+
+We will import data from all experiments. While we're at it, we will remove error trials.
+
+```{r import-data}
+source("../scripts/import_and_tidy.R")
+summary(d)
+```
+
+# Freqentist Computational Replication of Buetti et al (2019)
+
+Before doing anything else (i.e., new), we want to confirm that we can replicate the original analysis. This section walks through the original analysis.
+
+```{r}
+# functions used for the analysis re-implementation
+source("../scripts/reimplementation.R")
+```
+
+## Calculating $D$
+
+Calculate $D_e$ (the empirical slopes) for each condition in each experiment.
+
+```{r}
+De <- map_dfr(unique(d$exp_id), calc_D_per_feature) %>%
+  mutate(exp_id = as_factor(exp_id),
+    d_feature = as_factor(d_feature),
+         d_feature = fct_relevel(d_feature, "yellow", "orange", "blue", "triangle", "semicircle", "diamond", "circle")) %>%
+  arrange(exp_id, d_feature)
+```
+
+```{r}
+
+De %>% filter(exp_id %in% c("1a", "3a")) %>% 
+  knitr::kable(digits = 1) %>% kableExtra::kable_styling()
+
+De %>% filter(exp_id %in% c("1b", "3b")) %>% 
+  knitr::kable(digits = 1) %>% kableExtra::kable_styling()
+
+De <- De %>%
+  mutate(d_feature = fct_relevel(d_feature, "orange diamond", "orange circle", "blue diamond", "blue circle", "yellow diamond", "yellow circle", "yellow triangle",
+                                 "blue triangle", "orange triangle", "yellow semicircle", "blue semicircle", "orange semicircle")) %>%
+  arrange(exp_id, d_feature)
+
+De %>% filter(exp_id %in% c("2a", "2b", "2c", "4a", "4b", "4c")) %>% 
+  knitr::kable(digits = 1) %>% kableExtra::kable_styling()
+```
+
+## Predicting $D$
+
+We can now use the values of $D$ calculated above to predict values of $D$ ($D_p$) for all experiments 2x and 4x (referred to as $D_{c,s}$ in the main manuscript).
+
+```{r}
+exps_to_predict <- c("2a", "2b", "2c", "4a", "4b", "4c")
+Dp <- map_df(exps_to_predict, gen_exp_predictions, De)
+```
+ 
+Recreate the scatter plots from Buetti et al (2019), Figure 4.
+
+```{r replicating-D-plot, fig.cap="Computational replication of Figure 4 (top row) from Buetti et al (2019)."}
+
+left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
+  pivot_longer(
+    cols = c(`best feature`, `orthog. contrast`, collinear),
+    values_to = "Dp",
+    names_to = "method") %>%
+  mutate(method = fct_relevel(method, "best feature", "orthog. contrast")) %>%
+  ggplot(aes(x = Dp, y = D, colour = method)) +
+  geom_point(color = "yellow1") + 
+  geom_abline(linetype = 2, colour = "cyan") +
+  geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
+    stat_poly_eq(formula = y ~ x, 
+               aes(label = paste(..eq.label.., ..rr.label.., sep = "*plain(\",\")~")), 
+               parse = TRUE, size = 2.8, label.y = 0.9, coef.digits = 3, rr.digits = 4) +
+  facet_wrap(~ method) + 
+  scale_x_continuous("predicted D", limits = c(0, 90), breaks = seq(0, 90, 10)) + 
+  scale_y_continuous("empirical D", limits = c(0, 90), breaks = seq(0, 90, 10)) +
+  scale_colour_manual(values = c("yellow1", "yellow1", "yellow1"))
+```
+
+Now put mean absolute error in a table:
+
+```{r}
+left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
+  pivot_longer(
+    cols = c(`best feature`, `orthog. contrast`, collinear),
+    values_to = "Dp",
+    names_to = "method") %>%
+  mutate(method = fct_relevel(method, "best feature", "orthog. contrast"),
+         error = D-Dp) %>%
+  group_by(method) %>%
+  summarise(mean_err = mean(abs(error))) %>%
+  knitr::kable()
+```
+
+Now we compute $R^2$ to get a measure of how well $D_p$ predict the $D_e$, calculated for each method and each set of experiments, as well as an overall measure. 
+
+```{r}
+Dp_tmp <- left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
+  pivot_longer(-c(exp_id, d_feature, D, iter), names_to = "method", values_to = "Dp")
+
+df_r2 <- tibble(exp_id = as.character(), method = as.character(), r2 = as.numeric())
+
+for (e_id in exps_to_predict) {
+  for (meth in unique(Dp_tmp$method)) {
+    
+    df <- filter(Dp_tmp, method == meth, exp_id == e_id)
+    r2 <- summary(lm(D ~ Dp, data = df))$r.squared
+    
+    df_r2 <- add_row(df_r2, 
+                      exp_id = paste("Exp", e_id), method = meth, r2 = r2)
+  }  
+}
+
+ for (meth in unique(Dp_tmp$method)) {
+  df <- filter(Dp_tmp, method == meth)
+  r2 <- summary(lm(D ~ Dp, data = df))$r.squared
+  # print(meth)
+  # print(summary(lm(D ~ Dp, data = df))$r.squared)
+  df_r2 <- add_row(df_r2, 
+                 exp_id = "all", method = meth, r2 = r2)
+ }
+
+df_r2 %>% pivot_wider(method, names_from = "exp_id", values_from = "r2") %>%
+  knitr::kable(digits = 4) %>% kableExtra::kable_styling()
+
+rm(df_r2, Dp_tmp)
+
+```
+
+The values in the *all* column match those given in Figure 4 (top) (Buetti et al, 2019).
+
+## Predicting Reaction Times
+
+$L$ indicates the number of distractor types present in the display, $N_T$ is the total number of distractors, $N_i$ is the number of distractors of type $i$, $D_j$ indicates the logarithmic slope parameters associated with distractor of type $j$ (organized from smallest $D_1$ to largest $D_L$). Note that the $D$ parameter is the one that increases with increasing target-distractor similarity.
+
+The constant a represents the reaction time when the target is alone in the display. Inter-item interactions were indexed by the multiplicative factor $\beta$. Finally, the index function $1_{[2, \infty)} (j)$ indicates that the sum over Ni only applies when there are at least two different types of lures in the display $(j > 1)$. When $j = 1$, the second sum is zero.
+
+```{r pred-rt-replication, fig.width = 10, fig.height = 5, fig.cap="Computational Replication of RT predictions: Figure 4 (bottom) from Buetti et al (2019)"}
+
+rt_pred_collinear <- map_dfr(exps_to_predict, predict_rt, 'collinear')
+
+d %>% filter(exp_id %in% exps_to_predict, N_T > 0) %>%
+	group_by(exp_id, p_id, d_feature, N_T) %>%
+	summarise(mean_rt = mean(rt), .groups = "drop") %>%
+	group_by(exp_id,  d_feature, N_T) %>%
+	summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
+	left_join(rt_pred_collinear, by = c("exp_id", "d_feature", "N_T")) %>% 
+	ggplot(aes(x = p_rt, y = mean_rt, colour = "yellow1")) + 
+  geom_point(color = "yellow1", alpha = 0.5) + 
+  geom_abline(linetype = 2, colour = "cyan") + 
+  geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
+  stat_poly_eq(formula = y ~ x, 
+               aes(label = paste(..eq.label.., ..rr.label.., sep = "*plain(\",\")~")), 
+               parse = TRUE, size = 2.8, label.y = 0.9, coef.digits = 3, rr.digits = 4) +
+  coord_cartesian(ylim=c(400, 800), xlim=c(400,800)) +
+  scale_x_continuous("predicted reaction time (ms)") +
+  scale_y_continuous("empirical mean reaction time (ms)") +
+  scale_colour_manual(values = "yellow1") -> collinear_plot
+
+rt_pred_orthog <- map_dfr(exps_to_predict, predict_rt, 'orthog. contrast')
+
+d %>% filter(exp_id %in% exps_to_predict, N_T > 0) %>%
+	group_by(exp_id, p_id, d_feature, N_T) %>%
+	summarise(mean_rt = mean(rt), .groups = "drop") %>%
+	group_by(exp_id,  d_feature, N_T) %>%
+	summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
+	left_join(rt_pred_orthog, by = c("exp_id", "d_feature", "N_T")) %>% 
+	ggplot(aes(x = p_rt, y = mean_rt, colour = "yellow1")) + 
+  geom_point(color = "yellow1", alpha = 0.5) + 
+  geom_abline(linetype = 2, colour = "cyan") + 
+  geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
+  stat_poly_eq(formula = y ~ x, 
+               aes(label = paste(..eq.label.., ..rr.label.., sep = "*plain(\",\")~")), 
+               parse = TRUE, size = 2.8, label.y = 0.9, coef.digits = 3, rr.digits = 4) +
+  coord_cartesian(ylim=c(400, 800), xlim=c(400,800)) +
+  scale_x_continuous("predicted reaction time (ms)") +
+  scale_y_continuous("empirical mean reaction time (ms)") +
+  scale_colour_manual(values = "yellow1") -> orthog_plot
+
+rt_pred_best <- map_dfr(exps_to_predict, predict_rt, 'best feature')
+
+d %>% filter(exp_id %in% exps_to_predict, N_T > 0) %>%
+	group_by(exp_id, p_id, d_feature, N_T) %>%
+	summarise(mean_rt = mean(rt), .groups = "drop") %>%
+	group_by(exp_id,  d_feature, N_T) %>%
+	summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
+	left_join(rt_pred_best, by = c("exp_id", "d_feature", "N_T")) %>% 
+	ggplot(aes(x = p_rt, y = mean_rt, colour = "yellow1")) + 
+  geom_point(color = "yellow1", alpha = 0.5) + 
+  geom_abline(linetype = 2, colour = "cyan") + 
+  geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
+  stat_poly_eq(formula = y ~ x, 
+               aes(label = paste(..eq.label.., ..rr.label.., sep = "*plain(\",\")~")), 
+               parse = TRUE, size = 2.8, label.y = 0.9, coef.digits = 3, rr.digits = 4) +
+  coord_cartesian(ylim=c(400, 800), xlim=c(400,800)) +
+  scale_x_continuous("predicted reaction time (ms)") +
+  scale_y_continuous("empirical mean reaction time (ms)") +
+  scale_colour_manual(values = "yellow1") -> best_plot
+
+best_plot + orthog_plot + collinear_plot
+
+```
+
+
+```{r tidy-up}
+# remove variables we no longer need
+rm(rt_pred_orthog, rt_pred_best)
+```
+
+# Bayesian Computational Replication of Buetti et al (2019)
+
+We now repeat all of the above, but in a Bayesian framework. This is intended to be a stepping stone to our multi-level implementation documented in Supp mat 2.
+
+## Calculating $D$
+
+```{r}
+#De <- map_dfr(c("1a", "1b", "2a", "2b", "2c", "3a", "3b", "4a", "4b", "4c" ),
+#              calc_D_per_feature, "Bayes")
+#saveRDS(De, "tmp.model")
+
+De <- readRDS("../models/tmp.model")
+
+De %>% 
+  mutate(
+    d_feature = as_factor(d_feature),
+    d_feature = fct_relevel(d_feature, "yellow", "orange", "blue", "triangle", "semicircle", "diamond", "circle")) %>%
+  arrange(exp_id, d_feature) %>%
+  group_by(exp_id, d_feature) %>%
+  mean_hdci(D, .width = 0.53) %>%
+  select(exp_id, d_feature, `53% lower` = ".lower", D, `53% upper` = ".upper") -> D_tab 
+
+D_tab %>% filter(exp_id %in% c("1a", "3a")) %>% 
+  knitr::kable() %>% kableExtra::kable_styling()
+
+D_tab %>% filter(exp_id %in% c("1b", "3b")) %>% 
+  knitr::kable(digits = 1) %>% kableExtra::kable_styling()
+
+D_tab %>% filter(exp_id %in% c("2a", "2b", "2c", "4a", "4b", "4c")) %>% 
+  knitr::kable(digits = 1) %>% kableExtra::kable_styling()
+
+  
+```
+
+## Predicting $D$
+
+
+```{r}
+exps_to_predict <- c("2a", "2b", "2c", "4a", "4b", "4c") #
+Dp <- map_df(exps_to_predict, gen_exp_predictions, De, "Bayes")
+
+```
+
+```{r, fig.cap = "Replication of Figure 4 (top row) from Buetti et al (2019), using Bayesian methods."}
+Dp %>% pivot_longer(
+    c(`best feature`, `orthog. contrast`, collinear),
+    names_to = "method", values_to = "Dp") %>%
+  mutate(method = fct_relevel(method, "best feature", "orthog. contrast")) %>%
+  select(-iter) %>%
+  group_by(exp_id, d_feature, method) %>%
+    mean_hdci(.width = 0.53) %>%
+   ungroup() %>%
+    select(-.width, -.interval, -.point) %>%
+  mutate(d_feature = str_replace(d_feature, " ", "")) %>%
+  rename(Dp_lower = ".lower", Dp_upper = ".upper") -> DpHDI
+  
+
+ De %>% filter(exp_id %in% exps_to_predict) %>%
+   select(-iter) %>%
+   group_by(exp_id, d_feature) %>%
+    mean_hdci(.width = 0.53) %>%
+   ungroup() %>%
+    select(-.width, -.interval, -.point)  %>%
+  rename(De_lower = ".lower", De_upper = ".upper")  -> DeHDI
+
+DHDI <- full_join(DeHDI, DpHDI, by = c("exp_id", "d_feature"))
+
+
+ggplot(DHDI, aes(x = Dp, xmin = Dp_lower, xmax = Dp_upper , y = D, ymin = De_lower, ymax = De_upper, colour = method)) + 
+  geom_errorbar(colour = "yellow") + geom_errorbarh(colour = "yellow") + facet_wrap(~method) + 
+   geom_abline(linetype = 2, colour = "cyan") +
+  geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") +
+      stat_poly_eq(formula = y ~ x, 
+               aes(label = paste(..eq.label.., ..rr.label.., sep = "*plain(\",\")~")), 
+               parse = TRUE, size = 2.8, label.y = 0.9, coef.digits = 3, rr.digits = 4) +
+   scale_x_continuous("predicted D", limits = c(0, 90), breaks = seq(0, 90, 10)) + 
+  scale_y_continuous("empirical D", limits = c(0, 90), breaks = seq(0, 90, 10)) +
+  scale_colour_manual(values = c("yellow1", "yellow1", "yellow1"))
+  
+
+```
+
+
+```{r}
+
+# This generates the figure for the paper
+
+exps_to_predict <- c("2a", "2b", "2c", "4a", "4b", "4c")
+De <- map_dfr(unique(d$exp_id), calc_D_per_feature)
+Dp <- map_df(exps_to_predict, gen_exp_predictions, De)
+
+left_join(Dp, De, by = c("exp_id", "d_feature")) %>%
+  pivot_longer(
+    cols = c(`best feature`, `orthog. contrast`, collinear),
+    values_to = "Dp",
+    names_to = "method") %>%
+  mutate(method = fct_relevel(method, "best feature", "orthog. contrast")) %>%
+  filter(method == "collinear") %>%
+  ggplot(aes(x = Dp, y = D)) +
+  geom_point( color = "darkblue", alpha = 0.5) + 
+  geom_abline(linetype = 2) +
+  geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
+  scale_x_continuous("predicted D") + 
+  scale_y_continuous("empirical D")  + 
+  coord_fixed() + theme_bw() -> plt_D
+
+rt_pred <- rt_pred_collinear
+
+d %>% 
+  group_by(exp_id, p_id, d_feature, N_T) %>%
+  summarise(mean_rt = mean(rt), .groups = "drop") %>%
+  group_by(exp_id,  d_feature, N_T) %>%
+  summarise(mean_rt = mean(mean_rt), .groups = "drop") %>%
+  left_join(rt_pred, by = c("exp_id", "d_feature", "N_T")) %>% 
+  ggplot(aes(x = p_rt, y = mean_rt)) + 
+  geom_point(color = "darkblue", alpha = 0.5) + 
+  geom_abline(linetype = 2) +
+  geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
+  scale_x_continuous("predicted rt (sec)") +
+  scale_y_continuous("empirical mean rt (sec)") + theme_bw() -> plt_mean_rt
+  #coord_fixed() -> plt_mean_rt
+
+
+d %>%
+  group_by(exp_id, p_id, d_feature, N_T) %>%
+  sample_n(1) %>%
+  left_join(rt_pred, by = c("exp_id", "d_feature", "N_T")) %>% 
+  ggplot(aes(x = p_rt, y = rt)) + 
+  geom_point(color = "darkblue", alpha = 0.15) + 
+  geom_abline(linetype = 2) +
+  geom_smooth(method = "lm", formula = y ~ x, colour = "violetred3") + 
+  scale_x_continuous("predicted rt (sec)") +
+  scale_y_continuous("sampled rt (sec)") + theme_bw() -> plt_sample_rt
+
+ggsave("computational_replication.pdf", plt_D + plt_mean_rt + plt_sample_rt, width = 8, height = 3)
+
+
+```
