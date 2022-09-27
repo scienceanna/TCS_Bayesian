@@ -236,13 +236,13 @@ Ethical approval for the study was granted by the University of Aberdeen (applic
 
 Our pilot study above suggests that just 12 trials per condition may be sufficent to fit our models. To be conservative, we propose using 20 in our experiment. We have demonstrated that using just half the data (20/40 trials per condition) from \cite{buetti2019predicting} makes no difference to our computational verification (see \textit{Supplementary Materials}).
 
-Finally, we have carried out a simulation experiment to estimate the confidence intervals on the mean when sampling from a log-normal distribution. We defined our distrubtion to have a mean-log of 6.135 and a standard deviation of 0.32. These values were loosely based on the distributions of reaction times in \cite{buetti2019predicting}  
+Finally, we have carried out a simulation experiment to estimate the confidence intervals on the mean when sampling from a log-normal distribution. We defined our distrubtion to have a mean-log of 6.135 and a standard deviation of 0.32. These values were loosely based on the distributions of reaction times in \cite{buetti2019predicting}. The results are shown in Figure \ref{fig:n_trials}. 
 
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{../plots/n_trials.pdf}
-\caption{(left)(right) }
-\label{fig:comp_rep}
+\caption{(left) The dark line shows the distribution we sampled from. The blue lines show distributions fitted to different samples of 20 data points. (right) Plot showing how the distribution of sample means vary with $n$. Shaded regions indicate the 50\%, 80\% and 95\% confidence intervals.}
+\label{fig:n_trials}
 \end{figure}
 
 \subsection{Stimuli}

@@ -53,13 +53,13 @@ d %>% select(n, mean_rt) %>%
 
 d %>%
   ggplot(aes(n, stat)) + 
-  tidybayes::stat_lineribbon(alpha = 0.25, fill = "blue") + 
+  tidybayes::stat_lineribbon(alpha = 0.25, fill = "blue", colour = NA) + 
   geom_hline(data = gt, aes(yintercept = ground_truth), linetype = 2) +
   theme_bw() +
   scale_y_continuous("reaction time") -> plt2
 
 plt + plt2
-ggsave("n_trials.pdf", width = 8, height = 4)
+ggsave("n_trials.pdf", width = 8, height = 3)
   
   
 d %>% mutate(err = (stat - ground_truth)) %>%
@@ -71,10 +71,13 @@ d %>% mutate(err = (stat - ground_truth)) %>%
   filter(summary == "mean_rt") %>%
   select(-summary) -> derr
 
-derr$err0.05 <- derr$err0.05/max(derr$err0.05)
-derr$err0.25 <- derr$err0.25/max(derr$err0.25)
-derr$err0.75 <- derr$err0.75/min(derr$err0.75)
-derr$err0.95 <- derr$err0.95/min(derr$err0.95)
+
+
+
+derr$err0.05 <- derr$err0.05/derr$err0.05[which(derr$n==40)]
+derr$err0.25 <- derr$err0.25/derr$err0.25[which(derr$n==40)]
+derr$err0.75 <- derr$err0.75/derr$err0.75[which(derr$n==40)]
+derr$err0.95 <- derr$err0.95/derr$err0.95[which(derr$n==40)]
 
 
 derr %>%
