@@ -225,7 +225,7 @@ One of the benefits of using a multi-level modelling approach is that it is rela
 
 \subsection{Pilot Experiment}
 
-Full details of a pilot experiment with $n=4$ participants (960 trials each) using our proposed analyses can be found in \textit{Supplementary Materials}. This suggests that even with a small sample, we can convincingly demonstrate H1 and H2. However, more data will be required to discriminate between the models, particularly for H4. Given that our methods are within-subject, we have reduced the number of trials per condition compared to \cite{buetti2019predicting} (12 in our proposed study, compared to 40 in theirs). It is therefore possible that the increased noise in our estimated D single-feature parameters will make it more difficult to predict double-feature Ds accurately. However, we think this is unlikely to be the case for several reasons. Firstly, we can see that even in a small amount of pilot data, we can verify H3, with the collinear model having the lowest mean absolute prediction error. Secondly, while the pilot data does not give a strong weighting to the collinear model in H4, it is still the most probable model. Finally, we have carried out simulations to estimate our measurement error....
+Full details of a pilot experiment with $n=4$ participants (960 trials each) using our proposed analyses can be found in \textit{Supplementary Materials}. This suggests that even with a small sample, we can convincingly demonstrate H1 and H2. However, more data will be required to discriminate between the models, particularly for H4. Given that our methods are within-subject, we have reduced the number of trials per condition compared to \cite{buetti2019predicting} (12 in our pilot study, 20 in our proposed, compared to 40 in theirs). It is therefore possible that the increased noise in our estimated D single-feature parameters will make it more difficult to predict double-feature Ds accurately. However, we think this is unlikely to be the case as we can see that even in a small amount of pilot data, we can verify H3, with the collinear model having the lowest mean absolute prediction error.  
 
 \section{General Methods}
 
@@ -233,6 +233,17 @@ Full details of a pilot experiment with $n=4$ participants (960 trials each) usi
 
 We plan to test 40 participants during the experiment. Our pilot experiment shows that H1 and H2 are easily demonstrated with 10 times less data, and \cite{buetti2019predicting} used 20 participants per experiment. Our sample size will therefore be in line with previous work testing H3 and H4. 
 Ethical approval for the study was granted by the University of Aberdeen (application number PEC/4677/2021/2).
+
+Our pilot study above suggests that just 12 trials per condition may be sufficent to fit our models. To be conservative, we propose using 20 in our experiment. We have demonstrated that using just half the data (20/40 trials per condition) from \cite{buetti2019predicting} makes no difference to our computational verification (see \textit{Supplementary Materials}).
+
+Finally, we have carried out a simulation experiment to estimate the confidence intervals on the mean when sampling from a log-normal distribution. We defined our distrubtion to have a mean-log of 6.135 and a standard deviation of 0.32. These values were loosely based on the distributions of reaction times in \cite{buetti2019predicting}  
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{../plots/n_trials.pdf}
+\caption{(left)(right) }
+\label{fig:comp_rep}
+\end{figure}
 
 \subsection{Stimuli}
 
