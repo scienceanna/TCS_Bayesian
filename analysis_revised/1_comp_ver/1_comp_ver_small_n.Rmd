@@ -44,7 +44,12 @@ We will import data from all experiments. While we're at it, we will remove erro
 
 ```{r import-data}
 source("../scripts/import_and_tidy.R")
-summary(d)
+
+# reducing number of observations to 12
+d <- d %>%
+  arrange(N_T, d_feature) %>%
+  group_by(p_id, N_T, d_feature) %>%
+  slice_head(n = 12)
 ```
 
 # Freqentist Computational Replication of Buetti et al (2019)
@@ -258,7 +263,7 @@ We now repeat all of the above, but in a Bayesian framework. This is intended to
 #              calc_D_per_feature, "Bayes")
 #saveRDS(De, "tmp.model")
 
-De <- readRDS("../models/tmp.model")
+De <- readRDS("../models/tmp_small_n.model")
 
 De %>% 
   mutate(
