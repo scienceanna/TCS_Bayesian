@@ -4,6 +4,7 @@ from psychopy import visual, core
 import numpy as np
 import math as math
 import random as random
+import csv
 
 # SELECTING COORDINATES
 
@@ -182,8 +183,16 @@ for itrial in range(T_trials):
     ssmT = ssmt + ssmd # total number of items in display
     ssmc = trials[1,itrial] # colour of distractors
     
+    if trials[2, itrial] == 0:
+        targetSide = 'r'
+    elif trials[2, itrial] == 1:
+        targetSide = 'l'
+    
     print(ssmd)
     print(ssmc)
+    
+    f = open('test_positions.csv', 'a',  newline='')
+    writer = csv.writer(f)
     
     # target only
     if trials[0,itrial] == 0:
@@ -201,21 +210,27 @@ for itrial in range(T_trials):
             if loc[0,i] == 1:
                 
                 C, whichring, cx, cy = grid_nc(i)
+                targetname = 'target'
                 
                 # drawing a target
                 if trials[2,itrial]  == 0:
-                     targetSide = 'r'
+                     #targetSide = 'r'
                      target = visual.ImageStim(win, image='stimuli/rrcircle.png', pos = [cx,cy])
                      target.draw()
                 elif trials[2, itrial] == 1:  
-                     targetSide = 'l'
+                     #targetSide = 'l'
                      target = visual.ImageStim(win, image='stimuli/lrcircle.png', pos = [cx,cy])  
                      target.draw()
 
         win.flip()
         
         win.getMovieFrame()   # Defaults to front buffer, I.e. what's on screen now.
-        win.saveMovieFrames('exp1a_trial_' + str(itrial) + '_colour' + str(ssmc) + '_distractors' + str(ssmd) + '_' + str(targetSide) + '.png')  # save with a descriptive and unique filename.   
+        win.saveMovieFrames('exp1a_trial_' + str(itrial) + '_colour' + str(ssmc) + '_distractors' + str(ssmd) + '_' + str(targetSide) + '.png')  # save with a descriptive and unique filename.
+        
+        # saving info
+
+        data = ['exp1a_trial_' + str(itrial) + '_colour' + str(ssmc) + '_distractors' + str(ssmd) + '_' + str(targetSide) + '.png', str(targetname), str(cx), str(cy)]
+        writer.writerow(data)
                 
         # wait
         core.wait(0.5)
@@ -238,34 +253,6 @@ for itrial in range(T_trials):
             for i in range(36):
                 loc[0,i] = locd[0,iloc[i]]
             
-            #quadone = loc[0,0:8]
-            #quadtwo = loc[0,9:17]
-            #quadthree = loc[0,18:26]
-            #quadfour = loc[0,27:35]
-            
-            #if ssmd == 1:
-            #    quadlimit = 0
-            #elif ssmd == 4:
-            #    quadlimit = 1
-            #elif ssmd == 9:
-            #    quadlimit = 4
-            #elif ssmd == 19:
-            #    quadlimit = 8
-            #else:
-            #    quadlimit = 14
-            
-            #while sum(quadone) < quadlimit or sum(quadtwo) < quadlimit or sum(quadthree) < quadlimit or sum(quadfour) < quadlimit:
-            #    iloc = np.random.permutation(np.size(locd))
-                
-            #    for i in range(35):
-            #        loc[0,i] = locd[0,iloc[i]]
-                    
-            #    quadone = loc[0,0:8]
-            #    quadtwo = loc[0,9:17]
-            #    quadthree = loc[0,18:26]
-            #    quadfour = loc[0,27:35]
-            
-            
         elif ssmc == 2: # i.e. if distractor colour is 2
             loc = np.zeros([1,36])
             locd = np.zeros([1,36])
@@ -279,34 +266,6 @@ for itrial in range(T_trials):
             for i in range(36):
                 loc[0,i] = locd[0,iloc[i]]
             
-            #quadone = loc[0,0:8]
-            #quadtwo = loc[0,9:17]
-            #quadthree = loc[0,18:26]
-            #quadfour = loc[0,27:35]
-            
-            #if ssmd == 1:
-            #    quadlimit = 0
-            #elif ssmd == 4:
-            #    quadlimit = 2
-            #elif ssmd == 9:
-            #    quadlimit = 5
-            #elif ssmd == 19:
-            #    quadlimit = 11
-            #else:
-            #    quadlimit = 20
-            
-            #while sum(quadone) < quadlimit or sum(quadtwo) < quadlimit or sum(quadthree) < quadlimit or sum(quadfour) < quadlimit:
-            #    iloc = np.random.permutation(np.size(locd))
-                
-            #    for i in range(35):
-            #        loc[0,i] = locd[0,iloc[i]]
-
-            #    quadone = loc[0,0:8]
-            #    quadtwo = loc[0,9:17]
-            #    quadthree = loc[0,18:26]
-            #    quadfour = loc[0,27:35]
-            
-                
         elif ssmc == 3: # i.e. if distractor colour is 3
             loc = np.zeros([1,36])
             locd = np.zeros([1,36])
@@ -321,33 +280,6 @@ for itrial in range(T_trials):
             for i in range(36):
                 loc[0,i] = locd[0,iloc[i]]
             
-            #quadone = loc[0,0:8]
-            #quadtwo = loc[0,9:17]
-            #quadthree = loc[0,18:26]
-            #quadfour = loc[0,27:35]
-            
-            #if ssmd == 1:
-            #    quadlimit = 0
-            #elif ssmd == 4:
-            #    quadlimit = 3
-            #elif ssmd == 9:
-            #    quadlimit = 7
-            #elif ssmd == 19:
-            #    quadlimit = 15
-            #else:
-            #    quadlimit = 27
-            
-            #while sum(quadone) < quadlimit or sum(quadtwo) < quadlimit or sum(quadthree) < quadlimit or sum(quadfour) < quadlimit:
-            #    iloc = np.random.permutation(np.size(locd))
-                
-            #    for i in range(35):
-            #        loc[0,i] = locd[0,iloc[i]]
-
-            #    quadone = loc[0,0:8]
-            #    quadtwo = loc[0,9:17]
-            #    quadthree = loc[0,18:26]
-            #    quadfour = loc[0,27:35]
-
         for i in range(36):
             if loc[0,i] == 1:
                 C, whichring, cx, cy = grid_nc(i)
@@ -362,6 +294,9 @@ for itrial in range(T_trials):
                     target = visual.ImageStim(win, image='stimuli/lrcircle.png', pos = [cx,cy])
                     target.draw()
                 
+                targetname = 'target'
+                data = ['exp1a_trial_' + str(itrial) + '_colour' + str(ssmc) + '_distractors' + str(ssmd) + '_' + str(targetSide) + '.png', str(targetname), str(cx), str(cy)]
+                writer.writerow(data)
             
             elif loc[0,i] == 2:
                 C, whichring, cx, cy = grid_nc(i)
@@ -372,8 +307,11 @@ for itrial in range(T_trials):
                 else:
                         target = visual.ImageStim(win, image='stimuli/rocircle.png', pos = [cx,cy])
                         target.draw()
-                
-        
+            
+                targetname = ['distractor_' + str(i)]
+                data = ['exp1a_trial_' + str(itrial) + '_colour' + str(ssmc) + '_distractors' + str(ssmd) + '_' + str(targetSide) + '.png', str(targetname), str(cx), str(cy)]
+                writer.writerow(data)
+
             elif loc[0,i] == 3:
                 C, whichring, cx, cy = grid_nc(i)
                 randnum = random.random()
@@ -383,8 +321,11 @@ for itrial in range(T_trials):
                 else:
                         target = visual.ImageStim(win, image='stimuli/rpcircle.png', pos = [cx,cy])
                         target.draw()
-                
-        
+            
+                targetname = ['distractor_' + str(i)]
+                data = ['exp1a_trial_' + str(itrial) + '_colour' + str(ssmc) + '_distractors' + str(ssmd) + '_' + str(targetSide) + '.png', str(targetname), str(cx), str(cy)]
+                writer.writerow(data)
+                        
             elif loc[0,i] == 4:
                 C, whichring, cx, cy = grid_nc(i)
                 randnum = random.random()
@@ -394,6 +335,10 @@ for itrial in range(T_trials):
                 else:
                         target = visual.ImageStim(win, image='stimuli/rvcircle.png', pos = [cx,cy])
                         target.draw()
+            
+                targetname = ['distractor_' + str(i)]
+                data = ['exp1a_trial_' + str(itrial) + '_colour' + str(ssmc) + '_distractors' + str(ssmd) + '_' + str(targetSide) + '.png', str(targetname), str(cx), str(cy)]
+                writer.writerow(data)
             
         print(loc)
         win.flip()
@@ -407,6 +352,7 @@ for itrial in range(T_trials):
         core.wait(0.1)
         
 # closing everything
+f.close()
 win.close()
 core.quit()
             
