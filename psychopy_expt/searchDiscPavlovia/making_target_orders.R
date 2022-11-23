@@ -11,11 +11,13 @@ for (p in 1:100) {
 
   # take out the 1b trials
   list_1b <- list_master %>%
-    filter(grepl('1b', ImageFile))
+    filter(grepl('1b', ImageFile)) %>%
+    mutate(targetType = 1)
 
   # get everything else
   list_everythingelse <- list_master %>%
-    filter(!grepl('1b', ImageFile))
+    filter(!grepl('1b', ImageFile)) %>%
+    mutate(targetType = 0)
 
   # Shuffle 1b
   list_1b_shuffled <- list_1b %>%
