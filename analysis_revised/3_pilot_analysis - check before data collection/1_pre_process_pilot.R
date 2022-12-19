@@ -11,13 +11,13 @@ source("../scripts/our_functions.R")
 set.seed(100320021)
 
 
-d <- read_csv("../../data/pilot/accuracy_rt_data.txt", show_col_types = F) %>%
+d <- read_csv("../../data/data_cortex_pilot/accuracy_rt_data.txt", show_col_types = F) %>%
   filter(!is.na(rt)) %>%
   mutate(
          observer = as_factor(observer),
-         colour = as_factor(colour),
+         colour = as_factor(feature),
          nd = distractor_no) %>%
-  select(observer, experiment = "exp", colour, nd, accuracy, rt)
+  select(observer, experiment = "block", colour, nd, accuracy, rt)
 
 
 # check acc is ok

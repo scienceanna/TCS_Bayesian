@@ -4,13 +4,11 @@ library(brms)
 source("1_pre_process_pilot.R")
 
 
-
 # use parallel cores for mcmc chains!
 options(mc.cores = parallel::detectCores())
 
 n_chains = 4
 n_itr = 1000
-
 
 ###############################################
 ## fit prior only model (sft lognormal, training data)
@@ -37,7 +35,7 @@ m <- brm(
   prior = my_prior,
   chains = n_chains,
   iter = n_itr,
-  inits = my_inits,
+  init = my_inits,
   ##stanvars = my_stanvar,
   save_pars = save_pars(all=TRUE),
   silent = TRUE,
@@ -73,7 +71,7 @@ m <- brm(
   prior = my_prior,
   chains = n_chains,
   iter = n_itr,
-  inits = my_inits,
+  init = my_inits,
   ##stanvars = my_stanvar,
   save_pars = save_pars(all=TRUE),
   silent = TRUE
@@ -235,7 +233,7 @@ m <- brm(
   prior = my_prior,
   chains = n_chains,
   iter = n_itr,
-  inits = my_inits,
+  init = my_inits,
   #stanvars = my_stanvar,
   save_pars = save_pars(all=TRUE),
   silent = TRUE
