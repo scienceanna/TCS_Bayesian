@@ -20,7 +20,8 @@ data_cortex<-dat_csv %>% dplyr::select(imageFile="ImageFile",rt="buttonBox_12.rt
 data_cortex_wrangled <- data_cortex %>%
   separate(imageFile, c(NA, "interim"), sep  = "/") %>%
   separate(interim, "exp", sep = "_", extra = "drop") %>%
-  mutate(block = str_remove(exp, "exp")) %>%
+  mutate(block = str_remove(exp, "exp"),
+         rt = round(rt,4)) %>%
   select(-exp) %>%
   select(observer, block, feature, n, distractor_no, rt, accuracy)
   
