@@ -360,7 +360,7 @@ Finally, we check which model offers the best prediction of reaction times.
      family = brmsfamily("shifted_lognormal"), 
      prior = my_prior, 
      chains = 1, 
-     iter = 5000, 
+     iter = 80000, 
      inits = my_inits, 
      stanvars = stanvars, 
      save_pars = save_pars(all=TRUE), 
@@ -375,7 +375,7 @@ Finally, we check which model offers the best prediction of reaction times.
 
 ``` 
 
-```{r, cache=TRUE, message = FALSE, warning = FALSE, echo = FALSE, fig.height = 5, , fig.cap = "Predicted RTs for our pilot data, using collinear contrast combination."} 
+```{r, cache=FALSE, message = FALSE, warning = FALSE, echo = FALSE, fig.height = 5, , fig.cap = "Predicted RTs for our pilot data, using collinear contrast combination."} 
    d2 <- d2 %>% unite(feature, feature1, feature2) 
  m_col <- compute_rt_predictions(slopes, "collinear") 
 
