@@ -297,110 +297,110 @@ slopes  %>%
 
 Overall, the collinear model has the lowest mean absolute error, in line with the findings from the original manuscript. 
 
-# # Hypothesis 4: Predicting Reaction Times -->
-# 
-# Finally, we check which model offers the best prediction of reaction times. -->
-# 
-# ```{r, message = FALSE, warning = FALSE, echo = FALSE} -->
-# compute_rt_predictions <- function(slopes, meth) { -->
-# 
-#    slopes %>% -->
-#     pivot_wider(names_from = type, values_from = D) %>% -->
-#     filter(method == meth) %>% -->
-#     group_by(feature1, feature2) %>% -->
-#     summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop") %>% -->
-#     mutate( -->
-#       d_feature = as_factor(paste(feature1, feature2)), -->
-#       method = meth) -> Dp_summary -->
-# 
-#   # now define and run new model!  -->
-# 
-# my_f <- brms::bf(rt ~ feature:lnd + (feature:lnd|observer),  -->
-#            ndt ~ 1 + (1|observer)) -->
-# 
-#     my_inits <- list(list(Intercept_ndt = -10)    ) -->
-# 
-# 
-#   intercept_mu <- fixef(m1)["Intercept", 1] -->
-#   intercept_sd <- fixef(m1)["Intercept", 2] -->
-# 
-#   ndt_int_mu <- fixef(m1)["ndt_Intercept", 1] -->
-#   ndt_int_sd <- fixef(m1)["ndt_Intercept", 2] -->
-# 
-# 
-#   sigma_mean <-  VarCorr(m1)$residual$sd[1] -->
-#   sigma_sd   <-  VarCorr(m1)$residual$sd[2] -->
-# 
-#   sd_mean <- VarCorr(m1)$observer$sd[1,1] -->
-#   sd_sd <- VarCorr(m1)$observer$sd[1,2] -->
-# 
-#   sd_ndt_mean <- VarCorr(m1)$observer$sd[2,1] -->
-#   sd_ndt_sd <- VarCorr(m1)$observer$sd[2,2] -->
-# 
-#   slopes <-paste0("feature", Dp_summary$feature1, "_", Dp_summary$feature2, ":lnd") -->
-#   slopes_mu <-Dp_summary$mu  -->
-#   slopes_sd <-Dp_summary$sigma  -->
-# 
-#    my_prior <-  c( -->
-#     prior_string(paste("normal(", intercept_mu, ",",  intercept_sd, ")", sep = ""), class = "Intercept"), -->
-#     prior_string(paste("normal(", slopes_mu, ",",  slopes_sd, ")", sep = ""), class = "b", coef = slopes), -->
-#     prior_string(paste("normal(", sigma_mean, ",", sigma_sd, ")", sep = ""), class = "sigma"), -->
-#     prior_string(paste("normal(", sd_mean, ",", sd_sd, ")", sep = ""), class = "sd"), -->
-#     prior_string(paste("normal(",ndt_int_mu, ", ", ndt_int_sd, ")"), class = "Intercept", dpar = "ndt" ), -->
-#     prior_string(paste("normal(",sd_ndt_mean,",", sd_ndt_sd,")"), class = "sd", dpar = "ndt")) -->
-# 
-#     stanvars <- stanvar(sigma_mean, name='sigma_mean') +  -->
-#     stanvar(sigma_sd, name='sigma_sd') +  -->
-#     stanvar(sd_mean, name='sd_mean') +  -->
-#     stanvar(sd_sd, name='sd_sd') -->
-# 
-#   m_prt <- brm( -->
-#     my_f,  -->
-#     data = d2, -->
-#     family = brmsfamily("shifted_lognormal"), -->
-#     prior = my_prior, -->
-#     chains = 1, -->
-#     iter = 5000, -->
-#     inits = my_inits, -->
-#     stanvars = stanvars, -->
-#     save_pars = save_pars(all=TRUE), -->
-#     silent = TRUE, -->
-#     sample_prior = "only", -->
-#     refresh = 0 -->
-#   ) -->
-# 
-#   return(m_prt) -->
-# } -->
-# 
-# 
-# ``` -->
-# 
-# ```{r, cache=TRUE, message = FALSE, warning = FALSE, echo = FALSE, fig.height = 5, , fig.cap = "Predicted RTs for our pilot data, using collinear contrast combination."} -->
-#   d2 <- d2 %>% unite(feature, feature1, feature2) -->
-# m_col <- compute_rt_predictions(slopes, "collinear") -->
-# 
-# d2 %>% modelr::data_grid(feature, lnd) %>% -->
-#   add_predicted_draws(m_col, re_formula = NA) %>% -->
-#   mean_hdci(.width = c(0.53, 0.97)) %>% -->
-#   ggplot(aes(lnd)) + -->
-#   geom_ribbon(aes(ymin = .lower, ymax = .upper, group = .width), alpha = 0.3, fill = "pink") +  -->
-#   geom_jitter(data = d2, aes(y = rt), colour = "white", alpha = 0.1) +  -->
-#   facet_wrap(~feature, nrow = 3) -->
-# 
-# m_bfe <- compute_rt_predictions(slopes, "best feature") -->
-# m_orc <- compute_rt_predictions(slopes, "orthogonal contrast") -->
-# ``` -->
-# 
-# 
-# ```{r, echo = FALSE, message = FALSE, warning = FALSE} -->
-# m_col <- bridge_sampler(m_col, silent = TRUE) -->
-# m_bfe <- bridge_sampler(m_bfe, silent = TRUE) -->
-# m_orc <- bridge_sampler(m_orc, silent = TRUE) -->
-# 
-# tibble(model = c("collinear", "best feature", "orthogonal contrast"), -->
-#              `posterior probability` = post_prob(m_col, m_bfe, m_orc)) %>% -->
-#   knitr::kable() -->
-# 
-# ``` -->
-# 
-# With the pilot data, all three models receive approximately the same predictive weight, meaning that we are not able to distinguish between them: we do not have evidence for one model over the others.  -->
+# Hypothesis 4: Predicting Reaction Times 
+
+Finally, we check which model offers the best prediction of reaction times. 
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE} 
+ compute_rt_predictions <- function(slopes, meth) { 
+
+    slopes %>% 
+     pivot_wider(names_from = type, values_from = D) %>% 
+     filter(method == meth) %>% 
+     group_by(feature1, feature2) %>% 
+     summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop") %>% 
+     mutate( 
+       d_feature = as_factor(paste(feature1, feature2)), 
+       method = meth) -> Dp_summary 
+
+   # now define and run new model!  
+
+ my_f <- brms::bf(rt ~ feature:lnd + (feature:lnd|observer),  
+            ndt ~ 1 + (1|observer)) 
+
+     my_inits <- list(list(Intercept_ndt = -10)    ) 
+
+
+   intercept_mu <- fixef(m1)["Intercept", 1] 
+   intercept_sd <- fixef(m1)["Intercept", 2] 
+
+   ndt_int_mu <- fixef(m1)["ndt_Intercept", 1] 
+   ndt_int_sd <- fixef(m1)["ndt_Intercept", 2] 
+
+
+   sigma_mean <-  VarCorr(m1)$residual$sd[1] 
+   sigma_sd   <-  VarCorr(m1)$residual$sd[2] 
+
+   sd_mean <- VarCorr(m1)$observer$sd[1,1] 
+   sd_sd <- VarCorr(m1)$observer$sd[1,2] 
+
+   sd_ndt_mean <- VarCorr(m1)$observer$sd[2,1] 
+   sd_ndt_sd <- VarCorr(m1)$observer$sd[2,2] 
+
+   slopes <-paste0("feature", Dp_summary$feature1, "_", Dp_summary$feature2, ":lnd") 
+   slopes_mu <-Dp_summary$mu  
+   slopes_sd <-Dp_summary$sigma  
+
+    my_prior <-  c( 
+     prior_string(paste("normal(", intercept_mu, ",",  intercept_sd, ")", sep = ""), class = "Intercept"), 
+     prior_string(paste("normal(", slopes_mu, ",",  slopes_sd, ")", sep = ""), class = "b", coef = slopes), 
+     prior_string(paste("normal(", sigma_mean, ",", sigma_sd, ")", sep = ""), class = "sigma"), 
+     prior_string(paste("normal(", sd_mean, ",", sd_sd, ")", sep = ""), class = "sd"), 
+     prior_string(paste("normal(",ndt_int_mu, ", ", ndt_int_sd, ")"), class = "Intercept", dpar = "ndt" ), 
+     prior_string(paste("normal(",sd_ndt_mean,",", sd_ndt_sd,")"), class = "sd", dpar = "ndt")) 
+
+     stanvars <- stanvar(sigma_mean, name='sigma_mean') +  
+     stanvar(sigma_sd, name='sigma_sd') +  
+     stanvar(sd_mean, name='sd_mean') +  
+     stanvar(sd_sd, name='sd_sd') 
+
+   m_prt <- brm( 
+     my_f,  
+     data = d2, 
+     family = brmsfamily("shifted_lognormal"), 
+     prior = my_prior, 
+     chains = 1, 
+     iter = 5000, 
+     inits = my_inits, 
+     stanvars = stanvars, 
+     save_pars = save_pars(all=TRUE), 
+     silent = TRUE, 
+     sample_prior = "only", 
+     refresh = 0 
+ ) 
+
+   return(m_prt) 
+ } 
+
+
+``` 
+
+```{r, cache=TRUE, message = FALSE, warning = FALSE, echo = FALSE, fig.height = 5, , fig.cap = "Predicted RTs for our pilot data, using collinear contrast combination."} 
+   d2 <- d2 %>% unite(feature, feature1, feature2) 
+ m_col <- compute_rt_predictions(slopes, "collinear") 
+
+ d2 %>% modelr::data_grid(feature, lnd) %>% 
+   add_predicted_draws(m_col, re_formula = NA) %>% 
+   mean_hdci(.width = c(0.53, 0.97)) %>% 
+   ggplot(aes(lnd)) + 
+   geom_ribbon(aes(ymin = .lower, ymax = .upper, group = .width), alpha = 0.3, fill = "pink") +  
+   geom_jitter(data = d2, aes(y = rt), colour = "white", alpha = 0.1) +  
+   facet_wrap(~feature, nrow = 3) 
+
+ m_bfe <- compute_rt_predictions(slopes, "best feature") 
+ m_orc <- compute_rt_predictions(slopes, "orthogonal contrast") 
+``` 
+
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE} 
+ m_colbs <- bridge_sampler(m_col, silent = TRUE) 
+ m_bfebs <- bridge_sampler(m_bfe, silent = TRUE) 
+ m_orcbs <- bridge_sampler(m_orc, silent = TRUE) 
+
+ tibble(model = c("collinear", "best feature", "orthogonal contrast"), 
+              `posterior probability` = post_prob(m_colbs, m_bfebs, m_orcbs)) %>% 
+   knitr::kable() 
+
+``` 
+
+ With the pilot data, all three models receive approximately the same predictive weight, meaning that we are not able to distinguish etween them: we do not have evidence for one model over the others.  
