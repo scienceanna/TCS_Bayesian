@@ -27,8 +27,24 @@ d %>% group_by(observer, experiment, colour, nd) %>%
   geom_col(position = position_dodge())+
   facet_wrap(~experiment)
 
+# check that all participants average response time falls within
+# plus/minus 2sd from group mean.
+d %>% group_by(observer) %>%
+  summarise(rt = mean(rt)) -> drt
+
+meanrt = mean(drt$rt)
+sdrt = sd(drt$rt)
+
+filter(drt, rt > meanrt + 2* sdrt)
+filter(drt, rt < meanrt - 2* sdrt)
+
+d <- filter(d, observer != 19)
+
+rm(drt, meanrt, sdrt)
+
 # remove incorrect trials
 d <- filter(d, accuracy == 1)
+
 
 # remove 1st and 100th percentile RT
 d %>% filter(

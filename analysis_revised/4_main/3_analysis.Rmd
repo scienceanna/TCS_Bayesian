@@ -194,7 +194,10 @@ source("get_slopes_fun.R")
 m1 <- readRDS("exp1.model")
 samples1 <- get_slopes(m1, 1) %>% select(-observer, -rD) %>% distinct()
 
-
+samples1 %>% group_by(feature) %>% 
+  median_hdci(D) %>%
+  select(feature, D, .lower, .upper) %>%
+  knitr::kable() 
 # circle, diamond, orange, pink, purple, triangle
 colourPalette <- c("#e78429", "#ed968c", "#7c4b73","#aadce0", "#72bcd5", "528fad")
 
