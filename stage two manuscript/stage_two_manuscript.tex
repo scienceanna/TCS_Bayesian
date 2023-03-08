@@ -341,12 +341,26 @@ Our final hypothesis concerns how well the different feature combination models 
 
 Our results allow us to confirm Hypothesis 1 and 2. We also find that using the best fitting model leads us to favour the orthogonal contrast model over collinear. 
 
-Our interpretation of the null/neutral results in the prediction of reaction times is that the differences in predictions from the three contrast combination methods are small relative to the trial-to-trial variation and individual differences. These will be further explored below.
+Our interpretation of the null/neutral results in the prediction of reaction times is that the differences in predictions from the three contrast combination methods are small relative to the (i) individual differences between participants and (ii) trial-to-trial variability. These will be further explored below in our \textit{Planned Explorations} section.
 
-
-\section{Exploratory Analysis}
+\section{Planned Explorations}
 
 \subsection{Individual Differences}
+
+We start this exploratory analysis looking at how the $D_c$ and $D_s$ values vary from participant to participant. From Figure \ref{fig:exp_corr}(\textit{left}) we can see that there is considerable variation between observers - in fact, the variation from one observer to the next is often larger than the variation across features. To investigate this further we calculted the correlations betwen each of the features (we calcualted Pearson's $r$ for each sample from our posterior, which gives us a full posterior distirubtion for the correlations). We can see in Figure \ref{fig:exp_corr}(\textit{right}) that while both the $D_c$ and $D_s$ are correlated within feature classes ($\sim0.75$), there is no correlation from any of the colour features to any of the shape features. While it is not possible to determine whether this pattern us caused by differences in colour v shape features, or by the block structure used in our experiment\footnote{blame the reviewer! probably best not}, either way, this is an intrguing result. (To be discussed further in the General Discussion.)
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{../plots/single_feature_correlations.pdf}
+\caption{Individual differences in $D_c$ and $D_s$. (\textit{left}) Posterior probability distributions for $D_c$ and $D_s$ for each individual. (\textit{right}) Estimated correlations between each of the $D_c$ and $D_s$.}
+\label{fig:exp_corr}
+\end{figure}
+
+Given these results, it is perhaps unsuprsing that our analysis for Hypothesis 4 leads to a neutral result between the three contrast combination methods. Perhaps taking these individaul differences into account when we predict the RTs will lead to an improved power to discriminate between the models. 
+
+
+
+
 
 
 \subsection{Target location}
@@ -356,7 +370,7 @@ Does taking target location into account help with the reaction time predictions
 We have two main conclusions from our registered analysis. Firstly, linear models of response times in visual search in terms of set size should be not be used, at least in paradigms similar to the one presented here. The use of a shifted-lognormal distribution of response times and a loglinear effect of set size appears to be unambiguously better. 
 
 
-
+\textit{say something about correaltions/. can cite \cite{clarke2020stable}}
 
 % Authors must disclose all relationships or interests that 
 % could have direct or potential influence or impart bias on 
