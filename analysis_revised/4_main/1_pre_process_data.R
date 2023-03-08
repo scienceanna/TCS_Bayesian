@@ -20,8 +20,10 @@ d <- read_csv("../../data/cortex_data_31_01/accuracy_rt_data.txt", show_col_type
 
 # fix observer varaible... 1 should be 01
 # also change to a factor
-d %>% mutate(observer = if_else(observer=="1", "01", observer),
-             observer = as_factor(observer)) -> d
+d %>% mutate(observer = if_else(observer%in%c("1","2","3"), 
+                                paste0("0", observer), observer),
+             observer = as_factor(observer),
+             observer = fct_relevel(observer, "01", "02", "03")) -> d
   
 
 # check acc is ok
