@@ -77,9 +77,7 @@ Note that our approach differs slightly from the original methods proposed by Bu
 
 
 ```{r, eval = FALSE}
-
 source("2_fit_pilot_models.R")
-
 ```
 
 ## Plotting prior predictions
@@ -91,7 +89,6 @@ We can see that the priors chosen for our models centre the estimates of $D$ aro
 m1b <- readRDS("exp1_prior.model")
 
 source("get_slopes_fun.R")
-
 
 samples1b <- get_slopes(m1b, 1) %>% select(-observer, -rD) %>% distinct()
 
@@ -130,7 +127,7 @@ Some plots to illustrate our models:
 ```{r, message = FALSE, warning = FALSE, echo = FALSE, fig.cap = "Model predictions for (top) shifted log normal model, (middle) log normal model and (bottom) normal model.", fig.height = 10}
 d1 %>% group_by(feature, lnd, observer) %>%
   summarise(median_rt = median(rt)) %>%
-  summarise(mean_median = mean(median_rt)) -> d_mean
+  summarise(mean_median = median(median_rt)) -> d_mean
   
 d1 %>% modelr::data_grid(feature, lnd) %>%
   add_predicted_draws(m_sft, re_formula = NA) %>%
@@ -222,8 +219,9 @@ samples2 %>% separate(feature, into = c("colour", "shape")) %>%
   ggplot(aes(D, fill = colour)) +
   geom_density(alpha = 0.33) +
   facet_grid(.~shape) +
-  scale_fill_manual(values=colourPalette2)
-
+  scale_fill_manual(values=colourPalette2) + 
+  theme_bw() +
+  xlab(expression(D[c,s]))
 ```
 
 ```{r, message = FALSE, warning = FALSE, fig.width = 10, fig.cap = "Predicted D plotted against empirical D for our pilot data."}
@@ -238,7 +236,7 @@ calc_D <- function(feature1, feature2) {
   D_best_feature = pmin(D1, D2)
   D_orth_contrast =  1/sqrt(1/(D1^2) + (1/D2^2))
 
- return(tibble(.draw = 1:2000,
+ return(tibble(.draw = 1:4000,
                feature = paste(feature1, feature2, sep = "_"),
                 feature1 = feature1, feature2 = feature2,
                 collinear = D_collinear,
@@ -283,7 +281,7 @@ Calculate mean absolute prediction error:
 ```{r, message = FALSE, warning = FALSE} 
 slopes  %>% 
   ungroup() %>% 
- pivot_wider(names_from = "type", values_from = "D") %>% 
+  pivot_wider(names_from = "type", values_from = "D") %>% 
   mutate(abs_err = abs(D-Dp)) %>% 
   group_by(feature1, feature2, method) %>% 
   summarise(mean_abs_err = mean(abs_err)) %>% 

@@ -12,7 +12,9 @@
 analysis/.Rhistory
 analysis/supp_mat_cache/
 analysis/supp_mat_files/
-analysis_revised/2_bayes_multi_level/supp_mat_cache/*
+analysis_revised/*/
+analysis_revised/2_bayes_multi_level/analysis_revised/*/*_cache/
+analysis_revised/*/*_files/
 analysis_revised/2_bayes_multi_level/supp_mat_files/*
 manuscript/app_vs.aux
 manuscript/app_vs.aux
