@@ -17,13 +17,14 @@ data_cortex<-dat_csv %>% dplyr::select(imageFile="ImageFile",rt="buttonBox_12.rt
                          filter(n >= 0)
 
 data_cortex_wrangled <- data_cortex %>%
+  mutate(imageFileName = imageFile) %>%
   separate(imageFile, c(NA, "interim"), sep  = "/") %>%
   separate(interim, "exp", sep = "_", extra = "drop") %>%
   mutate(block = str_remove(exp, "exp")) %>%
   select(-exp) %>%
-  select(observer, block, feature, n, distractor_no, rt, accuracy)
+  select(imageFileName, observer, block, feature, n, distractor_no, rt, accuracy)
   
 
 
-write.table(data_cortex_wrangled, "accuracy_rt_data.txt", sep=",",row.names = F)
+write.table(data_cortex, "accuracy_rt_data.txt", sep=",",row.names = F)
 
