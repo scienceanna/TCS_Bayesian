@@ -16,7 +16,7 @@ d <- read_csv("../../data/cortex_data_31_01/accuracy_rt_data.txt", show_col_type
   mutate(
          colour = as_factor(feature),
          nd = distractor_no) %>%
-  select(observer, experiment = "block", colour, nd, accuracy, rt)
+  select(observer, experiment = "block", colour, nd, accuracy, rt, image = "imageFileName")
 
 # fix observer varaible... 1 should be 01
 # also change to a factor
