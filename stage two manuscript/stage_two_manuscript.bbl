@@ -1,4 +1,4 @@
-\begin{thebibliography}{45}
+\begin{thebibliography}{46}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -221,6 +221,13 @@ Anna Nowakowska, Alasdair~DF Clarke, and Amelia~R Hunt.
 \newblock Human visual search behaviour is far from ideal.
 \newblock \emph{Proceedings of the Royal Society B: Biological Sciences},
   284\penalty0 (1849):\penalty0 20162767, 2017.
+
+\bibitem[Palmer et~al.(2011)Palmer, Horowitz, Torralba, and
+  Wolfe]{palmer2011shapes}
+Evan~M Palmer, Todd~S Horowitz, Antonio Torralba, and Jeremy~M Wolfe.
+\newblock What are the shapes of response time distributions in visual search?
+\newblock \emph{Journal of experimental psychology: human perception and
+  performance}, 37\penalty0 (1):\penalty0 58, 2011.
 
 \bibitem[Parkhurst et~al.(2002)Parkhurst, Law, and
   Niebur]{parkhurst2002modeling}

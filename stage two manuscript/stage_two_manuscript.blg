@@ -3,44 +3,49 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: stage_two_manuscript.aux
 The style file: plainnat.bst
 Database file #1: sources.bib
-You've used 45 entries,
+Repeated entry---line 667 of file sources.bib
+ : @article{wolfe2010reaction
+ :                           ,
+I'm skipping whatever remains of this entry
+You've used 46 entries,
             2773 wiz_defined-function locations,
-            858 strings with 13376 characters,
-and the built_in function-call counts, 21803 in all, are:
-= -- 1911
-> -- 1385
+            864 strings with 13609 characters,
+and the built_in function-call counts, 22301 in all, are:
+= -- 1951
+> -- 1424
 < -- 21
-+ -- 465
-- -- 420
-* -- 1903
-:= -- 3390
-add.period$ -- 136
-call.type$ -- 45
-change.case$ -- 273
-chr.to.int$ -- 45
-cite$ -- 90
-duplicate$ -- 946
-empty$ -- 1714
-format.name$ -- 491
-if$ -- 4503
++ -- 478
+- -- 432
+* -- 1951
+:= -- 3470
+add.period$ -- 139
+call.type$ -- 46
+change.case$ -- 280
+chr.to.int$ -- 46
+cite$ -- 92
+duplicate$ -- 967
+empty$ -- 1750
+format.name$ -- 504
+if$ -- 4604
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 47
-newline$ -- 233
-num.names$ -- 180
-pop$ -- 490
+missing$ -- 48
+newline$ -- 238
+num.names$ -- 184
+pop$ -- 502
 preamble$ -- 1
-purify$ -- 230
+purify$ -- 236
 quote$ -- 0
-skip$ -- 734
+skip$ -- 750
 stack$ -- 0
-substring$ -- 807
-swap$ -- 66
+substring$ -- 815
+swap$ -- 67
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 485
+type$ -- 496
 warning$ -- 0
-while$ -- 199
+while$ -- 203
 width$ -- 0
-write$ -- 588
+write$ -- 601
+(There was 1 error message)

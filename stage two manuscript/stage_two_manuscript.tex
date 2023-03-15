@@ -219,7 +219,7 @@ We will test each of these hypotheses by calculating the marginal likelihood of 
 
 \subsection{Planned Explorations}
 
-We plan to investigate the effect of individual differences in this paradigm: to what extent performance in the single-feature task can predict performance in the double-feature task for a given individual (\cite{buetti2019predicting} were not able to investigate this due to the between-subjects design of their study). We plan to do this by specifying a more complex random effects structure for the model, that allows for individual differences across different slopes for different features. This allows us to then study the random effect correlation structure.  However, given these models can be challenging to fit, we will do this in an exploratory manner after carrying out our formally registered analysis.
+We plan to investigate the effect of individual differences in this paradigm: to what extent performance in the single-feature task can predict performance in the double-feature task for a given individual (\cite{buetti2019predicting} were not able to investigate this due to the between-subjects design of their study). We plan to do this by specifying a more complex random effects structure for the model, that allows for individual differences across different slopes for different features. This allows us to then study the random effect correlation structure. However, given these models can be challenging to fit, we will do this in an exploratory manner after carrying out our formally registered analysis.
 
 One of the benefits of using a multi-level modelling approach is that it is relatively easy to extend to incorporate other factors that may contribute to reaction times, such as eccentricity and inter-item distance, which may help to explain behaviour further. To demonstrate this, we will also run exploratory analyses including a factor for which ring the target is in to assess whether this improves model fit or affects any of the conclusions that can be drawn from the model.
 
@@ -358,21 +358,24 @@ The individual differences for the \textit{double-feature} conditions are much l
 \label{fig:exp_corr}
 \end{figure}
 
-Given these results, it is perhaps unsuprsing that our analysis for Hypothesis 4 leads to a neutral result between the three contrast combination methods. Perhaps taking these individaul differences into account when we predict the RTs will lead to an improved power to discriminate between the models. 
+Given these results, it is perhaps unsurprising that our analysis for Hypothesis 4 leads to a neutral result between the three contrast combination methods. Perhaps taking these individual differences into account when we predict the RTs will lead to an improved power to discriminate between the models. 
 
+\subsection{Target Eccentricity}
 
-
-
-
-
-\subsection{Target location}
 Does taking target location into account help with the reaction time predictions? 
 
 \section{General Discussion}
-We have two main conclusions from our registered analysis. Firstly, linear models of response times in visual search in terms of set size should be not be used, at least in paradigms similar to the one presented here. The use of a shifted-lognormal distribution of response times and a loglinear effect of set size appears to be unambiguously better. 
+
+We have two main conclusions from our registered analysis. The first relates to how reaction times should be modelled and the calculation of search slopes. In much of the literature on visual search (cite some examples), mean reaction times are modelled using a simple linear model $\bar{y} = b N_T + a$. The $b$ coefficients are often referred to as ``search slopes'' and are often treated as measurements of theoretical important <HOW TO PHRASE PROPOPERLY?>. The results presented above indicate that a shifted-lognormal model that is loglinear in $N_T$ offers a much better fit to the data.
+
+This result isn't particularly novel. For example, \cite{buetti2019predicting} use $\log{N_T}$ when computing their search slopes (also see CITE STUFF). In terms of reaction time distributions, researchers have looked at which distribution offers the best fit to empirical response times in visual search before. For example, \cite{palmer2011shapes} compared ex-Gaussian, ex-Wald, Gamma, and Weibull distributions and found that the distributions with exponential components offer a better fit to the data. Our results are in linear with this, we opted to use a shifted-lognormal distribution in our analysis above for pragmatic reasons (INSERT NOTE HERE). In most situations we would expect it to be difficulty to distinguish between these different distributions. Also see \citep{wolfe2010reaction}. It is also worth mentioning more sophisticated methods make use of drift-diffusion papers (cite some examples) (cite some of the papers outlining why these models can be difficult).  
+
+Despite these previous findings, the use of linear search slopes is still prevalent in the visual search literature (can we find any examples? Do we want to name names?). We recommend that other researches make use of these more sophisticated models when calculating search slopes. Our work shows that these choices of distribution can influence results and conclusions 
 
 
-\textit{say something about correaltions/. can cite \cite{clarke2020stable}}
+
+
+\textit{say something about correlations/. can cite \cite{clarke2020stable}}
 
 % Authors must disclose all relationships or interests that 
 % could have direct or potential influence or impart bias on 
