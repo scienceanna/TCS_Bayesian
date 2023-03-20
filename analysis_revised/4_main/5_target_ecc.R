@@ -78,7 +78,7 @@ n_itr = 5000
 
 
 
-my_f <- brms::bf(rt ~ 0 + ring + ring:feature:lnd + (0 + ring + ring:feature:lnd|observer), 
+my_f <- brms::bf(rt ~ 0 + ring + ring:feature:lnd + (1 +feature:lnd|observer), 
                  ndt ~ 1 + (1|observer))
 
 my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
@@ -110,5 +110,5 @@ m <- brm(
   backend = 'cmdstanr'
 )
 
-saveRDS(m, "exp1_ring_full_random.model")
+saveRDS(m, "exp1_ring_more_random.model")
 rm(m)
