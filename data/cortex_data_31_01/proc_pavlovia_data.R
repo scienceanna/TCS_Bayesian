@@ -26,5 +26,5 @@ data_cortex_wrangled <- data_cortex %>%
   
 
 
-write.table(data_cortex, "accuracy_rt_data.txt", sep=",",row.names = F)
+write.table(data_cortex_wrangled, "accuracy_rt_data.txt", sep=",",row.names = F)
 
