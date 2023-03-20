@@ -42,25 +42,43 @@ dstim <- readxl::read_excel("../../psychopy_expt/searchDiscPavlovia/image_stimul
 # for single feature condition, 
 # merge data and then look at effect of r
 
-left_join(dstim, d1, by = "image") %>%
+full_join(dstim, d1, by = "image") %>%
   mutate(r = sqrt(x^2 + y^2),
          ring = case_when(r<150 ~ 1,
                           r<300 ~ 2,
                           r>300 ~ 3),
-         ring = as_factor(ring))-> d1
+         ring = as_factor(ring)) %>%
+  filter(is.finite(observer)) -> d1
+
+
+# ggplot(d1, aes(x = lnd, y = log(rt), colour = ring)) + geom_jitter(height = 0) + 
+#   geom_smooth(method = lm) + facet_wrap(~feature)
+
+
+d1 %>% group_by(observer, feature, nd)
+
+
+
 
 
 # model!
 
 
-n_chains = 4
-n_itr = 2000
+
 
 ###############################################
 ## fit prior only model (sft lognormal, training data)
 ###############################################
 
-my_f <- brms::bf(rt ~ 0 + ring + ring:feature:lnd + (lnd|observer), 
+
+n_chains = 4
+n_itr = 5000
+
+
+
+
+
+my_f <- brms::bf(rt ~ 0 + ring + ring:feature:lnd + (0 + ring + ring:feature:lnd|observer), 
                  ndt ~ 1 + (1|observer))
 
 my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
@@ -68,6 +86,9 @@ my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Inte
 my_prior <- c(
  # prior_string("normal(-0.5, 0.3)", class = "Intercept"),
   prior_string("normal(0, 0.2)", class = "b"),
+  prior_string("normal(-1, 0.3)", class = "b", coef = "ring1"),
+  prior_string("normal(-1, 0.3)", class = "b", coef = "ring2"),
+  prior_string("normal(-1, 0.3)", class = "b", coef = "ring3"),
   prior_string("normal(-1, 0.5)", class = "Intercept", dpar = "ndt" ),
   prior_string("cauchy(0, 0.4)", class = "sigma"),
   prior_string("cauchy(0, 0.05)", class = "sd"),
@@ -85,8 +106,9 @@ m <- brm(
   init = my_inits,
   ##stanvars = my_stanvar,
   save_pars = save_pars(all=TRUE),
-  silent = TRUE
+  silent = TRUE,
+  backend = 'cmdstanr'
 )
 
-saveRDS(m, "exp1_ring.model")
+saveRDS(m, "exp1_ring_full_random.model")
 rm(m)
