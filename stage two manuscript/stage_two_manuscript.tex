@@ -132,7 +132,7 @@ Fitting the model specified in Equation \ref{eq:loglin} to the data, we obtain t
 
 \begin{table}[h]
 \centering
-\begin{tabular}{ ccc|ccc } 
+\begin{tabular}{ c|c||c|ccc } 
 feature & $D_c$ & feature & $D_s$\\
  \hline 
 blue & 76.8 & triangle & 141.1\\
@@ -286,20 +286,20 @@ All Bayesian models were fit to the new data using exactly the same procedure\fo
 Our first hypothesis concerns which distribution best fits the single feature response time data. We fit multi-level models with
 a i) normal, ii) lognormal, and iii) shifted-lognormal distribution. The models all used the same model formula that estimated search slopes in terms of $\log{N_t}$ for each feature. Maximal random effect structures where used. 
 
-After each of these models had been fit to the data, leave-one-out (LOO) model comparison was used to calculate posterior probabilities for each. The results of this procedure allocated $\sim100\%$ of the weight to the shifted-lognormal model, so we can conclude that it is the best distribution (out of the three we tested\footnote{See discussion for wald, weilbull, etc}) to use for modelling response times in this paradigm. This model is shown in Figure \ref{fig:sftln_sf}.
+After each of these models had been fit to the data, leave-one-out (LOO) model comparison was used to calculate posterior probabilities for each. The results of this procedure allocated $\sim100\%$ of the weight to the shifted-lognormal model, so we can conclude that it is the best distribution (out of the three we tested\footnote{See discussion for wald, weilbull, etc}) to use for modelling response times in this paradigm. This model is shown in Figure XXX of supplementary materials.
 
-\begin{figure}[th]
-\begin{subfigure}
-\centering
-\includegraphics[width=\textwidth]{../plots/sft_ln_model.pdf}
-\end{subfigure}
-\begin{subfigure}
-\centering
-\includegraphics[width=\textwidth]{../plots/Dcs.pdf}
-\end{subfigure}
-\caption{(\textit{top})The shifted-lognormal model fits for the single-feature data. / Data points show a random sample of $10\%$ of the individual trials from our experiment. Shaded region shows the $53\%$ and $97\%$ HPDI for the fixed-effect component of the shifted-lognormal model (loglinear in $N_T$). (\textit{bottom}) Values for $D_c$, $D_s$ and $D_{c,s}$ from the shifted lognormal model. These are comparable to traditional search slopes, except that our model has a log-log relationship between the number of distractors and response times.}
-\label{fig:sftln_sf}
-\end{figure}
+%\begin{figure}[th]
+%\begin{subfigure}
+%\centering
+%\includegraphics[width=\textwidth]{../plots/sft_ln_model.pdf}
+%\end{subfigure}
+%\begin{subfigure}
+%\centering
+%\includegraphics[width=\textwidth]{../plots/Dcs.pdf}
+%\end{subfigure}
+%\caption{(\textit{top})The shifted-lognormal model fits for the single-feature data. / Data points show a random sample of $10\%$ of the individual trials from our experiment. Shaded region shows the $53\%$ and $97\%$ HPDI for the fixed-effect component of the shifted-lognormal model (loglinear in $N_T$). (\textit{bottom}) Values for $D_c$, $D_s$ and $D_{c,s}$ from the shifted lognormal model. These are comparable to traditional search slopes, except that our model has a log-log relationship between the number of distractors and response times.}
+%\label{fig:sftln_sf}
+%\end{figure}
 
 \subsection{Hypothesis 2: log-linear effect of $N_T$}
 
@@ -307,7 +307,7 @@ We then used the same methods to verify that using $\log{N_T}$ for the search sl
 
 \subsection{Hypothesis 3: Contrast Model Comparison}
 
-Now that we have confirmed that the shifted-lognormal multilevel model (with a log-linear effect of $N_T$) is indeed the best fit to the data we will extract the search slopes for each feature. These are summarised in Table \ref{tab:new_Dc_Ds} and Figure \ref{fig:sftln_sf}. We can see that we have successfully obtained a range of values for both $D_c$ and $D_s$. As with \cite{buetti2019predicting} we find that the values for $D_s$ are larger than $D_c$: search slopes for colour features are easier than shape. \textbf{Anna please check/expand!}
+Now that we have confirmed that the shifted-lognormal multilevel model (with a log-linear effect of $N_T$) is indeed the best fit to the data we will extract the search slopes for each feature. These are summarised in Table \ref{tab:new_Dc_Ds}. We can see that we have successfully obtained a range of values for both $D_c$ and $D_s$. As with \cite{buetti2019predicting} we find that the values for $D_s$ are larger than $D_c$: search slopes for colour features are easier than shape. \textbf{Anna please check/expand!}
 
 \begin{table}[h]
 \centering
@@ -339,15 +339,17 @@ Our final hypothesis concerns how well the different feature combination models 
 
 \subsection{Discussion}
 
-Our results allow us to confirm Hypothesis 1 and 2. We also find that using the best fitting model leads us to favour the orthogonal contrast model over collinear. 
+Our results allow us to confirm Hypothesis 1 and 2: a shifted-lognormal distribution of response times outperforms normal and lognormal distributions, and that the number of distracters has a loglinear effect in this model. 
 
-Our interpretation of the null/neutral results in the prediction of reaction times is that the differences in predictions from the three contrast combination methods are small relative to the (i) individual differences between participants and (ii) trial-to-trial variability. These will be further explored below in our \textit{Planned Explorations} section.
+Using this model to investigate Hypothesis 3, we find as with that the orthogonal contrast model is favoured over collinear. While this is not inline with the hypothesis registered as part of our replication of \cite{buetti2019predicting}, it is inline with our conclusions drawn from our reanalysis of the data from the original study\footnote{submitted during the Stage One review process}. As explained previously the difference is due to different choices in analysis
+
+Our interpretation of the null/neutral results for Hypothesis 4 (the prediction of reaction times) is that the differences in predictions from the three contrast combination methods are small relative to the (i) individual differences between participants and (ii) trial-to-trial variability due to target eccentricity. These will be further explored below in our \textit{Planned Explorations} section.
 
 \section{Planned Explorations}
 
 \subsection{Individual Differences}
 
-We start this exploratory analysis looking at how the $D_c$ and $D_s$ values vary from participant to participant. From Figure \ref{fig:exp_corr}(\textit{left}) we can see that there is considerable variation between observers - in fact, the variation from one observer to the next is often larger than the variation across features. To investigate this further we calculted the correlations betwen each of the features (we calcualted Pearson's $r$ for each sample from our posterior, which gives us a full posterior distirubtion for the correlations). We can see in Figure \ref{fig:exp_corr}(\textit{right}) that while both the $D_c$ and $D_s$ are correlated within feature classes ($\sim0.75$), there is no correlation from any of the colour features to any of the shape features. While it is not possible to determine whether this pattern us caused by differences in colour v shape features, or by the block structure used in our experiment\footnote{blame the reviewer! probably best not}, either way, this is an intrguing result. (To be discussed further in the General Discussion.)
+We start this exploratory analysis looking at how the $D_c$ and $D_s$ values vary from participant to participant. From Figure \ref{fig:exp_corr}(\textit{left}) we can see that there is considerable variation between observers - in fact, the variation from one observer to the next is often larger than the variation across features. To investigate this further we calculated the correlations between each of the features (we calculated Pearson's $r$ for each sample from our posterior, which gives us a full posterior distribution for the correlations). We can see in Figure \ref{fig:exp_corr}(\textit{right}) that while both the $D_c$ and $D_s$ are correlated within feature classes ($\sim0.75$), there is no correlation from any of the colour features to any of the shape features. While it is not possible to determine whether this pattern us caused by differences in colour v shape features, or by the block structure used in our experiment\footnote{blame the reviewer! probably best not}, either way, this is an intriguing result. (To be discussed further in the General Discussion.)
 
 The individual differences for the \textit{double-feature} conditions are much less pronounced - these conditions are easy and the search slopes are quite close to flat (how to summarise? oh, and CHECK this!) and hence, the correlations are all much weaker, presumably due to range restriction. THIS IS ALL SPITT BALLINGYAYYAYA
 
@@ -358,11 +360,32 @@ The individual differences for the \textit{double-feature} conditions are much l
 \label{fig:exp_corr}
 \end{figure}
 
-Given these results, it is perhaps unsurprising that our analysis for Hypothesis 4 leads to a neutral result between the three contrast combination methods. Perhaps taking these individual differences into account when we predict the RTs will lead to an improved power to discriminate between the models. 
+Given these results, it is perhaps unsurprising that our analysis for Hypothesis 4 leads to a neutral result between the three contrast combination methods. Perhaps taking these individual differences into account when we predict the RTs will lead to an improved power to discriminate between the models. However, before we do so, we will also investigate incorporating information about target eccentricity into the model.
 
 \subsection{Target Eccentricity}
 
-During the 
+It seems likely that targets that are further away from fixation are harder to detect [CITATION?]. To investigate this in our dataset, we will use the same methods are above (fitting a multi-level shifted-lognormal model) but now including an additional factor that represents how far the target was from the fixation cross. This is coded as a three-level categorical factor representing which ring contained the target (see stimulus details, above). Allowing for interactions with the \textit{feature} and $\log{N_T}$ increases the number of fixed effect parameters in the model from X to XXX. 
+
+\begin{equation}
+y \sim 0 + r + r:f:\log(N_T) + (1|id)
+\end{equation}
+
+We experimented with including $r$ in the random effect structure, but this proved difficult to fit. We also had to revise the priors used in our registered analysis - lower intercept. Full details can be found in the supplementary materials. 
+
+After obtaining a model that passed all convergence checks, we examined the posterior distribution for the effect of \textit{ring}. Figure XXXX paints an interesting and complex picture in which some features (examples) are clearly leading to `pre-attentive search` in which response times are unaffected by either the number of distracters or target eccentricity. 
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{../plots/ring_single_feature.pdf}
+\caption{Fixed effects for predicting the effect of ring, feature and number of distracters on response times. SWITCH TO HPDI PLOT TO BE CONSISTENT WITH WHAT WE USED BEFORE. Shaded regions represent $97\%$ HPDI. We can see that \textit{ring} has an effect on search slopes, and that this effect is more pronounced for some features (i.e., triangles) than others.}
+\label{fig:ring1}
+\end{figure}
+
+
+\subsection{Predicting Response Times}
+
+
+We will now test to see if we can discriminate between the three contrast combination methods when we take ring and individual-level slopes into account.
 
 \section{General Discussion}
 

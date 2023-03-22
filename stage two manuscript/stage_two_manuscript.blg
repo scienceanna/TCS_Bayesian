@@ -1,9 +1,9 @@
-This is BibTeX, Version 0.99d (TeX Live 2020/W32TeX)
+This is BibTeX, Version 0.99d (TeX Live 2021)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: stage_two_manuscript.aux
 The style file: plainnat.bst
 Database file #1: sources.bib
-Repeated entry---line 667 of file sources.bib
+Repeated entry---line 334 of file sources.bib
  : @article{wolfe2010reaction
  :                           ,
 I'm skipping whatever remains of this entry

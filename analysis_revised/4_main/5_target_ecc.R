@@ -5,10 +5,8 @@ library(tidyverse)
 library(brms)
 library(tidybayes)
 library(patchwork)
-library(latex2exp)
-library(ggpmisc)
+#library(ggpmisc)
 library(bridgesampling)
-library(corrr)
 library(ggridges)
 
 # set ggplot2 theme
@@ -78,7 +76,7 @@ n_itr = 5000
 
 
 
-my_f <- brms::bf(rt ~ 0 + ring + ring:feature:lnd + (1 +feature:lnd|observer), 
+my_f <- brms::bf(rt ~ 0 + ring + ring:feature:lnd + (1 + feature:lnd|observer), 
                  ndt ~ 1 + (1|observer))
 
 my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))

@@ -2,15 +2,11 @@ library(tidyverse)
 library(brms)
 library(tidybayes)
 library(patchwork)
-library(latex2exp)
-library(ggpmisc)
 library(bridgesampling)
-library(corrr)
 library(ggridges)
 
 
-m <- readRDS("exp1_ring.model")
-
+m <- readRDS("exp1_ring_more_random.model")
 
 m %>% gather_draws(`b_.*`, regex=T) %>%
   select(-.chain, -.iteration) %>% 
@@ -28,3 +24,15 @@ post %>% filter(lin_mod_comp == "slope") %>%
 slopes %>% ggplot(aes(.value, fill = ring)) + geom_density(alpha = 0.5) +
   facet_wrap(~feature) +
   ggthemes::scale_fill_ptol()
+
+d1 %>% modelr::data_grid(feature, ring, lnd = seq(0, 3.5, 0.1)) %>%
+  add_epred_draws(m, ndraws = 100, re_formula = NA) -> pred
+
+
+ggplot(pred, aes(x = lnd, y = .epred, colour = ring, group = .draw)) +
+  geom_path(alpha = 0.1) + 
+  facet_wrap(~feature) +
+  ggthemes::scale_color_ptol()
+
+ggsave("../../plots/ring_single_feature.pdf", width = 8, height = 4)
+
