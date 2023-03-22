@@ -53,10 +53,6 @@ full_join(dstim, d1, by = "image") %>%
 #   geom_smooth(method = lm) + facet_wrap(~feature)
 
 
-d1 %>% group_by(observer, feature, nd)
-
-
-
 
 
 # model!
@@ -71,9 +67,6 @@ d1 %>% group_by(observer, feature, nd)
 
 n_chains = 4
 n_itr = 5000
-
-
-
 
 
 my_f <- brms::bf(rt ~ 0 + ring + ring:feature:lnd + (1 + feature:lnd|observer), 
@@ -109,4 +102,39 @@ m <- brm(
 )
 
 saveRDS(m, "exp1_ring_more_random.model")
+rm(m)
+
+
+
+
+#########
+# double feature model
+
+
+full_join(dstim, d2, by = "image") %>%
+  mutate(r = sqrt(x^2 + y^2),
+         ring = case_when(r<150 ~ 1,
+                          r<300 ~ 2,
+                          r>300 ~ 3),
+         ring = as_factor(ring)) %>%
+  filter(is.finite(observer)) %>%
+  mutate(feature = paste(feature1, feature2))-> d2
+
+
+# now run model
+m <- brm(
+  my_f,
+  data = d2,
+  family = brmsfamily("shifted_lognormal"),
+  prior = my_prior,
+  chains = n_chains,
+  iter = n_itr,
+  init = my_inits,
+  ##stanvars = my_stanvar,
+  save_pars = save_pars(all=TRUE),
+  silent = TRUE,
+  backend = 'cmdstanr'
+)
+
+saveRDS(m, "exp2_ring_more_random.model")
 rm(m)
