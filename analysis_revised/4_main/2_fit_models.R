@@ -244,3 +244,103 @@ m <- brm(
 saveRDS(m, "exp2_fixed.model")
 
 
+
+#################################################
+#################################################
+#
+# Now fit ring models
+#
+#################################################
+#################################################
+
+n_chains = 4
+n_itr = 5000
+
+my_f <- brms::bf(rt ~ 0 + ring + ring:feature:lnd + (1 + feature:lnd|observer), 
+                 ndt ~ 1 + (1|observer))
+
+my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
+
+my_prior <- c(
+  # prior_string("normal(-0.5, 0.3)", class = "Intercept"),
+  prior_string("normal(0, 0.2)", class = "b"),
+  prior_string("normal(-1, 0.3)", class = "b", coef = "ring1"),
+  prior_string("normal(-1, 0.3)", class = "b", coef = "ring2"),
+  prior_string("normal(-1, 0.3)", class = "b", coef = "ring3"),
+  prior_string("normal(-1, 0.5)", class = "Intercept", dpar = "ndt" ),
+  prior_string("cauchy(0, 0.4)", class = "sigma"),
+  prior_string("cauchy(0, 0.05)", class = "sd"),
+  prior_string("cauchy(0, 0.05)", class = "sd", dpar = "ndt"))
+
+# now run model for single feature data
+m <- brm(
+  my_f,
+  data = d1,
+  family = brmsfamily("shifted_lognormal"),
+  prior = my_prior,
+  chains = n_chains,
+  iter = n_itr,
+  init = my_inits,
+  ##stanvars = my_stanvar,
+  save_pars = save_pars(all=TRUE),
+  silent = TRUE,
+  backend = 'cmdstanr'
+)
+
+saveRDS(m, "exp1_ring_more_random.model")
+rm(m)
+
+# now run model for single feature data
+m <- brm(
+  my_f,
+  data = d2,
+  family = brmsfamily("shifted_lognormal"),
+  prior = my_prior,
+  chains = n_chains,
+  iter = n_itr,
+  init = my_inits,
+  ##stanvars = my_stanvar,
+  save_pars = save_pars(all=TRUE),
+  silent = TRUE,
+  backend = 'cmdstanr'
+)
+
+saveRDS(m, "exp2_ring_more_random.model")
+rm(m)
+
+
+#######################################
+# Now try more complex random effect structure
+
+my_f <- brms::bf(rt ~ 0 + ring + ring:feature:lnd + (0 + ring + feature:lnd|observer), 
+                 ndt ~ 1 + (1|observer))
+
+my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
+
+my_prior <- c(
+  # prior_string("normal(-0.5, 0.3)", class = "Intercept"),
+  prior_string("normal(0, 0.2)", class = "b"),
+  prior_string("normal(-1, 0.3)", class = "b", coef = "ring1"),
+  prior_string("normal(-1, 0.3)", class = "b", coef = "ring2"),
+  prior_string("normal(-1, 0.3)", class = "b", coef = "ring3"),
+  prior_string("normal(-1, 0.5)", class = "Intercept", dpar = "ndt" ),
+  prior_string("cauchy(0, 0.4)", class = "sigma"),
+  prior_string("cauchy(0, 0.05)", class = "sd"),
+  prior_string("cauchy(0, 0.05)", class = "sd", dpar = "ndt"))
+
+# now run model for single feature data
+m <- brm(
+  my_f,
+  data = d1,
+  family = brmsfamily("shifted_lognormal"),
+  prior = my_prior,
+  chains = n_chains,
+  iter = n_itr,
+  init = my_inits,
+  ##stanvars = my_stanvar,
+  save_pars = save_pars(all=TRUE),
+  silent = TRUE,
+  backend = 'cmdstanr'
+)
+
+
