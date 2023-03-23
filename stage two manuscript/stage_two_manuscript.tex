@@ -372,7 +372,7 @@ y \sim 0 + r + r:f:\log(N_T) + (1|id)
 
 We experimented with including $r$ in the random effect structure, but this proved difficult to fit. We also had to revise the priors used in our registered analysis - lower intercept. Full details can be found in the supplementary materials. 
 
-After obtaining a model that passed all convergence checks, we examined the posterior distribution for the effect of \textit{ring}. Figure XXXX paints an interesting and complex picture in which some features (examples) are clearly leading to `pre-attentive search` in which response times are unaffected by either the number of distracters or target eccentricity. 
+After obtaining a model that passed all convergence checks, we examined the posterior distribution for the effect of \textit{ring}. Figure \ref{fig:ring1} paints an interesting and complex picture in which some features (examples) are clearly leading to `pre-attentive search` in which response times are unaffected by either the number of distracters or target eccentricity. 
 
 \begin{figure}[ht]
 \centering
@@ -381,6 +381,28 @@ After obtaining a model that passed all convergence checks, we examined the post
 \label{fig:ring1}
 \end{figure}
 
+We can now compute our predictions ($D_p$) for $D_{c,s}$ taking the \textit{ring} into account. Doing so leads us to a similar result as before (Figure \ref{fig:ring2_D}) with orthogonal contrast outperforming the best feature and collienar measures, both in terms of absolute error (0.614 compared to 0.68 (best feature) and 0.913 (collinear)) and having regression slopes closer to unity (see Table \ref{tab:new_Dc_Ds_ring}).
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{../plots/target_ring_D_pred.pdf}
+\caption{}
+\label{fig:ring2_D}
+\end{figure}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{c|ccc} 
+\hline
+ & best feature & collinear & orthogonal contrast\\
+ \hline 
+inner ring  & 0.71 & 1.30 & 0.92\\
+middle ring & 0.62 & 1.18 & 0.98\\ 
+outer ring  & 0.74 & 1.45 & 1.00\\
+ \end{tabular}
+\caption{$\beta$ (slope) coefficents a linear regression from our predicted to empirical $D_{c,s}$. }
+\label{tab:new_Dc_Ds_ring}
+\end{table}
 
 \subsection{Predicting Response Times}
 

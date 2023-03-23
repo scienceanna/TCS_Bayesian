@@ -32,21 +32,6 @@ set.seed(100320021)
 source("1_pre_process_data.R")
 
 
-# read in stim info
-dstim <- readxl::read_excel("../../psychopy_expt/searchDiscPavlovia/image_stimuli_final_master.xlsx") %>%
-  select(image = "ImageFile", x = "target_pos_x", y = "target_pos_y") 
-
-
-# for single feature condition, 
-# merge data and then look at effect of r
-
-full_join(dstim, d1, by = "image") %>%
-  mutate(r = sqrt(x^2 + y^2),
-         ring = case_when(r<150 ~ 1,
-                          r<300 ~ 2,
-                          r>300 ~ 3),
-         ring = as_factor(ring)) %>%
-  filter(is.finite(observer)) -> d1
 
 
 # ggplot(d1, aes(x = lnd, y = log(rt), colour = ring)) + geom_jitter(height = 0) + 
@@ -110,15 +95,6 @@ rm(m)
 #########
 # double feature model
 
-
-full_join(dstim, d2, by = "image") %>%
-  mutate(r = sqrt(x^2 + y^2),
-         ring = case_when(r<150 ~ 1,
-                          r<300 ~ 2,
-                          r>300 ~ 3),
-         ring = as_factor(ring)) %>%
-  filter(is.finite(observer)) %>%
-  mutate(feature = paste(feature1, feature2))-> d2
 
 
 # now run model

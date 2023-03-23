@@ -85,6 +85,23 @@ d %>% mutate(exp = parse_number(experiment)) %>%
     feature = as_factor(feature)) -> d
 
 
+
+# read in stimuli info to get target ring
+dstim <- readxl::read_excel("../../psychopy_expt/searchDiscPavlovia/image_stimuli_final_master.xlsx") %>%
+  select(image = "ImageFile", x = "target_pos_x", y = "target_pos_y") 
+
+
+# merge dstim with d
+full_join(dstim, d, by = "image") %>%
+  mutate(r = sqrt(x^2 + y^2),
+         ring = case_when(r<150 ~ 1,
+                          r<300 ~ 2,
+                          r>300 ~ 3),
+         ring = as_factor(ring)) %>%
+  filter(is.finite(observer)) -> d
+
+
+
 # split into training and set sets
 d1 <- filter(d, exp == 1) %>% 
   select(-exp) %>%
@@ -93,5 +110,6 @@ d1 <- filter(d, exp == 1) %>%
 d2 <- filter(d, exp == 2) %>%
   separate(feature, into = c("feature1", "feature2"))  %>% 
   select(-exp)
+
 
 rm(d)
