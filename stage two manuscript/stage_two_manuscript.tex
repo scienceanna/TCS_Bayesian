@@ -279,14 +279,14 @@ Please see the analysis of our pilot data for a full implementation of our analy
 
 All 40 participants had accuracy over $90\%$ (minimum $93.1\%$). One participant had an average response time (1100ms) over two standard deviations from the group average response time (781ms) and was removed. Incorrect trials were then removed, and the data was trimmed (only including response times between the $1\%$ and $99\%$ quantiles) leaving us with 39 participants completing a total of 59,587 trials.
 
-All Bayesian models were fit to the new data using exactly the same procedure\footnote{the only departure was an increase in samples in the bridgesampling procedure from xxxx to xxxx. Based on advice given in the Stan forums} as the pilot data presented in the Stage One review process. All models converged with WHAT CRITERIA DO WE WANT TO SAY HERE? $\hat{R}$
+All Bayesian models were fit to the new data using exactly the same procedure\footnote{The only departure was an increase in iterations from 5000 to 80000 for the model predicting reaction times, based on advice given in the Stan forums, to enable the bridge sampling process to work properly.} as the pilot data presented in the Stage One review process. We checked for convergence  of our models by visually inspecting the chains as well as verifying that the $\hat{R}$ was close to 1 for all parameters of all the fitted models (see Supplementary Material for full model fit information).
 
 \subsection{Hypothesis 1: Shifted-lognormal model}
 
 Our first hypothesis concerns which distribution best fits the single feature response time data. We fit multi-level models with
-a i) normal, ii) lognormal, and iii) shifted-lognormal distribution. The models all used the same model formula that estimated search slopes in terms of $\log{N_t}$ for each feature. Maximal random effect structures where used. 
+a i) normal, ii) lognormal, and iii) shifted-lognormal distribution. The models all used the same model formula that estimated search slopes in terms of $\log{N_t}$ for each feature. Maximal random effect structures were used. 
 
-After each of these models had been fit to the data, leave-one-out (LOO) model comparison was used to calculate posterior probabilities for each. The results of this procedure allocated $\sim100\%$ of the weight to the shifted-lognormal model, so we can conclude that it is the best distribution (out of the three we tested\footnote{See discussion for wald, weilbull, etc}) to use for modelling response times in this paradigm. This model is shown in Figure XXX of supplementary materials.
+After each of these models had been fit to the data, leave-one-out (LOO) model comparison was used to calculate posterior probabilities for each. The results of this procedure allocated $\sim100\%$ of the weight to the shifted-lognormal model, so we can conclude that it is the best distribution (out of the three we tested\footnote{See discussion for Wald, Weibull, etc.}) to use for modelling response times in this paradigm. This model is shown in Figure 2.2 of the supplementary materials.
 
 %\begin{figure}[th]
 %\begin{subfigure}
