@@ -175,7 +175,7 @@ rm(m)
 ## fit shifted lognormal model to test data
 ###############################################
 # 
- d2 <- d2 %>% unite(feature, feature1, feature2)
+d2 <- d2 %>% unite(feature, feature1, feature2)
 
 my_f <- bf(rt ~ feature:lnd + (feature:lnd|observer),
            ndt ~ 1 + (1|observer))
@@ -342,5 +342,23 @@ m <- brm(
   silent = TRUE,
   backend = 'cmdstanr'
 )
+saveRDS(m, "exp1_ring.model")
 
 
+# now run model for double feature data
+m <- brm(
+  my_f,
+  data = d2,
+  family = brmsfamily("shifted_lognormal"),
+  prior = my_prior,
+  chains = n_chains,
+  iter = n_itr,
+  init = my_inits,
+  ##stanvars = my_stanvar,
+  save_pars = save_pars(all=TRUE),
+  silent = TRUE,
+  backend = 'cmdstanr'
+)
+
+saveRDS(m, "exp2_ring.model")
+rm(m)
