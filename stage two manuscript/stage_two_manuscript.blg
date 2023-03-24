@@ -1,51 +1,48 @@
-This is BibTeX, Version 0.99d (TeX Live 2021)
+This is BibTeX, Version 0.99d
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: stage_two_manuscript.aux
+Reallocating 'name_of_file' (item size: 1) to 9 items.
 The style file: plainnat.bst
+Reallocating 'name_of_file' (item size: 1) to 8 items.
 Database file #1: sources.bib
-Repeated entry---line 334 of file sources.bib
- : @article{wolfe2010reaction
- :                           ,
-I'm skipping whatever remains of this entry
-You've used 46 entries,
+You've used 47 entries,
             2773 wiz_defined-function locations,
-            864 strings with 13609 characters,
-and the built_in function-call counts, 22301 in all, are:
-= -- 1951
-> -- 1424
+            871 strings with 13838 characters,
+and the built_in function-call counts, 22870 in all, are:
+= -- 2002
+> -- 1463
 < -- 21
-+ -- 478
-- -- 432
-* -- 1951
-:= -- 3470
-add.period$ -- 139
-call.type$ -- 46
-change.case$ -- 280
-chr.to.int$ -- 46
-cite$ -- 92
-duplicate$ -- 967
-empty$ -- 1750
-format.name$ -- 504
-if$ -- 4604
++ -- 491
+- -- 444
+* -- 2004
+:= -- 3558
+add.period$ -- 142
+call.type$ -- 47
+change.case$ -- 287
+chr.to.int$ -- 47
+cite$ -- 94
+duplicate$ -- 988
+empty$ -- 1792
+format.name$ -- 517
+if$ -- 4720
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 48
-newline$ -- 238
-num.names$ -- 184
-pop$ -- 502
+missing$ -- 49
+newline$ -- 243
+num.names$ -- 188
+pop$ -- 514
 preamble$ -- 1
-purify$ -- 236
+purify$ -- 242
 quote$ -- 0
-skip$ -- 750
+skip$ -- 766
 stack$ -- 0
-substring$ -- 815
-swap$ -- 67
+substring$ -- 848
+swap$ -- 68
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 496
+type$ -- 507
 warning$ -- 0
-while$ -- 203
+while$ -- 208
 width$ -- 0
-write$ -- 601
-(There was 1 error message)
+write$ -- 614
