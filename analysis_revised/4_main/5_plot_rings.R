@@ -12,7 +12,7 @@ theme_set(theme_bw())
 source("1_pre_process_data.R")
 
 ### first compare ring model to non-ring
-m1 <- readRDS("exp1_ring_more_random.model")
+m1 <- readRDS("exp1_ring.model")
 m0 <- readRDS("exp1.model")
 
 m1 <- bridge_sampler(m1, silent = TRUE) 
@@ -27,7 +27,8 @@ rm(m0)
 
 
 
-m1 <- readRDS("exp1_ring_more_random.model")
+m1 <- readRDS("exp1_ring.model")
+
 m1 %>% gather_draws(`b_.*`, regex=T) %>%
   select(-.chain, -.iteration) %>% 
   filter(!str_detect(.variable, "ndt")) %>%
@@ -60,7 +61,7 @@ ggsave("../../plots/ring_single_feature.pdf", width = 8, height = 4)
 
 # now read in m2 so that we can compute Dp
 
-m2 <- readRDS("exp2_ring_more_random.model")
+m2 <- readRDS("exp2_ring.model")
 source("get_slopes_fun.R")
 samples1 <- get_slopes(m1, 1, TRUE) %>% mutate(feature = str_remove(feature, "feature")) 
 

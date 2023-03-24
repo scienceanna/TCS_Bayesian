@@ -253,6 +253,18 @@ extract_fixed_slopes_from_model <- function(m) {
   
 }
 
+extract_samples_from_model <- function(m) {
+  
+  samples <- get_slopes(m, 1) %>% 
+    select(-observer, -rD) %>% 
+    distinct() %>%
+    mutate(feature = str_remove(feature, "feature"))
+  
+  return(samples)
+  
+  
+}
+
 calc_D_overall_b <- function(f, Dx, De)
 {
   
