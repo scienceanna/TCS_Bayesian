@@ -79,7 +79,7 @@ my_prior_lm <- c(
   prior_string("cauchy(0, 0.05)", class = "sd"))
 
 # now fit to single feature data!
-m <- fit_model(d1, "lognormal", my_prior_lm, my_f)
+m <- fit_model(d1, "normal", my_prior_lm, my_f)
 saveRDS(m, "exp1_lognormal.model")
 rm(m, my_prior_lm)
 
