@@ -33,3 +33,14 @@ tibble(model = c("loglinear in n", "linear in n"),
 write_csv(d, "model_comp_hyp2.csv")
 
 rm(d, m_lin, m_sft)
+
+
+###
+
+m1 <- bridge_sampler(m1, silent = TRUE) 
+m0 <- bridge_sampler(m0, silent = TRUE) 
+
+
+tibble(model = c("rings", "not rings"), 
+       `posterior probability` = post_prob(m1, m0)) %>% 
+  knitr::kable() 
