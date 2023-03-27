@@ -10,6 +10,25 @@ our_changes_to_data <- function(d) {
   
 }
 
+calc_D <- function(feature1, feature2) {
+  
+  D1 <- filter(samples1, feature == feature1)$D
+  D2 <- filter(samples1, feature == feature2)$D
+  
+  # now calculate D_overall using the three proposed methods
+  D_collinear = 1/((1/D1) + (1/D2))
+  D_best_feature = pmin(D1, D2)
+  D_orth_contrast =  1/sqrt(1/(D1^2) + (1/D2^2))
+  
+  return(tibble(.draw = 1:length(unique(samples1$.draw)),
+                feature = paste(feature1, feature2, sep = "_"),
+                feature1 = feature1, feature2 = feature2,
+                collinear = D_collinear,
+                `best feature` = D_best_feature,
+                `orthogonal contrast` = D_orth_contrast))
+  
+}
+
 
 plot_model_pred <- function(m, d) {
   d %>% modelr::data_grid(feature, lnd) %>%

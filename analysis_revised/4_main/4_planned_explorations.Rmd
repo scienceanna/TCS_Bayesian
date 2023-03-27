@@ -19,6 +19,7 @@ library(patchwork)
 library(latex2exp)
 library(ggpmisc)
 library(ggridges)
+library(corrr)
 
 # set ggplot2 theme
 theme_set(theme_bw())
@@ -118,12 +119,11 @@ samples2 %>% select(.draw, observer, feature, rD) %>%
   select(-observer) -> dat_for_corr
 
 
-dcorr <- map_df(1:4000, compute_corr, dat_for_corr) %>%
+dcorr <- map_df(unique(dat_for_corr$.draw), compute_corr, dat_for_corr) %>%
   mutate(x = as_factor(x), 
          #x = fct_relevel(x, "pink", "purple", "orange"), 
          y = as_factor(y))
         # y = fct_relevel(y, "pink", "purple", "orange"))
-
 
 
 ggplot(dcorr, aes(x, r)) +
@@ -148,7 +148,7 @@ calc_D <- function(feature1, feature2, observer) {
   D_best_feature = pmin(D1, D2)
   D_orth_contrast =  1/sqrt(1/(D1^2) + (1/D2^2))
   
-  return(tibble(.draw = 1:4000,
+  return(tibble(.draw = 1:length(unique(samples1$.draw)),
                 observer = obs,
                 feature = paste(feature1, feature2, sep = "_"),
                 feature1 = feature1, feature2 = feature2,
@@ -160,9 +160,10 @@ calc_D <- function(feature1, feature2, observer) {
 
 
 things_to_calc <- samples2 %>% 
-  select(-.draw, -rD) %>%
+  select(-.draw, -rD, -D) %>%
   distinct() %>% 
-  separate(feature, c("feature1", "feature2")) 
+  separate(feature, c("feature1", "feature2")) %>%
+  select(feature1, feature2, observer)
 
 
 slopes <- pmap_df(things_to_calc, calc_D) %>% 
@@ -170,7 +171,7 @@ slopes <- pmap_df(things_to_calc, calc_D) %>%
   pivot_longer(c(collinear, `best feature`, `orthogonal contrast`), names_to = "method", values_to = "Dp") %>% 
   group_by(observer, method, feature ) %>%
   summarise(De = median(rD), 
-            Dp = median(Dp))
+            Dp = median(Dp), .groups = "drop")
 
 ggplot(slopes, aes(Dp, De, colour = method)) + geom_point() +
   geom_smooth(method = lm, alpha = 0.25) +
@@ -180,7 +181,6 @@ ggplot(slopes, aes(Dp, De, colour = method)) + geom_point() +
 
 comp_corr <- function(obs, meth) {
   df <- filter(slopes, observer == obs, method == meth)
-  
   r <- cor(df$De, df$Dp)
   return(r)
   
