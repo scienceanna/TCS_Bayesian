@@ -13,13 +13,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r, echo = FALSE}
 library(tidyverse)
+library(brms)
 library(tidybayes)
 library(patchwork)
 library(latex2exp)
 library(ggpmisc)
-library(bridgesampling)
-library(corrr)
-library(ggridges)
 
 # set ggplot2 theme
 theme_set(theme_bw())
@@ -54,7 +52,7 @@ m1 <- readRDS("exp1.model")
 m2 <- readRDS("exp2_random.model")
 
 # first, calculate slopes
-samples1 <- extract_samples_from_model(m1)
+samples1 <- get_slopes(m1, 1) %>% select(-D) %>% distinct()
 samples2 <- get_slopes(m2, 1) %>% select(-D) %>% distinct()
 
 
@@ -79,16 +77,14 @@ compute_corr <- function(drw, df) {
   return(dout)
 }
 
-dcorr <- map_df(1:4000, compute_corr, dat_for_corr) %>%
+dcorr <- map_df(unique(dat_for_corr$.draw), compute_corr, dat_for_corr) %>%
   mutate(x = as_factor(x), 
          x = fct_relevel(x, "pink", "purple", "orange"), 
          y = as_factor(y),
          y = fct_relevel(y, "pink", "purple", "orange"))
-
 ```
 
 ```{r}
-
 dcorr %>% group_by(x, y) %>%
   median_hdci(r, .width = 0.97) %>%
   mutate(fill = if_else(.lower>0, "nonezero", "zero")) %>%
