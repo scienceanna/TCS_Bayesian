@@ -10,6 +10,20 @@ our_changes_to_data <- function(d) {
   
 }
 
+
+plot_model_pred <- function(m, d) {
+  d %>% modelr::data_grid(feature, lnd) %>%
+    add_predicted_draws(m, re_formula = NA) %>%
+    mean_hdci(.width = c(0.53, 0.97)) %>%
+    ggplot(aes(lnd)) +
+    geom_ribbon(aes(ymin = .lower, ymax = .upper, group = .width), alpha = 0.3, fill = "pink") + 
+    geom_jitter(data = d1, aes(y = rt), colour = "white", alpha = 0.1) + 
+    geom_point(data = d_mean, aes(y = mean_median), alpha = 1, colour = "yellow") + 
+    facet_wrap(~feature, nrow = 1) -> plt
+  
+  return(plt)
+}
+
 get_slopes <- function(m, num_features, rings = FALSE) {
   # m - brms model object
   # num_features is either 1 or 2
@@ -49,7 +63,8 @@ get_slopes <- function(m, num_features, rings = FALSE) {
                             subset =sample(1:nsamples(m), n_draws = 100)) %>%
     pivot_longer(-c(".chain", ".iteration", ".draw"), names_to = "feature", values_to = "D") %>%
     mutate(feature = str_remove(feature, "b_"),
-           feature = str_remove(feature, ":lnd")) %>%
+           feature = str_remove(feature, ":lnd"),
+           feature = str_remove(feature, "feature")) %>%
     select(-.iteration, -.chain)
   
   if (rings == TRUE) {
@@ -63,7 +78,7 @@ get_slopes <- function(m, num_features, rings = FALSE) {
              feature2 = str_remove(feature2, "feature2")) -> samples_ff
   }
   
-  samples <- full_join(samples_ff, samples_rf) %>%
+  samples <- full_join(samples_ff, samples_rf, by = c(".draw", "feature")) %>%
     mutate(rD = D + rD)
   
   return(samples)
@@ -318,8 +333,7 @@ extract_samples_from_model <- function(m) {
   
   samples <- get_slopes(m, 1) %>% 
     select(-observer, -rD) %>% 
-    distinct() %>%
-    mutate(feature = str_remove(feature, "feature"))
+    distinct() 
   
   return(samples)
   
