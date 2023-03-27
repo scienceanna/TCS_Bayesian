@@ -38,6 +38,7 @@ library(bridgesampling)
 ```{r}
 # set ggplot2 theme
 theme_set(ggthemes::theme_tufte())
+colourPalette <- c("#e78429", "#ed968c", "#7c4b73","#aadce0", "#72bcd5", "528fad")
 
 # use parallel cores for mcmc chains!
 options(mc.cores = parallel::detectCores())
@@ -97,12 +98,7 @@ We can see that the priors chosen for our models centre the estimates of $D$ aro
 
 m1b <- readRDS("exp1_prior.model")
 
-source("get_slopes_fun.R")
-
 samples1b <- get_slopes(m1b, 1) %>% select(-observer, -rD) %>% distinct()
-
-
-colourPalette <- c("#e78429", "#ed968c", "#7c4b73","#aadce0", "#72bcd5", "528fad")
 
 samples1b %>% mutate(feature_type = if_else(
   feature %in% c("purple", "orange", "pink"), "colour", "shape")) %>%
@@ -124,8 +120,8 @@ m_nrl <- readRDS("exp1_normal.model")
 m_log <- readRDS("exp1_lognormal.model")
 
 tibble(model = c("shifted lognormal", "normal", "lognormal"),
-  LOO = model_weights(m_sft, m_nrl, m_log, weights = "loo"),
-             WAIC = model_weights(m_sft, m_nrl, m_log, weights = "waic")) %>%
+       LOO = model_weights(m_sft, m_nrl, m_log, weights = "loo"),
+       WAIC = model_weights(m_sft, m_nrl, m_log, weights = "waic")) %>%
   knitr::kable()
 ```
 
@@ -138,32 +134,9 @@ d1 %>% group_by(feature, lnd, observer) %>%
   summarise(median_rt = median(rt)) %>%
   summarise(mean_median = median(median_rt)) -> d_mean
   
-d1 %>% modelr::data_grid(feature, lnd) %>%
-  add_predicted_draws(m_sft, re_formula = NA) %>%
-  mean_hdci(.width = c(0.53, 0.97)) %>%
-  ggplot(aes(lnd)) +
-  geom_ribbon(aes(ymin = .lower, ymax = .upper, group = .width), alpha = 0.3, fill = "pink") + 
-  geom_jitter(data = d1, aes(y = rt), colour = "white", alpha = 0.1) + 
-  geom_point(data = d_mean, aes(y = mean_median), alpha = 1, colour = "yellow") + 
-  facet_wrap(~feature, nrow = 1) -> d1_sft
-
-d1 %>% modelr::data_grid(feature, lnd) %>%
-  add_predicted_draws(m_log, re_formula = NA) %>%
-  mean_hdci(.width = c(0.53, 0.97)) %>%
-  ggplot(aes(lnd)) +
-  geom_ribbon(aes(ymin = .lower, ymax = .upper, group = .width), alpha = 0.3, fill = "pink") + 
-  geom_jitter(data = d1, aes(y = rt), colour = "white", alpha = 0.1) + 
-  geom_point(data = d_mean, aes(y = mean_median), alpha = 1, colour = "yellow") + 
-  facet_wrap(~feature, nrow = 1) -> d1_log
-
-d1 %>% modelr::data_grid(feature, lnd) %>%
-  add_predicted_draws(m_nrl, re_formula = NA) %>%
-  mean_hdci(.width = c(0.53, 0.97)) %>%
-  ggplot(aes(lnd)) +
-  geom_ribbon(aes(ymin = .lower, ymax = .upper, group = .width), alpha = 0.3, fill = "pink") + 
-  geom_jitter(data = d1, aes(y = rt), colour = "white", alpha = 0.1) + 
-  geom_point(data = d_mean, aes(y = mean_median), alpha = 1, colour = "yellow") + 
-  facet_wrap(~feature, nrow = 1) -> d1_nrl
+d1_sft <- plot_model_pred(m_sft, d1)
+d1_log <- plot_model_pred(m_log, d1)
+d1_nrl <- plot_model_pred(m_nrl, d1)
 
 d1_sft / d1_log / d1_nrl
 
@@ -178,8 +151,8 @@ Here, we want to verify that using log(number of distractors) in our model is su
 m_lin <- readRDS("exp1_linear.model")
 
 tibble(model = c("loglinear in n", "linear in n"),
-             LOO = model_weights(m_sft, m_lin, weights = "loo"),
-             WAIC = model_weights(m_sft, m_lin, weights = "waic")) %>%
+       LOO = model_weights(m_sft, m_lin, weights = "loo"),
+       WAIC = model_weights(m_sft, m_lin, weights = "waic")) %>%
   knitr::kable()
 
 rm(m_lin, m_sft)
@@ -195,7 +168,6 @@ Can we predict $D$ in the double-feature case from data in the single-feature ca
 Which method has the lowest mean absolute prediction error?
 
 ```{r, message = FALSE, warning = FALSE, fig.cap = "Predicting the group average D."}
-source("get_slopes_fun.R")
 
 m1 <- readRDS("exp1.model")
 
