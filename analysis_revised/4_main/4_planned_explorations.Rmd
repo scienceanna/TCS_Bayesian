@@ -18,6 +18,7 @@ library(tidybayes)
 library(patchwork)
 library(latex2exp)
 library(ggpmisc)
+library(ggridges)
 
 # set ggplot2 theme
 theme_set(theme_bw())
@@ -52,8 +53,8 @@ m1 <- readRDS("exp1.model")
 m2 <- readRDS("exp2_random.model")
 
 # first, calculate slopes
-samples1 <- get_slopes(m1, 1) %>% select(-D) %>% distinct()
-samples2 <- get_slopes(m2, 1) %>% select(-D) %>% distinct()
+samples1 <- get_slopes(m1, 1, fixed = F)
+samples2 <- get_slopes(m2, 1, fixed = F) 
 
 
 ggplot(samples1, aes(x=rD, y= as_factor(feature), 

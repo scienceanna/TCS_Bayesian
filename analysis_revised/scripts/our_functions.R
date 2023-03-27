@@ -24,7 +24,7 @@ plot_model_pred <- function(m, d) {
   return(plt)
 }
 
-get_slopes <- function(m, num_features, rings = FALSE) {
+get_slopes <- function(m, num_features, rings = FALSE, fixed = TRUE) {
   # m - brms model object
   # num_features is either 1 or 2
   # set rings to TRUE if we are allowing for slope to interact with ring
@@ -80,6 +80,15 @@ get_slopes <- function(m, num_features, rings = FALSE) {
   
   samples <- full_join(samples_ff, samples_rf, by = c(".draw", "feature")) %>%
     mutate(rD = D + rD)
+  
+  if (fixed) {
+    samples <- get_slopes(m, 1) %>% 
+      select(-observer, -rD) %>% 
+      distinct() 
+  } else {
+    
+    
+  }
   
   return(samples)
   
@@ -326,17 +335,6 @@ extract_fixed_slopes_from_model <- function(m) {
     levels(samples$d_feature), "(?<=feature)[a-z]+(?=:logN_TP1)")
   
   return(samples)
-  
-}
-
-extract_samples_from_model <- function(m) {
-  
-  samples <- get_slopes(m, 1) %>% 
-    select(-observer, -rD) %>% 
-    distinct() 
-  
-  return(samples)
-  
   
 }
 
