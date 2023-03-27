@@ -11,7 +11,6 @@ options(mc.cores = parallel::detectCores())
 n_chains = 4
 n_itr = 5000
 
-
 fit_model <- function(d, fam, prior, formula, samp_prior = "no") { 
   
   # wrapper function for running models
@@ -79,7 +78,7 @@ my_prior_lm <- c(
   prior_string("cauchy(0, 0.05)", class = "sd"))
 
 # now fit to single feature data!
-m <- fit_model(d1, "normal", my_prior_lm, my_f)
+m <- fit_model(d1, "lognormal", my_prior_lm, my_f)
 saveRDS(m, "exp1_lognormal.model")
 rm(m, my_prior_lm)
 
@@ -97,7 +96,7 @@ my_prior_nrml <- c(
   prior_string("normal(0, 0.25)", class = "sd"))
 
 # now fit to single feature data!
-m <- fit_model(d1, "lognormal", my_prior_nrml, my_f)
+m <- fit_model(d1, "normal", my_prior_nrml, my_f)
 saveRDS(m, "exp1_normal.model")
 rm(m, my_prior_nrml)
 

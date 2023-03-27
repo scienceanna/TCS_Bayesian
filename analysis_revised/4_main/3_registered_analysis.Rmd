@@ -19,9 +19,9 @@ This file contains the *registered analysis* for Hughes et al. (2023). This file
 `1_pre_process_data.R` : this script imports the data and applies our registered exclusion criteria.
 
 As some of the Bayesian models take a while to fit, these are pre-computed using `2_fit_models.R`. 
+Similarly, please run `2b_model_comparison` to recompute the posterior model weights for H1 and H2. 
 
-`../scripts/our_functions.R` contains functions that ...
-
+`../scripts/our_functions.R` contains a range of functions for working with the model objects
 
 ## Setup and Data Import
 
@@ -86,7 +86,7 @@ Note that our approach differs slightly from the original methods proposed by Bu
 
 
 ```{r, eval = FALSE}
-source("2_fit_pilot_models.R")
+#source("2_fit_models.R")
 ```
 
 ## Plotting prior predictions
@@ -371,4 +371,4 @@ d2 <- d2 %>% unite(feature, feature1, feature2)
 
 ``` 
 
- With the pilot data, all three models receive approximately the same predictive weight, meaning that we are not able to distinguish etween them: we do not have evidence for one model over the others.  
+ With the pilot data, all three models receive approximately the same predictive weight, meaning that we are not able to distinguish between them: we do not have evidence for one model over the others.  
