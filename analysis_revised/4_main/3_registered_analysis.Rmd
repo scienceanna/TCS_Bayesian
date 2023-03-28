@@ -7,9 +7,8 @@ output: bookdown::html_document2
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   echo = TRUE,
-   fig.height = 3,
+  fig.height = 3,
   fig.align = "center")
-
 ```
 
 # Intro
