@@ -45,10 +45,10 @@ set.seed(100320021)
 
 # Individual Differences in D
 
-First, we will look to see the extent to which $D$ varies from one person to the next. And are these variations correlated? 
+First, we will look to see the extent to which $D$ varies from one person to the next. We will also ask whether these variations are correlated, both for single and for double feature search. 
 
 
-```{r cache=TRUE}
+```{r cache=TRUE, warning = FALSE}
 ## Import and Remove Outliers 
 
 source("1_pre_process_data.R")
@@ -122,15 +122,15 @@ ggplot(left_join(dcorr, dfill, by = c("x", "y")), aes(x, r)) +
   scale_fill_manual(values = c("darkgreen", "black")) -> plt_corr
 ```
 
-```{r plot_single_feature_corr}
+```{r plot_single_feature_corr, warning = FALSE, message = FALSE}
 plt_D_obs + plt_corr
 
 ggsave("../../plots/single_feature_correlations.pdf", height = 3, width = 8)
 
-rm(plt_Dobs, plt_corr)
+rm(plt_D_obs, plt_corr)
 ```
 
-## Now compute correlations for double feature search 
+## Correlations for double feature search 
 
 ```{r compute_double_feature_corr, cache=TRUE}
 ######### Now do double feature search
@@ -143,7 +143,7 @@ dcorr <- map_df(unique(dat_for_corr$.draw), compute_corr, dat_for_corr) %>%
          y = as_factor(y))
 ```
 
-```{r plot_cor_double_feature, fig.height=6}
+```{r plot_cor_double_feature, fig.height=6, warning = FALSE}
 ggplot(dcorr, aes(x, r)) +
   stat_slabinterval(.width = c(0.53, 0.97)) + 
   geom_hline(yintercept = 0, linetype = 2) + 
@@ -153,7 +153,9 @@ ggplot(dcorr, aes(x, r)) +
 rm(dcorr)
 ```
 
-## Predicing $D$ per person
+## Predicting $D$ per person
+
+In the main manuscript, we consider 
 
 ```{r calc_D, cache=TRUE}
 #########
@@ -195,7 +197,7 @@ slopes <- pmap_df(things_to_calc, calc_D) %>%
             Dp = median(Dp), .groups = "drop")
 ```
 
-```{r plot_Dp, fig.height = 6}
+```{r plot_Dp, fig.height = 6, message = FALSE}
 ggplot(slopes, aes(Dp, De, colour = method)) + geom_point() +
   geom_smooth(method = lm, alpha = 0.25) +
   geom_abline(linetype = 2) + 
@@ -214,7 +216,7 @@ r_bfe <- map_dbl(1:40, comp_corr, "best feature")
 r_oth <- map_dbl(1:40, comp_corr, "orthogonal contrast")
 ```
 
-```{r plot_Dmeth_corr_hist}
+```{r plot_Dmeth_corr_hist, message = FALSE, warning = FALSE}
 tibble(method = rep(c("collinear", "best feature", "orthogonal contrast"), 
                     each=40),
                 r = c(r_col, r_bfe, r_oth)) %>%
