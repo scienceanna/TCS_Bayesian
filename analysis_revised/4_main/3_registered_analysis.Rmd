@@ -36,7 +36,7 @@ library(ggpmisc)
 ```{r}
 # set ggplot2 theme
 theme_set(ggthemes::theme_tufte())
-colourPalette <- c("#e78429", "#ed968c", "#7c4b73","#aadce0", "#72bcd5", "528fad")
+colourPalette <- c("#648FFF", "#785EF0", "#DC267F","#FE6100", "#FFB000")
 
 # use parallel cores for mcmc chains!
 options(mc.cores = 4)
