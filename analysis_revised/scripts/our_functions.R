@@ -34,9 +34,9 @@ plot_model_pred <- function(m, d) {
     add_predicted_draws(m, re_formula = NA) %>%
     mean_hdci(.width = c(0.53, 0.97)) %>%
     ggplot(aes(lnd)) +
-    geom_ribbon(aes(ymin = .lower, ymax = .upper, group = .width), alpha = 0.3, fill = "pink") + 
-    geom_jitter(data = d1, aes(y = rt), colour = "white", alpha = 0.1) + 
-    geom_point(data = d_mean, aes(y = mean_median), alpha = 1, colour = "yellow") + 
+    geom_ribbon(aes(ymin = .lower, ymax = .upper, group = .width), alpha = 0.3, fill = "#785EF0") + 
+    geom_jitter(data = d1, aes(y = rt), colour = "#DC267F", alpha = 0.01) + 
+    geom_point(data = d_mean, aes(y = mean_median), alpha = 1, colour = "#DC267F") + 
     facet_wrap(~feature, nrow = 1) -> plt
   
   return(plt)

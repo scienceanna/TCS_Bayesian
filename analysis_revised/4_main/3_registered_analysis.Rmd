@@ -36,7 +36,9 @@ library(ggpmisc)
 ```{r}
 # set ggplot2 theme
 theme_set(ggthemes::theme_tufte())
-colourPalette <- c("#648FFF", "#785EF0", "#DC267F","#FE6100", "#FFB000")
+
+colourPalette <- c("#e78429", "#ed968c", "#7c4b73","#aadce0", "#72bcd5", "528fad") # this matches experimental stuff
+colourPalette2 <- c("#648FFF", "#785EF0", "#DC267F","#FE6100", "#FFB000", "#000000") # this doesn't (colour blind friendly)
 
 # use parallel cores for mcmc chains!
 options(mc.cores = 4)
@@ -186,13 +188,13 @@ samples1 %>% mutate(feature_type = if_else(
 m2 <- readRDS("exp2_random.model")
 samples2 <- get_slopes(m2)
 
-colourPalette2 <- c("#e78429", "#ed968c", "#7c4b73")
+#colourPalette2 <- c("#e78429", "#ed968c", "#7c4b73")
 
 samples2 %>% separate(feature, into = c("colour", "shape")) %>%
   ggplot(aes(D, fill = colour)) +
   geom_density(alpha = 0.33) +
   facet_grid(.~shape) +
-  scale_fill_manual(values=colourPalette2) + 
+  scale_fill_manual(values=colourPalette) + 
   theme_bw() +
   xlab(expression(D[c,s]))
 ```
@@ -218,15 +220,15 @@ slopes %>%
   separate(Dp, into = c("Dp", "Dp_min", "Dp_max"), sep = "_", convert=  TRUE) %>% 
   ggplot(aes(x = Dp, xmin = Dp_min, xmax = Dp_max, y = De, ymin = De_min, ymax = De_max)) + 
   geom_point() + 
-  geom_errorbar(alpha = 0.5, colour = "yellow") + 
-  geom_errorbarh(alpha = 0.5, colour = "yellow") + 
+  geom_errorbar(alpha = 0.5) + 
+  geom_errorbarh(alpha = 0.5) + 
   geom_abline(linetype = 2) + 
-  geom_smooth(method = "lm", fullrange  = T, colour = "violetred3") + 
+  geom_smooth(method = "lm", fullrange  = T, colour = "#785EF0") + 
       stat_poly_eq(formula = y ~ x, 
                aes(label = paste(..eq.label.., ..rr.label.., sep = "*plain(\",\")~")), 
-               parse = TRUE, size = 2.8, label.y = 0.9, coef.digits = 3, rr.digits = 4, colour="yellow1") + 
-  facet_wrap(~method, scales = "free") + 
-  scale_colour_manual(values = c("yellow1", "yellow1", "yellow1")) 
+               parse = TRUE, size = 2.8, label.y = 0.9, coef.digits = 3, rr.digits = 4) + 
+  facet_wrap(~method, scales = "free") 
+
 ``` 
 
 Calculate mean absolute prediction error: 
@@ -325,22 +327,23 @@ ndt_int_sd <- fixef(m1)["ndt_Intercept", 2]
 
 ``` 
 
-```{r hypothesis-4-plot, cache=FALSE, message = FALSE, warning = FALSE, echo = FALSE, fig.height = 5, , fig.cap = "Predicted RTs for our data, using collinear contrast combination."} 
+```{r hypothesis-4-plot, cache=TRUE, message = FALSE, warning = FALSE, echo = FALSE, fig.height = 5, , fig.cap = "Predicted RTs for our data, using orthogonal contrast combination.", cache.lazy = FALSE} 
 
 d2 <- d2 %>% unite(feature, feature1, feature2) # is this line of code redundant?
 
 m_col <- compute_rt_predictions(slopes, "collinear") 
+m_bfe <- compute_rt_predictions(slopes, "best feature") 
+m_orc <- compute_rt_predictions(slopes, "orthogonal contrast") 
 
  d2 %>% modelr::data_grid(feature, lnd) %>% 
-   add_predicted_draws(m_col, re_formula = NA) %>% 
+   add_predicted_draws(m_orc, re_formula = NA) %>% 
    mean_hdci(.width = c(0.53, 0.97)) %>% 
    ggplot(aes(lnd)) + 
-   geom_ribbon(aes(ymin = .lower, ymax = .upper, group = .width), alpha = 0.3, fill = "pink") +  
-   geom_jitter(data = d2, aes(y = rt), colour = "white", alpha = 0.1) +  
+   geom_ribbon(aes(ymin = .lower, ymax = .upper, group = .width), alpha = 0.3, fill = "#785EF0") +  
+   geom_jitter(data = d2, aes(y = rt), colour = "#DC267F", alpha = 0.01) +  
    facet_wrap(~feature, nrow = 3) 
 
- m_bfe <- compute_rt_predictions(slopes, "best feature") 
- m_orc <- compute_rt_predictions(slopes, "orthogonal contrast") 
+
 ``` 
 
 
