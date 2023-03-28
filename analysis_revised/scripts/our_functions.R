@@ -43,83 +43,84 @@ plot_model_pred <- function(m, d) {
   return(plt)
 }
 
-get_slopes <- function(m, num_features, rings = FALSE, fixed = TRUE) {
+get_slopes <- function(m, rings = FALSE, fixed = TRUE, nsamples = 1000) {
   # m - brms model object
-  # num_features is either 1 or 2
   # set rings to TRUE if we are allowing for slope to interact with ring
+  # if fixed == TRUE, only compute fixed effects
   
-  ff <- str_subset(get_variables(m), "b_[a-z_123]*:")
-  rf <- str_subset(get_variables(m), "r_observer\\[.*:")
+  #################################
+  # compute fixed effects
+  #################################
   
-  if (rings) {
-    rfr <- str_subset(get_variables(m), "r_observer\\[.*ring[1-3]\\]")
+  # get list of fixed effect variables
+ if (fixed == TRUE) {
+  
+    samples_ff <- gather_draws(m, `b_.*`, regex=T, ndraws = nsamples) 
+      
+
+ } else {
     
-    samples_rfr <- as_draws_df(m, rfr, 
-                               add_chain = TRUE, 
-                               subset = sample(1:nsamples(m), n_draws = 100)) %>%
-      pivot_longer(-c(".chain", ".iteration", ".draw"), names_to = "feature", values_to = "ringD")  %>% 
-      separate(feature, into = c("observer", "ring"), sep = ",") %>%
-      mutate(ring = parse_number(ring),
-             observer = parse_number(observer))
+   samples <- gather_draws(m, `[rb]_.*`, regex=T, ndraws = 1)
+    
+   samples_ff <- filter(samples, str_detect(.variable, "b_"))
+   samples_rf <- filter(samples, str_detect(.variable, "r_")) %>% select(-.chain, -.iteration) 
+   
+   rm(samples)
   }
-  
-  samples_rf <- as_draws_df(m, rf, 
-                             add_chain = TRUE, 
-                             subset = sample(1:nsamples(m), n_draws = 100)) %>%
-    pivot_longer(-c(".chain", ".iteration", ".draw"), names_to = "feature", values_to = "rD")  %>% 
-    separate(feature, into = c("observer", "feature"), sep = ",") %>%
-    select(-.iteration, -.chain) 
-  
-  if (num_features == 1) { 
-    samples_rf %>%
-      mutate(observer = parse_number(observer),
-             feature = str_remove(feature, "feature"),
-             feature = str_remove(feature, ":lnd]")) -> samples_rf
-    
-  } else {
-    
-    samples_rf %>%
-      separate(feature, into = c("feature1", "feature2", "lnd"), sep = ":" ) %>%
-      mutate(observer = parse_number(observer),
-             feature1 = str_remove(feature1, "feature1"),
-             feature2 = str_remove(feature2, "feature2")) %>%
-      select(-lnd) -> samples_rf
-    
-  }
-  
-  samples_rf %>% select(-.iteration, -.chain) -> samples_rf
-  
-  samples_ff <- as_draws_df(m, ff, 
-                            add_chain = TRUE, 
-                            subset =sample(1:nsamples(m), n_draws = 100)) %>%
-    pivot_longer(-c(".chain", ".iteration", ".draw"), names_to = "feature", values_to = "D") %>%
+
+  # tidy up fixed feature samples
+  samples_ff %>% select(-.chain, -.iteration) %>% 
+    filter(str_detect(.variable, ":lnd")) %>%
+    rename(feature = ".variable", D = ".value") %>%
     mutate(feature = str_remove(feature, "b_"),
-           feature = str_remove(feature, ":lnd"),
-           feature = str_remove(feature, "feature")) %>%
-    select(-.iteration, -.chain)
+           feature = str_remove(feature, "feature"),
+           feature = str_remove(feature, ":lnd")) -> samples_ff
   
-  if (rings == TRUE) {
-    samples_ff %>% separate(feature, into = c("ring", "feature"), sep = ":") %>%
-      mutate(ring = parse_number(ring)) -> samples_ff
+  # 
+  # 
+  # 
+  # rf <- str_subset(get_variables(m), "r_observer\\[.*:")
+  # 
+  # if (rings) {
+  #   rfr <- str_subset(get_variables(m), "r_observer\\[.*ring[1-3]\\]")
+  #   
+  #   samples_rfr <- as_draws_df(m, rfr, 
+  #                              add_chain = TRUE, 
+  #                              subset = sample(1:nsamples(m), n_draws = 100)) %>%
+  #     pivot_longer(-c(".chain", ".iteration", ".draw"), names_to = "feature", values_to = "ringD")  %>% 
+  #     separate(feature, into = c("observer", "ring"), sep = ",") %>%
+  #     mutate(ring = parse_number(ring),
+  #            observer = parse_number(observer))
+  # }
+  # 
+  # samples_rf <- as_draws_df(m, rf, 
+  #                            add_chain = TRUE, 
+  #                            subset = sample(1:nsamples(m), n_draws = 100)) %>%
+  #   pivot_longer(-c(".chain", ".iteration", ".draw"), names_to = "feature", values_to = "rD")  %>% 
+  #   separate(feature, into = c("observer", "feature"), sep = ",") %>%
+  #   select(-.iteration, -.chain) 
+  # 
+  # 
+  #   samples_rf %>%
+  #     mutate(observer = parse_number(observer),
+  #            feature = str_remove(feature, "feature"),
+  #            feature = str_remove(feature, ":lnd]")) -> samples_rf
+  #   
+  # 
+  # samples_rf %>% select(-.iteration, -.chain) -> samples_rf
+  # 
+  # 
+  # 
+  # if (rings == TRUE) {
+  #   samples_ff %>% separate(feature, into = c("ring", "feature"), sep = ":") %>%
+  #     mutate(ring = parse_number(ring)) -> samples_ff
+  # }
+  # 
+  
+  if (fixed == TRUE) {
+    samples <- samples_ff
   }
-  
-  if (num_features == 2) {
-    samples_ff %>% separate(feature, into = c("feature1", "feature2"), sep = ":") %>%
-      mutate(feature1 = str_remove(feature1, "1"),
-             feature2 = str_remove(feature2, "feature2")) -> samples_ff
-  }
-  
-  samples <- full_join(samples_ff, samples_rf, by = c(".draw", "feature")) %>%
-    mutate(rD = D + rD)
-  
-  if (fixed) {
-    samples <- get_slopes(m, 1) %>% 
-      select(-observer, -rD) %>% 
-      distinct() 
-  } else {
-    
-    
-  }
+
   
   return(samples)
   

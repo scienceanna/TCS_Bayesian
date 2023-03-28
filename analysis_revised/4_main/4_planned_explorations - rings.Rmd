@@ -99,10 +99,10 @@ ggsave("../../plots/ring_single_feature.pdf", width = 8, height = 4)
 ## Predicting D
 
 ```{r cache=TRUE}
-
 # now read in m2 so that we can compute Dp
-
 m2 <- readRDS("exp2_ring.model")
+
+# get slopes!
 
 samples1 <- get_slopes(m1, 1, rings = TRUE) %>% mutate(feature = str_remove(feature, "feature")) 
 
