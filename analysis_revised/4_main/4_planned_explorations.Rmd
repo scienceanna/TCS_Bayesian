@@ -132,7 +132,7 @@ rm(plt_Dobs, plt_corr)
 
 ## Now compute correlations for double feature search 
 
-```{r compute_double_feature_corrcache=TRUE, cache=TRUE}
+```{r compute_double_feature_corr, cache=TRUE}
 ######### Now do double feature search
 samples2 %>% select(.draw, observer, feature, rD) %>%
   pivot_wider(names_from = "feature", values_from = "rD") %>%

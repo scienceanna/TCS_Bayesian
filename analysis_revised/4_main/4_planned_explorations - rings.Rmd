@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Introduction
 
-```{r, echo = FALSE}
+```{r load-packages, include = FALSE}
 library(tidyverse)
 library(brms)
 library(tidybayes)
@@ -20,15 +20,15 @@ library(latex2exp)
 library(ggpmisc)
 library(ggridges)
 library(corrr)
+```
 
+```{r}
 # set ggplot2 theme
-theme_set(theme_bw())
-
-# circle, diamond, orange, pink, purple, triangle
+theme_set(ggthemes::theme_tufte())
 colourPalette <- c("#e78429", "#ed968c", "#7c4b73","#aadce0", "#72bcd5", "528fad")
 
 # use parallel cores for mcmc chains!
-options(mc.cores = parallel::detectCores())
+options(mc.cores = 4)
 
 # reduce the number of decimal places
 options(digits = 3)
@@ -39,180 +39,6 @@ source("../scripts/our_functions.R")
 # set seed to make sure everything is reproducible 
 set.seed(100320021)
 ```
-
-# Individual Differences in D
-
-
-```{r cache=TRUE}
-## Import and Remove Outliers 
-
-source("1_pre_process_data.R")
-
-m1 <- readRDS("exp1.model")
-m2 <- readRDS("exp2_random.model")
-
-# first, calculate slopes
-samples1 <- get_slopes(m1, 1, fixed = F)
-samples2 <- get_slopes(m2, 1, fixed = F) 
-```
-
-## Correlations for single feature search
-
-```{r cache=TRUE}
-ggplot(samples1, aes(x=rD, y= as_factor(feature), 
-                     group = interaction(observer, feature), fill = feature)) +
-  geom_density_ridges(alpha = 0.5) +
-  scale_fill_manual(values = colourPalette) + 
-  scale_x_continuous(expression(D[c] ~ and ~ D[s])) + 
-  scale_y_discrete("feature") + 
-  theme(legend.position = "none") -> plt_D_obs
-
-samples1 %>% select(.draw, observer, feature, rD) %>%
-  pivot_wider(names_from = "feature", values_from = "rD") %>%
-  select(-observer) -> dat_for_corr
-
-compute_corr <- function(drw, df) {
-  df %>% filter(.draw==drw) %>%
-    select(-.draw) %>%
-    correlate(quiet = TRUE) %>%
-    stretch() -> dout
-  
-  return(dout)
-}
-
-dcorr <- map_df(unique(dat_for_corr$.draw), compute_corr, dat_for_corr) %>%
-  mutate(x = as_factor(x), 
-         x = fct_relevel(x, "pink", "purple", "orange"), 
-         y = as_factor(y),
-         y = fct_relevel(y, "pink", "purple", "orange"))
-```
-
-```{r, cache=TRUE}
-dcorr %>% group_by(x, y) %>%
-  median_hdci(r, .width = 0.97) %>%
-  mutate(fill = if_else(.lower>0, "nonezero", "zero")) %>%
-  select(x, y, fill) -> dfill
-
-
-ggplot(left_join(dcorr, dfill, by = c("x", "y")), aes(x, r)) +
-  stat_slabinterval(alpha = 0.5, aes(fill = fill), 
-                    point_interval = "median_hdci",
-                    .width = c(0.53, 0.97), fatten_point = 0) + 
-  geom_hline(yintercept = 0, linetype = 2) + 
-  facet_wrap(~y) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust=1),
-        legend.position = "none",
-        axis.title.x = element_blank()) +
-  scale_y_continuous("Pearson's correlation coefficent", 
-                     limits = c(-0.6, 1), expand = c(0, 0), breaks = seq(-0.5, 1, 0.5)) +
-  scale_fill_manual(values = c("darkgreen", "black")) -> plt_corr
-```
-
-```{r plot_corr, fig.align=4}
-plt_D_obs + plt_corr
-
-ggsave("../../plots/single_feature_correlations.pdf", height = 3, width = 8)
-```
-
-## Now compute correlations for double feature search 
-
-```{r}
-######### Now do double feature search
-
-
-samples2 %>% select(.draw, observer, feature, rD) %>%
-  pivot_wider(names_from = "feature", values_from = "rD") %>%
-  select(-observer) -> dat_for_corr
-
-
-dcorr <- map_df(unique(dat_for_corr$.draw), compute_corr, dat_for_corr) %>%
-  mutate(x = as_factor(x), 
-         #x = fct_relevel(x, "pink", "purple", "orange"), 
-         y = as_factor(y))
-        # y = fct_relevel(y, "pink", "purple", "orange"))
-
-
-ggplot(dcorr, aes(x, r)) +
-  stat_slabinterval(.width = c(0.53, 0.97)) + 
-  geom_hline(yintercept = 0, linetype = 2) + 
-  facet_wrap(~y) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 1, hjust=1))
-
-
-
-#########
-# Look at how well we can predict Dcs per person
-
-calc_D <- function(feature1, feature2, observer) {
-  
-  obs <- observer
-  D1 <- filter(samples1, feature == feature1, observer == obs)$rD
-  D2 <- filter(samples1, feature == feature2, observer == obs)$rD
-  
-  # now calculate D_overall using the three proposed methods
-  D_collinear = 1/((1/D1) + (1/D2))
-  D_best_feature = pmin(D1, D2)
-  D_orth_contrast =  1/sqrt(1/(D1^2) + (1/D2^2))
-  
-  return(tibble(.draw = 1:length(unique(samples1$.draw)),
-                observer = obs,
-                feature = paste(feature1, feature2, sep = "_"),
-                feature1 = feature1, feature2 = feature2,
-                collinear = D_collinear,
-                `best feature` = D_best_feature,
-               `orthogonal contrast` = D_orth_contrast,
-               ))
-}
-
-
-things_to_calc <- samples2 %>% 
-  select(-.draw, -rD, -D) %>%
-  distinct() %>% 
-  separate(feature, c("feature1", "feature2")) %>%
-  select(feature1, feature2, observer)
-
-
-slopes <- pmap_df(things_to_calc, calc_D) %>% 
-  full_join(samples2, by = c("observer", ".draw", "feature")) %>%
-  pivot_longer(c(collinear, `best feature`, `orthogonal contrast`), names_to = "method", values_to = "Dp") %>% 
-  group_by(observer, method, feature ) %>%
-  summarise(De = median(rD), 
-            Dp = median(Dp), .groups = "drop")
-
-ggplot(slopes, aes(Dp, De, colour = method)) + geom_point() +
-  geom_smooth(method = lm, alpha = 0.25) +
-  geom_abline(linetype = 2) + 
-  facet_wrap(~observer, nrow = 3)
-
-
-comp_corr <- function(obs, meth) {
-  df <- filter(slopes, observer == obs, method == meth)
-  r <- cor(df$De, df$Dp)
-  return(r)
-  
-}
-
-
-r_col <- map_dbl(1:40, comp_corr, "collinear")
-r_bfe <- map_dbl(1:40, comp_corr, "best feature")
-r_oth <- map_dbl(1:40, comp_corr, "orthogonal contrast")
-
-
-tibble(method = rep(c("collinear", "best feature", "orthogonal contrast"), 
-                    each=40),
-                r = c(r_col, r_bfe, r_oth)) %>%
-  ggplot(aes(r, fill = method)) + geom_histogram(alpha = 0.5, position=position_identity())
-
-
-```
-
-
-## Tidy up
-
-```{r}
-rm(list = ls(all.names = TRUE))
-```
-
 
 
 # Ring Things
@@ -240,7 +66,7 @@ rm(m0)
 
 First let us check if ring has an effect and interacts with number of distracter and their feature
 
-```{r plot_ring_model cache=TRUE}
+```{r plot_ring_model, cache=TRUE}
 
 m1 %>% gather_draws(`b_.*`, regex=T) %>%
   select(-.chain, -.iteration) %>% 
@@ -253,7 +79,6 @@ post %>% filter(lin_mod_comp == "slope") %>%
   mutate(feature = str_extract(.variable, "orange|pink|purple|diamond|circle|triangle")) %>%
   ungroup() %>%
   select(-.variable, -lin_mod_comp) -> slopes
-         
   
 slopes %>% ggplot(aes(.value, fill = ring)) + geom_density(alpha = 0.5) +
   facet_wrap(~feature) +
@@ -261,7 +86,6 @@ slopes %>% ggplot(aes(.value, fill = ring)) + geom_density(alpha = 0.5) +
 
 d1 %>% modelr::data_grid(feature, ring, lnd = seq(0, 3.5, 0.1)) %>%
   add_epred_draws(m1, ndraws = 100, re_formula = NA) -> pred
-
 
 ggplot(pred, aes(x = lnd, y = .epred, colour = ring, group = .draw)) +
   geom_path(alpha = 0.1) + 
@@ -276,20 +100,21 @@ ggsave("../../plots/ring_single_feature.pdf", width = 8, height = 4)
 
 ```{r cache=TRUE}
 
-
 # now read in m2 so that we can compute Dp
 
 m2 <- readRDS("exp2_ring.model")
 
-samples1 <- get_slopes(m1, 1, TRUE) %>% mutate(feature = str_remove(feature, "feature")) 
+samples1 <- get_slopes(m1, 1, rings = TRUE) %>% mutate(feature = str_remove(feature, "feature")) 
 
-samples2 <- get_slopes(m2, 1, TRUE) %>% 
+samples2 <- get_slopes(m2, 1, rings = TRUE) %>% 
   select(-observer, -rD) %>% 
   distinct() %>%
   mutate(feature = str_remove(feature, "feature"),
          feature1 = str_extract(feature, "orange|pink|purple"),
          feature2 = str_extract(feature, "circle|diamond|triangle"))  
+```
 
+```{r}
 calc_D <- function(ring, feature1, feature2) {
   
   rn = ring
@@ -301,7 +126,7 @@ calc_D <- function(ring, feature1, feature2) {
   D_best_feature = pmin(D1, D2)
   D_orth_contrast =  1/sqrt(1/(D1^2) + (1/D2^2))
   
-  return(tibble(.draw = 1:10000,
+  return(tibble(.draw = 1:length(unique(samples1$.draw)),
                 ring = ring,
                 feature = paste(feature1, feature2, sep = "_"),
                 feature1 = feature1, feature2 = feature2,
@@ -310,6 +135,9 @@ calc_D <- function(ring, feature1, feature2) {
                 `orthogonal contrast` = D_orth_contrast))
 }
 
+```
+
+```{r calc_D_run, cache=TRUE}
 
 things_to_calc <- samples2 %>% select( -D, -.draw) %>% filter(is.finite(ring)) %>%
   select(-feature) %>% distinct()

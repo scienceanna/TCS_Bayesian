@@ -48,15 +48,27 @@ get_slopes <- function(m, num_features, rings = FALSE, fixed = TRUE) {
   # num_features is either 1 or 2
   # set rings to TRUE if we are allowing for slope to interact with ring
   
-  
   ff <- str_subset(get_variables(m), "b_[a-z_123]*:")
   rf <- str_subset(get_variables(m), "r_observer\\[.*:")
   
+  if (rings) {
+    rfr <- str_subset(get_variables(m), "r_observer\\[.*ring[1-3]\\]")
+    
+    samples_rfr <- as_draws_df(m, rfr, 
+                               add_chain = TRUE, 
+                               subset = sample(1:nsamples(m), n_draws = 100)) %>%
+      pivot_longer(-c(".chain", ".iteration", ".draw"), names_to = "feature", values_to = "ringD")  %>% 
+      separate(feature, into = c("observer", "ring"), sep = ",") %>%
+      mutate(ring = parse_number(ring),
+             observer = parse_number(observer))
+  }
+  
   samples_rf <- as_draws_df(m, rf, 
                              add_chain = TRUE, 
-                             subset =sample(1:nsamples(m), n_draws = 100)) %>%
+                             subset = sample(1:nsamples(m), n_draws = 100)) %>%
     pivot_longer(-c(".chain", ".iteration", ".draw"), names_to = "feature", values_to = "rD")  %>% 
-    separate(feature, into = c("observer", "feature"), sep = ",")
+    separate(feature, into = c("observer", "feature"), sep = ",") %>%
+    select(-.iteration, -.chain) 
   
   if (num_features == 1) { 
     samples_rf %>%
