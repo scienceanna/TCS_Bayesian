@@ -103,15 +103,8 @@ ggsave("../../plots/ring_single_feature.pdf", width = 8, height = 4)
 m2 <- readRDS("exp2_ring.model")
 
 # get slopes!
-
-samples1 <- get_slopes(m1, 1, rings = TRUE) %>% mutate(feature = str_remove(feature, "feature")) 
-
-samples2 <- get_slopes(m2, 1, rings = TRUE) %>% 
-  select(-observer, -rD) %>% 
-  distinct() %>%
-  mutate(feature = str_remove(feature, "feature"),
-         feature1 = str_extract(feature, "orange|pink|purple"),
-         feature2 = str_extract(feature, "circle|diamond|triangle"))  
+samples1 <- get_slopes(m1, rings = TRUE)
+samples2 <- get_slopes(m2, num_features = 2, rings = TRUE)  
 ```
 
 ```{r}
@@ -128,8 +121,9 @@ calc_D <- function(ring, feature1, feature2) {
   
   return(tibble(.draw = 1:length(unique(samples1$.draw)),
                 ring = ring,
-                feature = paste(feature1, feature2, sep = "_"),
-                feature1 = feature1, feature2 = feature2,
+               # feature = paste(feature1, feature2, sep = "_"),
+                feature1 = feature1, 
+               feature2 = feature2,
                 collinear = D_collinear,
                 `best feature` = D_best_feature,
                 `orthogonal contrast` = D_orth_contrast))
@@ -139,19 +133,15 @@ calc_D <- function(ring, feature1, feature2) {
 
 ```{r calc_D_run, cache=TRUE}
 
-things_to_calc <- samples2 %>% select( -D, -.draw) %>% filter(is.finite(ring)) %>%
-  select(-feature) %>% distinct()
-
+things_to_calc <- samples2 %>% select( -D, -.draw) %>% 
+   distinct()
 
 slopes <- pmap_df(things_to_calc, calc_D) %>% 
-  full_join(samples2, by = c(".draw", "feature1", "feature2", "ring")) %>% 
+  full_join(samples2, 
+            by = c(".draw", "feature1", "feature2", "ring")) %>% 
   pivot_longer(c(collinear, `best feature`, `orthogonal contrast`), names_to = "method", values_to = "Dp") %>% 
-  select(-feature.x, -feature.y) %>% 
   pivot_longer(c(D, Dp), names_to = "type", values_to = "D") %>% 
-  group_by(feature1, feature2, ring,  method, type) %>%
-  filter(is.finite(D))
-
-
+  group_by(feature1, feature2, ring,  method, type) 
 
 slopes %>% 
   median_hdci(D) %>%
@@ -187,7 +177,7 @@ slopes  %>%
   pivot_wider(names_from = "type", values_from = "D") %>% 
   mutate(abs_err = abs(D-Dp)) %>% 
   group_by(ring, feature1, feature2, method) %>% 
-  summarise(mean_abs_err = mean(abs_err)) %>% 
+  summarise(mean_abs_err = mean(abs_err), .groups = "drop") %>% 
   pivot_wider(names_from = "method", values_from = "mean_abs_err") %>% 
   ungroup() -> slopes_err 
 

@@ -29,7 +29,6 @@ calc_D <- function(feature1, feature2) {
   
 }
 
-
 plot_model_pred <- function(m, d) {
   d %>% modelr::data_grid(feature, lnd) %>%
     add_predicted_draws(m, re_formula = NA) %>%
@@ -43,7 +42,7 @@ plot_model_pred <- function(m, d) {
   return(plt)
 }
 
-get_slopes <- function(m, rings = FALSE, fixed = TRUE, nsamples = 1000) {
+get_slopes <- function(m, num_features = 1, rings = FALSE, fixed = TRUE, n = 1000) {
   # m - brms model object
   # set rings to TRUE if we are allowing for slope to interact with ring
   # if fixed == TRUE, only compute fixed effects
@@ -55,7 +54,7 @@ get_slopes <- function(m, rings = FALSE, fixed = TRUE, nsamples = 1000) {
   # get list of fixed effect variables
  if (fixed == TRUE) {
   
-    samples_ff <- gather_draws(m, `b_.*`, regex=T, ndraws = nsamples) 
+    samples_ff <- gather_draws(m, `b_.*`, regex=T, ndraws = n) 
       
 
  } else {
@@ -75,6 +74,17 @@ get_slopes <- function(m, rings = FALSE, fixed = TRUE, nsamples = 1000) {
     mutate(feature = str_remove(feature, "b_"),
            feature = str_remove(feature, "feature"),
            feature = str_remove(feature, ":lnd")) -> samples_ff
+  
+  if (rings) {
+    
+    samples_ff %>% separate(feature, into = c("ring", "feature"), sep = ":") %>% 
+      mutate(ring = parse_number(ring)) -> samples_ff
+  }
+  
+  if (num_features==2) {
+    samples_ff %>% separate(feature, into = c("feature1", "feature2"), sep = "_") -> samples_ff
+    
+  }
   
   # 
   # 
@@ -121,6 +131,8 @@ get_slopes <- function(m, rings = FALSE, fixed = TRUE, nsamples = 1000) {
     samples <- samples_ff
   }
 
+  # standardise draw numbers
+  samples %>% mutate(.draw =as.numeric(as.factor(.draw))) -> samples
   
   return(samples)
   
