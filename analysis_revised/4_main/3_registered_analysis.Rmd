@@ -20,11 +20,11 @@ This file contains the *registered analysis* for Hughes et al. (2023). This file
 As some of the Bayesian models take a while to fit, these are pre-computed using `2_fit_models.R`. 
 Similarly, please run `2b_model_comparison` to recompute the posterior model weights for H1 and H2. 
 
-`../scripts/our_functions.R` contains a range of functions for working with the model objects
+`../scripts/our_functions.R` contains a range of functions for working with the model objects.
 
 ## Setup and Data Import
 
-```{r load-packages, include = FALSE}
+```{r startup load-packages, include = FALSE}
 library(tidyverse)
 library(brms)
 library(tidybayes)
@@ -36,7 +36,7 @@ library(ggpmisc)
 ```{r}
 # set ggplot2 theme
 theme_set(ggthemes::theme_tufte())
-colourPalette <- c("#e78429", "#ed968c", "#7c4b73","#aadce0", "#72bcd5", "528fad")
+colourPalette <- c("#648FFF", "#785EF0", "#DC267F","#FE6100", "#FFB000")
 
 # use parallel cores for mcmc chains!
 options(mc.cores = 4)
@@ -53,7 +53,7 @@ set.seed(100320021)
 
 ## Import and Remove Outliers 
 
-We will import data from the pilot experiment (with pre-processing already in place, e.g. incorrect trials removed, 1st and 100th percentile reaction times removed). $d1$ is the training data set (Experiment 1) and $d2$ is the test data set.
+We will import data from the pilot experiment (with pre-processing already in place, e.g. incorrect trials removed, 1st and 100th percentile reaction times removed). $d1$ is the training data set (Experiment 1) and $d2$ is the test data set (Experiment 2).
 
 ```{r import-data, message = FALSE, warning = FALSE}
 source("1_pre_process_data.R")
@@ -84,7 +84,7 @@ The models take a little while to run, so do not run by default in this document
 Note that our approach differs slightly from the original methods proposed by Buetti et al (2019). In their manuscript, due to the between-subjects nature of the design, $a$ was calculated at the level of each sub-experiment. However, in our within-subjects version, we will use $a$ from the single feature experiments (i.e. Experiment 1) to predict $a$ in the compound feature experiments (i.e. Experiment 2).
 
 
-```{r, eval = FALSE}
+```{r fit-models, eval = FALSE}
 #source("2_fit_models.R")
 ```
 
@@ -92,11 +92,11 @@ Note that our approach differs slightly from the original methods proposed by Bu
 
 We can see that the priors chosen for our models centre the estimates of $D$ around 0 (i.e. we are not making any assumptions about what we expect the slopes to be).
 
-```{r, message = FALSE, warning = FALSE, fig.cap = "Prior predictions for our models."}
+```{r plot-priors, message = FALSE, warning = FALSE, fig.cap = "Prior predictions for our models."}
 
 m1b <- readRDS("exp1_prior.model")
 
-samples1b <- get_slopes(m1b, nsamples = 1000)
+samples1b <- get_slopes(m1b, n = 1000)
 
 samples1b %>% mutate(feature_type = if_else(
   feature %in% c("purple", "orange", "pink"), "colour", "shape")) %>%
@@ -112,19 +112,22 @@ samples1b %>% mutate(feature_type = if_else(
 
 Test whether using a shifted-lognormal distribution gives a better model than a lognormal or normal.
 
-```{r, cache=TRUE}
+```{r hypothesis-1, cache=TRUE}
 m_sft <- readRDS("exp1.model")
 m_nrl <- readRDS("exp1_normal.model")
 m_log <- readRDS("exp1_lognormal.model")
 
-# read in table and kable here
+# read in table and kable
+hyp_1_table <- read_csv('model_comp_hyp1.csv')
+knitr::kable(hyp_1_table)
+
 ```
 
 The shifted lognormal model gives the best prediction 100% of the time, meaning that we have strong evidence that we should prefer this model over the others.
 
 Some plots to illustrate our models:
 
-```{r, message = FALSE, warning = FALSE, echo = FALSE, fig.cap = "Model predictions for (top) shifted log normal model, (middle) log normal model and (bottom) normal model.", fig.height = 10}
+```{r hypothesis-1-plots, message = FALSE, warning = FALSE, echo = FALSE, fig.cap = "Model predictions for (top) shifted log normal model, (middle) log normal model and (bottom) normal model.", fig.height = 10}
 d1 %>% group_by(feature, lnd, observer) %>%
   summarise(median_rt = median(rt)) %>%
   summarise(mean_median = median(median_rt)) -> d_mean
@@ -142,8 +145,11 @@ rm(m_nrl, m_log)
 
 Here, we want to verify that using log(number of distractors) in our model is superior to n(distractors).
 
-```{r, cache=TRUE, echo = FALSE}
-# read in table and kable
+```{r hypothesis-2, cache=TRUE, echo = FALSE}
+
+hyp_2_table <- read_csv('model_comp_hyp2.csv')
+knitr::kable(hyp_2_table)
+
 ```
 
 Our loglinear model is preferred 100% of the time, supporting the hypothesis that this is the best model structure for the data.
@@ -155,7 +161,7 @@ Our loglinear model is preferred 100% of the time, supporting the hypothesis tha
 Can we predict $D$ in the double-feature case from data in the single-feature case?
 Which method has the lowest mean absolute prediction error?
 
-```{r, message = FALSE, warning = FALSE, fig.cap = "Predicting the group average D."}
+```{r hypothesis-3-single, message = FALSE, warning = FALSE, fig.cap = "Predicting the group average D."}
 
 m1 <- readRDS("exp1.model")
 
@@ -175,7 +181,7 @@ samples1 %>% mutate(feature_type = if_else(
 
 ```
 
-```{r, message = FALSE, warning = FALSE, fig.cap = "Predicting person-level effects."}
+```{r hypothesis-3-double, message = FALSE, warning = FALSE, fig.cap = "Predicting person-level effects."}
 
 m2 <- readRDS("exp2_random.model")
 samples2 <- get_slopes(m2)
@@ -191,7 +197,7 @@ samples2 %>% separate(feature, into = c("colour", "shape")) %>%
   xlab(expression(D[c,s]))
 ```
 
-```{r, message = FALSE, warning = FALSE, fig.width = 10, fig.cap = "Predicted D plotted against empirical D for our pilot data."}
+```{r hypothesis-3-plot-slopes, message = FALSE, warning = FALSE, fig.width = 10, fig.cap = "Predicted D plotted against empirical D for our pilot data."}
 things_to_calc <- samples2 %>% select( -D, -.draw) %>% 
   distinct() %>% 
   separate(feature, c("feature1", "feature2")) 
@@ -225,7 +231,7 @@ slopes %>%
 
 Calculate mean absolute prediction error: 
 
-```{r, message = FALSE, warning = FALSE} 
+```{r mean-absolute-prediction-error, message = FALSE, warning = FALSE} 
 slopes  %>% 
   ungroup() %>% 
   pivot_wider(names_from = "type", values_from = "D") %>% 
@@ -243,7 +249,7 @@ add_row(slopes_err, feature1 = "sum", feature2 = "over all",
   knitr::kable() 
 ``` 
 
-Overall, the collinear model has the lowest mean absolute error, in line with the findings from the original manuscript. 
+Overall, the orthogonal model has the lowest mean absolute error.
 
 # Hypothesis 4: Predicting Reaction Times 
 
@@ -319,7 +325,7 @@ ndt_int_sd <- fixef(m1)["ndt_Intercept", 2]
 
 ``` 
 
-```{r, cache=FALSE, message = FALSE, warning = FALSE, echo = FALSE, fig.height = 5, , fig.cap = "Predicted RTs for our data, using collinear contrast combination."} 
+```{r hypothesis-4-plot, cache=FALSE, message = FALSE, warning = FALSE, echo = FALSE, fig.height = 5, , fig.cap = "Predicted RTs for our data, using collinear contrast combination."} 
 
 d2 <- d2 %>% unite(feature, feature1, feature2) # is this line of code redundant?
 
@@ -338,7 +344,7 @@ m_col <- compute_rt_predictions(slopes, "collinear")
 ``` 
 
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE} 
+```{r hypothesis-4-bridge-sample, echo = FALSE, message = FALSE, warning = FALSE} 
  m_colbs <- bridge_sampler(m_col, silent = TRUE) 
  m_bfebs <- bridge_sampler(m_bfe, silent = TRUE) 
  m_orcbs <- bridge_sampler(m_orc, silent = TRUE) 
@@ -349,4 +355,4 @@ m_col <- compute_rt_predictions(slopes, "collinear")
 
 ``` 
 
- With the pilot data, all three models receive approximately the same predictive weight, meaning that we are not able to distinguish between them: we do not have evidence for one model over the others.  
+All three models receive approximately the same predictive weight, meaning that we are not able to distinguish between them: we do not have evidence for one model over the others.  
