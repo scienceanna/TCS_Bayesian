@@ -155,7 +155,7 @@ rm(dcorr)
 
 ## Predicting $D$ per person
 
-In the main manuscript, we consider 
+In the main manuscript, we combine the single feature search slopes to predict the double feature conditions across all participants. Here, we show the predictions for each participant individually.
 
 ```{r calc_D, cache=TRUE}
 #########
@@ -197,11 +197,11 @@ slopes <- pmap_df(things_to_calc, calc_D) %>%
             Dp = median(Dp), .groups = "drop")
 ```
 
-```{r plot_Dp, fig.height = 6, message = FALSE}
+```{r plot_Dp, fig.height = 15, message = FALSE}
 ggplot(slopes, aes(Dp, De, colour = method)) + geom_point() +
   geom_smooth(method = lm, alpha = 0.25) +
   geom_abline(linetype = 2) + 
-  facet_wrap(~observer, nrow = 3)
+  facet_wrap(~observer, nrow = 10)
 ```
 
 ```{r comp_corr, cache=TRUE}
@@ -215,6 +215,8 @@ r_col <- map_dbl(1:40, comp_corr, "collinear")
 r_bfe <- map_dbl(1:40, comp_corr, "best feature")
 r_oth <- map_dbl(1:40, comp_corr, "orthogonal contrast")
 ```
+
+Below, we can see that across all participants, orthogonal contrast generally has the highest correlation coefficient value, although there are several participants who are very poorly predicted by the orthogonal contrast method (unlike the collinear and the best feature methods).
 
 ```{r plot_Dmeth_corr_hist, message = FALSE, warning = FALSE}
 tibble(method = rep(c("collinear", "best feature", "orthogonal contrast"), 
