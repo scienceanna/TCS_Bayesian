@@ -143,6 +143,24 @@ d1_sft / d1_log / d1_nrl
 rm(m_nrl, m_log)
 ```
 
+```{r hyp1-plot-for-paper, include = FALSE}
+
+# Just want the sft model plot for the main manuscript
+
+d1 %>% modelr::data_grid(feature, lnd= seq(-1, 4, length.out = 25)) %>%
+  add_predicted_draws(m_sft, re_formula = NA) %>%
+  mean_hdci(.width = c(0.53, 0.97)) %>%
+  ggplot(aes(lnd)) +
+  geom_jitter(data = d1%>% sample_frac(0.1), aes(y = rt), colour = "#DC267F", alpha = 0.1) + 
+  geom_ribbon(aes(ymin = .lower, ymax = .upper, group = .width), alpha = 0.3, fill = "#785EF0") + 
+  coord_cartesian(xlim = c(-0.5, 3.75), ylim = c(0.4, 2)) + 
+  facet_wrap(~feature, nrow = 1) +
+  scale_x_continuous("log(number of distractors)")-> d1_sft_paper
+
+ggsave("../../plots/sft_ln_model.pdf", d1_sft_paper, width = 8, height = 2)
+
+```
+
 ## Hypothesis 2
 
 Here, we want to verify that using log(number of distractors) in our model is superior to n(distractors).
@@ -178,8 +196,10 @@ samples1 %>% mutate(feature_type = if_else(
   feature %in% c("purple", "orange", "pink"), "colour", "shape")) %>%
   ggplot(aes(D, fill = feature)) +
   geom_density(alpha = 0.33) +
-  facet_wrap(~feature_type) +
-  scale_fill_manual(values=colourPalette,  limits = c("orange", "pink","purple", "circle", "diamond", "triangle"))
+  facet_grid(~feature_type) +
+  scale_fill_manual(values=colourPalette,  limits = c("orange", "pink","purple", "circle", "diamond", "triangle")) -> pltDi
+
+pltDi
 
 ```
 
@@ -195,8 +215,17 @@ samples2 %>% separate(feature, into = c("colour", "shape")) %>%
   geom_density(alpha = 0.33) +
   facet_grid(.~shape) +
   scale_fill_manual(values=colourPalette) + 
-  theme_bw() +
-  xlab(expression(D[c,s]))
+  xlab(expression(D[c,s])) -> pltDcs
+
+pltDcs
+
+```
+
+```{r hypothesis-3-plot-for-paper, include = FALSE}
+
+ggsave("../../plots/Dcs.pdf", pltDi + pltDcs + plot_layout(widths = c(3,4)), width = 8, height = 2)
+
+
 ```
 
 ```{r hypothesis-3-plot-slopes, message = FALSE, warning = FALSE, fig.width = 10, fig.cap = "Predicted D plotted against empirical D for our pilot data."}
@@ -228,6 +257,8 @@ slopes %>%
                aes(label = paste(..eq.label.., ..rr.label.., sep = "*plain(\",\")~")), 
                parse = TRUE, size = 2.8, label.y = 0.9, coef.digits = 3, rr.digits = 4) + 
   facet_wrap(~method, scales = "free") 
+
+ggsave("../../plots/Dpe.pdf", width = 8, height = 3)
 
 ``` 
 
