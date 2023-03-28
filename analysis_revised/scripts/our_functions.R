@@ -96,7 +96,7 @@ get_slopes <- function(m, num_features = 1, rings = FALSE, fixed = TRUE, n = 100
       mutate(D = D + rD) %>%
       select(-rD) -> samples
   } else {
-    samples < samples_ff
+    samples <- samples_ff
   }
   
   # split feature into two parts if required
