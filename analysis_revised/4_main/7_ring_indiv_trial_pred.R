@@ -39,8 +39,6 @@ samples1 <- get_slopes(m1, rings = TRUE, fixed = FALSE)
 samples2 <- get_slopes(m2, num_features = 2, rings = TRUE, fixed = FALSE)  
 
 
-
-
 #########
 # Look at how well we can predict Dcs per person
 
@@ -59,6 +57,7 @@ calc_D <- function(ring, feature1, feature2, observer) {
   
   return(tibble(.draw = 1:length(unique(samples1$.draw)),
                 observer = obs,
+                ring = rn,
                 feature = paste(feature1, feature2, sep = "_"),
                 feature1 = feature1, feature2 = feature2,
                 collinear = D_collinear,
@@ -73,7 +72,7 @@ things_to_calc <- samples2 %>% select( -D, -.draw) %>%
 
 
 slopes <- pmap_df(things_to_calc, calc_D) %>% 
-  full_join(samples2, by = c("observer", ".draw", "feature1", "feature2")) %>%
+  full_join(samples2, by = c("observer", "ring", ".draw", "feature1", "feature2")) %>%
   pivot_longer(c(collinear, `best feature`, `orthogonal contrast`), names_to = "method", values_to = "Dp")
 
 
@@ -91,7 +90,7 @@ ggplot(slopes_summary, aes(Dp, De, colour = method)) +
   ggthemes::scale_color_ptol()
 
 
-
+rm(samples1, samples2)
 
 
 ########### recalc slopes and don't summarise yet
@@ -99,12 +98,11 @@ ggplot(slopes_summary, aes(Dp, De, colour = method)) +
 
 compute_rt_predictions <- function(slopes, meth) { 
   
-  df <-  d2 %>% unite(feature, feature1, feature2) 
-  
+  df <- d2 %>% unite(feature, feature1, feature2) 
   
   slopes %>% 
     filter(method == meth) %>% 
-    group_by(observer,ring,  feature) %>% 
+    group_by(observer, ring,  feature) %>% 
     summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop") %>% 
     mutate( 
       d_feature = as_factor(feature), 
@@ -123,12 +121,12 @@ compute_rt_predictions <- function(slopes, meth) {
   my_inits <- list(list(Intercept_ndt = -10)) 
   
   intercept_mu <- round(c(ranef(m1)$observer[, 1, 1], 
-                          ranef(m1)$observer[, 1, 3], 
-                          ranef(m1)$observer[, 1, 2]), 4)
+                          ranef(m1)$observer[, 1, 2], 
+                          ranef(m1)$observer[, 1, 3]), 4)
                         
   intercept_sd <- round(c(ranef(m1)$observer[, 2, 1], 
-                          ranef(m1)$observer[, 2, 3], 
-                          ranef(m1)$observer[, 2, 2]), 4)
+                          ranef(m1)$observer[, 2, 2], 
+                          ranef(m1)$observer[, 2, 3]), 4)
   
   
   intercept_names <- c(paste0("ring1:observer", unique(d1$observer)),
@@ -146,8 +144,8 @@ compute_rt_predictions <- function(slopes, meth) {
   sd_ndt_sd <- VarCorr(m1)$observer$sd[2,2] 
   
   slopes_str <- paste0("ring", Dp_summary$ring, ":observer", Dp_summary$observer, ":feature", Dp_summary$feature, ":lnd")
-  slopes_mu <-round(Dp_summary$mu,4)  
-  slopes_sd <-round(Dp_summary$sigma, 4)  
+  slopes_mu <- round(Dp_summary$mu,4)  
+  slopes_sd <- round(Dp_summary$sigma, 4)  
   
   my_prior <-  c( 
     prior_string(paste("normal(", intercept_mu, ",",  intercept_sd, ")", sep = ""), class = "b", coef = intercept_names), 
@@ -171,7 +169,7 @@ compute_rt_predictions <- function(slopes, meth) {
     family = brmsfamily("shifted_lognormal"), 
     prior = my_prior, 
     chains = 1, 
-    iter = 80000,
+    iter = 200000,
     init = my_inits, 
     stanvars = stanvars, 
     save_pars = save_pars(all=TRUE), 
@@ -187,13 +185,14 @@ compute_rt_predictions <- function(slopes, meth) {
 
 m_col <- compute_rt_predictions(slopes, "collinear") 
 saveRDS(m_col, "pred_ring_obs_col.model")
-m_colbs <- bridge_sampler(m_col, silent = TRUE) 
+m_col <- readRDS("pred_ring_obs_col.model")
+m_colbs <- bridge_sampler(m_col, silent = TRUE, maxiter = 20000) 
 rm(m_col)
-
 
 m_bfe <- compute_rt_predictions(slopes, "best feature") 
 saveRDS(m_bfe, "pred_ring_obs_bfe.model")
-m_bfebs <- bridge_sampler(m_bfe, silent = TRUE) 
+m_bfe <- readRDS("pred_ring_obs_bfe.model")
+m_bfebs <- bridge_sampler(m_bfe, silent = TRUE, maxiter = 5000) 
 rm(m_bfe)
 
 m_orc <- compute_rt_predictions(slopes, "orthogonal contrast") 
@@ -202,7 +201,35 @@ m_orcbs <- bridge_sampler(m_orc, silent = TRUE)
 rm(m_orc)
 
 
+rm(m1, m2, samples1, samples2, slopes, slopes_summary)
+
+
 tibble(model = c("collinear", "best feature", "orthogonal contrast"), 
        `posterior probability` = post_prob(m_colbs, m_bfebs, m_orcbs)) %>% 
   knitr::kable() 
+
+
+
+rm(m1, m2, slopes, dstim, samples1, samples2, slopes_summary, things_to_calc)
+
+### plot model
+m <- readRDS("pred_ring_obs_col.model")
+
+d2 %>% unite(feature, feature1, feature2) -> d2
+
+d2 %>% modelr::data_grid(observer=c("01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
+                                    "11", "12", "13", "14", "15", "16", "17", "18", "20",
+                                    "21", "22", "23", "24", "25", "26", "27", "28", "29", "30",
+                                    "31", "32", "33", "34", "35", "36", "37", "38", "39", "40"), 
+                         ring, lnd, feature) %>%
+  add_predicted_draws(m, re_formula = NA, ndraws = 100, value = "rt") %>%
+  group_by(ring, lnd, feature) %>%
+  select(-.row, -.chain, -.iteration) %>%
+  median_hdci(rt) -> dp
+
+ggplot(dp, aes(x = lnd, y = rt, colour = ring)) + geom_path() +
+  facet_wrap(~feature)
+
+
+
 
