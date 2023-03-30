@@ -36,11 +36,17 @@ rm(d, m_lin, m_sft)
 
 
 ###
+# Ring vs. no ring
+###
+
+m1 <- readRDS("exp1_ring.model")
+m0 <- readRDS("exp1.model")
 
 m1 <- bridge_sampler(m1, silent = TRUE) 
 m0 <- bridge_sampler(m0, silent = TRUE) 
 
 
 tibble(model = c("rings", "not rings"), 
-       `posterior probability` = post_prob(m1, m0)) %>% 
-  knitr::kable() 
+       `posterior probability` = post_prob(m1, m0)) -> d
+
+write_csv(d, "model_comp_ring.csv")

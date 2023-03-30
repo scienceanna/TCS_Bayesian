@@ -2,7 +2,7 @@
 title: "4 Planned Explorations"
 author: "Alasdair D.F. Clarke and Anna E. Hughes"
 date: "2023-03-24"
-output: html_document
+output: bookdown::html_document2
 ---
 
 ```{r setup, include=FALSE}
@@ -23,6 +23,8 @@ library(latex2exp)
 library(ggpmisc)
 library(ggridges)
 library(corrr)
+library(knitr)
+library(kableExtra)
 ```
 
 ```{r}
@@ -243,7 +245,9 @@ source("1_pre_process_data.R")
 ```
  
 
-## Model comparison Here
+## Model comparison 
+
+First, we will compare the ring model to a non-ring model (for the training dataset).
 
 ```{r ring_mod_comp}
 
@@ -252,12 +256,20 @@ m1 <- readRDS("exp1_ring.model")
 m0 <- readRDS("exp1.model")
 
 # read in csv and kable
+ring_table <- read_csv('model_comp_ring.csv', show_col_types = FALSE)
+knitr::kable(ring_table) 
+
+```
+
+We can see that the ring model is preferred to the non-ring model - it offers a better model of the data.
+
+```{r include = FALSE}
 
 rm(m0)
 
 ```
 
-First let us check if ring has an effect and interacts with number of distracter and their feature
+Does ring interact with the distractor type?
 
 ```{r plot_ring_model, cache=TRUE}
 
@@ -285,9 +297,15 @@ ggplot(pred, aes(x = lnd, y = .epred, colour = ring, group = .draw)) +
   facet_wrap(~feature) +
   ggthemes::scale_color_ptol()
 
+```
+
+``` {r include = FALSE}
+
 ggsave("../../plots/ring_single_feature.pdf", width = 8, height = 4)
 
 ```
+
+As might be expected, the answer seems to be yes, the effect of eccentricity does seem to depend on the exact distractor type - in particular, the slopes seem to be steeper for the distractors more similar in shape to the target for the furthest eccentricity. Conversely, in some displays (e.g. where the colour is more different) there seems to be little effect of eccentricity.
 
 ## Predicting D
 
@@ -324,7 +342,7 @@ calc_D <- function(ring, feature1, feature2) {
 
 ```
 
-```{r calc_D_run, cache=TRUE}
+```{r calc_D_run, cache=TRUE, message = FALSE}
 
 things_to_calc <- samples2 %>% select( -D, -.draw) %>% 
    distinct()
@@ -356,6 +374,10 @@ slopes %>%
   facet_wrap(~method, scales = "free") +
   ggthemes::scale_color_ptol("target ring")
 
+```
+
+``` {r include = FALSE}
+
 ggsave("../../plots/target_ring_D_pred.pdf",  width = 8, height = 3)
 
 ```
@@ -379,20 +401,8 @@ add_row(slopes_err, ring = 0, feature1 = "sum", feature2 = "over all",
         `best feature` = sum(slopes_err[4]), 
         collinear = sum(slopes_err[5]), 
         `orthogonal contrast` = sum(slopes_err[6])) %>% 
-  knitr::kable() 
-
-slopes  %>% 
-  ungroup() %>% 
-  pivot_wider(names_from = "type", values_from = "D") %>%
-  mutate(ring = as_factor(ring)) -> slopes
-
-summary(lm(D ~ 0 + ring + ring:Dp, 
-           data = filter(slopes, method == "best feature")))
-
-summary(lm(D ~ 0 + ring + ring:Dp, 
-           data = filter(slopes, method == "collinear")))
-
-summary(lm(D ~ 0 + ring + ring:Dp, 
-           data = filter(slopes, method == "orthogonal contrast")))
+  knitr::kable() %>%
+  kable_styling() %>%
+  row_spec(28,bold=T,hline_after = T)
 
 ```
