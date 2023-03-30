@@ -35,8 +35,8 @@ m1 <- readRDS("exp1_ring.model")
 m2 <- readRDS("exp2_ring.model")
 
 # first, calculate slopes
-samples1 <- get_slopes(m1, rings = TRUE, fixed = FALSE)
-samples2 <- get_slopes(m2, num_features = 2, rings = TRUE, fixed = FALSE)  
+samples1 <- get_slopes(m1, rings = TRUE, fixed = FALSE, n = 10)
+samples2 <- get_slopes(m2, num_features = 2, rings = TRUE, fixed = FALSE, n = 10)  
 
 
 #########
@@ -96,14 +96,20 @@ rm(samples1, samples2)
 ########### recalc slopes and don't summarise yet
 
 
-compute_rt_predictions <- function(slopes, meth) { 
+compute_rt_predictions <- function(slopes, obs, meth) { 
   
-  df <- d2 %>% unite(feature, feature1, feature2) 
+  df <- d2 %>% unite(feature, feature1, feature2) %>%
+    filter(observer == obs)
+  
+  # load in d2 model for this person
+  m2 <- readRDS(paste0("obs_models/obs", obs, ".model"))
+  
+  obs <- as.numeric(obs)
   
   slopes %>% 
-    filter(method == meth) %>% 
+    filter(observer == obs, method == meth) %>% 
     group_by(observer, ring,  feature) %>% 
-    summarise(mu = mean(Dp), sigma = sd(Dp), .groups = "drop") %>% 
+    summarise(mu = mean(Dp), sigma = sd(Dp), sigmaD =  sd(D), muD = mean(D), .groups = "drop") %>% 
     mutate( 
       d_feature = as_factor(feature), 
       method = meth,
@@ -115,51 +121,39 @@ compute_rt_predictions <- function(slopes, meth) {
   
   # now define and run new model!  
   
-  my_f <- brms::bf(rt ~ 0 + ring:observer + observer:ring:feature:lnd,  
-                   ndt ~ 0:observer) 
+  my_f <- brms::bf(rt ~ 0 + ring + ring:feature:lnd,  
+                   ndt ~ 1) 
   
   my_inits <- list(list(Intercept_ndt = -10)) 
   
-  intercept_mu <- round(c(ranef(m1)$observer[, 1, 1], 
-                          ranef(m1)$observer[, 1, 2], 
-                          ranef(m1)$observer[, 1, 3]), 4)
+  intercept_mu <- round(c(ranef(m1)$observer[obs, 1, 1], 
+                          ranef(m1)$observer[obs, 1, 2], 
+                          ranef(m1)$observer[obs, 1, 3]), 4)
                         
-  intercept_sd <- round(c(ranef(m1)$observer[, 2, 1], 
-                          ranef(m1)$observer[, 2, 2], 
-                          ranef(m1)$observer[, 2, 3]), 4)
+  intercept_sd <- round(c(ranef(m1)$observer[obs, 2, 1], 
+                          ranef(m1)$observer[obs, 2, 2], 
+                          ranef(m1)$observer[obs, 2, 3]), 4)
   
   
-  intercept_names <- c(paste0("ring1:observer", unique(d1$observer)),
-                       paste0("ring2:observer", unique(d1$observer)),
-                       paste0("ring3:observer", unique(d1$observer)))
-                       
+  intercept_names <- c("ring1", "ring2", "ring3")
  
-  sigma_mean <-  VarCorr(m1)$residual$sd[1] 
-  sigma_sd   <-  VarCorr(m1)$residual$sd[2] 
+  sigma_mean <-  VarCorr(m2)$residual$sd[1] 
+  sigma_sd   <-  VarCorr(m2)$residual$sd[2] 
   
-  sd_mean <- VarCorr(m1)$observer$sd[1,1] 
-  sd_sd <- VarCorr(m1)$observer$sd[1,2] 
   
-  sd_ndt_mean <- VarCorr(m1)$observer$sd[2,1] 
-  sd_ndt_sd <- VarCorr(m1)$observer$sd[2,2] 
-  
-  slopes_str <- paste0("ring", Dp_summary$ring, ":observer", Dp_summary$observer, ":feature", Dp_summary$feature, ":lnd")
+  ndt_int_mu <- fixef(m2)["ndt_Intercept", 1]
+  ndt_int_sd <- fixef(m2)["ndt_Intercept", 2]
+
+  slopes_str <-paste0("ring", Dp_summary$ring, ":feature", Dp_summary$feature, ":lnd")
   slopes_mu <- round(Dp_summary$mu,4)  
   slopes_sd <- round(Dp_summary$sigma, 4)  
   
   my_prior <-  c( 
     prior_string(paste("normal(", intercept_mu, ",",  intercept_sd, ")", sep = ""), class = "b", coef = intercept_names), 
     prior_string(paste("normal(", slopes_mu, ",",  slopes_sd, ")", sep = ""), class = "b", coef = slopes_str), 
-    prior_string(paste("normal(", sigma_mean, ",", sigma_sd, ")", sep = ""), class = "sigma")) 
-    #prior_string(paste("normal(", sd_mean, ",", sd_sd, ")", sep = ""), class = "sd"), 
-    #prior_string(paste("normal(",ndt_int_mu, ", ", ndt_int_sd, ")"), class = "Intercept", dpar = "ndt" ))
-    #prior_string(paste("normal(",sd_ndt_mean,",", sd_ndt_sd,")"), class = "sd", dpar = "ndt")) 
+    prior_string(paste("normal(", sigma_mean, ",", sigma_sd, ")", sep = ""), class = "sigma"), 
+    prior_string(paste("normal(",ndt_int_mu, ", ", ndt_int_sd, ")"), class = "Intercept", dpar = "ndt" ))
 
-  
-  stanvars <- stanvar(sigma_mean, name='sigma_mean') +  
-    stanvar(sigma_sd, name='sigma_sd') +  
-    stanvar(sd_mean, name='sd_mean') +  
-    stanvar(sd_sd, name='sd_sd')
   
   get_prior(my_f, df, family = brmsfamily("shifted_lognormal"))
   
@@ -169,48 +163,59 @@ compute_rt_predictions <- function(slopes, meth) {
     family = brmsfamily("shifted_lognormal"), 
     prior = my_prior, 
     chains = 1, 
-    iter = 200000,
+    iter = 5000,
     init = my_inits, 
-    stanvars = stanvars, 
+    # stanvars = stanvars, 
     save_pars = save_pars(all=TRUE), 
     silent = TRUE, 
     sample_prior = "only", 
-    refresh = 0,
-    backend = "cmdstan"
+    refresh = 0
+   # backend = "cmdstan"
   ) 
   
   return(m_prt) 
 } 
 
 
-m_col <- compute_rt_predictions(slopes, "collinear") 
-saveRDS(m_col, "pred_ring_obs_col.model")
-m_col <- readRDS("pred_ring_obs_col.model")
-m_colbs <- bridge_sampler(m_col, silent = TRUE, maxiter = 20000) 
-rm(m_col)
-
-m_bfe <- compute_rt_predictions(slopes, "best feature") 
-saveRDS(m_bfe, "pred_ring_obs_bfe.model")
-m_bfe <- readRDS("pred_ring_obs_bfe.model")
-m_bfebs <- bridge_sampler(m_bfe, silent = TRUE, maxiter = 5000) 
-rm(m_bfe)
-
-m_orc <- compute_rt_predictions(slopes, "orthogonal contrast") 
-saveRDS(m_orc, "pred_ring_obs_orc.model")
-m_orcbs <- bridge_sampler(m_orc, silent = TRUE) 
-rm(m_orc)
 
 
-rm(m1, m2, samples1, samples2, slopes, slopes_summary)
+obs_model_comp <- function(obs) {
+  
+  
+  m_col <- compute_rt_predictions(slopes, obs, "collinear") 
+ # saveRDS(m_col, "pred_ring_obs_col.model")
+  #m_col <- readRDS("pred_ring_obs_col.model")
+  m_colbs <- bridge_sampler(m_col, silent = TRUE) 
+  rm(m_col)
+  
+  m_bfe <- compute_rt_predictions(slopes, obs, "best feature") 
+ # saveRDS(m_bfe, "pred_ring_obs_bfe.model")
+  #m_bfe <- readRDS("pred_ring_obs_bfe.model")
+  m_bfebs <- bridge_sampler(m_bfe, silent = TRUE) 
+  rm(m_bfe)
+  
+  m_orc <- compute_rt_predictions(slopes, obs, "orthogonal contrast") 
+  #saveRDS(m_orc, "pred_ring_obs_orc.model")
+  m_orcbs <- bridge_sampler(m_orc, silent = TRUE) 
+  rm(m_orc)
+  
+  m2 <- readRDS(paste0("obs_models/obs", obs, ".model"))
+  m2_bs <-  bridge_sampler(m2, silent = TRUE) 
+  return(tibble(observer = obs, 
+                model = c("collinear", "best feature", "orthogonal contrast", "groundtruth"), 
+                `posterior probability` = post_prob(m_colbs, m_bfebs, m_orcbs, m2_bs)))
+  
+}
+
+for (obs in unique(d2$observer)[1:5]) 
+{
+dmc <- obs_model_comp(obs)
+print(dmc)
+}
 
 
-tibble(model = c("collinear", "best feature", "orthogonal contrast"), 
-       `posterior probability` = post_prob(m_colbs, m_bfebs, m_orcbs)) %>% 
-  knitr::kable() 
 
-
-
-rm(m1, m2, slopes, dstim, samples1, samples2, slopes_summary, things_to_calc)
+  rm(m1, m2, slopes, dstim, samples1, samples2, slopes_summary, things_to_calc)
 
 ### plot model
 m <- readRDS("pred_ring_obs_col.model")

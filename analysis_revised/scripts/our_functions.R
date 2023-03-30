@@ -476,9 +476,7 @@ set_up_predict_model <- function(e_id, fam = "shifted_lognormal", meth, Dp_summa
   sd_ndt_sd <- VarCorr(one_feature_model)$p_id$sd[2,2]
   
   # use our model of D!
- 
-  
-  slopes <- convert_d_feature_to_coef_name(Dp_summary$d_feature)
+   slopes <- convert_d_feature_to_coef_name(Dp_summary$d_feature)
   slopes_mu <-Dp_summary$mu 
   slopes_sd <-Dp_summary$sigma 
     
