@@ -104,12 +104,12 @@ full_join(dstim, d, by = "image") %>%
 
 # split into training and set sets
 d1 <- filter(d, exp == 1) %>% 
-  select(-exp) %>%
+  select(-exp, -x, -y, -r, -image, -accuracy) %>%
   mutate(feature = fct_drop(feature))
 
 d2 <- filter(d, exp == 2) %>%
   separate(feature, into = c("feature1", "feature2"))  %>% 
-  select(-exp)
+  select(-exp, -x, -y, -r, -image, -accuracy)
 
 
 rm(d)
