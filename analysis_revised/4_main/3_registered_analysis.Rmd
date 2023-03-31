@@ -31,6 +31,8 @@ library(tidybayes)
 library(patchwork)
 library(latex2exp)
 library(ggpmisc)
+library(knitr)
+library(kableExtra)
 ```
 
 ```{r}
@@ -279,7 +281,9 @@ add_row(slopes_err, feature1 = "sum", feature2 = "over all",
         `best feature` = sum(slopes_err[3]), 
         collinear = sum(slopes_err[4]), 
         `orthogonal contrast` = sum(slopes_err[5])) %>% 
-  knitr::kable() 
+  knitr::kable() %>%
+  kable_styling() %>%
+  row_spec(10,bold=T,hline_after = T)
 ``` 
 
 Overall, the orthogonal model has the lowest mean absolute error.
@@ -385,7 +389,8 @@ m_orc <- compute_rt_predictions(slopes, "orthogonal contrast")
 
  tibble(model = c("collinear", "best feature", "orthogonal contrast"), 
               `posterior probability` = post_prob(m_colbs, m_bfebs, m_orcbs)) %>% 
-   knitr::kable() 
+   knitr::kable() %>%
+   kable_styling()
 
 ``` 
 
