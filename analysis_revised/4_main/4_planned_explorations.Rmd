@@ -2,7 +2,7 @@
 title: "4 Planned Explorations"
 author: "Alasdair D.F. Clarke and Anna E. Hughes"
 date: "2023-03-24"
-output: html_document
+output: bookdown::html_document2
 ---
 
 ```{r setup, include=FALSE}
@@ -23,6 +23,8 @@ library(latex2exp)
 library(ggpmisc)
 library(ggridges)
 library(corrr)
+library(knitr)
+library(kableExtra)
 ```
 
 ```{r}
@@ -122,8 +124,13 @@ ggplot(left_join(dcorr, dfill, by = c("x", "y")), aes(x, r)) +
   scale_fill_manual(values = c("darkgreen", "black")) -> plt_corr
 ```
 
-```{r plot_single_feature_corr, warning = FALSE, message = FALSE, echo = FALSE}
+```{r plot-single-feature-corr, fig.cap = "Indiviual differences in Dc and Ds. (left) Posterior probability distributions for Dc and Ds for each individual. (right) Estimated correlations between each of the Dc and Ds.", warning = FALSE, message = FALSE, echo = FALSE}
+
 plt_D_obs + plt_corr
+
+```
+
+```{r, include = FALSE}
 
 ggsave("../../plots/single_feature_correlations.pdf", height = 3, width = 8)
 
@@ -143,7 +150,7 @@ dcorr <- map_df(unique(dat_for_corr$.draw), compute_corr, dat_for_corr) %>%
          y = as_factor(y))
 ```
 
-```{r plot_cor_double_feature, fig.height=6, warning = FALSE, echo = FALSE}
+```{r plot-cor-double-feature, fig.height=6, fig.cap = "Estimated correlations for double feature search.", warning = FALSE, echo = FALSE}
 ggplot(dcorr, aes(x, r)) +
   stat_slabinterval(.width = c(0.53, 0.97)) + 
   geom_hline(yintercept = 0, linetype = 2) + 
@@ -197,7 +204,7 @@ slopes <- pmap_df(things_to_calc, calc_D) %>%
             Dp = median(Dp), .groups = "drop")
 ```
 
-```{r plot_Dp, fig.height = 15, fig.width = 10, message = FALSE}
+```{r plot-Dp, fig.height = 15, fig.width = 10, fig.cap = "D predictions for each observer.", message = FALSE}
 ggplot(slopes, aes(Dp, De, colour = method)) + geom_point() +
   geom_smooth(method = lm, alpha = 0.25) +
   geom_abline(linetype = 2) + 
@@ -220,7 +227,7 @@ Below, we can see that across all participants, orthogonal contrast generally ha
 
 TO DO: comp_corr with absolue error (rather than r2 value).
 
-```{r plot_Dmeth_corr_hist, message = FALSE, warning = FALSE}
+```{r plot-Dmeth-corr-hist, fig.cap = "Histogram of correlation coefficient values for each combination method.", message = FALSE, warning = FALSE}
 tibble(method = rep(c("collinear", "best feature", "orthogonal contrast"), 
                     each=40),
                 r = c(r_col, r_bfe, r_oth)) %>%
@@ -243,7 +250,9 @@ source("1_pre_process_data.R")
 ```
  
 
-## Model comparison Here
+## Model comparison 
+
+First, we will compare the ring model to a non-ring model (for the training dataset).
 
 ```{r ring_mod_comp}
 
@@ -252,14 +261,22 @@ m1 <- readRDS("exp1_ring.model")
 m0 <- readRDS("exp1.model")
 
 # read in csv and kable
+ring_table <- read_csv('model_comp_ring.csv', show_col_types = FALSE)
+knitr::kable(ring_table) 
+
+```
+
+We can see that the ring model is preferred to the non-ring model - it offers a better model of the data.
+
+```{r include = FALSE}
 
 rm(m0)
 
 ```
 
-First let us check if ring has an effect and interacts with number of distracter and their feature
+Does ring interact with the distractor type?
 
-```{r plot_ring_model, cache=TRUE}
+```{r plot-ring-model, cache=TRUE, fig.cap = "Posterior predictions for the ring model."}
 
 m1 %>% gather_draws(`b_.*`, regex=T) %>%
   select(-.chain, -.iteration) %>% 
@@ -277,6 +294,11 @@ slopes %>% ggplot(aes(.value, fill = ring)) + geom_density(alpha = 0.5) +
   facet_wrap(~feature) +
   ggthemes::scale_fill_ptol()
 
+```
+
+
+``` {r plot-ring-model-2, fig.cap = "Fixed effects for predicting the effect of ring, feature and number of distractors on response times."}
+
 d1 %>% modelr::data_grid(feature, ring, lnd = seq(0, 3.5, 0.1)) %>%
   add_epred_draws(m1, ndraws = 100, re_formula = NA) -> pred
 
@@ -285,9 +307,15 @@ ggplot(pred, aes(x = lnd, y = .epred, colour = ring, group = .draw)) +
   facet_wrap(~feature) +
   ggthemes::scale_color_ptol()
 
+```
+
+``` {r include = FALSE}
+
 ggsave("../../plots/ring_single_feature.pdf", width = 8, height = 4)
 
 ```
+
+As might be expected, the answer seems to be yes, the effect of eccentricity does seem to depend on the exact distractor type - in particular, the slopes seem to be steeper for the distractors more similar in shape to the target for the furthest eccentricity. Conversely, in some displays (e.g. where the colour is more different) there seems to be little effect of eccentricity.
 
 ## Predicting D
 
@@ -324,7 +352,7 @@ calc_D <- function(ring, feature1, feature2) {
 
 ```
 
-```{r calc_D_run, cache=TRUE}
+```{r calc-D-run, cache=TRUE, message = FALSE, fig.cap = "The relationship between predicted D and empirical D for the three methods, shown for each ring separately."}
 
 things_to_calc <- samples2 %>% select( -D, -.draw) %>% 
    distinct()
@@ -356,6 +384,10 @@ slopes %>%
   facet_wrap(~method, scales = "free") +
   ggthemes::scale_color_ptol("target ring")
 
+```
+
+``` {r include = FALSE}
+
 ggsave("../../plots/target_ring_D_pred.pdf",  width = 8, height = 3)
 
 ```
@@ -379,20 +411,8 @@ add_row(slopes_err, ring = 0, feature1 = "sum", feature2 = "over all",
         `best feature` = sum(slopes_err[4]), 
         collinear = sum(slopes_err[5]), 
         `orthogonal contrast` = sum(slopes_err[6])) %>% 
-  knitr::kable() 
-
-slopes  %>% 
-  ungroup() %>% 
-  pivot_wider(names_from = "type", values_from = "D") %>%
-  mutate(ring = as_factor(ring)) -> slopes
-
-summary(lm(D ~ 0 + ring + ring:Dp, 
-           data = filter(slopes, method == "best feature")))
-
-summary(lm(D ~ 0 + ring + ring:Dp, 
-           data = filter(slopes, method == "collinear")))
-
-summary(lm(D ~ 0 + ring + ring:Dp, 
-           data = filter(slopes, method == "orthogonal contrast")))
+  knitr::kable() %>%
+  kable_styling() %>%
+  row_spec(28,bold=T,hline_after = T)
 
 ```
