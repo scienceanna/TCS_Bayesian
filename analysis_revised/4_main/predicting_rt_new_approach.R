@@ -115,6 +115,7 @@ model1 <- get_model(m1)
 rm(m1)
 model2 <- get_model(m2)
 rm(m2)
+
 # convert in order to get D predictions for m2
 full_join(
   mod_col <- model1 %>% filter(feature %in% c("orange", "pink", "purple")) %>%
@@ -129,7 +130,7 @@ full_join(
 
 full_join(model2, Dp) %>%
   pivot_longer(c(D, D_collinear, D_best_feature, D_orth_contrast), 
-               names_to = "method", values_to = "D") -> models
+               names_to = "method", values_to = "b") -> models
 
 rm(Dp)
 rm(model1, model2)
@@ -142,8 +143,9 @@ make_pred <- function(drw) {
   mod <- filter(models, .draw == draw)
   
   full_join(mod, d2, by = c("observer", "ring", "feature")) %>%
-    select(.draw, method, observer, ring, feature, lnd, a, D, ndt, sd, rt) %>%
-    mutate(p_mu_rt = exp(ndt) + exp(a + D*lnd)) %>%
+    select(.draw, method, observer, ring, feature, lnd, a, b, ndt, sd, rt) %>%
+    mutate(p_mu_rt = exp(ndt) + exp(a + b*lnd),
+           loglik = dshifted_lnorm(rt, meanlog = p_mu_rt, sdlog = sd, shift = ndt, log = T)) %>%
     arrange(method, observer, ring, feature, lnd) -> dp
   
   return(dp)
@@ -152,10 +154,31 @@ make_pred <- function(drw) {
 
 dp <- map_df(1:ndraws, make_pred)
 
+# sanity check plot
+dp %>% sample_frac(0.001) %>%
+  ggplot(aes(x = p_mu_rt- rt, y = loglik)) + geom_point(alpha = 0.1)
 
-dp %>% mutate(
-  abs_err = abs(rt-p_mu_rt)) %>%
-  group_by(observer, method,  ring) %>%
+dp %>% filter(lnd == 0) %>%
+  ggplot(aes(x = method, b, fill = method)) +
+  geom_boxplot() +  
+  facet_grid(ring~feature) +
+  coord_cartesian(ylim = c(-0.5, 1))
+
+dp %>% 
+  select(.draw, method, observer, ring, feature, lnd, rt, p_mu_rt, loglik) %>%
+  mutate(abs_err = abs(rt-p_mu_rt)) -> dp
+
+# sanity check plot
+dp %>% sample_frac(0.01) %>%
+  ggplot(aes(x = abs_err, y = loglik)) + geom_point(alpha = 0.1)
+
+
+
+
+
+##############################################
+
+dp %>%  group_by(.draw, method,  ring) %>%
   summarise(median_err = median(abs_err)) %>%
   pivot_wider(names_from = "method", values_from = "median_err") %>%
   pivot_longer(c(D_collinear, D_best_feature, D_orth_contrast), 
@@ -164,11 +187,35 @@ dp %>% mutate(
          ring = as.numeric(ring)) -> Derr
 
 
+
+dp %>%  group_by(.draw, lnd, method, feature, ring) %>%
+  summarise(loglik =sum(loglik)) %>%
+  pivot_wider(names_from = "method", values_from = "loglik") %>%
+  pivot_longer(c(D_collinear, D_best_feature, D_orth_contrast), 
+               names_to = "method", values_to = "Dp") %>%
+  mutate(relloglik = D/Dp,
+         ring = as.numeric(ring)) -> Dll
+
+# work out which method gives the best prediction on different samples
+dp %>% filter(lnd > 0) %>% # don't include zero distracters, as predictions all the same here
+  select(-p_mu_rt) %>% 
+  pivot_wider(names_from = "method", values_from = "abs_err") %>%
+  mutate(min_err = pmin(D_best_feature, D_collinear, D_orth_contrast)) %>%
+  pivot_longer(c(D_best_feature, D_collinear, D_orth_contrast), 
+               names_to = "method", values_to = "abs_err") %>%
+  mutate(gave_min_err = min_err == abs_err) %>%
+  group_by(.draw, method, feature, ring) %>%
+  summarise(prob_best = sum(gave_min_err)/n()) -> t
+
+ggplot(t, aes(prob_best, fill = method)) + geom_density() + facet_grid(feature~ring)
+  
+  
 Derr %>% ggplot(aes(ring, rel_median_abs_err, fill = method)) +
-  stat_lineribbon(alpha = 0.2)
+  stat_lineribbon(alpha = 0.2, .width = 0.97)
   coord_cartesian(ylim = c(1, 2))
 
+Dll %>% ggplot(aes(lnd, relloglik, fill = method)) +
+    stat_lineribbon(alpha = 0.2, .width = 0.53) +
+    facet_grid(ring~feature) + 
+  geom_hline(yintercept = 1, linetype = 2)
   
-  filter(d2, observer == 37) %>% ggplot(aes(lnd, rt)) + geom_point() + 
-    facet_grid(feature~ring) +
-    geom_smooth(method = lm)
