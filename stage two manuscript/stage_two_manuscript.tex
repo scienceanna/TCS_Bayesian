@@ -416,29 +416,37 @@ The collinear contrast method performs very poorly in this test. To explain this
 
 \section{General Discussion}
 
-In this paper, we aimed to test the extent to which the results of \cite{buetti2019predicting} replicate and generalise, using a new modelling approach. Our results allow us to confirm our pre-registered hypotheses 1 and 2. Firstly, a shifted-lognormal distribution of response times outperforms normal and lognormal distributions, demonstrating that reaction time data is best modelled by a distribution with an offset (as valid responses begin at around 100ms). Similarly, we confirmed that the number of distractors has a log-linear effect in this model, in line with the predictions of TCS theory.
+In this paper, we aimed to test the extent to which the results of \cite{buetti2019predicting} replicate and generalise, using a new modelling approach. Our results allow us to confirm our pre-registered hypotheses 1 and 2. Firstly, a shifted-lognormal distribution of response times outperforms normal and lognormal distributions, demonstrating that reaction time data is best modelled by a distribution with an offset (as valid responses begin at around 100ms). Similarly, we confirmed that the number of distractors has a log-linear effect in this model, in line with the predictions of TCS theory. We also replicated other aspects of the original \cite{buetti2019predicting} paper with a different experimental set up, such as the fact that we saw shallower search slopes for colour features compared to shape features.
 
 However, we do not find support for our pre-registered hypotheses 3 and 4. For predicting D for the double-feature conditions, our analyses found that the orthogonal contrast model was favoured over collinear, which is not in line with the registered hypothesis, which predicted that the collinear contrast model would be best (in line with \cite{buetti2019predicting}). Similarly, for hypothesis 4, we found that there was relatively little difference between the three combination methods for prediction of trial-by-trial reaction times. Our exploratory analyses suggest that incorporating additional factors (e.g. individual differences in participant $D_c$ and $D_s$ values, and the eccentricity of the target) allows better discrimination between models, but again suggests that the orthogonal contrast combination method gives the best predictions.
 
+\subsection{Modelling of reaction times}
 
-
-, despite the fact that the collinear contrast model had the lowest mean error in our pilot data analysis, in line with the findings from the original manuscript. However, all three models have similar predictive weight which means that arguably it is difficult to distinguish which model is best, and that small changes in participant responses might alter the preferred model (and the preferred model may also vary depending upon which metric is considered).
-
-Our interpretation of the null/neutral results for Hypothesis 4 (the prediction of reaction times) is that the differences in predictions from the three contrast combination methods are small relative to the (i) individual differences between participants and (ii) trial-to-trial variability due to target eccentricity. These will be further explored below in our \textit{Planned Explorations} section.
-
-
-We have two main conclusions from our registered analysis. The first relates to how reaction times should be modelled and the calculation of search slopes. In much of the literature on visual search (cite some examples), mean reaction times are modelled using a simple linear model $\bar{y} = b N_T + a$. The $b$ coefficients are often referred to as ``search slopes'' and are often treated as measurements of theoretical importance <HOW TO PHRASE PROPOPERLY?>. The results presented above indicate that a shifted-lognormal model that is loglinear in $N_T$ offers a much better fit to the data.
+In much of the literature on visual search (cite some examples), mean reaction times are modelled using a simple linear model $\bar{y} = b N_T + a$. The $b$ coefficients are often referred to as ``search slopes'' and are often treated as measurements of theoretical importance <HOW TO PHRASE PROPOPERLY?>. The results presented above indicate that a shifted-lognormal model that is loglinear in $N_T$ offers a much better fit to the data.
 
 This result isn't particularly novel. For example, \cite{buetti2019predicting} use $\log{N_T}$ when computing their search slopes (also see CITE STUFF). In terms of reaction time distributions, researchers have looked at which distribution offers the best fit to empirical response times in visual search before. For example, \cite{palmer2011shapes} compared ex-Gaussian, ex-Wald, Gamma, and Weibull distributions and found that the distributions with exponential components offer a better fit to the data. Our results are in line with this. However, we opted to use a shifted-lognormal distribution in our analysis above for pragmatic reasons (INSERT NOTE HERE). In most situations we would expect it to be difficult to distinguish between these different distributions. Also see \citep{wolfe2010reaction}. It is also worth mentioning that some more sophisticated approaches make use of drift-diffusion methods (cite some examples) (cite some of the papers outlining why these models can be difficult).  
 
 Despite these previous findings, the use of linear search slopes is still prevalent in the visual search literature (can we find any examples? Do we want to name names?). We recommend that other researches make use of these more sophisticated models when calculating search slopes. Our work shows that these choices of distribution can influence results and conclusions.
 
+\subsection{Discriminating between combination methods}
+
+, despite the fact that the collinear contrast model had the lowest mean error in our pilot data analysis, in line with the findings from the original manuscript. However, all three models have similar predictive weight which means that arguably it is difficult to distinguish which model is best, and that small changes in participant responses might alter the preferred model (and the preferred model may also vary depending upon which metric is considered).
+
+Our interpretation of the null/neutral results for Hypothesis 4 (the prediction of reaction times) is that the differences in predictions from the three contrast combination methods are small relative to the (i) individual differences between participants and (ii) trial-to-trial variability due to target eccentricity.
+
+ 
+\subsubsection{Individual differences}
 
 INDIVIDUAL DIFFS - While it is not possible to determine whether this pattern is caused by differences in colour v.s. shape features, or by the block structure used in our experiment either way, this is an intriguing result. 
 
 \textit{say something about correlations/. can cite \cite{clarke2020stable}}
 
+\subsubsection{Eccentricity}
+
+\subsection{Lessons learned from our modelling approach}
+
 Do we want to discuss that evaluating these methods on all number of distractors is kinda dumb, and we should really look at only case in which we have a large number of distractors?
+Averages vs. individuals? Maybe want some citations here - what are we trying to do with our models?
 
 
 % Authors must disclose all relationships or interests that 
