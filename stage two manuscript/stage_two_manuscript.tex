@@ -52,7 +52,7 @@ Visual search \sep  Efficient search \sep Parallel processing
 
 Visual search, where participants are asked to find a target within a cluttered scene, has been extensively studied within psychology. Several models have been developed that can generate testable predictions about how different types of distractors and targets affect search efficiency. One of the key distinctions in the field has been between efficient (also referred to as parallel or pop-out) and inefficient (serial) search. These are often studied in the context of the regression slope between the number of distractors and mean reaction time, which has been termed the \textit{search slope}. When the search slope is shallow (usually positive, but occasionally negative e.g. \citep{rangelov2017failure}), the search is called efficient or parallel, and the addition of more non-target distractors has little impact on an observers difficulty in finding a target. When the slope is steeper, each additional distractor has a noticeable impact on increasing difficulty, and the search is described as inefficient or serial. However, the distinction between these types of search is often less clear in real experimental data, with a range of different search slopes being seen for different types of targets and distractors \citep{duncan1989visual,cave1990modeling,wolfe1998can,liesefeld2016search}. Recent work has also attempted to model the variation in search slopes at the boundary between inefficient and efficient search \citep{liesefeld2016search}.
 
-In the current study, we are interested in what has traditionally been termed efficient or parallel search, and the factors that affect search slope in these conditions. Recent work has suggested that for efficient search, there is a logarithmic relationship between distractor set size and reaction time, and that this relationship can be modified by target-distractor similarity \citep{buetti2016towards}, providing evidence that search behaviour in parallel search is more complex than has previously been assumed. This observation has formed the basis of the `Target Contrast Signal (TCS) Theory' \citep{lleras2020target}, which aims to provide a means of predicting observer search slopes for new search arrays by quantifying target-distractor differences. For example, by measuring search slopes for conditions in which the distractors differ from the target along a \textit{single feature} (e.g. colour \textit{or} shape), it has been shown that you can predict search times for arrays in which the target differs from the distractors along two features (e.g., colour \textit{and} shape) which we refer to here as \textit{double feature} search. \citep{buetti2019predicting} (but similar paradigms have been known by other names e.g. 'redundant feature search' \citep{krummenacher2012dynamic, mordkoff1991interactive}). Here, we aim to replicate and extend this work both theoretically and empirically, to test the generalisability of the TCS model, and to suggest ways in which the TCS model could be modified to generate better predictions.
+In the current study, we are interested in what has traditionally been termed efficient or parallel search, and the factors that affect search slope in these conditions. Recent work has suggested that for efficient search, there is a logarithmic relationship between distractor set size and reaction time, and that this relationship can be modified by target-distractor similarity \citep{buetti2016towards}, providing evidence that search behaviour in parallel search is more complex than has previously been assumed. This observation has formed the basis of the `Target Contrast Signal (TCS) Theory' \citep{lleras2020target}, which aims to provide a means of predicting observer search slopes for new search arrays by quantifying target-distractor differences. For example, by measuring search slopes for conditions in which the distractors differ from the target along a \textit{single feature} (e.g. colour \textit{or} shape), it has been shown that you can predict search times for arrays in which the target differs from the distractors along two features (e.g., colour \textit{and} shape) which we refer to here as \textit{double feature} search \citep{buetti2019predicting} (but similar paradigms have been known by other names e.g. 'redundant feature search' \citep{krummenacher2012dynamic, mordkoff1991interactive}). Here, we aim to replicate and extend this work both theoretically and empirically, to test the generalisability of the TCS model, and to suggest ways in which the TCS model could be modified to generate better predictions.
 
 \subsection{Previous Work}
 
@@ -352,7 +352,7 @@ Our new method for exploring this hypothesis involves taking $n=1000$ samples of
 
 We can also calculate an upper-bound by carrying out the above process, but without replacing the fitted $D$ with the predicted. This allows us to report relative error and likelihood. As all of the methods under consideration make identical predictions for trials with no distractors, these are omitted from this calculation. Finally, we calculate the mean relative log-likelihood and relative absolute error over the 1000 samples from the original statistical model. 
 
-The results of this procedure are in-line with the registered analysis above with all three methods performing well relative to our baseline (see Table 
+The results of this procedure are in-line with the registered analysis above with all three methods performing well relative to our baseline (see Table \ref{tab:new_pred_rt}), but little distinction between the three models.
 
 \begin{table}[h]
 \centering
@@ -371,26 +371,11 @@ best feature  & 1.00 & 1.02 & 1.02 & 0.985 & 0.999 & 1.01\\
 \end{table}
 
 
-
-
-
-\subsection{Discussion}
-
-Our results allow us to confirm Hypothesis 1 and 2: a shifted-lognormal distribution of response times outperforms normal and lognormal distributions, and that the number of distractors has a log-linear effect in this model. 
-
-Using this model to investigate Hypothesis 3, we find that the orthogonal contrast model is favoured over collinear. This is not in line with the hypothesis registered as part of our replication of \cite{buetti2019predicting}, despite the fact that the collinear contrast model had the lowest mean error in our pilot data analysis, in line with the findings from the original manuscript. However, all three models have similar predictive weight which means that arguably it is difficult to distinguish which model is best, and that small changes in participant responses might alter the preferred model (and the preferred model may also vary depending upon which metric is considered).
-
-Our interpretation of the null/neutral results for Hypothesis 4 (the prediction of reaction times) is that the differences in predictions from the three contrast combination methods are small relative to the (i) individual differences between participants and (ii) trial-to-trial variability due to target eccentricity. These will be further explored below in our \textit{Planned Explorations} section.
-
-
-
 \section{Planned Explorations}
 
 \subsection{Individual Differences}
 
-We start this exploratory analysis looking at how the $D_c$ and $D_s$ values vary from participant to participant. From Figure \ref{fig:exp_corr} (\textit{left}) we can see that there is considerable variation between observers - in fact, the variation from one observer to the next is often larger than the variation across features. To investigate this further we calculated the correlations between each of the features, by  calculating Pearson's $r$ for each sample from our posterior, which gives us a full posterior distribution for the correlations. We can see in Figure \ref{fig:exp_corr}(\textit{right}) that while both the $D_c$ and $D_s$ are correlated within feature classes ($\sim0.75$), there is no correlation of any of the colour features with any of the shape features. While it is not possible to determine whether this pattern is caused by differences in colour v.s. shape features, or by the block structure used in our experiment either way, this is an intriguing result. (To be discussed further in the General Discussion.)
-
-The individual differences for the \textit{double-feature} conditions are much less pronounced - these conditions are easy and the search slopes are quite close to flat (how to summarise? oh, and CHECK this!) and hence, the correlations are all much weaker, presumably due to range restriction. THIS IS ALL SPITT BALLINGYAYYAYA
+We start this exploratory analysis looking at how the $D_c$ and $D_s$ values vary from participant to participant. From Figure \ref{fig:exp_corr} (\textit{left}) we can see that there is considerable variation between observers - in fact, the variation from one observer to the next is often larger than the variation across features. To investigate this further we calculated the correlations between each of the features, by  calculating Pearson's $r$ for each sample from our posterior, which gives us a full posterior distribution for the correlations. We can see in Figure \ref{fig:exp_corr} (\textit{right}) that while both the $D_c$ and $D_s$ are correlated within feature classes ($\sim0.75$), there is no correlation of any of the colour features with any of the shape features. The individual differences for the \textit{double-feature} conditions are much less pronounced - these conditions are easy and the search slopes are quite close to flat (CHECK this!). Hence, the correlations are all much weaker, presumably due to range restriction. 
 
 \begin{figure}[ht]
 \centering
@@ -399,7 +384,7 @@ The individual differences for the \textit{double-feature} conditions are much l
 \label{fig:exp_corr}
 \end{figure}
 
-Given these results, it is perhaps unsurprising that our analysis for Hypothesis 4 leads to an inconclusive result for distinguishing between the three contrast combination methods. Perhaps taking these individual differences into account when we predict reaction times will lead to an improved power to discriminate between the models. However, before we do so, we will also investigate incorporating information about target eccentricity into the model.
+Given these results, it is perhaps unsurprising that our analysis for Hypothesis 4 leads to an inconclusive result for distinguishing between the three contrast combination methods. Perhaps taking these individual differences into account when we predict reaction times will lead to improved power to discriminate between the models. However, before we do so, we will also investigate incorporating information about target eccentricity into the model.
 
 \subsection{Target Eccentricity}
 
@@ -420,22 +405,26 @@ After obtaining a model that passed all convergence checks, we examined the post
 \label{fig:ring1}
 \end{figure}
 
-We can now compute our predictions ($D_p$) for $D_{c,s}$ taking the \textit{ring} into account. Doing so leads us to a similar result as before with orthogonal contrast outperforming the best feature and collienar measures in terms of absolute error (0.23 compared to 0.25 (best feature) and 0.34 (collinear)). However, the regression slopes are all relatively similar (0.90 for best feature, 1.16 for collinear and 1.15 for orthogonal contrast - CHECK).
+We can now compute our predictions ($D_p$) for $D_{c,s}$ taking the \textit{ring} into account. Doing so leads us to a similar result as before with orthogonal contrast outperforming the best feature and collinear measures in terms of absolute error (0.23 compared to 0.25 (best feature) and 0.34 (collinear)). However, the regression slopes are all relatively similar (0.90 for best feature, 1.16 for collinear and 1.15 for orthogonal contrast - CHECK).
 
 \subsection{Predicting Response Times}
 
 We will now test to see if we can discriminate between the three contrast combination methods when we take target eccentricity (ring) and individual-level slopes into account. We use the same model comparison as before (see Supplementary Materials for full code) and find orthogonal contrast performs best (), closely followed by best feature. 
 
-
 \subsection{Issues with the Collinear Contrast method}
 The collinear contrast method performs very poorly in this test. To explain this, we can look back at Equation \ref{eq:collinearcontrast} and realise that empirical data is not required to reject this hypothesis as a suitable method for predicting search slopes in feature search. This is because when search slopes are close to 0, it is possible that we will observe negative values in the empirical data. Breaking down our data to compute search slopes for each person and each target eccentricity increases the chances of this being observed. Looking at Equation \ref{eq:collinearcontrast} we can see that $D_1 \sim -D_2\Rightarrow 1/D_1 + 1/D_2 \sim 0$. This leads to our estimated $D = \frac{1}{1/D_1 + 1/D_2} >>> D_1, D_2$ which is clearly incorrect. 
 
-\subsection{A heading}
-
-Do we want to discuss that evaluating these methods on all number of distracters is kinda dumb, and we should realy look at only case in which we have a large number of distraceters?
-
 \section{General Discussion}
 
+In this paper, we aimed to test the extent to which the results of \cite{buetti2019predicting} replicate and generalise, using a new modelling approach. Our results allow us to confirm our pre-registered hypotheses 1 and 2. Firstly, a shifted-lognormal distribution of response times outperforms normal and lognormal distributions, demonstrating that reaction time data is best modelled by a distribution with an offset (as valid responses begin at around 100ms). Similarly, we confirmed that the number of distractors has a log-linear effect in this model, in line with the predictions of TCS theory.
+
+However, we do not find support for our pre-registered hypotheses 3 and 4. For predicting D for the double-feature conditions, our analyses found that the orthogonal contrast model was favoured over collinear, which is not in line with the registered hypothesis, which predicted that the collinear contrast model would be best (in line with \cite{buetti2019predicting}). Similarly, for hypothesis 4, we found that there was relatively little difference between the three combination methods for prediction of trial-by-trial reaction times. Our exploratory analyses suggest that incorporating additional factors (e.g. individual differences in participant $D_c$ and $D_s$ values, and the eccentricity of the target) allows better discrimination between models, but again suggests that the orthogonal contrast combination method gives the best predictions.
+
+
+
+, despite the fact that the collinear contrast model had the lowest mean error in our pilot data analysis, in line with the findings from the original manuscript. However, all three models have similar predictive weight which means that arguably it is difficult to distinguish which model is best, and that small changes in participant responses might alter the preferred model (and the preferred model may also vary depending upon which metric is considered).
+
+Our interpretation of the null/neutral results for Hypothesis 4 (the prediction of reaction times) is that the differences in predictions from the three contrast combination methods are small relative to the (i) individual differences between participants and (ii) trial-to-trial variability due to target eccentricity. These will be further explored below in our \textit{Planned Explorations} section.
 
 
 We have two main conclusions from our registered analysis. The first relates to how reaction times should be modelled and the calculation of search slopes. In much of the literature on visual search (cite some examples), mean reaction times are modelled using a simple linear model $\bar{y} = b N_T + a$. The $b$ coefficients are often referred to as ``search slopes'' and are often treated as measurements of theoretical importance <HOW TO PHRASE PROPOPERLY?>. The results presented above indicate that a shifted-lognormal model that is loglinear in $N_T$ offers a much better fit to the data.
@@ -444,14 +433,13 @@ This result isn't particularly novel. For example, \cite{buetti2019predicting} u
 
 Despite these previous findings, the use of linear search slopes is still prevalent in the visual search literature (can we find any examples? Do we want to name names?). We recommend that other researches make use of these more sophisticated models when calculating search slopes. Our work shows that these choices of distribution can influence results and conclusions.
 
-\section{Problems with Collinear Contrast}
 
-Dcol doesn't work well if negative search slopes are possible. 
-
-\subsection{Exploratory Analysis}
-
+INDIVIDUAL DIFFS - While it is not possible to determine whether this pattern is caused by differences in colour v.s. shape features, or by the block structure used in our experiment either way, this is an intriguing result. 
 
 \textit{say something about correlations/. can cite \cite{clarke2020stable}}
+
+Do we want to discuss that evaluating these methods on all number of distractors is kinda dumb, and we should really look at only case in which we have a large number of distractors?
+
 
 % Authors must disclose all relationships or interests that 
 % could have direct or potential influence or impart bias on 
