@@ -76,6 +76,28 @@ ggplot(samples1, aes(x=D, y= as_factor(feature),
   theme(legend.position = "none") -> plt_D_obs
 ```
 
+Compute range of fixed effect (shallowest to steepest fixed effect)
+
+```{r}
+ get_slopes(m1, fixed = T) %>%
+  group_by(feature) %>%
+  summarise(D = mean(D)) -> mean_slopes
+
+max(mean_slopes$D) - min(mean_slopes$D)
+  
+```
+Now look within a feature
+
+```{r}
+samples1 %>% group_by(feature, observer) %>%
+  summarise(D = mean(D)) %>%
+  summarise(minD = min(D), 
+            maxD = max(D),
+            range = maxD - minD)
+```
+
+
+
 Define a little function for computing correlation for a sample from our posterior:
 
 ```{r}
