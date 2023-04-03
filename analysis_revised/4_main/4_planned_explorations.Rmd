@@ -132,7 +132,7 @@ plt_D_obs + plt_corr
 
 ```{r, include = FALSE}
 
-ggsave("../../plots/single_feature_correlations.pdf", height = 3, width = 8)
+ggsave("../../plots/single_feature_correlations.pdf", height = 2.5, width = 7)
 
 rm(plt_D_obs, plt_corr)
 ```
@@ -311,7 +311,7 @@ ggplot(pred, aes(x = lnd, y = .epred, colour = ring, group = .draw)) +
 
 ``` {r include = FALSE}
 
-ggsave("../../plots/ring_single_feature.pdf", width = 8, height = 4)
+ggsave("../../plots/ring_single_feature.pdf", width = 7, height = 3)
 
 ```
 

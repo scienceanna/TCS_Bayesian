@@ -257,10 +257,10 @@ slopes %>%
   geom_smooth(method = "lm", fullrange  = T, colour = "#785EF0") + 
       stat_poly_eq(formula = y ~ x, 
                aes(label = paste(..eq.label.., ..rr.label.., sep = "*plain(\",\")~")), 
-               parse = TRUE, size = 2.8, label.y = 0.9, coef.digits = 3, rr.digits = 4) + 
+               parse = TRUE, size = 2.5, label.y = 0.99, coef.digits = 3, rr.digits = 4) + 
   facet_wrap(~method, scales = "free") 
 
-ggsave("../../plots/Dpe.pdf", width = 8, height = 3)
+ggsave("../../plots/Dpe.pdf", width = 7, height = 3)
 
 ``` 
 
