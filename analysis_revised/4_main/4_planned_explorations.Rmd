@@ -415,14 +415,10 @@ add_row(slopes_err, ring = 0, feature1 = "mean", feature2 = "over all",
   kable_styling() %>%
   row_spec(28,bold=T,hline_after = T)
 
-<<<<<<< Updated upstream
+
 ```
 
-
-
-
-=======
-
+```{r}
 ## compute regression slopes for Dp to De, ignoring ring and feature
 slopes %>% pivot_wider(names_from = "type", values_from = "D") -> Dlm
 
@@ -430,8 +426,6 @@ summary(lm(data = Dlm, D ~ 0 + Dp:method))
 
 ```
 
-
->>>>>>> Stashed changes
 # Predicting Reaction Times
 
 First, read in data and models again: 
@@ -457,11 +451,9 @@ m2 <- readRDS("exp2_ring.model")
 
 now merge
 
-<<<<<<< Updated upstream
 ```{r get_rt_models, cache=TRUE}
-=======
-```{r get_rt_models}
->>>>>>> Stashed changes
+
+
 
 model1 <- get_rt_model_ring_obs(m1)
 rm(m1)
@@ -541,7 +533,7 @@ Derr %>% ggplot(aes(lnd, rel_sum_abs_err, fill = method)) +
 
 ```{r}
 Derr %>% filter(lnd > 0) %>%
-  group_by(.draw) %>%
+  group_by(method) %>%
   summarise(mean_abs_err = mean(rel_sum_abs_err)) %>%
   knitr::kable()
 ```
