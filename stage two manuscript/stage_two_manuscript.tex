@@ -420,21 +420,7 @@ After obtaining a model that passed all convergence checks, we examined the post
 \label{fig:ring1}
 \end{figure}
 
-We can now compute our predictions ($D_p$) for $D_{c,s}$ taking the \textit{ring} into account. Doing so leads us to a similar result as before (Figure \ref{fig:ring2_D}) with orthogonal contrast outperforming the best feature and collienar measures, both in terms of absolute error (0.614 compared to 0.68 (best feature) and 0.913 (collinear)) and having regression slopes closer to unity (see Table \ref{tab:new_Dc_Ds_ring}).
-
-\begin{table}[h]
-\centering
-\begin{tabular}{c|ccc} 
-\hline
- & best feature & collinear & orthogonal contrast\\
- \hline 
-inner ring  & 0.71 & 1.30 & 0.92\\
-middle ring & 0.62 & 1.18 & 0.98\\ 
-outer ring  & 0.74 & 1.45 & 1.00\\
- \end{tabular}
-\caption{$\beta$ (slope) coefficents a linear regression from our predicted to empirical $D_{c,s}$. }
-\label{tab:new_Dc_Ds_ring}
-\end{table}
+We can now compute our predictions ($D_p$) for $D_{c,s}$ taking the \textit{ring} into account. Doing so leads us to a similar result as before with orthogonal contrast outperforming the best feature and collienar measures in terms of absolute error (0.23 compared to 0.25 (best feature) and 0.34 (collinear)). However, the regression slopes are all relatively similar (0.90 for best feature, 1.16 for collinear and 1.15 for orthogonal contrast - CHECK).
 
 \subsection{Predicting Response Times}
 
