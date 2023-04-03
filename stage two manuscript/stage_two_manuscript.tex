@@ -335,7 +335,7 @@ We now combine the \textit{single-feature} search slopes, $D_c$ and $D_s$, to pr
 
 \subsection{Hypothesis 4: Reaction Time Predictions}
 
-Upon reflection, the approach to model comparison used to illustrate our registered analysis is somewhat less than idea. Our original plan was to use the posterior predictions from a model trained on the single-feature data to act as a prior for the double-feature data. While we initally thought this would be an elegant approach, there are a large number of parameters that are ourside the main focus of this paper yet still require priors (intercepts, group level variance and residual variance). Further more, while the methods for estimating $D_{c,s}$ presented above give good predictions in terms of the mean value, it is not clear that the standard deviation for these distributions will be accurate. As such, we have developed a new, simpler method for this final comaprison. To mantain full transparency, we present both methods here. 
+Upon reflection, the approach to model comparison we outlined in our registered analysis was limited in a number of ways. Our original plan was to use the posterior predictions from a model trained on the single-feature data to act as a prior for the double-feature data. While we initially thought this would be an elegant approach, there are a large number of parameters that are outside the main focus of this paper yet still require priors (intercepts, group level variance and residual variance). Furthermore, while the methods for estimating $D_{c,s}$ presented above give good predictions in terms of the mean value, it is not clear that the standard deviation for these distributions will be accurate. As such, we have developed a new, simpler method for this final comparison. To maintain full transparency, we present both methods here. 
 
 \subsubsection{Registered Method}
 
@@ -343,14 +343,14 @@ Our final hypothesis concerns how well the different feature combination models 
 
 \subsubsection{Updated Method}
 
-Our new method for exploring this hypothesis taking $n=1000$ samples of the fixed effects from both the model fitted to the single-feature data and the model fitted to the double-feature data. Each of these samples include an intercept ($a$), slope ($D$), non-decision time ($\text{ndt}$, and residual variance ($\sigma$). We then take the parameters from the double-feature model, but replace the $D$ values with our predicted $D$ using the single-feature model. We can then calculate:
+Our new method for exploring this hypothesis involves taking $n=1000$ samples of the fixed effects from both the model fitted to the single-feature data and the model fitted to the double-feature data. Each of these samples includes an intercept ($a$), slope ($D$), non-decision time ($\text{ndt}$, and residual variance ($\sigma$). We then take the parameters from the double-feature model, but replace the $D$ values with our predicted $D$ using the single-feature model. We can then calculate:
 
 \begin{itemize}
-    \item the predicted mean $\log(rt)$ for each feature and number of distracters. These are then compared to the empirical rts and we calculate the absolute error
-    \item the log-likelihood of each empirical rt given the mean $\log(rt)$, $sigma$ and $\text{ndt}$
+    \item the predicted mean $\log(rt)$ for each feature and number of distractors. These are then compared to the empirical reaction times and we calculate the absolute error
+    \item the log-likelihood of each empirical reaction time given the mean $\log(rt)$, $sigma$ and $\text{ndt}$
 \end{itemize}
 
-We can also calculate an upper-bound by carrying out the above process, but without replacing the fitted $D$ with the predicted. This allows us to report relative error and likelihood. As all of the methods under consideration making identical predictions for trials with no distractors, these are omitted from this calculation. Finally, we calculate the mean relative log-likelihood and relative absolute error over the 1000 samples from the original statistical model. 
+We can also calculate an upper-bound by carrying out the above process, but without replacing the fitted $D$ with the predicted. This allows us to report relative error and likelihood. As all of the methods under consideration make identical predictions for trials with no distractors, these are omitted from this calculation. Finally, we calculate the mean relative log-likelihood and relative absolute error over the 1000 samples from the original statistical model. 
 
 The results of this procedure are in-line with the registered analysis above with all three methods performing well relative to our baseline (see Table 
 
