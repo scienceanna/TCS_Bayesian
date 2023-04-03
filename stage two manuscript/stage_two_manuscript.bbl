@@ -1,4 +1,4 @@
-\begin{thebibliography}{47}
+\begin{thebibliography}{56}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -17,6 +17,11 @@ Stefanie~I Becker, Christian Valuch, and Ulrich Ansorge.
 \newblock Color priming in pop-out search depends on the relative color of the
   target.
 \newblock \emph{Frontiers in psychology}, 5:\penalty0 289, 2014.
+
+\bibitem[Bompas et~al.(2023)Bompas, Sumner, and Hedge]{bompas2023non}
+Aline Bompas, Petroc Sumner, and Craig Hedge.
+\newblock Non-decision time: the higg's boson of decision.
+\newblock \emph{bioRxiv}, pages 2023--02, 2023.
 
 \bibitem[Buetti et~al.(2016)Buetti, Cronin, Madison, Wang, and
   Lleras]{buetti2016towards}
@@ -53,16 +58,35 @@ Alasdair~DF Clarke, JL~Irons, Warren James, Andrew~B Leber, and Amelia~R Hunt.
   visual search tasks.
 \newblock \emph{Quarterly Journal of Experimental Psychology}, 2020.
 
+\bibitem[Corbett and Smith(2020)]{corbett2020diffusion}
+Elaine~A Corbett and Philip~L Smith.
+\newblock A diffusion model analysis of target detection in near-threshold
+  visual search.
+\newblock \emph{Cognitive Psychology}, 120:\penalty0 101289, 2020.
+
 \bibitem[Duncan and Humphreys(1989)]{duncan1989visual}
 John Duncan and Glyn~W Humphreys.
 \newblock Visual search and stimulus similarity.
 \newblock \emph{Psychological review}, 96\penalty0 (3):\penalty0 433, 1989.
+
+\bibitem[Evans and Wagenmakers(2019)]{evans2019evidence}
+Nathan~J Evans and Eric-Jan Wagenmakers.
+\newblock Evidence accumulation models: Current limitations and future
+  directions.
+\newblock 2019.
 
 \bibitem[Gelman and Hill(2006)]{gelman2006data}
 Andrew Gelman and Jennifer Hill.
 \newblock \emph{Data analysis using regression and multilevel/hierarchical
   models}.
 \newblock Cambridge university press, 2006.
+
+\bibitem[Hughes et~al.(2016)Hughes, Southwell, Gilchrist, and
+  Tolhurst]{hughes2016quantifying}
+Anna~E Hughes, Rosy~V Southwell, Iain~D Gilchrist, and David~J Tolhurst.
+\newblock Quantifying peripheral and foveal perceived differences in natural
+  image patches to predict visual search performance.
+\newblock \emph{Journal of vision}, 16\penalty0 (10):\penalty0 18--18, 2016.
 
 \bibitem[Hulleman and Olivers(2017)]{hulleman2017brink}
 Johan Hulleman and Christian~NL Olivers.
@@ -229,6 +253,12 @@ Anna Nowakowska, Alasdair~DF Clarke, and Amelia~R Hunt.
 \newblock \emph{Proceedings of the Royal Society B: Biological Sciences},
   284\penalty0 (1849):\penalty0 20162767, 2017.
 
+\bibitem[Osborne(2002)]{osborne2002notes}
+Jason Osborne.
+\newblock Notes on the use of data transformations.
+\newblock \emph{Practical assessment, research, and evaluation}, 8\penalty0
+  (1):\penalty0 6, 2002.
+
 \bibitem[Palmer et~al.(2011)Palmer, Horowitz, Torralba, and
   Wolfe]{palmer2011shapes}
 Evan~M Palmer, Todd~S Horowitz, Antonio Torralba, and Jeremy~M Wolfe.
@@ -260,6 +290,13 @@ Dragan Rangelov, Hermann~J M{\"u}ller, and Michael Zehetleitner.
 \newblock \emph{Journal of Experimental Psychology: General}, 146\penalty0
   (5):\penalty0 651, 2017.
 
+\bibitem[Rosenholtz et~al.(2012)Rosenholtz, Huang, Raj, Balas, and
+  Ilie]{rosenholtz2012summary}
+Ruth Rosenholtz, Jie Huang, Alvin Raj, Benjamin~J Balas, and Livia Ilie.
+\newblock A summary statistic representation in peripheral vision explains
+  visual search.
+\newblock \emph{Journal of vision}, 12\penalty0 (4):\penalty0 14--14, 2012.
+
 \bibitem[Tatler(2007)]{tatler2007central}
 Benjamin~W Tatler.
 \newblock The central fixation bias in scene viewing: Selecting an optimal
@@ -271,6 +308,11 @@ Benjamin~W Tatler.
 Benjamin~W Tatler, Mary~M Hayhoe, Michael~F Land, and Dana~H Ballard.
 \newblock Eye guidance in natural vision: Reinterpreting salience.
 \newblock \emph{Journal of vision}, 11\penalty0 (5):\penalty0 5--5, 2011.
+
+\bibitem[Treisman and Gormican(1988)]{treisman1988feature}
+Anne Treisman and Stephen Gormican.
+\newblock Feature analysis in early vision: evidence from search asymmetries.
+\newblock \emph{Psychological review}, 95\penalty0 (1):\penalty0 15, 1988.
 
 \bibitem[Treisman and Gelade(1980)]{treisman1980feature}
 Anne~M Treisman and Garry Gelade.
@@ -294,6 +336,12 @@ Jeremy~M Wolfe.
   search.
 \newblock \emph{Oxford handbook of attention}, pages 11--55, 2014.
 
+\bibitem[Wolfe and Van~Wert(2010)]{wolfe2010varying}
+Jeremy~M Wolfe and Michael~J Van~Wert.
+\newblock Varying target prevalence reveals two dissociable decision criteria
+  in visual search.
+\newblock \emph{Current biology}, 20\penalty0 (2):\penalty0 121--124, 2010.
+
 \bibitem[Wolfe et~al.(1989)Wolfe, Cave, and Franzel]{wolfe1989guided}
 Jeremy~M Wolfe, Kyle~R Cave, and Susan~L Franzel.
 \newblock Guided search: an alternative to the feature integration model for
@@ -311,6 +359,13 @@ Zoe~Jing Xu, Alejandro Lleras, and Simona Buetti.
 \newblock Predicting how surface texture and shape combine in the human visual
   system to direct attention.
 \newblock \emph{Scientific reports}, 11\penalty0 (1):\penalty0 1--13, 2021.
+
+\bibitem[Yu et~al.(2022)Yu, Hanks, and Geng]{yu2022attentional}
+Xinger Yu, Timothy~D Hanks, and Joy~J Geng.
+\newblock Attentional guidance and match decisions rely on different template
+  information during visual search.
+\newblock \emph{Psychological science}, 33\penalty0 (1):\penalty0 105--120,
+  2022.
 
 \bibitem[Zhang et~al.(2008)Zhang, Tong, Marks, Shan, and
   Cottrell]{zhang2008sun}

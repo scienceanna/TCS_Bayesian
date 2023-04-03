@@ -416,17 +416,24 @@ The collinear contrast method performs very poorly in this test. To explain this
 
 \section{General Discussion}
 
-In this paper, we aimed to test the extent to which the results of \cite{buetti2019predicting} replicate and generalise, using a new modelling approach. Our results allow us to confirm our pre-registered hypotheses 1 and 2. Firstly, a shifted-lognormal distribution of response times outperforms normal and lognormal distributions, demonstrating that reaction time data is best modelled by a distribution with an offset (as valid responses begin at around 100ms). Similarly, we confirmed that the number of distractors has a log-linear effect in this model, in line with the predictions of TCS theory. We also replicated other aspects of the original \cite{buetti2019predicting} paper with a different experimental set up, such as the fact that we saw shallower search slopes for colour features compared to shape features.
+In this paper, we aimed to test the extent to which the results of \cite{buetti2019predicting} replicate and generalise, using a new modelling approach. Our results allow us to confirm our pre-registered hypotheses 1 and 2. Firstly, a shifted-lognormal distribution of response times outperforms normal and lognormal distributions, demonstrating that reaction time data is best modelled by a distribution with an offset. Similarly, we confirmed that the number of distractors has a log-linear effect in this model, in line with the predictions of TCS theory. We also replicated other aspects of the original \cite{buetti2019predicting} paper with a different experimental set up, such as the fact that we saw shallower search slopes for colour features compared to shape features.
 
 However, we do not find support for our pre-registered hypotheses 3 and 4. For predicting D for the double-feature conditions, our analyses found that the orthogonal contrast model was favoured over collinear, which is not in line with the registered hypothesis, which predicted that the collinear contrast model would be best (in line with \cite{buetti2019predicting}). Similarly, for hypothesis 4, we found that there was relatively little difference between the three combination methods for prediction of trial-by-trial reaction times. Our exploratory analyses suggest that incorporating additional factors (e.g. individual differences in participant $D_c$ and $D_s$ values, and the eccentricity of the target) allows better discrimination between models, but again suggests that the orthogonal contrast combination method gives the best predictions.
 
 \subsection{Modelling of reaction times}
 
-In much of the literature on visual search (cite some examples), mean reaction times are modelled using a simple linear model $\bar{y} = b N_T + a$. The $b$ coefficients are often referred to as ``search slopes'' and are often treated as measurements of theoretical importance <HOW TO PHRASE PROPOPERLY?>. The results presented above indicate that a shifted-lognormal model that is loglinear in $N_T$ offers a much better fit to the data.
+In much of the literature on visual search, mean reaction times are modelled using a simple linear model $\bar{y} = b N_T + a$ (e.g. \citep{treisman1988feature,rosenholtz2012summary, hughes2016quantifying}). The $b$ coefficients are often referred to as ``search slopes'' and are often treated as measurements of theoretical importance. Our results indicate that a shifted-lognormal model that is loglinear in $N_T$ offers a much better fit to the data, which is perhaps not surprising, given the properties of reaction time data, where valid responses normally begin at around 100ms, and the distribution often has a long ``tail'' of slower responses.
 
-This result isn't particularly novel. For example, \cite{buetti2019predicting} use $\log{N_T}$ when computing their search slopes (also see CITE STUFF). In terms of reaction time distributions, researchers have looked at which distribution offers the best fit to empirical response times in visual search before. For example, \cite{palmer2011shapes} compared ex-Gaussian, ex-Wald, Gamma, and Weibull distributions and found that the distributions with exponential components offer a better fit to the data. Our results are in line with this. However, we opted to use a shifted-lognormal distribution in our analysis above for pragmatic reasons (INSERT NOTE HERE). In most situations we would expect it to be difficult to distinguish between these different distributions. Also see \citep{wolfe2010reaction}. It is also worth mentioning that some more sophisticated approaches make use of drift-diffusion methods (cite some examples) (cite some of the papers outlining why these models can be difficult).  
+However, there have been concerted efforts within the literature to model reaction time distributions more effectively: indeed, \cite{buetti2019predicting} use $\log{N_T}$ when computing their search slopes, and log transformations of reaction time data are frequently taught as a way to normalise reaction time data (although often with caveats regarding how this can change the interpretation of the results \citep{osborne2002notes}). In terms of reaction time distributions, researchers have looked at which distribution offers the best fit to empirical response times in visual search. For example, \cite{palmer2011shapes} compared ex-Gaussian, ex-Wald, Gamma, and Weibull distributions and found that the distributions with exponential components offer a better fit to the data. Our results are in line with this. However, we opted to use a shifted-lognormal distribution in our analysis above for pragmatic reasons: Wald distributions are often computationally difficult to fit. Similarly, some recent approaches make use of drift-diffusion methods (e.g. \citep{wolfe2010varying, yu2022attentional, corbett2020diffusion}), though again these models can be challenging, particularly when considering how to interpret the parameters \citep{evans2019evidence, bompas2023non}.
 
-Despite these previous findings, the use of linear search slopes is still prevalent in the visual search literature (can we find any examples? Do we want to name names?). We recommend that other researches make use of these more sophisticated models when calculating search slopes. Our work shows that these choices of distribution can influence results and conclusions.
+Despite these previous findings, the use of linear search slopes is still prevalent in the visual search literature. Our work shows that these choices of distribution can influence results and conclusions, and therefore we recommend that other researchers consider carefully how they want to model their data. Even in the case where the search slopes are the primary outcome measure of interest (as opposed to the potentially more 'cognitive' parameters of e.g. Wald distributions, or drift diffusion models), we demonstrate that more sophisticated approaches that better account for the data distribution can be taken with relative ease.
+
+ In most situations we would expect it to be difficult to distinguish between these different distributions - CAN WE BACK THIS UP?
+ 
+ Also see \citep{wolfe2010reaction}.
+ 
+ 
+
 
 \subsection{Discriminating between combination methods}
 
@@ -448,8 +455,10 @@ We also found that search slopes were correlated within feature, but not between
 \subsection{Lessons learned from our modelling approach}
 
 Do we want to discuss that evaluating these methods on all number of distractors is kinda dumb, and we should really look at only case in which we have a large number of distractors?
+
 Averages vs. individuals? Maybe want some citations here - what are we trying to do with our models?
 
+Do we want to allude to how difficult this is, even for a relatively simple question?!
 
 % Authors must disclose all relationships or interests that 
 % could have direct or potential influence or impart bias on 
