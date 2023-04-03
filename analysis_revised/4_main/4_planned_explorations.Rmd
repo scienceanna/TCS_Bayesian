@@ -511,7 +511,8 @@ dp %>%
 Derr %>% ungroup() %>%
   group_by(method) %>% 
   median_hdi(rel_mean_abs_err, .width = 0.97) %>%
-  knitr::kable()
+  knitr::kable() %>%
+  kable_styling() 
 
 Derr %>% ggplot(aes(lnd, rel_mean_abs_err, fill = method)) +
   stat_lineribbon(alpha = 0.2, .width = 0.97) +
