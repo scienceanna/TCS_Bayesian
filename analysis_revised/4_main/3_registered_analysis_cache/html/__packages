@@ -15,3 +15,5 @@ latex2exp
 ggpp
 ggpmisc
 bridgesampling
+knitr
+kableExtra
