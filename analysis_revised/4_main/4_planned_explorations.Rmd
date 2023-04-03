@@ -395,7 +395,7 @@ ggsave("../../plots/target_ring_D_pred.pdf",  width = 8, height = 3)
 
 ```{r}
 
-# compute prediction error
+# compute prediction error per feature per ring
 
 slopes  %>% 
   ungroup() %>% 
@@ -407,19 +407,31 @@ slopes  %>%
   ungroup() -> slopes_err 
 
 
-add_row(slopes_err, ring = 0, feature1 = "sum", feature2 = "over all", 
-        `best feature` = sum(slopes_err[4]), 
-        collinear = sum(slopes_err[5]), 
-        `orthogonal contrast` = sum(slopes_err[6])) %>% 
+add_row(slopes_err, ring = 0, feature1 = "mean", feature2 = "over all", 
+        `best feature` = mean(slopes_err[4][[1]]), 
+        collinear = mean(slopes_err[5][[1]]), 
+        `orthogonal contrast` = mean(slopes_err[6][[1]])) %>% 
   knitr::kable() %>%
   kable_styling() %>%
   row_spec(28,bold=T,hline_after = T)
 
+<<<<<<< Updated upstream
 ```
 
 
 
 
+=======
+
+## compute regression slopes for Dp to De, ignoring ring and feature
+slopes %>% pivot_wider(names_from = "type", values_from = "D") -> Dlm
+
+summary(lm(data = Dlm, D ~ 0 + Dp:method))
+
+```
+
+
+>>>>>>> Stashed changes
 # Predicting Reaction Times
 
 First, read in data and models again: 
@@ -445,7 +457,11 @@ m2 <- readRDS("exp2_ring.model")
 
 now merge
 
+<<<<<<< Updated upstream
 ```{r get_rt_models, cache=TRUE}
+=======
+```{r get_rt_models}
+>>>>>>> Stashed changes
 
 model1 <- get_rt_model_ring_obs(m1)
 rm(m1)

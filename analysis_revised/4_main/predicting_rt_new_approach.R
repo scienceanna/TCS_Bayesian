@@ -178,44 +178,48 @@ dp %>% sample_frac(0.01) %>%
 
 ##############################################
 
-dp %>%  group_by(.draw, method,  ring) %>%
-  summarise(median_err = median(abs_err)) %>%
-  pivot_wider(names_from = "method", values_from = "median_err") %>%
+dp %>%  group_by(.draw,lnd, ring, method) %>%
+  summarise(sum_err = sum(abs_err)) %>%
+  pivot_wider(names_from = "method", values_from = "sum_err") %>%
   pivot_longer(c(D_collinear, D_best_feature, D_orth_contrast), 
                names_to = "method", values_to = "Dp") %>%
-  mutate(rel_median_abs_err = Dp/D,
-         ring = as.numeric(ring)) -> Derr
+  mutate(rel_sum_abs_err = Dp/D) -> Derr
+
+Derr %>% group_by(method, ring) %>% 
+  median_hdi(rel_sum_abs_err, .width = 0.97)
 
 
+Derr %>% ggplot(aes(lnd, rel_sum_abs_err, fill = method)) +
+  stat_lineribbon(alpha = 0.2, .width = 0.97) +
+  facet_grid(ring~method) +
+  geom_hline(yintercept = 1, linetype = 2) +
+  coord_cartesian(ylim = c(1, 1.1))
 
-dp %>%  group_by(.draw, lnd, method, feature, ring) %>%
+
+dp %>%  group_by(.draw, method, ring) %>%
   summarise(loglik =sum(loglik)) %>%
   pivot_wider(names_from = "method", values_from = "loglik") %>%
   pivot_longer(c(D_collinear, D_best_feature, D_orth_contrast), 
                names_to = "method", values_to = "Dp") %>%
-  mutate(relloglik = D/Dp,
-         ring = as.numeric(ring)) -> Dll
+  mutate(relloglik = Dp - D) -> Dll
+
+Dll %>% group_by(method, ring) %>% 
+  median_hdi(relloglik, .width = 0.97)
+
+
+Dll %>% ggplot(aes(ring, relloglik, fill = method)) +
+  stat_lineribbon(alpha = 0.2, .width = 0.97) +
+  facet_wrap(~method) +
+  geom_hline(yintercept = 1, linetype = 2) +
+  coord_cartesian(ylim = c(-200, 500))
+
 
 # work out which method gives the best prediction on different samples
-dp %>% filter(lnd > 0) %>% # don't include zero distracters, as predictions all the same here
-  select(-p_mu_rt) %>% 
-  pivot_wider(names_from = "method", values_from = "abs_err") %>%
-  mutate(min_err = pmin(D_best_feature, D_collinear, D_orth_contrast)) %>%
-  pivot_longer(c(D_best_feature, D_collinear, D_orth_contrast), 
-               names_to = "method", values_to = "abs_err") %>%
-  mutate(gave_min_err = min_err == abs_err) %>%
-  group_by(.draw, method, feature, ring) %>%
-  summarise(prob_best = sum(gave_min_err)/n()) -> t
 
 ggplot(t, aes(prob_best, fill = method)) + geom_density() + facet_grid(feature~ring)
-  
-  
-Derr %>% ggplot(aes(ring, rel_median_abs_err, fill = method)) +
-  stat_lineribbon(alpha = 0.2, .width = 0.97)
-  coord_cartesian(ylim = c(1, 2))
+
 
 Dll %>% ggplot(aes(lnd, relloglik, fill = method)) +
-    stat_lineribbon(alpha = 0.2, .width = 0.53) +
-    facet_grid(ring~feature) + 
+  stat_lineribbon(alpha = 0.2, .width = 0.53) +
+  facet_grid(.~feature) + 
   geom_hline(yintercept = 1, linetype = 2)
-  
