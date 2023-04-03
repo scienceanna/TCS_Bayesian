@@ -424,7 +424,15 @@ We can now compute our predictions ($D_p$) for $D_{c,s}$ taking the \textit{ring
 
 \subsection{Predicting Response Times}
 
-We will now test to see if we can discriminate between the three contrast combination methods when we take target eccentricity (ring) and individual-level slopes into account. We use the same model comparison as before (see Supplementary Materials for full code) and find XXXXXX
+We will now test to see if we can discriminate between the three contrast combination methods when we take target eccentricity (ring) and individual-level slopes into account. We use the same model comparison as before (see Supplementary Materials for full code) and find orthogonal contrast performs best (), closely followed by best feature. 
+
+
+\subsection{Issues with Collinear}
+The collinear contrast method performs very poorly in this test and can easily be discounted. With the benefit of hindsight, we can look back at Equation \ref{eq:collinearcontrast} and realise that empirical data is not required to reject this hypothesis as a suitable method for predicing search slopes in feature search: When search slopes are close to 0, it is possible that we will observer negative values in empirical data. Breaking down our data to ocmpute search slopes for each person, and each target eccentircity increases the cahnces of this being observerd. Looking at Equation \ref{eq:collinearcontrast} we can see that $D_1 \sim -D_2\Rightarrow 1/D_1 + 1/D_2 \sim 0$. This leads to our estimated $D = \frac{1}{1/D_1 + 1/D_2} >>> D_1, D_2$ which is clearly incorrect. 
+
+\subsection{A heading}
+
+Do we want to discuss that evaluating these methods on all number of distracters is kinda dumb, and we should realy look at only case in which we have a large number of distraceters?
 
 \section{General Discussion}
 

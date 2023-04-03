@@ -449,7 +449,7 @@ m2 <- readRDS("exp2_ring.model")
 now merge
 
 ```{r get_rt_models, cache=TRUE}
-ndraws <- 1000
+ndraws <- 100
 
 model1 <- get_rt_model_ring_obs(m1)
 rm(m1)
@@ -495,6 +495,9 @@ make_pred <- function(drw) {
 }
 
 dp <- map_df(1:ndraws, make_pred)
+```
+
+```{r}
 
 dp %>% 
   filter(lnd > 0) %>%
