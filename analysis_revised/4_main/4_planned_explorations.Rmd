@@ -441,9 +441,6 @@ d2 %>% mutate(observer = as.numeric(observer)) %>%
 
 d2 %>% unite(feature, feature1, feature2) -> d2
 
-ndraws <- 100
-
-
 m1 <- readRDS("exp1_ring.model") 
 m2 <- readRDS("exp2_ring.model") 
 
@@ -452,8 +449,7 @@ m2 <- readRDS("exp2_ring.model")
 now merge
 
 ```{r get_rt_models, cache=TRUE}
-
-
+ndraws <- 1000
 
 model1 <- get_rt_model_ring_obs(m1)
 rm(m1)
@@ -479,13 +475,7 @@ full_join(model2, Dp) %>%
 rm(Dp)
 rm(model1, model2)
 
-```
 
-
-Compute predictions
-
-
-```{r predict_rt, cache=TRUE}
 make_pred <- function(drw) {
   
   draw  <- unique(models$.draw)[drw]
@@ -505,37 +495,28 @@ make_pred <- function(drw) {
 }
 
 dp <- map_df(1:ndraws, make_pred)
-```
 
-Compute mean absolute error (relative to $De$) and plot in terms of lnd and ring
-
-```{r, cache=TRUE}
-
-dp %>%  group_by(.draw,lnd, ring, method) %>%
-  summarise(sum_err = sum(abs_err)) %>%
-  pivot_wider(names_from = "method", values_from = "sum_err") %>%
+dp %>% 
+  filter(lnd > 0) %>%
+  group_by(.draw,lnd, ring, method) %>%
+  summarise(mean_err = mean(abs_err), .groups = "drop") %>%
+  pivot_wider(names_from = "method", values_from = "mean_err") %>%
   pivot_longer(c(D_collinear, D_best_feature, D_orth_contrast), 
                names_to = "method", values_to = "Dp") %>%
-  mutate(rel_sum_abs_err = Dp/D) -> Derr
+  mutate(rel_mean_abs_err = Dp/D) -> Derr
 
-Derr %>% group_by(method, ring) %>% 
-  median_hdi(rel_sum_abs_err, .width = 0.97)
-```
+Derr %>% ungroup() %>%
+  group_by(method) %>% 
+  median_hdi(rel_mean_abs_err, .width = 0.97) %>%
+  knitr::kable()
 
-```{r}
-Derr %>% ggplot(aes(lnd, rel_sum_abs_err, fill = method)) +
+Derr %>% ggplot(aes(lnd, rel_mean_abs_err, fill = method)) +
   stat_lineribbon(alpha = 0.2, .width = 0.97) +
   facet_grid(.~method) +
   geom_hline(yintercept = 1, linetype = 2) +
   coord_cartesian(ylim = c(1, 1.1)) + 
   ggthemes::scale_color_ptol()
-```
 
-```{r}
-Derr %>% filter(lnd > 0) %>%
-  group_by(method) %>%
-  summarise(mean_abs_err = mean(rel_sum_abs_err)) %>%
-  knitr::kable()
 ```
 
 

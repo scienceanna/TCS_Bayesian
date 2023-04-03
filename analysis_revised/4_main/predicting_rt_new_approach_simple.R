@@ -19,54 +19,6 @@ ndraws <- 100
 m1 <- readRDS("exp1.model") 
 m2 <- readRDS("exp2_random.model") 
 
-get_model <- function(m) {
-   
-  samples <- gather_draws(m, `[b(sigma)]_.*`, regex=T, ndraws = ndraws)
-  
-   samples_ff <- filter(samples, str_detect(.variable, "b_")) %>% 
-     select(-.chain, -.iteration)
-   
-   samples_ff  %>% 
-     filter(str_detect(.variable, ":lnd")) %>%
-     rename(feature = ".variable", D = ".value") %>%
-     mutate(feature = str_remove(feature, "b_"),
-            feature = str_remove(feature, "feature"),
-            feature = str_remove(feature, ":lnd")) -> slopes
-     
-   samples_ff %>% 
-     ungroup() %>%
-     filter(str_detect(.variable, "ndt")) %>%
-     select(.draw, ndt = ".value") -> ndt
-   
-   samples_ff %>%
-     filter(str_detect(.variable, "b_Intercept")) %>%
-     ungroup() %>%
-     select(.draw, a = ".value") -> intercepts
-   
-   sigma <- VarCorr(m, summary=F)$residual %>% as_tibble()
-   sigma$sd <- as.numeric(sigma$sd)
-   sigma$.draw = 1:10000
-  
-   sigma %>% filter(.draw %in% samples$.draw) -> sigma
-   
-   
-   #########################
-   # join things together
-   ##########################
-  
-  intercepts %>% 
-    full_join(slopes, by = c(".draw")) %>%
-    full_join(ndt, by = c(".draw")) %>%
-    full_join(sigma, by = ".draw") %>%
-    arrange( feature) -> models
-  
-  # standardise draw indexing
-  models %>% group_by(feature) %>%
-    mutate(.draw = 1:length(unique(.draw))) %>%
-    ungroup() -> models
-  
-  return(models)
-}
 
 model1 <- get_model(m1)
 rm(m1)
@@ -157,7 +109,7 @@ dp %>% sample_frac(0.01) %>%
 
 ##############################################
 
-dp %>%  group_by(.draw,method) %>%
+dp %>%  group_by(.draw,method, lnd) %>%
   summarise(sum_err = sum(abs_err)) %>%
   pivot_wider(names_from = "method", values_from = "sum_err") %>%
   pivot_longer(c(D_collinear, D_best_feature, D_orth_contrast), 
@@ -168,7 +120,7 @@ Derr %>% group_by(method) %>%
   median_hdi(rel_sum_abs_err, .width = 0.97)
 
 
-Derr %>% ggplot(aes(lnd, rel_median_abs_err, fill = method)) +
+Derr %>% ggplot(aes(lnd, rel_sum_abs_err, fill = method)) +
   stat_lineribbon(alpha = 0.2, .width = 0.97) +
   facet_wrap(~method) +
   ggtitle("all 3 methods do as well as De")

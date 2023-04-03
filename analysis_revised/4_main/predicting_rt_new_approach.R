@@ -3,6 +3,7 @@ library(tidybayes)
 library(brms)
 
 source("1_pre_process_data.R")
+source("pred_rt_functions.R")
 
 d1 %>% mutate(observer = as.numeric(observer)) %>%
   select(-nd) -> d1
@@ -18,102 +19,9 @@ ndraws <- 100
 m1 <- readRDS("exp1_ring.model") 
 m2 <- readRDS("exp2_ring.model") 
 
-get_model <- function(m) {
-   
-  samples <- gather_draws(m, `[rb(sigma)]_.*`, regex=T, ndraws = ndraws)
-  
-   samples_ff <- filter(samples, str_detect(.variable, "b_")) %>% 
-     select(-.chain, -.iteration)
-   
-    samples_rf <- filter(samples, str_detect(.variable, "r_")) %>% 
-     select(-.chain, -.iteration) -> samples_rf
-   
-   samples_rf %>%
-     filter(str_detect(.variable, ":lnd")) %>%
-     rename(feature = ".variable", rD = ".value") %>%
-     separate(feature, into = c("observer", "feature"), ",") %>%
-     mutate(observer = parse_number(observer),
-            feature = str_remove(feature, "feature"),
-            feature = str_remove(feature, ":lnd"),
-            feature = str_remove(feature, "]"))  -> slopes_rf
-  
-   samples_rf %>%
-     filter(str_detect(.variable, "ndt")) %>%
-     rename(observer = ".variable", ndt = ".value") %>%
-     mutate(observer = parse_number(observer)) -> ndt_rf
-   
-   samples_rf %>%
-     filter(str_detect(.variable, "ring")) %>%
-     rename(ring = ".variable", intercept = ".value") %>%
-     separate(ring, into  = c("observer", "ring"), ",") %>%
-     mutate(observer = parse_number(observer),
-            ring = parse_number(ring)) -> intercept_rf
-   
-   samples_ff  %>% 
-     filter(str_detect(.variable, ":lnd")) %>%
-     rename(feature = ".variable", D = ".value") %>%
-     mutate(feature = str_remove(feature, "b_"),
-            feature = str_remove(feature, "feature"),
-            feature = str_remove(feature, ":lnd"))  %>% 
-     separate(feature, into = c("ring", "feature"), sep = ":") %>% 
-     mutate(ring = parse_number(ring)) -> slopes_ff
-     
-   samples_ff %>% 
-     ungroup() %>%
-     filter(str_detect(.variable, "ndt")) %>%
-     select(-.variable) -> ndt_ff
-   
-   samples_ff %>%
-     filter(str_detect(.variable, "b_ring")) %>%
-     filter(!str_detect(.variable, ":")) %>%
-     rename(ring = ".variable") %>%
-     mutate(ring = parse_number(ring)) -> intercept_ff
-   
-   sigma <- VarCorr(m, summary=F)$residual %>% as_tibble()
-   sigma$sd <- as.numeric(sigma$sd)
-   sigma$.draw = 1:10000
-  
-   sigma %>% filter(.draw %in% samples$.draw) -> sigma
-   
-   
-   #########################
-   # join things together
-   ##########################
-   
-  # first combine fixed and random slopes
-   
-  full_join(slopes_rf, slopes_ff, by = c(".draw", "feature")) %>%
-     mutate(D = D + rD) %>%
-     select(-rD) -> slopes 
-  
-  # next up, intercepts!
-  full_join(intercept_rf, intercept_ff, by = c(".draw", "ring")) %>%
-    mutate(a = intercept + .value) %>%
-    select(-intercept, -.value) -> intercepts
-  
-  # now, ndt
-  full_join(ndt_rf, ndt_ff, by = ".draw") %>%
-    mutate(ndt = ndt + .value) %>%
-    select(-.value)  -> ndt
-  
-  intercepts %>% 
-    full_join(slopes, by = c(".draw", "observer", "ring")) %>%
-    full_join(ndt, by = c(".draw", "observer")) %>%
-    full_join(sigma, by = ".draw") %>%
-    mutate(ring = as_factor(ring)) %>%
-    arrange(observer, ring, feature) -> models
-  
-  # standardise draw indexing
-  models %>% group_by(observer, ring, feature) %>%
-    mutate(.draw = 1:length(unique(.draw))) %>%
-    ungroup() -> models
-  
-  return(models)
-}
-
-model1 <- get_model(m1)
+model1 <- get_rt_model_ring_obs(m1)
 rm(m1)
-model2 <- get_model(m2)
+model2 <- get_rt_model_ring_obs(m2)
 rm(m2)
 
 # convert in order to get D predictions for m2
@@ -145,8 +53,10 @@ make_pred <- function(drw) {
   full_join(mod, d2, by = c("observer", "ring", "feature")) %>%
     select(.draw, method, observer, ring, feature, lnd, a, b, ndt, sd, rt) %>%
     mutate(p_mu_rt = exp(ndt) + exp(a + b*lnd),
-           loglik = dshifted_lnorm(rt, meanlog = p_mu_rt, sdlog = sd, shift = ndt, log = T)) %>%
-    arrange(method, observer, ring, feature, lnd) -> dp
+           loglik = dshifted_lnorm(rt, meanlog = p_mu_rt, sdlog = sd, shift = ndt, log = T),
+           abs_err = abs(rt-p_mu_rt)) %>%
+    arrange(method, observer, ring, feature, lnd) %>%
+    select(.draw, method, observer, ring, feature, lnd, rt, p_mu_rt, abs_err, loglik) -> dp
   
   return(dp)
 
@@ -154,19 +64,7 @@ make_pred <- function(drw) {
 
 dp <- map_df(1:ndraws, make_pred)
 
-# sanity check plot
-dp %>% sample_frac(0.001) %>%
-  ggplot(aes(x = p_mu_rt- rt, y = loglik)) + geom_point(alpha = 0.1)
 
-dp %>% filter(lnd == 0) %>%
-  ggplot(aes(x = method, b, fill = method)) +
-  geom_boxplot() +  
-  facet_grid(ring~feature) +
-  coord_cartesian(ylim = c(-0.5, 1))
-
-dp %>% 
-  select(.draw, method, observer, ring, feature, lnd, rt, p_mu_rt, loglik) %>%
-  mutate(abs_err = abs(rt-p_mu_rt)) -> dp
 
 # sanity check plot
 dp %>% sample_frac(0.01) %>%
@@ -185,7 +83,8 @@ dp %>%  group_by(.draw,lnd, ring, method) %>%
                names_to = "method", values_to = "Dp") %>%
   mutate(rel_sum_abs_err = Dp/D) -> Derr
 
-Derr %>% group_by(method, ring) %>% 
+Derr %>% ungroup() %>%
+  group_by(method) %>% 
   median_hdi(rel_sum_abs_err, .width = 0.97)
 
 

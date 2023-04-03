@@ -20,59 +20,6 @@ ndraws <- 100
 m1 <- readRDS("exp1_ring.model") 
 m2 <- readRDS("exp2_ring.model") 
 
-get_model <- function(m) {
-   
-  samples <- gather_draws(m, `[b(sigma)]_.*`, regex=T, ndraws = ndraws)
-  
-   samples_ff <- filter(samples, str_detect(.variable, "b_")) %>% 
-     select(-.chain, -.iteration)
-   
-   samples_ff  %>% 
-     filter(str_detect(.variable, ":lnd")) %>%
-     rename(feature = ".variable", D = ".value") %>%
-     mutate(feature = str_remove(feature, "b_"),
-            feature = str_remove(feature, "feature"),
-            feature = str_remove(feature, ":lnd"))  %>% 
-     separate(feature, into = c("ring", "feature"), sep = ":") %>% 
-     mutate(ring = parse_number(ring)) -> slopes
-   
-   samples_ff %>% 
-     ungroup() %>%
-     filter(str_detect(.variable, "ndt")) %>%
-     rename(ndt = ".value") %>%
-     select(-.variable) -> ndt
-   
-   samples_ff %>%
-     filter(str_detect(.variable, "b_ring")) %>%
-     filter(!str_detect(.variable, ":")) %>%
-     rename(ring = ".variable", a = ".value") %>%
-     mutate(ring = parse_number(ring)) -> intercepts
-   
-   
-   sigma <- VarCorr(m, summary=F)$residual %>% as_tibble()
-   sigma$sd <- as.numeric(sigma$sd)
-   sigma$.draw = 1:10000
-  
-   sigma %>% filter(.draw %in% samples$.draw) -> sigma
-   
-   
-   #########################
-   # join things together
-   ##########################
-  
-  intercepts %>% 
-    full_join(slopes, by = c(".draw", "ring")) %>%
-    full_join(ndt, by = c(".draw")) %>%
-    full_join(sigma, by = ".draw") %>%
-    arrange( feature) -> models
-  
-  # standardise draw indexing
-  models %>% group_by(feature, ring) %>%
-    mutate(.draw = 1:length(unique(.draw))) %>%
-    ungroup() -> models
-  
-  return(models)
-}
 
 model1 <- get_model(m1)
 rm(m1)
@@ -160,7 +107,7 @@ dp %>% sample_frac(0.01) %>%
 
 ##############################################
 
-dp %>%  group_by(.draw,ring, method) %>%
+dp %>%  group_by(.draw, lnd, ring, method) %>%
   summarise(sum_err = sum(abs_err)) %>%
   pivot_wider(names_from = "method", values_from = "sum_err") %>%
   pivot_longer(c(D_collinear, D_best_feature, D_orth_contrast), 
@@ -171,9 +118,9 @@ Derr %>% group_by(method, ring) %>%
   median_hdi(rel_sum_abs_err, .width = 0.97)
 
 
-Derr %>% ggplot(aes(ring, rel_sum_abs_err, fill = method)) +
+Derr %>% ggplot(aes(lnd, rel_sum_abs_err, fill = method)) +
   stat_lineribbon(alpha = 0.2, .width = 0.97) +
-  facet_wrap(~method) +
+  facet_wrap(ring~method) +
   geom_hline(yintercept = 1, linetype = 2)
 
 
