@@ -461,7 +461,7 @@ make_pred <- function(drw) {
             by = c("feature")) %>%
     select(.draw, method, feature, lnd, a, b, ndt, sd, rt) %>%
     mutate(p_mu_rt = exp(ndt) + exp(a + b*lnd),
-           loglik = dshifted_lnorm(rt, meanlog = p_mu_rt, sdlog = sd, shift = ndt, log = T)) %>%
+           loglik = dshifted_lnorm(rt, meanlog = log(p_mu_rt), sdlog = sd, shift = ndt, log = T)) %>%
     arrange(method, feature, lnd) -> dp
   
   return(dp)
@@ -479,8 +479,6 @@ dp %>%
   select(.draw, method, feature, lnd, rt, p_mu_rt, loglik) %>%
   mutate(abs_err = abs(rt-p_mu_rt)) -> dp
 
-
-
 dp %>%  group_by(.draw,method, lnd) %>%
   summarise(sum_err = sum(abs_err)) %>%
   pivot_wider(names_from = "method", values_from = "sum_err") %>%
@@ -491,7 +489,6 @@ dp %>%  group_by(.draw,method, lnd) %>%
 Derr %>% group_by(method) %>% 
   median_hdi(rel_sum_abs_err, .width = 0.97) %>%
   knitr::kable()
-
 
 Derr %>% ggplot(aes(lnd, rel_sum_abs_err, fill = method)) +
   stat_lineribbon(alpha = 0.2, .width = 0.97) +

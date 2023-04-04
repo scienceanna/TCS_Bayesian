@@ -343,30 +343,25 @@ Our final hypothesis concerns how well the different feature combination models 
 
 \subsubsection{Updated Method}
 
-Our new method for exploring this hypothesis involves taking $n=1000$ samples of the fixed effects from both the model fitted to the single-feature data and the model fitted to the double-feature data. Each of these samples includes an intercept ($a$), slope ($D$), non-decision time ($\text{ndt}$, and residual variance ($\sigma$). We then take the parameters from the double-feature model, but replace the $D$ values with our predicted $D$ using the single-feature model. We can then calculate:
+Our new method for exploring this hypothesis involves taking $n=1000$ samples of the fixed effects from both the model fitted to the single-feature data and the model fitted to the double-feature data. Each of these samples includes an intercept ($a$), slope ($D$), non-decision time ($\text{ndt}$, and residual variance ($\sigma$). We then take the parameters from the double-feature model, but replace the $D$ values with our predicted $D$ using the single-feature model. Finally the predicted mean $\log(rt)$ is calculated for each feature and number of distractors. These are then compared to the empirical reaction times and we compute the absolute error.
 
-\begin{itemize}
-    \item the predicted mean $\log(rt)$ for each feature and number of distractors. These are then compared to the empirical reaction times and we calculate the absolute error
-    \item the log-likelihood of each empirical reaction time given the mean $\log(rt)$, $sigma$ and $\text{ndt}$
-\end{itemize}
+We can also calculate an upper-bound by carrying out the above process, but without replacing the fitted $D_{c,s}$ with the predicted. This allows us to report `relative absolute error'. As all of the methods under consideration make identical predictions for trials with no distractors, these are omitted from this calculation. 
 
-We can also calculate an upper-bound by carrying out the above process, but without replacing the fitted $D$ with the predicted. This allows us to report relative error and likelihood. As all of the methods under consideration make identical predictions for trials with no distractors, these are omitted from this calculation. Finally, we calculate the mean relative log-likelihood and relative absolute error over the 1000 samples from the original statistical model. 
-
-The results of this procedure are in-line with the registered analysis above with all three methods performing well relative to our baseline (see Table \ref{tab:new_pred_rt}), but little distinction between the three models.
+The results of this procedure are in-line with the registered analysis presented above: all three methods perform well relative to our baseline (see Table \ref{tab:new_pred_rt}).
 
 \begin{table}[h]
 \centering
 \begin{tabular}{c|ccc|ccc} 
 \hline
-metric & & abs error & &  & loglik  & \\
+metric & & abs error & &   \\
  \hline
-  & lower  & median & upper & lower  & median & upper \\
+  & lower  & median & upper \\
  
-orthogonal & 0.992 & 1.00 & 1.02 & 0.978 & 0.988 & 0.998\\
-collinear & 0.990 & 1.01 & 1.03 & 0.968 & 0.977 & 0.985\\ 
-best feature  & 1.00 & 1.02 & 1.02 & 0.985 & 0.999 & 1.01\\
+orthogonal & 0.992 & 1.00 & 1.02 \\
+collinear & 0.990 & 1.01 & 1.03 5\\ 
+best feature  & 1.00 & 1.02 & 1.02 \\
  \end{tabular}
-\caption{How well can we predict RTs using $D_p$ (collinear, best feature or orthogonal contrast) comped to using $D_e$. A value of 1 means that out estimates of $D$ derived from the single-feature trials does an equally good job at predicting the double-feature trials as using the $D$ fit to the data.}
+\caption{How well can we predict RTs using $D_p$ (collinear, best feature or orthogonal contrast) comped to using $D_e$? A value of 1 means that our estimates of $D$ derived from the single-feature trials does an equally good job at predicting the double-feature trials as using the $D$ fit to the data.}
 \label{tab:new_pred_rt}
 \end{table}
 
