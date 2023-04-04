@@ -479,7 +479,7 @@ dp %>%
   select(.draw, method, feature, lnd, rt, p_mu_rt, loglik) %>%
   mutate(abs_err = abs(rt-p_mu_rt)) -> dp
 
-dp %>%  group_by(.draw,method, lnd) %>%
+dp %>%  group_by(.draw, method, lnd) %>%
   summarise(sum_err = sum(abs_err)) %>%
   pivot_wider(names_from = "method", values_from = "sum_err") %>%
   pivot_longer(c(D_collinear, D_best_feature, D_orth_contrast), 

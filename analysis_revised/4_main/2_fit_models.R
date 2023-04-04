@@ -175,43 +175,4 @@ rm(m)
 # saveRDS(m, "exp2_ring.model")
 # rm(m)
 
-#################################################
-#################################################
-#
-# Now fit ring model to data from an individual
-#
-#################################################
-#################################################
-n_chains = 4
-n_itr = 1000
 
-my_f <- brms::bf(rt ~ 0 + ring + ring:feature:lnd,
-                 ndt ~ 1)
-
-my_inits <- list(list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10), list(Intercept_ndt = -10))
-
-my_prior <- c(
-  # prior_string("normal(-0.5, 0.3)", class = "Intercept"),
-  prior_string("normal(0, 0.2)", class = "b"),
-  prior_string("normal(-1, 0.3)", class = "b", coef = "ring1"),
-  prior_string("normal(-1, 0.3)", class = "b", coef = "ring2"),
-  prior_string("normal(-1, 0.3)", class = "b", coef = "ring3"),
-  prior_string("normal(-1, 0.5)", class = "Intercept", dpar = "ndt" ),
-  prior_string("cauchy(0, 0.4)", class = "sigma"))
-
-
-
-obs_model_fit <- function(obs) {
-  
-  # fit a model to double feature data for one person only
-  dobs <- filter(d2, observer == obs)
-  obs_fit <- fit_model(dobs, "shifted_lognormal", my_prior, my_f)
-  saveRDS(obs_fit, paste0("obs_models/obs", obs, ".model"))
-  
-}
-
-for (obs in unique(d2$observer)) {
-
-  obs_model_fit(obs)
-  
-}

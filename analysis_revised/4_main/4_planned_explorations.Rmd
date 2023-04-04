@@ -479,7 +479,7 @@ m2 <- readRDS("exp2_ring.model")
 now merge
 
 ```{r get_rt_models, cache=TRUE}
-ndraws <- 1000
+ndraws <- 100
 
 model1 <- get_rt_model_ring_obs(m1)
 rm(m1)
@@ -508,7 +508,6 @@ full_join(model2, Dp,
 
 rm(Dp)
 rm(model1, model2)
-
 
 make_pred <- function(drw) {
   
@@ -555,6 +554,6 @@ Derr %>% ggplot(aes(lnd, rel_mean_abs_err, fill = method)) +
   facet_grid(.~method) +
   geom_hline(yintercept = 1, linetype = 2) +
   ggthemes::scale_color_ptol() +
-    coord_cartesian(ylim = c(0.9, 1.2))
+    coord_cartesian(ylim = c(0.99, 1.1))
 
 ```
