@@ -1,4 +1,4 @@
-\begin{thebibliography}{58}
+\begin{thebibliography}{61}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -51,12 +51,21 @@ Kyle~R Cave and Jeremy~M Wolfe.
 \newblock \emph{Cognitive psychology}, 22\penalty0 (2):\penalty0 225--271,
   1990.
 
-\bibitem[Clarke et~al.(2020)Clarke, Irons, James, Leber, and
-  Hunt]{clarke2020stable}
-Alasdair~DF Clarke, JL~Irons, Warren James, Andrew~B Leber, and Amelia~R Hunt.
+\bibitem[Clarke et~al.(2022{\natexlab{a}})Clarke, Irons, James, Leber, and
+  Hunt]{clarke2022stable}
+Alasdair~DF Clarke, Jessica~L Irons, Warren James, Andrew~B Leber, and Amelia~R
+  Hunt.
 \newblock Stable individual differences in strategies within, but not between,
   visual search tasks.
-\newblock \emph{Quarterly Journal of Experimental Psychology}, 2020.
+\newblock \emph{Quarterly Journal of Experimental Psychology}, 75\penalty0
+  (2):\penalty0 289--296, 2022{\natexlab{a}}.
+
+\bibitem[Clarke et~al.(2022{\natexlab{b}})Clarke, Nowakowska, and
+  Hunt]{clarke2022visual}
+Alasdair~DF Clarke, Anna Nowakowska, and Amelia~R Hunt.
+\newblock Visual search habits and the spatial structure of scenes.
+\newblock \emph{Attention, Perception, \& Psychophysics}, 84\penalty0
+  (6):\penalty0 1874--1885, 2022{\natexlab{b}}.
 
 \bibitem[Corbett and Smith(2020)]{corbett2020diffusion}
 Elaine~A Corbett and Philip~L Smith.
@@ -158,6 +167,13 @@ Joseph Krummenacher and Hermann~J M{\"u}ller.
 \newblock Dynamic weighting of feature dimensions in visual search: behavioral
   and psychophysiological evidence.
 \newblock \emph{Frontiers in psychology}, 3:\penalty0 221, 2012.
+
+\bibitem[Li et~al.(2022)Li, McKinney, Irons, and Leber]{li2022assessing}
+Walden~Y Li, Molly~R McKinney, Jessica~L Irons, and Andrew~B Leber.
+\newblock Assessing the generality of strategy optimization across distinct
+  attentional tasks.
+\newblock \emph{Journal of Experimental Psychology: Human Perception and
+  Performance}, 48\penalty0 (6):\penalty0 582, 2022.
 
 \bibitem[Liesefeld and M{\"u}ller(2020)]{liesefeld2020theoretical}
 Heinrich~Ren{\'e} Liesefeld and Hermann~J M{\"u}ller.
@@ -330,6 +346,12 @@ Anne Treisman and Stephen Gormican.
 Anne~M Treisman and Garry Gelade.
 \newblock A feature-integration theory of attention.
 \newblock \emph{Cognitive psychology}, 12\penalty0 (1):\penalty0 97--136, 1980.
+
+\bibitem[Utochkin(2013)]{utochkin2013visual}
+Igor~S Utochkin.
+\newblock Visual search with negative slopes: The statistical power of
+  numerosity guides attention.
+\newblock \emph{Journal of vision}, 13\penalty0 (3):\penalty0 18--18, 2013.
 
 \bibitem[Wang et~al.(2017)Wang, Buetti, and Lleras]{wang2017predicting}
 Zhiyuan Wang, Simona Buetti, and Alejandro Lleras.
