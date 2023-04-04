@@ -343,7 +343,7 @@ Our final hypothesis concerns how well the different feature combination models 
 
 \subsubsection{Updated Method}
 
-Our new method for exploring this hypothesis involves taking $n=1000$ samples of the fixed effects from both the model fitted to the single-feature data and the model fitted to the double-feature data. Each of these samples includes an intercept ($a$), slope ($D$), non-decision time ($\text{ndt}$, and residual variance ($\sigma$). We then take the parameters from the double-feature model, but replace the $D$ values with our predicted $D$ using the single-feature model. Finally the predicted mean $\log(rt)$ is calculated for each feature and number of distractors. These are then compared to the empirical reaction times and we compute the absolute error.
+Our new method for exploring this hypothesis involves taking $n=1000$ samples of the fixed effects from both the model fitted to the single-feature data and the model fitted to the double-feature data. Each of these samples includes an intercept ($a$), slope ($D$), non-decision time ($\text{ndt}$), and residual variance ($\sigma$). We then take the parameters from the double-feature model, but replace the $D$ values with our predicted $D$ using the single-feature model. Finally the predicted mean $\log(rt)$ is calculated for each feature and number of distractors. These are then compared to the empirical reaction times and we compute the absolute error.
 
 We can also calculate an upper-bound by carrying out the above process, but without replacing the fitted $D_{c,s}$ with the predicted. This allows us to report `relative absolute error'. As all of the methods under consideration make identical predictions for trials with no distractors, these are omitted from this calculation. 
 
@@ -367,6 +367,8 @@ best feature  & 1.00 & 1.02 & 1.02 \\
 
 
 \section{Planned Explorations}
+
+Our interpretation of the null/neutral results for Hypothesis 4 (the prediction of reaction times) is that the differences in predictions from the three contrast combination methods are small relative to the (i) individual differences between participants and (ii) trial-to-trial variability due to target eccentricity. Thus, in our exploratory analysis, we investigate how incorporating these factors affects our conclusions.
 
 \subsection{Individual Differences}
 
@@ -419,22 +421,20 @@ However, we do not find support for our pre-registered hypotheses 3 and 4. For p
 
 In much of the literature on visual search, mean reaction times are modelled using a simple linear model $\bar{y} = b N_T + a$ (e.g. \citep{treisman1988feature,rosenholtz2012summary, hughes2016quantifying}). The $b$ coefficients are often referred to as ``search slopes'' and are often treated as measurements of theoretical importance. Our results indicate that a shifted-lognormal model that is loglinear in $N_T$ offers a much better fit to the data, which is perhaps not surprising, given the properties of reaction time data, where valid responses normally begin at around 100ms, and the distribution often has a long ``tail'' of slower responses.
 
-However, there have been concerted efforts within the literature to model reaction time distributions more effectively: indeed, \cite{buetti2019predicting} use $\log{N_T}$ when computing their search slopes, and log transformations of reaction time data are frequently taught as a way to normalise reaction time data (although often with caveats regarding how this can change the interpretation of the results \citep{osborne2002notes}). In terms of reaction time distributions, researchers have looked at which distribution offers the best fit to empirical response times in visual search. For example, \cite{palmer2011shapes} compared ex-Gaussian, ex-Wald, Gamma, and Weibull distributions and found that the distributions with exponential components offer a better fit to the data. Our results are in line with this. However, we opted to use a shifted-lognormal distribution in our analysis above for pragmatic reasons: Wald distributions are often computationally difficult to fit. Similarly, some recent approaches make use of drift-diffusion methods (e.g. \citep{wolfe2010varying, yu2022attentional, corbett2020diffusion}), though again these models can be challenging, particularly when considering how to interpret the parameters \citep{evans2019evidence, bompas2023non}.
+However, there have been concerted efforts within the literature to model reaction time distributions more effectively: indeed, \cite{buetti2019predicting} use $\log{N_T}$ when computing their search slopes, and log transformations of reaction time data are frequently taught as a way to normalise reaction time data (although often with caveats regarding how this can change the interpretation of the results \citep{osborne2002notes}). In terms of reaction time distributions, researchers have looked at which distribution offers the best fit to empirical response times in visual search. For example, \cite{palmer2011shapes} compared ex-Gaussian, ex-Wald, Gamma, and Weibull distributions and found that the distributions with exponential components offer a better fit to the data. Our results are in line with this. However, we opted to use a shifted-lognormal distribution in our analysis above for mostly pragmatic reasons: Wald distributions are often computationally difficult to fit. It has also been argued that trying to select a ``correct'' distribution is likely to be problematic for empirical data, which is probably a mixture of multiple components \citep{wolfe2010reaction}. Similarly, some recent approaches make use of drift-diffusion methods (e.g. \citep{wolfe2010varying, yu2022attentional, corbett2020diffusion}), though again these models can be challenging, particularly when considering how to interpret the parameters \citep{evans2019evidence, bompas2023non}.
 
 Despite these previous findings, the use of linear search slopes is still prevalent in the visual search literature. Our work shows that these choices of distribution can influence results and conclusions, and therefore we recommend that other researchers consider carefully how they want to model their data. Even in the case where the search slopes are the primary outcome measure of interest (as opposed to the potentially more 'cognitive' parameters of e.g. Wald distributions, or drift diffusion models), we demonstrate that more sophisticated approaches that better account for the data distribution can be taken with relative ease.
 
- In most situations we would expect it to be difficult to distinguish between these different distributions - CAN WE BACK THIS UP?
- 
- Also see \citep{wolfe2010reaction}.
- 
+In most situations we would expect it to be difficult to distinguish between these different distributions - CAN WE BACK THIS UP?
  
 
+ 
 
 \subsection{Discriminating between combination methods}
 
 , despite the fact that the collinear contrast model had the lowest mean error in our pilot data analysis, in line with the findings from the original manuscript. However, all three models have similar predictive weight which means that arguably it is difficult to distinguish which model is best, and that small changes in participant responses might alter the preferred model (and the preferred model may also vary depending upon which metric is considered).
 
-Our interpretation of the null/neutral results for Hypothesis 4 (the prediction of reaction times) is that the differences in predictions from the three contrast combination methods are small relative to the (i) individual differences between participants and (ii) trial-to-trial variability due to target eccentricity.
+
 
  
 \subsubsection{Individual differences}
