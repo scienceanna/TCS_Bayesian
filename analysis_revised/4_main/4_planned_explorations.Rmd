@@ -448,6 +448,14 @@ summary(lm(data = Dlm, D ~ 0 + Dp:method))
 
 ```
 
+## Tidy up
+
+```{r}
+rm(post, pred, ring_table, samples1, samples2, slopes, things_to_calc)
+```
+
+
+
 # Predicting Reaction Times
 
 First, read in data and models again: 
@@ -464,14 +472,14 @@ d2 %>% mutate(observer = as.numeric(observer)) %>%
 d2 %>% unite(feature, feature1, feature2) -> d2
 
 m1 <- readRDS("exp1_ring.model") 
-m2 <- readRDS("exp2_ring.model") 
 
+m2 <- readRDS("exp2_ring.model") 
 ```
 
 now merge
 
 ```{r get_rt_models, cache=TRUE}
-ndraws <- 100
+ndraws <- 1000
 
 model1 <- get_rt_model_ring_obs(m1)
 rm(m1)
@@ -480,18 +488,22 @@ rm(m2)
 
 # convert in order to get D predictions for m2
 full_join(
-  mod_col <- model1 %>% filter(feature %in% c("orange", "pink", "purple")) %>%
+  model1 %>% filter(feature %in% c("orange", "pink", "purple")) %>%
     rename(feature1 = "feature", D1 = "D"),
-  mod_sha <- model1 %>% filter(feature %in% c("circle", "diamond", "triangle")) %>%
-    rename(feature2 = "feature", D2 = "D")) %>%
+  model1 %>% filter(feature %in% c("circle", "diamond", "triangle")) %>%
+    rename(feature2 = "feature", D2 = "D"),
+  by = c(".draw", "observer", "ring", "a", "ndt", "sd")) %>%
   unite(feature, feature1, feature2) %>%
   mutate(D_collinear = 1/((1/D1) + (1/D2)),
          D_best_feature = pmin(D1, D2),
          D_orth_contrast =  1/sqrt(1/(D1^2) + (1/D2^2))) %>%
   select(.draw, observer, ring, feature, D_collinear, D_best_feature, D_orth_contrast) -> Dp
 
-full_join(model2, Dp) %>%
-  pivot_longer(c(D, D_collinear, D_best_feature, D_orth_contrast), 
+# merge everything
+full_join(model2, Dp, 
+          by = c(".draw", "observer", "ring", "feature")) %>%
+  pivot_longer(c(D, 
+                 D_collinear, D_best_feature, D_orth_contrast), 
                names_to = "method", values_to = "b") -> models
 
 rm(Dp)
@@ -507,7 +519,7 @@ make_pred <- function(drw) {
   full_join(mod, d2, by = c("observer", "ring", "feature")) %>%
     select(.draw, method, observer, ring, feature, lnd, a, b, ndt, sd, rt) %>%
     mutate(p_mu_rt = exp(ndt) + exp(a + b*lnd),
-           loglik = dshifted_lnorm(rt, meanlog = p_mu_rt, sdlog = sd, shift = ndt, log = T),
+           loglik = dshifted_lnorm(rt, meanlog = log(p_mu_rt), sdlog = sd, shift = ndt, log = T),
            abs_err = abs(rt-p_mu_rt)) %>%
     arrange(method, observer, ring, feature, lnd)  %>% 
   select(.draw, method, observer, ring, feature, lnd, rt, p_mu_rt, loglik, abs_err)-> dp
@@ -525,7 +537,7 @@ dp <- map_df(1:ndraws, make_pred)
 
 dp %>% 
   filter(lnd > 0) %>%
-  group_by(.draw,lnd, observer, ring, method) %>%
+  group_by(.draw,lnd, method) %>%
   summarise(mean_err = mean(abs_err), .groups = "drop") %>%
   pivot_wider(names_from = "method", values_from = "mean_err") %>%
   pivot_longer(c(D_collinear, D_best_feature, D_orth_contrast), 
@@ -534,7 +546,7 @@ dp %>%
 
 Derr %>% ungroup() %>%
   group_by(method) %>% 
-  median_hdi(rel_mean_abs_err, .width = 0.97) %>%
+  median_hdci(rel_mean_abs_err, .width = 0.97) %>%
   knitr::kable() %>%
   kable_styling() 
 
@@ -542,36 +554,7 @@ Derr %>% ggplot(aes(lnd, rel_mean_abs_err, fill = method)) +
   stat_lineribbon(alpha = 0.2, .width = 0.97) +
   facet_grid(.~method) +
   geom_hline(yintercept = 1, linetype = 2) +
-  coord_cartesian(ylim = c(1, 1.1)) + 
-  ggthemes::scale_color_ptol()
+  ggthemes::scale_color_ptol() +
+    coord_cartesian(ylim = c(0.9, 1.2))
 
 ```
-
-### Log likelihood
-
-```{r}
-
-dp %>% 
-  filter(lnd > 0) %>%
-  group_by(.draw,lnd, ring, method, observer) %>%
-  summarise(llh = mean(loglik), .groups = "drop") %>%
-  pivot_wider(names_from = "method", values_from = "llh") %>%
-  pivot_longer(c(D_collinear, D_best_feature, D_orth_contrast), 
-               names_to = "method", values_to = "Dp") %>%
-  mutate(rel_llh = exp(Dp-D)) -> Dllh
-
-Dllh %>% ungroup() %>%
-  group_by(method) %>% 
-  median_hdi(rel_llh, .width = 0.97) %>%
-  knitr::kable()
-
-Derr %>% ggplot(aes(lnd, rel_mean_abs_err, fill = method)) +
-  stat_lineribbon(alpha = 0.2, .width = 0.97) +
-  facet_grid(.~method) +
-  geom_hline(yintercept = 1, linetype = 2) +
-  coord_cartesian(ylim = c(1, 1.1)) + 
-  ggthemes::scale_color_ptol()
-
-```
-
-
