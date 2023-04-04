@@ -1,48 +1,50 @@
-This is BibTeX, Version 0.99d (TeX Live 2020/W32TeX)
+This is BibTeX, Version 0.99d
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: stage_two_manuscript.aux
+Reallocating 'name_of_file' (item size: 1) to 9 items.
 The style file: plainnat.bst
+Reallocating 'name_of_file' (item size: 1) to 8 items.
 Database file #1: sources.bib
 Warning--empty journal in evans2019evidence
-You've used 56 entries,
+You've used 58 entries,
             2773 wiz_defined-function locations,
-            917 strings with 15350 characters,
-and the built_in function-call counts, 27088 in all, are:
-= -- 2383
-> -- 1704
-< -- 27
-+ -- 572
-- -- 516
-* -- 2352
-:= -- 4201
-add.period$ -- 169
-call.type$ -- 56
-change.case$ -- 338
-chr.to.int$ -- 56
-cite$ -- 113
-duplicate$ -- 1182
-empty$ -- 2135
-format.name$ -- 606
-if$ -- 5604
+            928 strings with 15685 characters,
+and the built_in function-call counts, 27950 in all, are:
+= -- 2458
+> -- 1744
+< -- 28
++ -- 586
+- -- 528
+* -- 2426
+:= -- 4334
+add.period$ -- 175
+call.type$ -- 58
+change.case$ -- 348
+chr.to.int$ -- 58
+cite$ -- 117
+duplicate$ -- 1223
+empty$ -- 2215
+format.name$ -- 620
+if$ -- 5784
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 58
-newline$ -- 288
-num.names$ -- 224
-pop$ -- 605
+missing$ -- 60
+newline$ -- 298
+num.names$ -- 232
+pop$ -- 622
 preamble$ -- 1
-purify$ -- 284
+purify$ -- 292
 quote$ -- 0
-skip$ -- 921
+skip$ -- 949
 stack$ -- 0
-substring$ -- 1015
-swap$ -- 87
+substring$ -- 1058
+swap$ -- 89
 text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 606
+type$ -- 628
 warning$ -- 1
-while$ -- 249
+while$ -- 257
 width$ -- 0
-write$ -- 729
+write$ -- 755
 (There was 1 warning)

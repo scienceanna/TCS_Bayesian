@@ -1,4 +1,4 @@
-\begin{thebibliography}{56}
+\begin{thebibliography}{58}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -147,6 +147,12 @@ Iuliia Kotseruba, Calden Wloka, Amir Rasouli, and John~K Tsotsos.
   evaluations.
 \newblock \emph{arXiv preprint arXiv:2005.06583}, 2020.
 
+\bibitem[Kristj{\'a}nsson et~al.(2014)Kristj{\'a}nsson, J{\'o}hannesson, and
+  Thornton]{kristjansson2014common}
+{\'A}rni Kristj{\'a}nsson, {\'O}mar~I J{\'o}hannesson, and Ian~M Thornton.
+\newblock Common attentional constraints in visual foraging.
+\newblock \emph{PloS one}, 9\penalty0 (6):\penalty0 e100752, 2014.
+
 \bibitem[Krummenacher and M{\"u}ller(2012)]{krummenacher2012dynamic}
 Joseph Krummenacher and Hermann~J M{\"u}ller.
 \newblock Dynamic weighting of feature dimensions in visual search: behavioral
@@ -281,6 +287,12 @@ Jonathan Peirce, Jeremy~R Gray, Sol Simpson, Michael MacAskill, Richard
 \newblock Psychopy2: Experiments in behavior made easy.
 \newblock \emph{Behavior research methods}, 51\penalty0 (1):\penalty0 195--203,
   2019.
+
+\bibitem[Proulx(2011)]{proulx2011individual}
+Michael~J Proulx.
+\newblock Individual differences and metacognitive knowledge of visual search
+  strategy.
+\newblock \emph{PLoS One}, 6\penalty0 (10):\penalty0 e27043, 2011.
 
 \bibitem[Rangelov et~al.(2017)Rangelov, M{\"u}ller, and
   Zehetleitner]{rangelov2017failure}
