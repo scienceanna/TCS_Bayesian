@@ -372,7 +372,7 @@ Our interpretation of the null/neutral results for Hypothesis 4 (the prediction 
 
 \subsection{Individual Differences}
 
-We start this exploratory analysis looking at how the $D_c$ and $D_s$ values vary from participant to participant. From Figure \ref{fig:exp_corr} (\textit{left}) we can see that there is considerable variation between observers - in fact, the variation from one observer to the next is often larger than the variation across features. To investigate this further we calculated the correlations between each of the features, by  calculating Pearson's $r$ for each sample from our posterior, which gives us a full posterior distribution for the correlations. We can see in Figure \ref{fig:exp_corr} (\textit{right}) that while both the $D_c$ and $D_s$ are correlated within feature classes ($\sim0.75$), there is no correlation of any of the colour features with any of the shape features. The individual differences for the \textit{double-feature} conditions are much less pronounced - these conditions are easy and the search slopes are quite close to flat (CHECK this!). Hence, the correlations are all much weaker, presumably due to range restriction. 
+We start this exploratory analysis looking at how the $D_c$ and $D_s$ values vary from participant to participant. From Figure \ref{fig:exp_corr} (\textit{left}) we can see that there is considerable variation between observers - in fact, the variation from one observer to the next is often larger than the variation across features. To investigate this further we calculated the correlations between each of the features, by  calculating Pearson's $r$ for each sample from our posterior, which gives us a full posterior distribution for the correlations. We can see in Figure \ref{fig:exp_corr} (\textit{right}) that while both the $D_c$ and $D_s$ are correlated within feature classes ($\sim0.75$), there is no correlation of any of the colour features with any of the shape features. The individual differences for the \textit{double-feature} conditions are much less pronounced - these conditions are easy and the search slopes are quite close to flat. Hence, the correlations are all much weaker, presumably due to range restriction. 
 
 \begin{figure}[ht]
 \centering
@@ -385,7 +385,7 @@ Given these results, it is perhaps unsurprising that our analysis for Hypothesis
 
 \subsection{Target Eccentricity}
 
-It is well known that there are eccentricity effects in visual search, with reaction times being longer for targets that are further away from fixation \citep{carrasco1995eccentricity}. To investigate this in our dataset, we will use the same methods as above (fitting a multi-level shifted-lognormal model) but now including an additional factor that represents how far the target was from the fixation cross. This is coded as a three-level categorical factor representing which ring contained the target (see stimulus details, above). Allowing for interactions with the \textit{feature} and $\log{N_T}$ increases the number of fixed effect parameters in the model from X to XXX. 
+It is well known that there are eccentricity effects in visual search, with reaction times being longer for targets that are further away from fixation \citep{carrasco1995eccentricity}. To investigate this in our dataset, we will use the same methods as above (fitting a multi-level shifted-lognormal model) but now including an additional factor that represents how far the target was from the fixation cross. This is coded as a three-level categorical factor representing which ring contained the target (see stimulus details, above). Allowing for interactions with the \textit{feature} and $\log{N_T}$ increases the number of fixed effect parameters in the model from XX to XX. 
 
 \begin{equation}
 y \sim 0 + r + r:f:\log(N_T) + (1|id)
@@ -402,11 +402,27 @@ After obtaining a model that passed all convergence checks, we examined the post
 \label{fig:ring1}
 \end{figure}
 
-We can now compute our predictions ($D_p$) for $D_{c,s}$ taking the \textit{ring} into account. Doing so leads us to a similar result as before with orthogonal contrast outperforming the best feature and collinear measures in terms of absolute error (0.23 compared to 0.25 (best feature) and 0.34 (collinear)). However, the regression slopes are all relatively similar (0.90 for best feature, 1.16 for collinear and 1.15 for orthogonal contrast - CHECK).
+We can now compute our predictions ($D_p$) for $D_{c,s}$ taking the \textit{ring} into account. Doing so leads us to a similar result as before with orthogonal contrast outperforming the best feature and collinear measures in terms of absolute error (0.023 compared to 0.025 (best feature) and 0.034 (collinear)). However, the regression slopes are all relatively similar (0.90 for best feature, 1.58 for collinear and 1.15 for orthogonal contrast).
 
 \subsection{Predicting Response Times}
 
-We will now test to see if we can discriminate between the three contrast combination methods when we take target eccentricity (ring) and individual-level slopes into account. We use the same model comparison as before (see Supplementary Materials for full code) and find orthogonal contrast performs best (), closely followed by best feature. 
+We will now test to see if we can discriminate between the three contrast combination methods when we take target eccentricity (ring) and individual-level slopes into account. We use the same model comparison as before (see Supplementary Materials for full code) and find orthogonal contrast performs best, closely followed by best feature. 
+
+\begin{table}[h]
+\centering
+\begin{tabular}{c|ccc|ccc} 
+\hline
+metric & & abs error & &   \\
+ \hline
+  & lower  & median & upper \\
+ 
+orthogonal & 1.01 & 1.00 & 1.04 \\
+collinear & 1.03 & 1.00 & 5.15\\ 
+best feature  & 1.03 & 1.00 & 1.07 \\
+ \end{tabular}
+\caption{How well can we predict RTs using $D_p$ (collinear, best feature or orthogonal contrast) comped to using $D_e$ when using a model containing the ring of the target? A value of 1 means that our estimates of $D$ derived from the single-feature trials does an equally good job at predicting the double-feature trials as using the $D$ fit to the data.}
+\label{tab:new_pred_rt_ring}
+\end{table}
 
 \subsection{Issues with the Collinear Contrast method}
 The collinear contrast method performs very poorly in this test. To explain this, we can look back at Equation \ref{eq:collinearcontrast} and realise that empirical data is not required to reject this hypothesis as a suitable method for predicting search slopes in feature search. This is because when search slopes are close to 0, it is possible that we will observe negative values in the empirical data. Breaking down our data to compute search slopes for each person and each target eccentricity increases the chances of this being observed. Looking at Equation \ref{eq:collinearcontrast} we can see that $D_1 \sim -D_2\Rightarrow 1/D_1 + 1/D_2 \sim 0$. This leads to our estimated $D = \frac{1}{1/D_1 + 1/D_2} >>> D_1, D_2$ which is clearly incorrect. 
