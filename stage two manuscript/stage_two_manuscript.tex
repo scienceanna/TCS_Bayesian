@@ -269,7 +269,7 @@ For participants included in the analysis, we will apply the data cleaning used 
 
 \subsection{Analysis Plan}
 
-All analysis will be carried out using R (vx.xx)\footnote{Version numbers will be recorded upon completion of final analysis.}, brms (v.xx.xx) and rStan (vx.xxxx) As discussed above, we will use a mixed-effect models with either normal, lognormal or shifted lognormal distributions. 
+All analysis will be carried out using R (v4.2.0), brms (v2.17.0) and rStan (v2.26.11) As discussed above, we will use mixed-effect models with either normal, lognormal or shifted lognormal distributions. 
 
 Please see the analysis of our pilot data for a full implementation of our analysis pipeline, including all code (available on Github at  
 \url{https://github.com/scienceanna/TCS_Bayesian}).
@@ -315,16 +315,16 @@ Now that we have confirmed that the shifted-lognormal multilevel model (with a l
 \hline
 feature & $D_c$ & $95\%$HDCI &feature &$D_s$  &$95\%$HDCI \\
  \hline 
-orange & 0.161 &  [0.144 ,  1.110] & triangle  &  0.258  & [0.237  , 0.849]\\
-pink  &  0.039 &  [-0.061 , 0.053] & diamond& 0.190 &  [0.174 ,  1.168]\\
-purple & 0.019 &  [0.005  , 0.537] & circle & 0.188  & [-0.065 , 0.202]\\
+orange & 0.156 &  [0.139 ,  0.173] & triangle  &  0.253  & [0.230  , 0.275]\\
+pink  &  0.042 &  [0.028 , 0.057] & diamond& 0.187 &  [0.171 ,  0.205]\\
+purple & 0.015 &  [0.002  , 0.030] & circle & 0.191  & [0.175 , 0.204]\\
  \hline 
  \end{tabular}
 \caption{A summary of the posterior estimates of $D_c$ and $D_s$ values from our Experiment. Note that our values are reported in seconds, in contrast to Table  \ref{tab:reimp_Dc_Ds}, which follows \citep{buetti2019predicting} and reports the slopes in milliseconds.}
 \label{tab:new_Dc_Ds}
 \end{table}
 
-We now combine the \textit{single-feature} search slopes, $D_c$ and $D_s$, to predict the \textit{double-feature} conditions ($D_{c,s}$) using Equations \ref{eq:bestfeature},  \ref{eq:orthogonalcontrast} and \ref{eq:collinearcontrast} and above. The results are summarised in Figure \ref{fig:new:Dpe}. We find that while the collinear contrast model has the highest $R^2$ (0.922, compared to $R^2=0.883$ for best feature, and $R^2=0.915$ for orthogonal contrast), the orthogonal contrast model is the most accurate, both in terms of mean absolute error (0.165, compared to 0.185 for best feature and 0.271 for collinear) and having a regression slope closest to 1 (0.999 compared to 0.748 and 1.48). Therefore, Hypothesis 3 does not hold: orthogonal contrast rather than collinear contrast offers the best prediction of search slopes in the double-feature condition.  
+We now combine the \textit{single-feature} search slopes, $D_c$ and $D_s$, to predict the \textit{double-feature} conditions ($D_{c,s}$) using Equations \ref{eq:bestfeature},  \ref{eq:orthogonalcontrast} and \ref{eq:collinearcontrast} and above. The results are summarised in Figure \ref{fig:new:Dpe}. We find that while the collinear contrast model has the highest $R^2$ (0.922, compared to $R^2=0.884$ for best feature, and $R^2=0.916$ for orthogonal contrast), the orthogonal contrast model is the most accurate, both in terms of mean absolute error (0.165, compared to 0.185 for best feature and 0.271 for collinear) and having a regression slope closest to 1 (1 compared to 0.753 and 1.48). Therefore, Hypothesis 3 does not hold: orthogonal contrast rather than collinear contrast offers the best prediction of search slopes in the double-feature condition.  
 
 \begin{figure}[ht]
 \centering
@@ -339,7 +339,7 @@ Upon reflection, the approach to model comparison we outlined in our registered 
 
 \subsubsection{Registered Method}
 
-Our final hypothesis concerns how well the different feature combination models perform when predicting reaction times. We find very little difference between the three methods in terms of LOO model weights: 0.294 for best feature, 0.341 for collinear and 0.365 for orthogonal contrast. 
+Our final hypothesis concerns how well the different feature combination models perform when predicting reaction times. We find very little difference between the three methods in terms of LOO model weights: 0.318 for best feature, 0.346 for collinear and 0.336 for orthogonal contrast. 
 
 \subsubsection{Updated Method}
 
@@ -357,9 +357,9 @@ metric & & abs error & &   \\
  \hline
   & lower  & median & upper \\
  
-orthogonal & 0.992 & 1.00 & 1.02 \\
-collinear & 0.990 & 1.01 & 1.03 5\\ 
-best feature  & 1.00 & 1.02 & 1.02 \\
+orthogonal & 0.994 & 1.00 & 1.02 \\
+collinear & 0.990 & 1.01 & 1.05\\ 
+best feature  & 0.999 & 1.01 & 1.02 \\
  \end{tabular}
 \caption{How well can we predict RTs using $D_p$ (collinear, best feature or orthogonal contrast) comped to using $D_e$? A value of 1 means that our estimates of $D$ derived from the single-feature trials does an equally good job at predicting the double-feature trials as using the $D$ fit to the data.}
 \label{tab:new_pred_rt}

@@ -123,7 +123,9 @@ m_log <- readRDS("exp1_lognormal.model")
 
 # read in table and kable
 hyp_1_table <- read_csv('model_comp_hyp1.csv')
-knitr::kable(hyp_1_table)
+knitr::kable(hyp_1_table) %>%
+    kable_styling() 
+  
 
 ```
 
@@ -170,7 +172,8 @@ Here, we want to verify that using log(number of distractors) in our model is su
 ```{r hypothesis-2, cache=TRUE, echo = FALSE}
 
 hyp_2_table <- read_csv('model_comp_hyp2.csv')
-knitr::kable(hyp_2_table)
+knitr::kable(hyp_2_table) %>%
+    kable_styling() 
 
 ```
 
@@ -192,7 +195,8 @@ samples1 <- get_slopes(m1)
 samples1 %>% group_by(feature) %>% 
   median_hdci(D) %>%
   select(feature, D, .lower, .upper) %>%
-  knitr::kable() 
+  knitr::kable()  %>%
+  kable_styling() 
 
 samples1 %>% mutate(feature_type = if_else(
   feature %in% c("purple", "orange", "pink"), "colour", "shape")) %>%
@@ -488,7 +492,8 @@ dp %>%  group_by(.draw, method, lnd) %>%
 
 Derr %>% group_by(method) %>% 
   median_hdi(rel_sum_abs_err, .width = 0.97) %>%
-  knitr::kable()
+  knitr::kable() %>%
+  kable_styling() 
 
 Derr %>% ggplot(aes(lnd, rel_sum_abs_err, fill = method)) +
   stat_lineribbon(alpha = 0.2, .width = 0.97) +
