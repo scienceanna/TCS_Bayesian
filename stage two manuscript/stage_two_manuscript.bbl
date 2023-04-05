@@ -1,4 +1,4 @@
-\begin{thebibliography}{61}
+\begin{thebibliography}{64}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -89,6 +89,13 @@ Andrew Gelman and Jennifer Hill.
 \newblock \emph{Data analysis using regression and multilevel/hierarchical
   models}.
 \newblock Cambridge university press, 2006.
+
+\bibitem[Guest and Martin(2021)]{guest2021computational}
+Olivia Guest and Andrea~E Martin.
+\newblock How computational modeling can force theory building in psychological
+  science.
+\newblock \emph{Perspectives on Psychological Science}, 16\penalty0
+  (4):\penalty0 789--802, 2021.
 
 \bibitem[Hughes et~al.(2016)Hughes, Southwell, Gilchrist, and
   Tolhurst]{hughes2016quantifying}
@@ -254,6 +261,17 @@ J~Toby Mordkoff and Steven Yantis.
 \newblock \emph{Journal of Experimental Psychology: Human Perception and
   Performance}, 17\penalty0 (2):\penalty0 520, 1991.
 
+\bibitem[Moshontz et~al.(2018)Moshontz, Campbell, Ebersole, IJzerman, Urry,
+  Forscher, Grahe, McCarthy, Musser, Antfolk,
+  et~al.]{moshontz2018psychological}
+Hannah Moshontz, Lorne Campbell, Charles~R Ebersole, Hans IJzerman, Heather~L
+  Urry, Patrick~S Forscher, Jon~E Grahe, Randy~J McCarthy, Erica~D Musser, Jan
+  Antfolk, et~al.
+\newblock The psychological science accelerator: Advancing psychology through a
+  distributed collaborative network.
+\newblock \emph{Advances in Methods and Practices in Psychological Science},
+  1\penalty0 (4):\penalty0 501--515, 2018.
+
 \bibitem[Ng et~al.(2020)Ng, Buetti, Patel, and Lleras]{ng2020prioritization}
 Gavin~JP Ng, Simona Buetti, Trisha~N Patel, and Alejandro Lleras.
 \newblock Prioritization in visual attention does not work the way you think it
@@ -274,6 +292,11 @@ Anna Nowakowska, Alasdair~DF Clarke, and Amelia~R Hunt.
 \newblock Human visual search behaviour is far from ideal.
 \newblock \emph{Proceedings of the Royal Society B: Biological Sciences},
   284\penalty0 (1849):\penalty0 20162767, 2017.
+
+\bibitem[Oberauer and Lewandowsky(2019)]{oberauer2019addressing}
+Klaus Oberauer and Stephan Lewandowsky.
+\newblock Addressing the theory crisis in psychology.
+\newblock \emph{Psychonomic bulletin \& review}, 26:\penalty0 1596--1618, 2019.
 
 \bibitem[Osborne(2002)]{osborne2002notes}
 Jason Osborne.

@@ -6,45 +6,45 @@ The style file: plainnat.bst
 Reallocating 'name_of_file' (item size: 1) to 8 items.
 Database file #1: sources.bib
 Warning--empty journal in evans2019evidence
-You've used 61 entries,
+You've used 64 entries,
             2773 wiz_defined-function locations,
-            943 strings with 16186 characters,
-and the built_in function-call counts, 29451 in all, are:
-= -- 2595
-> -- 1823
-< -- 29
-+ -- 614
-- -- 552
-* -- 2570
-:= -- 4561
-add.period$ -- 184
-call.type$ -- 61
-change.case$ -- 365
-chr.to.int$ -- 60
-cite$ -- 123
-duplicate$ -- 1286
-empty$ -- 2343
-format.name$ -- 647
-if$ -- 6093
+            958 strings with 16884 characters,
+and the built_in function-call counts, 31272 in all, are:
+= -- 2754
+> -- 1966
+< -- 31
++ -- 662
+- -- 597
+* -- 2737
+:= -- 4848
+add.period$ -- 193
+call.type$ -- 64
+change.case$ -- 388
+chr.to.int$ -- 63
+cite$ -- 129
+duplicate$ -- 1347
+empty$ -- 2465
+format.name$ -- 699
+if$ -- 6462
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 63
-newline$ -- 313
-num.names$ -- 244
-pop$ -- 649
+missing$ -- 66
+newline$ -- 328
+num.names$ -- 256
+pop$ -- 689
 preamble$ -- 1
-purify$ -- 306
+purify$ -- 326
 quote$ -- 0
-skip$ -- 990
+skip$ -- 1045
 stack$ -- 0
-substring$ -- 1148
-swap$ -- 94
+substring$ -- 1235
+swap$ -- 97
 text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 661
+type$ -- 694
 warning$ -- 1
-while$ -- 273
+while$ -- 288
 width$ -- 0
-write$ -- 795
+write$ -- 834
 (There was 1 warning)
